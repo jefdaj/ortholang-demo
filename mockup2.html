@@ -20,6 +20,13 @@
 		width: 50%;
 }
 </style>
+<script>
+function repl_type_text(text) {
+	repl_input = document.getElementById("repl_input");
+	repl_input.value = text;
+	repl_input.focus();
+}
+</script>
 <div id="content" style="height: 100%;">
 		<div id="left" style="text-align: center;">
 				<div style="width: 95%;"> <!-- TODO why another div besides left? -->
@@ -35,7 +42,7 @@
 												Type :help for a list of available commands.</br></div>
 										<!-- TODO this could be one run/kill button at the end of the entry line that toggles when a script is running -->
 										<div>
-										<input id="name" type="text" name="nextline" style="width: 90%;" placeholder=">> " autofocus style="float: left;">
+										<input id="repl_input" type="text" style="width: 90%;" placeholder=">> " autofocus style="float: left;">
 										<input id="stop" type="submit" value="Run" style="display: inline; text-align: center;">
 										</div>
 								</div>
@@ -48,10 +55,9 @@
 										<div style="float: left; width: 45%; text-align: left;">
 										Load script:
 										<select id="load">
-												<option value="example1.cut">example1.cut</option>
-												<option value="example2.cut">example2.cut</option>
-												<option value="example3.cut">example3.cut</option>
-												<option value="example4.cut">example4.cut</option>
+												<option value="userscript1.cut">userscript1.cut</option>
+												<option value="johan.cut">johan.cut</option>
+												<option value="another.cut">another.cut</option>
 										</select>
 										<br/>
 										<br/>
@@ -88,12 +94,10 @@
 
 						<center>
 								<div style="text-align: left; width: 90%; border-style: solid; border-width: 1px;">
-										<form id="example1" style="float: right;">
-												<input type="button" name="submit" value="Load">
+										<form id="tutorial1" style="float: right;">
+												<input type="button" onclick="repl_type_text(':load tutorial1.cut')" name="submit" value="Load">
 										</form>
-										<pre><code>test code here
-test code here
-test code here</pre></code>
+										<pre><code>test code block 1</pre></code>
 								</div>
 						</center>
 
@@ -103,12 +107,10 @@ test code here</pre></code>
 
 						<center>
 								<div style="text-align: left; width: 90%; border-style: solid; border-width: 1px;">
-										<form id="example1" style="float: right;">
-												<input type="button" name="submit" value="Load">
+										<form id="tutorial1" style="float: right;">
+												<input type="button" onclick="repl_type_text(':load tutorial2.cut')" name="submit" value="Load">
 										</form>
-										<pre><code>test code here
-test code here
-test code here</pre></code>
+										<pre><code>test code block 2</pre></code>
 								</div>
 						</center>
 
@@ -119,12 +121,10 @@ test code here</pre></code>
 
 						<center>
 								<div style="text-align: left; width: 90%; border-style: solid; border-width: 1px;">
-										<form id="example1" style="float: right;">
-												<input type="button" name="submit" value="Load">
+										<form id="tutorial1" style="float: right;">
+												<input type="button" onclick="repl_type_text(':load tutorial3.cut')" name="submit" value="Load">
 										</form>
-										<pre><code>test code here
-test code here
-test code here</pre></code>
+										<pre><code>test code block 3</pre></code>
 								</div>
 						</center>
 
