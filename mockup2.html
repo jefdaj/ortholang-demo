@@ -5,7 +5,7 @@
 #left {
 		float: left;
 		width: 50%;
-		height: 100%;
+		height: 95%;
 }
 #right {
 		float: left;
@@ -20,100 +20,62 @@
 		width: 50%;
 }
 </style>
-<div id="content">
+<div id="content" style="height: 100%;">
 		<div id="left" style="text-align: center;">
-				<div style="width: 95%;">
+				<div style="width: 95%;"> <!-- TODO why another div besides left? -->
 						<img id="logo" src="https://system.picreel.com/img/your-logo-here.png" style="height: 125px;">
 						<br/>
 						<br/>
-						<div style="display: inline-block;">
+						<div style="width: 95%; display: inline-block;">
 								<div style="border-style: solid; border-width: 1px;">
-										<div id="output" style="text-align: left; width:100%; height: 55%; ">
+										<!-- TODO how to make height auto-expand? -->
+										<div id="output" style="text-align: left; width:100%; height: 60%;">
 												Welcome to the ShortCut interpreter!
 												<br/>
 												Type :help for a list of available commands.</br></div>
 										<!-- TODO this could be one run/kill button at the end of the entry line that toggles when a script is running -->
-										<input id="stop" type="submit" value="Run/Kill" style="float: right;">
-										<input id="name" type="text" name="nextline" style="width: 87%;" placeholder=">> " autofocus>
+										<div>
+										<input id="name" type="text" name="nextline" style="width: 90%;" placeholder=">> " autofocus style="float: left;">
+										<input id="stop" type="submit" value="Run" style="display: inline; text-align: center;">
+										</div>
 								</div>
 								<br/>
+								<div style="display: inline-block; width: 100%;">
 								<form id="script">
 
-										&nbsp;
-										&nbsp;
-
-										<!-- load/save -->
-										Load:
+										<!-- load/upload -->
+										<!-- TODO put these in a div that floats on the left? -->
+										<div style="float: left; width: 45%; text-align: left;">
+										Load script:
 										<select id="load">
 												<option value="example1.cut">example1.cut</option>
 												<option value="example2.cut">example2.cut</option>
 												<option value="example3.cut">example3.cut</option>
 												<option value="example4.cut">example4.cut</option>
 										</select>
-										&nbsp;
-										&nbsp;
-										&nbsp;
-										&nbsp;
-										&nbsp;
-										&nbsp;
-										&nbsp;
-										&nbsp;
-										&nbsp;
-										&nbsp;
-										&nbsp;
-										&nbsp;
-										&nbsp;
-										&nbsp;
-										&nbsp;
-										&nbsp;
-										&nbsp;
-										&nbsp;
-										&nbsp;
-										&nbsp;
-										&nbsp;
-										&nbsp;
-										&nbsp;
-										&nbsp;
-										&nbsp;
-										&nbsp;
-										&nbsp;
-										&nbsp;
-										&nbsp;
-										&nbsp;
-										&nbsp;
-										<input id="name" type="text" name="scriptname" placeholder="filename.cut">
-										<input id="save" type="submit" value="Save">
-
 										<br/>
+										<br/>
+										Upload files: <input id="upload" type="file" accept="*">
+										</div>
 
-										<!-- upload/download -->
-										<!-- TODO put these in a div that floats on the left? -->
-										Upload: <input id="upload" type="file" accept="*">
-										&nbsp;
-										&nbsp;
-										&nbsp;
-										&nbsp;
-										&nbsp;
-										&nbsp;
-										&nbsp;
-										&nbsp;
-										&nbsp;
-										&nbsp;
-										&nbsp;
-										&nbsp;
-										&nbsp;
-										&nbsp;
-
+										<div style="float: right; width: 45%; text-align: left;">
+										<!-- save/download -->
 										<!-- TODO put these in a div that floats on the right? -->
+										<input id="save" type="submit" value="Save script">
+										<input id="name" type="text" name="scriptname" placeholder="filename.cut">
+										<br/>
+										<br/>
 										<input id="dlscript" type="submit" value="Download script">
 										<input id="dlresult" type="submit" value="Download result">
+										</div>
 
 								</form>
+										</div>
 								<br/>
 
 								<div>
 										<form id="comment">
-												<textarea id="code" placeholder="Leave Jeff a comment! Or a complaint..." style="width:100%; height: 5%; expand: vertical; resize: vertical; float: left;"></textarea>
+												<textarea id="code" placeholder="Leave Jeff a comment!" style="width:100%; height: 5%; expand: vertical; resize: vertical; float: left;"></textarea>
 												<input type="submit" value="Submit comment" style="float: right;">
 										</form>
 								</div>
