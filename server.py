@@ -1,12 +1,15 @@
 #!/usr/bin/env python2
 
 # TODO fix "new session on refresh" error
+# TODO maybe it'll work if flask itself is serving the page rather than my separate html thing?
 
 from datetime       import datetime
-from flask          import Flask, render_template, session, request
+from flask          import Flask, render_template, session, request, make_response
 from flask_login    import LoginManager
 from flask_session  import Session
 from flask_socketio import SocketIO, emit
+from uuid           import uuid4
+from os.path        import join
 
 # see https://blog.miguelgrinberg.com/post/flask-socketio-and-the-user-session
 app = Flask(__name__)
@@ -15,65 +18,65 @@ app.config['SESSION_TYPE'] = 'filesystem'
 # app.config['PERMANENT_SESSION_LIFETIME'] = 60 * 60 * 24 # one day
 # app.config.from_object(__name__)
 login = LoginManager(app)
-# Session(app)
-# socketio = SocketIO(app, manage_session=False)
-socketio = SocketIO(app)
+Session(app)
+socketio = SocketIO(app, manage_session=False)
 
-# a shortcut interpreter for each currently connected client
+# a shortcut interpreter for each session
 # TODO periodically remove idle ones, or what?
 # TODO shut them all down on server exit
-# TODO delete the files, or leave them for a while probably?
 interpreters = {}
 
 def timestamp():
-    return datetime.today().strftime('%Y-%m-%d %H:%M:%S')
+    return datetime.today().strftime('%Y-%m-%d_%H:%M:%S')
 
 def log(msg):
-    print '[%s] %s' % (timestamp(), msg)
+    print '%s %s' % (timestamp(), msg)
 
-def launch_shortcut(sid):
-    sci = '<shortcut %s>' % sid
-    log('launching %s' % sci)
-    return sci
+def get_session_id():
+    # note that the cookie is set separately by index()
+    try:
+        return request.cookies['shortcut-session-id']
+    except KeyError:
+        ssid = uuid4().hex
+        log('new client session %s' % ssid)
+        return ssid
 
-# TODO basically these don't work... is there a more reliable way?
-# @socketio.on('connect')
-# def handle_connect():
-#     sid = request.sid
-#     session['sid'] = sid
-#     log('client %s connected' % sid)
-#     global interpreters
-#     if sid in interpreters:
-#         log('use existing interpreter %s' % interpreters[sid])
-#     else:
-#         interpreters[sid] = launch_shortcut(sid)
-#     log('interpreters: %s' % interpreters)
-# 
-# @socketio.on('disconnect')
-# def handle_disconnect():
-#     # TODO any way to make this a reliable indicator of being done?
-#     log('client %s disconnected' % session['sid'])
+def get_interpreter(ssid):
+    global interpreters
+    if not ssid in interpreters:
+        sci = '<shortcut %s>' % ssid
+        log('new interpreter %s' % sci)
+        interpreters[ssid] = sci
+    return interpreters[ssid]
 
 @socketio.on('repl input')
 def handle_repl_input(msg):
-
-    try:
-        sid = session['sid']
-    except KeyError:
-        sid = request.sid
-        log('failed to get sid. creating a new one from the current request: %s' % sid)
-        session['sid'] = sid
-        log('client %s connected' % sid)
-        interpreters[sid] = launch_shortcut(sid)
-    log('interpreters: %s' % interpreters)
-
-    log("client %s sent a line of repl input: '%s'" % (sid, msg))
+    #ssid = request.cookies['shortcut-session-id']
+    ssid = get_session_id()
+    log("client %s sent a line of repl input: '%s'" % (ssid, msg))
+    sci  = get_interpreter(ssid)
     emit('append message', "&gt;&gt;" + msg + "<br/>")
-    log("passing '%s' to %s" % (msg, interpreters[sid]))
+    log("passing '%s' to %s" % (msg, sci))
 
 @socketio.on('comment')
-def handle_comment(msg):
-        log("client %s submitted a comment: '%s'" % (session['sid'], msg))
+def write_comment(msg):
+    ssid = get_session_id()
+    log("client %s submitted a comment: '%s'" % (ssid, msg))
+    filename = join('comments', '%s_%s.txt' % (timestamp(), ssid))
+    with open(filename, 'w') as f:
+        f.write(msg)
+
+@app.route('/')
+def index():
+    resp = make_response(render_template('index.html'))
+
+    # TODO any need to set the cookie elsewhere too?
+    ssid = get_session_id()
+    if not 'shortcut-session-id' in request.cookies:
+        resp.set_cookie('shortcut-session-id', ssid)
+
+    log('interpreters: %s' % interpreters)
+    return resp
 
 if __name__ == '__main__':
-    socketio.run(app, debug=True)
+    socketio.run(app)
