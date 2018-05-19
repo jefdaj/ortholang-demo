@@ -24,7 +24,7 @@ $(document).ready(function(){
 
 	// display a line of output sent from the repl
 	// TODO don't add the >> unless it was a line of input (don't send those from server at all?)
-	socket.on('append message', function(msg) {
+	socket.on('repl output', function(msg) {
 		$('#reploutput').append(msg);
 	});
 
