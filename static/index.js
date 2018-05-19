@@ -32,7 +32,7 @@ $(document).ready(function(){
 	$('#commentbutton').on('click', function() {
 		socket.emit('comment', $('#commentfield').val());
 		$('#commentfield').val('')
-		$('#commentfield').attr("placeholder", "Comment submitted. You can do it again if you want.")
+		$('#commentfield').attr("placeholder", "Comment submitted. Leave another one if you want.")
 		// TODO can I set the placeholder to say comment recieved?
 	});
 

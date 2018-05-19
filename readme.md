@@ -11,7 +11,7 @@ For the python server, do this:
 ```.bash
 virtualenv .venv
 source .venv/bin/activate
-pip install flask-socketio flask-login flask-session gevent
+pip install flask-socketio flask-login flask-session gevent gevent-websocket
 FLASK_APP=server.py FLASK_ENV=development flask run
 ```
 
