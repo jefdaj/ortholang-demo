@@ -31,7 +31,7 @@
 <script>
 function autofill_repl(text) {
 	i = $('#replinput');
-	i.val(text)
+	i.val(text); // TODO strip trailing newline here?
 	i.focus();
 }
 
@@ -66,9 +66,18 @@ $(document).ready(function(){
 		// TODO can I set the placeholder to say comment recieved?
 	});
 
+	// autofill repl with :load to load a previous script
+	// TODO same issue with it disappearing as the save one below...
+	$('#loadbutton').on('click', function() {
+		autofill_repl(':load ' + $('#loadmenu').val())
+	});
+
 	// autofill repl input with :write to save a script
 	$('#savebutton').on('click', function() {
-		autofill_repl(':write ' + $('#filename').val())
+		filename = $('#filename').val()
+		if (filename != '') {
+			autofill_repl(':write ' + filename)
+		}
 	});
 	$('#filename').on('keypress', function(e) {
 		if(e.which == 13) {
@@ -126,7 +135,7 @@ $(document).ready(function(){
 						<div style="float: right; width: 45%; text-align: left;">
 							<!-- save/download -->
 							<button id="savebutton">Save script</button>
-							<input id="filename" type="text" name="scriptname" placeholder="filename.cut">
+							<input id="filename" type="text" name="scriptname" placeholder="your-script-name.cut">
 							<br/>
 							<br/>
 							<input id="dlscript" type="submit" value="Download script">
