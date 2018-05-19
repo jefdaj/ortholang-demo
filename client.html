@@ -7,6 +7,9 @@
 		socket.on('connect', function() {
 			socket.emit('client connected', {data: 'I\'m connected!'});
 		});
+		window.onunload = function() {
+				socket.disconnect()
+		}
 	</script>
 	<body>
 		Body text here

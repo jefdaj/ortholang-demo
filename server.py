@@ -7,9 +7,14 @@ app = Flask(__name__)
 app.config['SECRET_KEY'] = 'secret!'
 socketio = SocketIO(app)
 
-@socketio.on('client connected')
-def handle_client_connected(msg):
-        print('client connected. data: ' + str(msg))
+@socketio.on('connect')
+def on_connect():
+    # emit('my response', {'data': 'Connected'})
+    print('Client connected')
+
+@socketio.on('disconnect')
+def on_disconnect():
+    print('Client disconnected')
 
 if __name__ == '__main__':
     socketio.run(app)
