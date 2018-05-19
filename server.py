@@ -56,7 +56,7 @@ def handle_repl_input(msg):
     ssid = get_session_id()
     log("client %s sent a line of repl input: '%s'" % (ssid, msg))
     sci  = get_interpreter(ssid) # TODO do this immediately on first page load?
-    emit('append message', "&gt;&gt;" + msg + "<br/>")
+    emit('append message', "&#8811;&nbsp;" + msg + "<br/>")
     log("passing '%s' to %s" % (msg, sci))
 
 @socketio.on('comment')
