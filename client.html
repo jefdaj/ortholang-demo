@@ -1,17 +1,46 @@
 <!DOCTYPE html>
 <html>
 	<meta charset="utf-8"/>
+	<script type="text/javascript" src="jquery-3.3.1.js"></script>
 	<script type="text/javascript" src="socket.io.dev.js"></script>
+
 	<script type="text/javascript">
-		var socket = io.connect('http://localhost:5000');
-		socket.on('connect', function() {
-			socket.emit('client connected', {data: 'I\'m connected!'});
+		$(document).ready(function(){
+
+			var socket = io.connect('http://localhost:5000');
+			// socket.on('connect', function() {
+			//	# socket.emit('client connected', {data: 'I\'m connected!'});
+			//	socket.emit('client connected')
+			//});
+
+			// send a line when you click send
+			$('#sendbutton').on('click', function() {
+				socket.emit('send line', $('#myMessage').val());
+				$('#myMessage').val('')
+			});
+
+			// ... or press enter
+			$('#myMessage').on('keypress', function(e) {
+				if(e.which == 13) {
+					socket.emit('send line', $('#myMessage').val());
+					$('#myMessage').val('');
+				};
+			});
+
+			// append a line from the server (should happen after sending a message)
+			socket.on('append message', function(msg) {
+				$('#messages').append('<li>' + msg + '</li>');
+			});
+
 		});
-		window.onunload = function() {
-				socket.disconnect()
-		}
 	</script>
+
 	<body>
-		Body text here
+			Send a line to the server:
+			<input type="text" id="myMessage" placeholder=">> ">
+			<button id="sendbutton">send</button>
+			<br/>
+			And it should come back: <ul id="messages"></ul>
 	</body>
+
 </html>

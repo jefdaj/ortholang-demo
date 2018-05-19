@@ -17,4 +17,6 @@ FLASK_APP=server.py FLASK_ENV=development flask run
 
 Then visit `client.html` in your browser.
 
+When doing a demo, be sure to remove the development flag. SocketIO is much more stable without it!
+
 [1]: https://github.com/jefdaj/shortcut
