@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+	<meta charset="utf-8"/>
+	<script type="text/javascript" src="socket.io.dev.js"></script>
+	<script type="text/javascript">
+		var socket = io.connect('http://localhost:5000');
+		socket.on('connect', function() {
+			socket.emit('client connected', {data: 'I\'m connected!'});
+		});
+	</script>
+	<body>
+		Body text here
+	</body>
+</html>
