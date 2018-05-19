@@ -16,10 +16,10 @@ def handle_connect():
 def handle_disconnect():
     print('Client disconnected')
 
-@socketio.on('send line')
-def handle_send_line(json):
-        print('received a line of input: ' + str(json))
-        emit('append message', str(json))
+@socketio.on('repl input')
+def handle_repl_input(msg):
+        print("received a line of repl input: '%s'" % msg)
+        emit('append message', "&gt;&gt;" + msg + "<br/>")
 
 if __name__ == '__main__':
     socketio.run(app)
