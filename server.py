@@ -34,6 +34,7 @@ def log(msg):
 
 def get_session_id():
     # note that the cookie is set separately by index()
+    # TODO should the interpreter also be started immediately here?
     try:
         return request.cookies['shortcut-session-id']
     except KeyError:

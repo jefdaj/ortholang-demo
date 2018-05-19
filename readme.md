@@ -15,7 +15,7 @@ pip install flask-socketio flask-login flask-session gevent
 FLASK_APP=server.py FLASK_ENV=development flask run
 ```
 
-Then visit `client.html` in your browser.
+Then visit `localhost:5000` in your browser.
 
 When doing a demo, be sure to remove the development flag.
 SocketIO is much more stable without it!
