@@ -21,5 +21,10 @@ def handle_repl_input(msg):
         print("received a line of repl input: '%s'" % msg)
         emit('append message', "&gt;&gt;" + msg + "<br/>")
 
+@socketio.on('comment')
+def handle_comment(msg):
+        print("received a comment: '%s'" % msg)
+        # emit('append message', "&gt;&gt;" + msg + "<br/>")
+
 if __name__ == '__main__':
     socketio.run(app)

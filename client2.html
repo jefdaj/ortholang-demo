@@ -61,6 +61,14 @@ $(document).ready(function(){
 		$('#reploutput').append(msg);
 	});
 
+	// submit a comment (TODO should this use a form?)
+	$('#commentbutton').on('click', function() {
+		socket.emit('comment', $('#commentfield').val());
+		$('#commentfield').val('')
+		// TODO can I set the placeholder to say comment recieved?
+	});
+
+
 });
 </script>
 
@@ -118,12 +126,11 @@ $(document).ready(function(){
 					</form>
 				</div>
 				<br/>
+				<br/>
 
 				<div>
-					<form id="comment">
-						<textarea id="code" placeholder="Leave Jeff a comment!" style="width:100%; height: 5%; expand: vertical; resize: vertical; float: left;"></textarea>
-						<input type="submit" value="Submit comment" style="float: right;">
-					</form>
+						<textarea id="commentfield" placeholder="Leave Jeff a comment! Include your name if you want a response." style="width:100%; height: 5%; expand: vertical; resize: vertical; float: left;"></textarea>
+						<button id="commentbutton" style="float: right;">Submit comment</button>
 				</div>
 			</div>
 		</div>
