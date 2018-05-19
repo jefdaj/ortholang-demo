@@ -1,5 +1,6 @@
 <html>
 <meta charset="utf-8"/>
+<title>ShortCut Demo Server</title>
 
 <script type="text/javascript" src="jquery-3.3.1.js"></script>
 <script type="text/javascript" src="socket.io.dev.js"></script>
@@ -68,7 +69,6 @@ $(document).ready(function(){
 		// TODO can I set the placeholder to say comment recieved?
 	});
 
-
 });
 </script>
 
@@ -79,7 +79,7 @@ $(document).ready(function(){
 			<div> <!-- TODO why another div besides left? -->
 				<div id="logodiv" style="diplay: table;">
 					<img id="logo" src="logo.png" style="width: 125px;">
-					ShortCut Test Server
+					ShortCut Demo Server
 				</div>
 				<br/>
 				<div style="border-style: solid; border-width: 1px;">
@@ -101,15 +101,16 @@ $(document).ready(function(){
 						<!-- load/upload -->
 						<!-- TODO put these in a div that floats on the left? -->
 						<div style="float: left; width: 45%; text-align: left;">
-							Load script:
-							<select id="load">
+							<button id="loadbutton">Load script</button>
+							<select id="loadmenu">
 								<option value="userscript1.cut">userscript1.cut</option>
 								<option value="johan.cut">johan.cut</option>
 								<option value="another.cut">another.cut</option>
 							</select>
 							<br/>
 							<br/>
-							Upload files: <input id="upload" type="file" accept="*">
+							<button id="uploadbutton">Upload file</button>
+							<input id="upload" type="file" accept="*">
 						</div>
 
 						<div style="float: right; width: 45%; text-align: left;">

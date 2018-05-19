@@ -14,6 +14,7 @@ def handle_connect():
 
 @socketio.on('disconnect')
 def handle_disconnect():
+    # TODO any way to make this a reliable indicator of being done?
     print('Client disconnected')
 
 @socketio.on('repl input')
@@ -25,6 +26,11 @@ def handle_repl_input(msg):
 def handle_comment(msg):
         print("received a comment: '%s'" % msg)
         # emit('append message', "&gt;&gt;" + msg + "<br/>")
+
+# @socketio.on('closed window')
+# def handle_closed_window(msg):
+#         print("client actually disconnected")
+#         # emit('append message', "&gt;&gt;" + msg + "<br/>")
 
 if __name__ == '__main__':
     socketio.run(app)
