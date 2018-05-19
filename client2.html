@@ -42,13 +42,10 @@ $(document).ready(function(){
 	var socket = io.connect('http://localhost:5000');
 
 	// send a line to the repl when you click send
-	// TODO remove this one?
 	$('#runstop').on('click', function() {
 		socket.emit('repl input', $('#replinput').val());
 		$('#replinput').val('')
 	});
-
-	// ... or press enter
 	$('#replinput').on('keypress', function(e) {
 		if(e.which == 13) {
 			socket.emit('repl input', $('#replinput').val());
@@ -62,11 +59,23 @@ $(document).ready(function(){
 		$('#reploutput').append(msg);
 	});
 
-	// submit a comment (TODO should this use a form?)
+	// submit a comment
 	$('#commentbutton').on('click', function() {
 		socket.emit('comment', $('#commentfield').val());
 		$('#commentfield').val('')
 		// TODO can I set the placeholder to say comment recieved?
+	});
+
+	// autofill repl input with :write to save a script
+	$('#savebutton').on('click', function() {
+		autofill_repl(':write ' + $('#filename').val())
+	});
+	$('#filename').on('keypress', function(e) {
+		if(e.which == 13) {
+			// TODO have to strip out the newline or it auto-triggers the repl too?
+			// TODO or maybe block default action so it doesn't get added at first
+			autofill_repl(':write ' + $('#filename').val())
+		};
 	});
 
 });
@@ -98,8 +107,9 @@ $(document).ready(function(){
 				<div style="display: inline-block; width: 100%;">
 					<form id="script">
 
+						<!-- TODO group these by top row being autofills and bottom being server actions -->
+
 						<!-- load/upload -->
-						<!-- TODO put these in a div that floats on the left? -->
 						<div style="float: left; width: 45%; text-align: left;">
 							<button id="loadbutton">Load script</button>
 							<select id="loadmenu">
@@ -115,9 +125,8 @@ $(document).ready(function(){
 
 						<div style="float: right; width: 45%; text-align: left;">
 							<!-- save/download -->
-							<!-- TODO put these in a div that floats on the right? -->
-							<input id="save" type="submit" value="Save script">
-							<input id="name" type="text" name="scriptname" placeholder="filename.cut">
+							<button id="savebutton">Save script</button>
+							<input id="filename" type="text" name="scriptname" placeholder="filename.cut">
 							<br/>
 							<br/>
 							<input id="dlscript" type="submit" value="Download script">
