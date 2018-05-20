@@ -44,6 +44,48 @@ class RandomThread(Thread):
     def run(self):
         self.randomNumberGenerator()
 
+########################################################
+# background threads to manage shortcut repl instances #
+########################################################
+
+repl_threads = {}
+
+class ReplThread(Thread):
+    def __init__(self, sessionid):
+        self.delay = 0.01
+        self.sessionid = sessionid
+        self.tmpdir = join(realpath('shortcut_session'), sessionid)
+
+        # TODO better bufsize?
+        # TODO put stderr somewhere besides main output?
+        # TODO separate launchProcess method?
+        cmd = ['shortcut', '--interactive', '--tmpdir', self.tmpdir]
+        self.process = Popen(cmd, stdin=PIPE, stdout=PIPE, stderr=STDOUT, bufsize=1)
+        super(ReplThread, self).__init__()
+
+    def run(self):
+        # TODO handle restarting the process when killed here?
+        self.emitStdoutLines()
+
+    def recieveStdinLine(self, line):
+        self.process.stdin.write(line + '\n')
+
+    def emitStdoutLines(self):
+        # for line in self.process.stdout:
+        while True:
+            sleep(self.delay)
+            try:
+                # TODO is it getting stuck here whenever there isn't a line yet?
+                line = self.process.stdout.readline()
+            except:
+                continue
+                # sleep(self.delay)
+            if line:
+                log("emitting line: '%s'" % line)
+                line = text_to_html(line)
+                socketio.emit('repl output', line, namespace='/')
+                # sleep(self.delay)
+
 ##############################
 # control shortcut instances #
 ##############################
@@ -53,31 +95,31 @@ class RandomThread(Thread):
 # TODO shut them all down on server exit
 # TODO make this object-oriented?
 # for now, it's a list of dicts
-interpreters = {}
-interpreters_lock = Lock()
+#interpreters = {}
+#interpreters_lock = Lock()
 
-def new_interpreter(ssid):
-    'create a new interpreter and add it to the global map'
-    global interpreters
-    global interpreters_lock
-    # TODO is this right? maybe there's a specific threadsafe list type instead
-    with interpreters_lock:
-        log('launching new interpreter %s' % ssid)
-        sci = {'ssid': ssid, 'tmpdir': join(realpath('shortcut_session'), ssid)}
-        cmd = ['shortcut', '--interactive', '--tmpdir', sci['tmpdir']]
-        # TODO should this go in the background worker too? and be repeated?
-        # TODO would pty help here? there must be a reason for it
-        #      (don't try until the main avenue doesn't work out)
-        sci['process'] = Popen(cmd, stdin=PIPE, stdout=PIPE, stderr=STDOUT, bufsize=0)
-        interpreters[ssid] = sci
-        emit_repl_output(sci)
+# def new_interpreter(ssid):
+#     'create a new interpreter and add it to the global map'
+#     global interpreters
+#     global interpreters_lock
+#     # TODO is this right? maybe there's a specific threadsafe list type instead
+#     with interpreters_lock:
+#         log('launching new interpreter %s' % ssid)
+#         sci = {'ssid': ssid, 'tmpdir': join(realpath('shortcut_session'), ssid)}
+#         cmd = ['shortcut', '--interactive', '--tmpdir', sci['tmpdir']]
+#         # TODO should this go in the background worker too? and be repeated?
+#         # TODO would pty help here? there must be a reason for it
+#         #      (don't try until the main avenue doesn't work out)
+#         sci['process'] = Popen(cmd, stdin=PIPE, stdout=PIPE, stderr=STDOUT, bufsize=0)
+#         interpreters[ssid] = sci
+#         emit_repl_output(sci)
 
-def get_interpreter(ssid):
-    'get an interpreter by shortcut-session-id, creating it if needed'
+# def get_interpreter(ssid):
+    # 'get an interpreter by shortcut-session-id, creating it if needed'
     # TODO can the other calls be removed now?
-    if not ssid in interpreters:
-        new_interpreter(ssid)
-    return interpreters[ssid]
+    # if not ssid in interpreters:
+    #     new_interpreter(ssid)
+    # return interpreters[ssid]
 
 def text_to_html(line):
     # TODO need proper escaping here or there will be errors!
@@ -87,8 +129,12 @@ def send_repl_input(sci, line):
     'look up the proper interpreter and pass it a line of input'
     log("passing '%s' to interpreter %s" % (line, sci))
     # emit('repl output', "&#8811;&nbsp;" + line.replace('\n', "<br/>"))
-    sci['process'].stdin.write(line + '\n')
-    line = text_to_html(line)
+    # sci['process'].stdin.write(line + '\n')
+    ssid = get_session_id()
+    thread = repl_threads[ssid]
+    #line = text_to_html(line)
+    #thread.process.stdin.write(line)
+    thread.recieveStdinLine(line)
 
     # TODO ok the problem for now is pretty specific: need to emit from a background thread
     # things to try:
@@ -106,17 +152,17 @@ def send_repl_input(sci, line):
     # does not work:
     # socketio.emit('repl output', line, room=sci['ssid'])
 
-def emit_repl_output(sci):
-    # @copy_current_request_context
-    def worker():
-        for line in sci['process'].stdout:
-            line = text_to_html(line)
-            socketio.emit('repl output', line, room=sci['ssid'])
-            log("emitted line: '%s'" % line)
-
-    # this is what you're supposed to use but it doesn't work at all?
-    # TODO wait actually it does, just the same not-emitting issue as with Thread
-    socketio.start_background_task(target=worker)
+# def emit_repl_output(sci):
+#     # @copy_current_request_context
+#     def worker():
+#         for line in sci['process'].stdout:
+#             line = text_to_html(line)
+#             socketio.emit('repl output', line, room=sci['ssid'])
+#             log("emitted line: '%s'" % line)
+# 
+#     # this is what you're supposed to use but it doesn't work at all?
+#     # TODO wait actually it does, just the same not-emitting issue as with Thread
+#     socketio.start_background_task(target=worker)
 
 #####################
 # serve the webpage #
@@ -146,7 +192,7 @@ def get_session_id():
     except:
         ssid = uuid4().hex
         log('new client session %s' % ssid)
-        get_interpreter(ssid)
+        # get_interpreter(ssid)
         return ssid
 
 # TODO is this getting called multiple times?
@@ -158,24 +204,35 @@ def handle_new_connection():
 
     # random numbers test:
     # need visibility of the global thread object
-    global thread
-    print('Client connected')
+    # global thread
+    # print('Client connected')
     #Start the random number generator thread only if the thread has not been started before.
-    if not thread.isAlive():
-        print("Starting Thread")
-        thread = RandomThread()
-        thread.start()
+    # if not thread.isAlive():
+    #     print("Starting Thread")
+    #     thread = RandomThread()
+    #     thread.start()
 
+    # TODO is this good enough, or is an actual lock still needed?
+    # TODO make sure to set the cookie
+    ssid = get_session_id()
+    print('client %s connected' % ssid)
+    global repl_threads
+    if not ssid in repl_threads:
+        repl_threads[ssid] = ReplThread(ssid)
+    thread = repl_threads[ssid]
+    if not thread.isAlive():
+        thread.start()
 
 @socketio.on('disconnect')
 def test_disconnect():
-    print('Client disconnected')
+    ssid = get_session_id()
+    print('client %s disconnected' % ssid)
 
 @socketio.on('repl input')
 def handle_repl_input(msg):
     ssid = get_session_id()
     log("client %s sent a line of repl input: '%s'" % (ssid, msg))
-    sci  = get_interpreter(ssid) # TODO do this immediately on first page load?
+    sci  = repl_threads[ssid] # TODO any reason it wouldn't exist yet here?
     send_repl_input(sci, msg)
 
 @socketio.on('comment')
@@ -188,16 +245,16 @@ def write_comment(msg):
 
 @app.route('/')
 def index():
-    # resp = make_response(render_template('index.html'))
-    return render_template('index.html')
+    resp = make_response(render_template('index.html'))
+    #return render_template('index.html')
 
     # TODO any need to set the cookie elsewhere too?
-    #ssid = get_session_id()
-    #if not 'shortcut-session-id' in request.cookies:
-    #     resp.set_cookie('shortcut-session-id', ssid)
+    ssid = get_session_id()
+    if not 'shortcut-session-id' in request.cookies:
+        resp.set_cookie('shortcut-session-id', ssid)
 
     # log('interpreters: %s' % interpreters)
-    #return resp
+    return resp
 
 if __name__ == '__main__':
     socketio.run(app)

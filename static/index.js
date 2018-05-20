@@ -5,30 +5,9 @@ function autofill_repl(text) {
 }
 
 $(document).ready(function(){
-	var socket = io.connect('http://' + document.domain + ':' + location.port);
-
-	// random numbers test:
-	//connect to the socket server.
-	var numbers_received = [];
-	//receive details from server
-	socket.on('newnumber', function(msg) {
-		console.log("Received number" + msg.number);
-		//maintain a list of ten numbers
-		if (numbers_received.length >= 33){
-			numbers_received.shift()
-		}            
-		numbers_received.push(msg.number);
-		numbers_string = '<code>';
-		for (var i = 0; i < numbers_received.length; i++){
-			numbers_string = numbers_string + numbers_received[i].toString() + '<br/>';
-		}
-		numbers_string = numbers_string + '</code>'
-		$('#reploutput').html(numbers_string);
-	});
 
 	// TODO would explicit disconnect help?
-	// TODO figure out timeouts
-	// var socket = io.connect('http://localhost:5000');
+	var socket = io.connect('http://' + document.domain + ':' + location.port);
 
 	// send a line to the repl when you click send
 	$('#runstop').on('click', function() {
