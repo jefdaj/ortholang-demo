@@ -1,5 +1,5 @@
 function autofill_repl(text) {
-	i = $('#replinput');
+	i = $('#replstdin');
 	i.val(text); // TODO strip trailing newline here?
 	i.focus();
 }
@@ -11,23 +11,23 @@ $(document).ready(function(){
 
 	// send a line to the repl when you click send
 	$('#runstop').on('click', function() {
-		socket.emit('repl input', $('#replinput').val());
-		$('#replinput').val('')
+		socket.emit('replstdin', $('#replstdin').val());
+		$('#replstdin').val('')
 	});
-	$('#replinput').on('keypress', function(e) {
+	$('#replstdin').on('keypress', function(e) {
 		if(e.which == 13) {
-			socket.emit('repl input', $('#replinput').val());
-			$('#replinput').val('');
+			socket.emit('replstdin', $('#replstdin').val());
+			$('#replstdin').val('');
 		};
 	});
 
 	// display a line of output sent from the repl
 	// TODO don't add the >> unless it was a line of input (don't send those from server at all?)
-	socket.on('repl output', function(msg) {
-		var ro = document.getElementById('reploutput');
+	socket.on('replstdout', function(msg) {
+		var ro = document.getElementById('replstdout');
 		var content = document.createTextNode(msg);
 		ro.appendChild(content);
-		$('#reploutput').scrollTop(100000);
+		$('#replstdout').scrollTop(100000);
 	});
 
 	// submit a comment

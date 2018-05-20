@@ -18,7 +18,7 @@
 	margin-right: auto;
 	width: 50%;
 }
-#replinput, #reploutput {
+#replstdin, #replstdout {
 	font-family: monospace;
 	white-space: pre;
 }
