@@ -63,6 +63,7 @@ def new_interpreter(ssid):
         # TODO should this go in the background worker too? and be repeated?
         sci['process'] = Popen(cmd, stdin=PIPE, stdout=PIPE, bufsize=1)
         interpreters[ssid] = sci
+        emit_repl_output(sci)
 
 def get_interpreter(ssid):
     'get an interpreter by shortcut-session-id, creating it if needed'
@@ -74,21 +75,32 @@ def get_interpreter(ssid):
 def send_repl_input(sci, line):
     'look up the proper interpreter and pass it a line of input'
     log("passing '%s' to interpreter %s" % (line, sci))
-    emit('repl output', "&#8811;&nbsp;" + line + "<br/>")
+    emit('repl output', "&#8811;&nbsp;" + line.replace('\n', "<br/>"))
     sci['process'].stdin.write(line + '\n')
 
 def emit_repl_output(sci):
-    @copy_current_request_context
+    #@copy_current_request_context
     def worker():
-        while True:
-            try:
-                socketio.emit('repl output', sci['process'].stdout.readline() + '<br/>')
-            except:
+        # while True:
+            # try:
+                # socketio.emit('repl output', sci['process'].stdout.readline() + '<br/>')
+            # except:
                 # gevent.sleep(1) # TODO 1 better?
-                eventlet.sleep(1) # TODO 1 better?
+                # eventlet.sleep(1) # TODO 1 better?
 
-        # for line in sci['process'].stdout:
-            # socketio.emit('repl output', line + '<br/>')
+        while True:
+            log('about to emit stdout lines')
+            # for line in sci['process'].stdout:
+            line = sci['process'].stdout.readline()
+            if line:
+                line = line.replace('\n', '<br/>')
+                socketio.emit('repl output', line, room=sci['ssid'])
+                log("emitted line: '%s'" % line)
+            else:
+                eventlet.sleep(1)
+                # continue
+            # log('lines done. about to sleep 1')
+            # eventlet.sleep(1)
     # t = Thread(target=worker)
     # t.daemon = True
     # t.start()
@@ -107,7 +119,7 @@ app.config['SESSION_TYPE'] = 'filesystem'
 login = LoginManager(app)
 Session(app)
 # socketio = SocketIO(app, manage_session=False, async_mode='gevent')
-socketio = SocketIO(app, manage_session=False)
+socketio = SocketIO(app, manage_session=False, logger=True, engineio_logger=True)
 
 def timestamp():
     #TODO add microseconds after a comma for debugging
@@ -127,12 +139,12 @@ def get_session_id():
         get_interpreter(ssid)
         return ssid
 
+# TODO is this getting called multiple times?
 @socketio.on('connect')
 def handle_new_connection():
     'starts an interpreter immediately when a new client connects'
     ssid = get_session_id()
     sci = get_interpreter(ssid)
-    emit_repl_output(sci)
 
 @socketio.on('repl input')
 def handle_repl_input(msg):
@@ -140,9 +152,9 @@ def handle_repl_input(msg):
     ssid = get_session_id()
     log("client %s sent a line of repl input: '%s'" % (ssid, msg))
     sci  = get_interpreter(ssid) # TODO do this immediately on first page load?
-    p = sci['process']
-    p.stdin.write(msg + '\n')
-    #p.stdin.flush()
+    # p = sci['process']
+    # p.stdin.write(msg + '\n')
+    # p.stdin.flush()
     send_repl_input(sci, msg)
 
     # out = []
@@ -158,8 +170,8 @@ def handle_repl_input(msg):
     #for line in p.stdout:
     # TODO how to get multiple lines but not get stuck waiting after the last one?
     # TODO oh right, need to launch this as a background thread probably "StdoutEmitter" or something
-    line = p.stdout.readline()
-    emit('repl output', line + "<br/>")
+    # line = p.stdout.readline()
+    # emit('repl output', line.replace('\n', "<br/>"))
 
 @socketio.on('comment')
 def write_comment(msg):
