@@ -18,6 +18,6 @@
 	margin-right: auto;
 	width: 50%;
 }
-#reploutput {
+#replinput, #reploutput {
 	font-family: monospace;
 }
