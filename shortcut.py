@@ -12,8 +12,9 @@ from subprocess     import Popen, PIPE, STDOUT
 from threading      import Lock, Thread, Event
 from uuid           import uuid4
 
-from random import random
+# from random import random
 from time import sleep
+import re
 
 #######################
 # random numbers test #
@@ -68,23 +69,21 @@ class ReplThread(Thread):
         self.emitStdoutLines()
 
     def recieveStdinLine(self, line):
+        socketio.emit('repl output', '>> ' + line + '\n', namespace='/')
         self.process.stdin.write(line + '\n')
 
     def emitStdoutLines(self):
-        # for line in self.process.stdout:
         while True:
             sleep(self.delay)
             try:
-                # TODO is it getting stuck here whenever there isn't a line yet?
                 line = self.process.stdout.readline()
             except:
                 continue
-                # sleep(self.delay)
             if line:
+                # TODO fix 
                 log("emitting line: '%s'" % line)
-                # line = text_to_html(line)
+                line = re.sub(r'^(>> )*', '', line)
                 socketio.emit('repl output', line, namespace='/')
-                # sleep(self.delay)
 
 ##############################
 # control shortcut instances #
@@ -148,7 +147,7 @@ def send_repl_input(sci, line):
     # copy request context with decorator
 
     # works:
-    emit('repl output', line) # from proper request context in main thread
+    # emit('repl output', line) # from proper request context in main thread
 
     # does not work:
     # socketio.emit('repl output', line, room=sci['ssid'])
