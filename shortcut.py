@@ -12,6 +12,9 @@ from uuid           import uuid4
 from os.path        import join, realpath
 from threading      import Lock, Thread
 from subprocess     import Popen, PIPE
+import eventlet
+
+eventlet.monkey_patch()
 
 ##############################
 # control shortcut instances #
@@ -81,13 +84,15 @@ def emit_repl_output(sci):
             try:
                 socketio.emit('repl output', sci['process'].stdout.readline() + '<br/>')
             except:
-                gevent.sleep(1) # TODO 1 better?
+                # gevent.sleep(1) # TODO 1 better?
+                eventlet.sleep(1) # TODO 1 better?
 
         # for line in sci['process'].stdout:
             # socketio.emit('repl output', line + '<br/>')
-    t = Thread(target=worker)
-    t.daemon = True
-    t.start()
+    # t = Thread(target=worker)
+    # t.daemon = True
+    # t.start()
+    eventlet.spawn(worker)
 
 #####################
 # serve the webpage #
