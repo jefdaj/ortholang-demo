@@ -9,11 +9,40 @@ from flask_session  import Session
 from flask_socketio import SocketIO, emit
 from os.path        import join, realpath
 from subprocess     import Popen, PIPE, STDOUT
-from threading      import Lock, Thread
+from threading      import Lock, Thread, Event
 from uuid           import uuid4
 
-import eventlet
-eventlet.monkey_patch()
+from random import random
+from time import sleep
+
+#######################
+# random numbers test #
+#######################
+
+thread = Thread()
+thread_stop_event = Event()
+
+class RandomThread(Thread):
+    def __init__(self):
+        self.delay = 1
+        super(RandomThread, self).__init__()
+
+    def randomNumberGenerator(self):
+        """
+        Generate a random number every 1 second and emit to a socketio instance (broadcast)
+        Ideally to be run in a separate thread?
+        """
+        #infinite loop of magical random numbers
+        print("Making random numbers")
+        while not thread_stop_event.isSet():
+            number = round(random()*10, 3)
+            print(number)
+            # socketio.emit('newnumber', {'number': number}, namespace='/')
+            socketio.emit('newnumber', {'number': number})
+            sleep(self.delay)
+
+    def run(self):
+        self.randomNumberGenerator()
 
 ##############################
 # control shortcut instances #
@@ -66,7 +95,6 @@ def send_repl_input(sci, line):
     # https://github.com/shanealynn/async_flask/blob/master/application.py
     # python3
     # celery
-    # eventlets
     # gevent
     # threading
     # closures
@@ -88,7 +116,6 @@ def emit_repl_output(sci):
 
     # this is what you're supposed to use but it doesn't work at all?
     # TODO wait actually it does, just the same not-emitting issue as with Thread
-    # eventlet.spawn(worker)
     socketio.start_background_task(target=worker)
 
 #####################
@@ -126,8 +153,23 @@ def get_session_id():
 @socketio.on('connect')
 def handle_new_connection():
     'starts an interpreter immediately when a new client connects'
-    ssid = get_session_id()
-    sci = get_interpreter(ssid)
+    # ssid = get_session_id()
+    # sci = get_interpreter(ssid)
+
+    # random numbers test:
+    # need visibility of the global thread object
+    global thread
+    print('Client connected')
+    #Start the random number generator thread only if the thread has not been started before.
+    if not thread.isAlive():
+        print("Starting Thread")
+        thread = RandomThread()
+        thread.start()
+
+
+@socketio.on('disconnect')
+def test_disconnect():
+    print('Client disconnected')
 
 @socketio.on('repl input')
 def handle_repl_input(msg):
@@ -146,15 +188,16 @@ def write_comment(msg):
 
 @app.route('/')
 def index():
-    resp = make_response(render_template('index.html'))
+    # resp = make_response(render_template('index.html'))
+    return render_template('index.html')
 
     # TODO any need to set the cookie elsewhere too?
-    ssid = get_session_id()
-    if not 'shortcut-session-id' in request.cookies:
-        resp.set_cookie('shortcut-session-id', ssid)
+    #ssid = get_session_id()
+    #if not 'shortcut-session-id' in request.cookies:
+    #     resp.set_cookie('shortcut-session-id', ssid)
 
-    log('interpreters: %s' % interpreters)
-    return resp
+    # log('interpreters: %s' % interpreters)
+    #return resp
 
 if __name__ == '__main__':
     socketio.run(app)

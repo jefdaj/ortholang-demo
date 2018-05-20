@@ -11,13 +11,12 @@ For the python server, do this:
 ```.bash
 virtualenv .venv
 source .venv/bin/activate
-pip install flask-socketio flask-login flask-session gevent gevent-websocket
-FLASK_APP=server.py FLASK_ENV=development flask run
+pip install flask flask-socketio flask-login flask-session
+./shortcut.py
 ```
 
 Then visit `localhost:5000` in your browser.
 
-When doing a demo, be sure to remove the development flag.
-SocketIO is much more stable without it!
+Note: do *not* install actual websockets stuff (gevent, eventlets, etc) as that seems to break it.
 
 [1]: https://github.com/jefdaj/shortcut
