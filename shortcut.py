@@ -242,7 +242,7 @@ def write_comment(msg):
     log("client %s submitted a comment: '%s'" % (ssid, msg))
     filename = join('comments', '%s_%s.txt' % (timestamp(), ssid))
     with open(filename, 'w') as f:
-        f.write(msg)
+        f.write(msg.encode('utf-8'))
 
 @app.route('/')
 def index():
