@@ -4,13 +4,14 @@
 # TODO maybe it'll work if flask itself is serving the page rather than my separate html thing?
 
 from datetime       import datetime
-from flask          import Flask, render_template, session, request, make_response
+from flask          import Flask, render_template, session, request, make_response, copy_current_request_context
 from flask_login    import LoginManager
 from flask_session  import Session
 from flask_socketio import SocketIO, emit
 from uuid           import uuid4
 from os.path        import join, realpath
-from threading      import Lock
+from threading      import Lock, Thread
+from subprocess     import Popen, PIPE
 
 ##############################
 # control shortcut instances #
@@ -36,14 +37,16 @@ from threading      import Lock
 interpreters = {}
 interpreters_lock = Lock()
 
-def run_shortcut(sci):
+#def run_shortcut(sci):
     # TODO should be able to do this in a loop right?
     #with app.app_context():
     # with app.app_context():
     # emit("repl output", "output from shortcut repl goes here", room=sci['ssid'])
         # emit("repl output", "output from shortcut repl goes here")
     # sleep(5)
-    return
+    # while sleep(5):
+        # emit('repl output', 'shortcut repl output goes here')
+        # log('shortcut would be running here')
 
 def new_interpreter(ssid):
     'create a new interpreter and add it to the global map'
@@ -53,7 +56,9 @@ def new_interpreter(ssid):
     with interpreters_lock:
         log('launching new interpreter %s' % ssid)
         sci = {'ssid': ssid, 'tmpdir': join(realpath('interpreters'), ssid)}
-        #run_shortcut(sci)
+        cmd = ['shortcut', '--interactive', '--tmpdir', sci['tmpdir']]
+        # TODO should this go in the background worker too? and be repeated?
+        sci['process'] = Popen(cmd, stdin=PIPE, stdout=PIPE, bufsize=1)
         interpreters[ssid] = sci
 
 def get_interpreter(ssid):
@@ -63,9 +68,26 @@ def get_interpreter(ssid):
         new_interpreter(ssid)
     return interpreters[ssid]
 
-def pass_line_to_repl(ssid, line):
+def send_repl_input(sci, line):
     'look up the proper interpreter and pass it a line of input'
-    sci = get_interpreter(ssid)
+    log("passing '%s' to interpreter %s" % (line, sci))
+    emit('repl output', "&#8811;&nbsp;" + line + "<br/>")
+    sci['process'].stdin.write(line + '\n')
+
+def emit_repl_output(sci):
+    @copy_current_request_context
+    def worker():
+        while True:
+            try:
+                socketio.emit('repl output', sci['process'].stdout.readline() + '<br/>')
+            except:
+                gevent.sleep(1) # TODO 1 better?
+
+        # for line in sci['process'].stdout:
+            # socketio.emit('repl output', line + '<br/>')
+    t = Thread(target=worker)
+    t.daemon = True
+    t.start()
 
 #####################
 # serve the webpage #
@@ -104,7 +126,8 @@ def get_session_id():
 def handle_new_connection():
     'starts an interpreter immediately when a new client connects'
     ssid = get_session_id()
-    get_interpreter(ssid)
+    sci = get_interpreter(ssid)
+    emit_repl_output(sci)
 
 @socketio.on('repl input')
 def handle_repl_input(msg):
@@ -112,8 +135,26 @@ def handle_repl_input(msg):
     ssid = get_session_id()
     log("client %s sent a line of repl input: '%s'" % (ssid, msg))
     sci  = get_interpreter(ssid) # TODO do this immediately on first page load?
-    emit('repl output', "&#8811;&nbsp;" + msg + "<br/>")
-    log("passing '%s' to interpreter %s" % (msg, sci))
+    p = sci['process']
+    p.stdin.write(msg + '\n')
+    #p.stdin.flush()
+    send_repl_input(sci, msg)
+
+    # out = []
+    # while True:
+        # try:
+            # out.append(p.stdout.readline())
+        # except:
+            # break
+    # out = ''.join(out)
+
+    # out = ''.join(line for line in p.stdout)
+    # p.communicate()
+    #for line in p.stdout:
+    # TODO how to get multiple lines but not get stuck waiting after the last one?
+    # TODO oh right, need to launch this as a background thread probably "StdoutEmitter" or something
+    line = p.stdout.readline()
+    emit('repl output', line + "<br/>")
 
 @socketio.on('comment')
 def write_comment(msg):
