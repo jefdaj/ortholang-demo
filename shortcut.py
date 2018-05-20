@@ -11,10 +11,11 @@ from flask_socketio import SocketIO, emit
 from uuid           import uuid4
 from os.path        import join, realpath
 from threading      import Lock, Thread
-from subprocess     import Popen, PIPE
-import eventlet
+from subprocess     import Popen, PIPE, STDOUT
 
-eventlet.monkey_patch()
+# import eventlet
+# from eventlet import wsgi
+# eventlet.monkey_patch()
 
 ##############################
 # control shortcut instances #
@@ -61,7 +62,7 @@ def new_interpreter(ssid):
         sci = {'ssid': ssid, 'tmpdir': join(realpath('interpreters'), ssid)}
         cmd = ['shortcut', '--interactive', '--tmpdir', sci['tmpdir']]
         # TODO should this go in the background worker too? and be repeated?
-        sci['process'] = Popen(cmd, stdin=PIPE, stdout=PIPE, bufsize=1)
+        sci['process'] = Popen(cmd, stdin=PIPE, stdout=PIPE, stderr=STDOUT, bufsize=1)
         interpreters[ssid] = sci
         emit_repl_output(sci)
 
@@ -75,12 +76,18 @@ def get_interpreter(ssid):
 def send_repl_input(sci, line):
     'look up the proper interpreter and pass it a line of input'
     log("passing '%s' to interpreter %s" % (line, sci))
-    emit('repl output', "&#8811;&nbsp;" + line.replace('\n', "<br/>"))
+    # emit('repl output', "&#8811;&nbsp;" + line.replace('\n', "<br/>"))
+    emit('repl output', line.replace('\n', "<br/>"))
     sci['process'].stdin.write(line + '\n')
 
 def emit_repl_output(sci):
     #@copy_current_request_context
     def worker():
+        for line in sci['process'].stdout:
+            line = line.replace('\n', '<br/>')
+            socketio.emit('repl output', line, room=sci['ssid'])
+            log("emitted line: '%s'" % line)
+
         # while True:
             # try:
                 # socketio.emit('repl output', sci['process'].stdout.readline() + '<br/>')
@@ -88,23 +95,26 @@ def emit_repl_output(sci):
                 # gevent.sleep(1) # TODO 1 better?
                 # eventlet.sleep(1) # TODO 1 better?
 
-        while True:
-            log('about to emit stdout lines')
-            # for line in sci['process'].stdout:
-            line = sci['process'].stdout.readline()
-            if line:
-                line = line.replace('\n', '<br/>')
-                socketio.emit('repl output', line, room=sci['ssid'])
-                log("emitted line: '%s'" % line)
-            else:
-                eventlet.sleep(1)
-                # continue
+#         while True:
+#             log('about to emit stdout lines')
+#             # for line in sci['process'].stdout:
+#             line = sci['process'].stdout.readline()
+#             if line:
+#                 line = line.replace('\n', '<br/>')
+#                 socketio.emit('repl output', line, room=sci['ssid'])
+#                 log("emitted line: '%s'" % line)
+#             else:
+#                 # eventlet.sleep(1)
+#                 continue
             # log('lines done. about to sleep 1')
             # eventlet.sleep(1)
-    # t = Thread(target=worker)
-    # t.daemon = True
-    # t.start()
-    eventlet.spawn(worker)
+
+    # this looks like it works based on logging, but site shows no lines:
+    t = Thread(target=worker)
+    t.daemon = True
+    t.start()
+
+    # eventlet.spawn(worker)
 
 #####################
 # serve the webpage #
@@ -195,3 +205,4 @@ def index():
 
 if __name__ == '__main__':
     socketio.run(app)
+    # wsgi.server(eventlet.listen(('', 8000)), app)
