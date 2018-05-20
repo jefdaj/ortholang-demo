@@ -1,37 +1,23 @@
 #!/usr/bin/env python2
 
-# TODO fix "new session on refresh" error
-# TODO maybe it'll work if flask itself is serving the page rather than my separate html thing?
+# TODO when things break, check in case Firefox just needs a restart!
 
 from datetime       import datetime
 from flask          import Flask, render_template, session, request, make_response, copy_current_request_context
 from flask_login    import LoginManager
 from flask_session  import Session
 from flask_socketio import SocketIO, emit
-from uuid           import uuid4
 from os.path        import join, realpath
-from threading      import Lock, Thread
 from subprocess     import Popen, PIPE, STDOUT
+from threading      import Lock, Thread
+from uuid           import uuid4
 
-# import eventlet
-# from eventlet import wsgi
-# eventlet.monkey_patch()
+import eventlet
+eventlet.monkey_patch()
 
 ##############################
 # control shortcut instances #
 ##############################
-
-# TODO make this a thread directly, or better for it to have a reference to one?
-# class ShortCutInstance(object):
-#     def __init__(self, ssid):
-#         self.ssid = ssid # TODO is this needed?
-#         self.lock = Lock()
-#         self.proc = None
-# 
-#     def init_interpreter(self):
-#         with self.lock:
-#             if self.proc is None:
-#                 pass # TODO write this
 
 # a shortcut interpreter for each session
 # TODO periodically remove idle ones, or what?
@@ -41,17 +27,6 @@ from subprocess     import Popen, PIPE, STDOUT
 interpreters = {}
 interpreters_lock = Lock()
 
-#def run_shortcut(sci):
-    # TODO should be able to do this in a loop right?
-    #with app.app_context():
-    # with app.app_context():
-    # emit("repl output", "output from shortcut repl goes here", room=sci['ssid'])
-        # emit("repl output", "output from shortcut repl goes here")
-    # sleep(5)
-    # while sleep(5):
-        # emit('repl output', 'shortcut repl output goes here')
-        # log('shortcut would be running here')
-
 def new_interpreter(ssid):
     'create a new interpreter and add it to the global map'
     global interpreters
@@ -59,10 +34,12 @@ def new_interpreter(ssid):
     # TODO is this right? maybe there's a specific threadsafe list type instead
     with interpreters_lock:
         log('launching new interpreter %s' % ssid)
-        sci = {'ssid': ssid, 'tmpdir': join(realpath('interpreters'), ssid)}
+        sci = {'ssid': ssid, 'tmpdir': join(realpath('shortcut_session'), ssid)}
         cmd = ['shortcut', '--interactive', '--tmpdir', sci['tmpdir']]
         # TODO should this go in the background worker too? and be repeated?
-        sci['process'] = Popen(cmd, stdin=PIPE, stdout=PIPE, stderr=STDOUT, bufsize=1)
+        # TODO would pty help here? there must be a reason for it
+        #      (don't try until the main avenue doesn't work out)
+        sci['process'] = Popen(cmd, stdin=PIPE, stdout=PIPE, stderr=STDOUT, bufsize=0)
         interpreters[ssid] = sci
         emit_repl_output(sci)
 
@@ -73,48 +50,46 @@ def get_interpreter(ssid):
         new_interpreter(ssid)
     return interpreters[ssid]
 
+def text_to_html(line):
+    # TODO need proper escaping here or there will be errors!
+    return line.replace('\n', "<br/>").replace('>>', '&#8811;&nbsp;')
+
 def send_repl_input(sci, line):
     'look up the proper interpreter and pass it a line of input'
     log("passing '%s' to interpreter %s" % (line, sci))
     # emit('repl output', "&#8811;&nbsp;" + line.replace('\n', "<br/>"))
-    emit('repl output', line.replace('\n', "<br/>"))
     sci['process'].stdin.write(line + '\n')
+    line = text_to_html(line)
+
+    # TODO ok the problem for now is pretty specific: need to emit from a background thread
+    # things to try:
+    # https://github.com/shanealynn/async_flask/blob/master/application.py
+    # python3
+    # celery
+    # eventlets
+    # gevent
+    # threading
+    # closures
+    # copy request context with decorator
+
+    # works:
+    emit('repl output', line) # from proper request context in main thread
+
+    # does not work:
+    # socketio.emit('repl output', line, room=sci['ssid'])
 
 def emit_repl_output(sci):
-    #@copy_current_request_context
+    # @copy_current_request_context
     def worker():
         for line in sci['process'].stdout:
-            line = line.replace('\n', '<br/>')
+            line = text_to_html(line)
             socketio.emit('repl output', line, room=sci['ssid'])
             log("emitted line: '%s'" % line)
 
-        # while True:
-            # try:
-                # socketio.emit('repl output', sci['process'].stdout.readline() + '<br/>')
-            # except:
-                # gevent.sleep(1) # TODO 1 better?
-                # eventlet.sleep(1) # TODO 1 better?
-
-#         while True:
-#             log('about to emit stdout lines')
-#             # for line in sci['process'].stdout:
-#             line = sci['process'].stdout.readline()
-#             if line:
-#                 line = line.replace('\n', '<br/>')
-#                 socketio.emit('repl output', line, room=sci['ssid'])
-#                 log("emitted line: '%s'" % line)
-#             else:
-#                 # eventlet.sleep(1)
-#                 continue
-            # log('lines done. about to sleep 1')
-            # eventlet.sleep(1)
-
-    # this looks like it works based on logging, but site shows no lines:
-    t = Thread(target=worker)
-    t.daemon = True
-    t.start()
-
+    # this is what you're supposed to use but it doesn't work at all?
+    # TODO wait actually it does, just the same not-emitting issue as with Thread
     # eventlet.spawn(worker)
+    socketio.start_background_task(target=worker)
 
 #####################
 # serve the webpage #
@@ -128,7 +103,6 @@ app.config['SESSION_TYPE'] = 'filesystem'
 # app.config.from_object(__name__)
 login = LoginManager(app)
 Session(app)
-# socketio = SocketIO(app, manage_session=False, async_mode='gevent')
 socketio = SocketIO(app, manage_session=False, logger=True, engineio_logger=True)
 
 def timestamp():
@@ -140,7 +114,6 @@ def log(msg):
 
 def get_session_id():
     # note that the cookie is set separately by index()
-    # TODO should the interpreter also be started immediately here?
     try:
         return request.cookies['shortcut-session-id']
     except:
@@ -158,30 +131,10 @@ def handle_new_connection():
 
 @socketio.on('repl input')
 def handle_repl_input(msg):
-    #ssid = request.cookies['shortcut-session-id']
     ssid = get_session_id()
     log("client %s sent a line of repl input: '%s'" % (ssid, msg))
     sci  = get_interpreter(ssid) # TODO do this immediately on first page load?
-    # p = sci['process']
-    # p.stdin.write(msg + '\n')
-    # p.stdin.flush()
     send_repl_input(sci, msg)
-
-    # out = []
-    # while True:
-        # try:
-            # out.append(p.stdout.readline())
-        # except:
-            # break
-    # out = ''.join(out)
-
-    # out = ''.join(line for line in p.stdout)
-    # p.communicate()
-    #for line in p.stdout:
-    # TODO how to get multiple lines but not get stuck waiting after the last one?
-    # TODO oh right, need to launch this as a background thread probably "StdoutEmitter" or something
-    # line = p.stdout.readline()
-    # emit('repl output', line.replace('\n', "<br/>"))
 
 @socketio.on('comment')
 def write_comment(msg):
@@ -205,4 +158,3 @@ def index():
 
 if __name__ == '__main__':
     socketio.run(app)
-    # wsgi.server(eventlet.listen(('', 8000)), app)

@@ -1,5 +1,6 @@
+*.pyc
 *.sw*
 .venv
-*.pyc
-flask_session/
 comments/
+flask_session/
+shortcut_session/
