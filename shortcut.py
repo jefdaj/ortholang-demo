@@ -82,7 +82,7 @@ class ReplThread(Thread):
                 # sleep(self.delay)
             if line:
                 log("emitting line: '%s'" % line)
-                line = text_to_html(line)
+                # line = text_to_html(line)
                 socketio.emit('repl output', line, namespace='/')
                 # sleep(self.delay)
 
@@ -123,7 +123,8 @@ class ReplThread(Thread):
 
 def text_to_html(line):
     # TODO need proper escaping here or there will be errors!
-    return line.replace('\n', "<br/>").replace('>>', '&#8811;&nbsp;')
+    # return line.replace('\n', "<br/>").replace('>>', '&#8811;&nbsp;')
+    return line
 
 def send_repl_input(sci, line):
     'look up the proper interpreter and pass it a line of input'

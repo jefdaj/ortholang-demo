@@ -24,7 +24,13 @@ $(document).ready(function(){
 	// display a line of output sent from the repl
 	// TODO don't add the >> unless it was a line of input (don't send those from server at all?)
 	socket.on('repl output', function(msg) {
-		$('#reploutput').append(msg);
+		var ro = document.getElementById('reploutput');
+		var content = document.createTextNode(msg);
+		ro.appendChild(content);
+		ro.appendChild(document.createElement("br"));
+		// ro.scrollTop(10000); // TODO improve?
+		// ro.scrollIntoView(true);
+		$('#reploutput').scrollTop(100000);
 	});
 
 	// submit a comment
