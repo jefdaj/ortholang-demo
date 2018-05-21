@@ -1,15 +1,15 @@
 #!/usr/bin/env python2
 
 # TODO thank that guy for the random numbers example that fixed the bug
-# TODO repl should respawn when it crashes or is exited
 
 from datetime       import datetime
 from flask          import Flask, render_template, request, make_response
 from flask_socketio import SocketIO, emit
 from os.path        import join, realpath
 from re             import sub
+from shutil         import rmtree
 from subprocess     import Popen, PIPE, STDOUT
-from threading      import Thread
+from threading      import Thread, Event
 from time           import sleep
 from uuid           import uuid4
 
@@ -35,24 +35,49 @@ class ShortcutThread(Thread):
         self.delay = 0.01
         self.sessionid = sessionid
         self.tmpdir = join(realpath('tmpdirs'), sessionid)
-
-        # TODO better bufsize?
-        # TODO put stderr somewhere besides main output?
-        # TODO separate launchProcess method?
-        cmd = ['shortcut', '--interactive', '--tmpdir', self.tmpdir]
-        self.process = Popen(cmd, stdin=PIPE, stdout=PIPE, stderr=STDOUT, bufsize=1)
+        self._stop = Event()
+        self.spawnRepl()
         super(ShortcutThread, self).__init__()
 
     def run(self):
-        # TODO handle restarting the process when killed here?
-        self.emitStdout()
+        while True:
+            self.emitStdout()
+            if self._stop.is_set():
+                break
+            else:
+                self.spawnRepl()
+        self.cleanup()
+
+    def kill(self):
+        self._stop.set()
+        self.process.kill()
+        self.cleanup()
+
+    def cleanup(self):
+        try:
+            self.process.kill()
+        except:
+            pass
+        finally:
+            rmtree(self.tmpdir, ignore_errors=True)
+
+    def spawnRepl(self):
+        log('spawning repl with shortcut-session-id %s' % self.sessionid)
+        cmd = ['shortcut', '--interactive', '--tmpdir', self.tmpdir]
+        self.process = Popen(cmd, stdin=PIPE, stdout=PIPE, stderr=STDOUT, bufsize=1)
 
     def emitLine(self, line):
         socketio.emit('replstdout', line, namespace='/', room=self.sessionid)
 
     def readLine(self, line):
         self.emitLine('>> ' + line + '\n')
-        self.process.stdin.write(line + '\n')
+        try:
+            self.process.stdin.write(line + '\n')
+        except IOError:
+            if not self._stop.is_set():
+                self.emitLine('Shortcut died. Resetting demo...\n')
+                self.spawnRepl()
+                self.process.stdin.write(line + '\n')
 
     def emitStdout(self):
         while True:
@@ -60,7 +85,9 @@ class ShortcutThread(Thread):
             try:
                 line = self.process.stdout.readline()
             except:
-                continue
+                self.emitLine('resetting demo...') # TODO remove?
+                self.process.terminate() # TODO remove? kill instead?
+                break
             if line:
                 line = sub(r'^(>> )*', '', line)
                 self.emitLine(line)
@@ -87,6 +114,11 @@ def handle_connect():
     thread = threads[sid]
     if not thread.isAlive():
         thread.start()
+
+@socketio.on('disconnect')
+def handle_disconnect():
+    log('client %s disconnected' % request.sid)
+    threads[request.sid].kill() # TODO any point to waiting a while first?
 
 @socketio.on('replstdin')
 def handle_replstdin(line):

@@ -59,4 +59,13 @@ $(document).ready(function(){
 		};
 	});
 
+	window.onbeforeunload = confirmExit;
+	function confirmExit(){
+		alert("Leave the page? ShortCut demo will be reset.");
+		return false;
+	}
+	window.addEventListener('beforeunload', function(event) {
+		socket.disconnect();
+	}, false);
+
 });
