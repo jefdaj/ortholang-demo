@@ -4,8 +4,6 @@
 # COMMAND:
 #   pypi2nix -r requirements.txt -V 2.7
 #
-# For development, try:
-#  nix-shell requirements.nix -A interpreter
 
 { pkgs ? import <nixpkgs> {}
 }:
@@ -97,6 +95,23 @@ let
 
 
 
+    "Flask-Markdown" = python.mkDerivation {
+      name = "Flask-Markdown-0.3";
+      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/08/b0/8149a3c43418220386c0968713282fc0a3a4ef9fef991f7af2173b52505a/Flask-Markdown-0.3.tar.gz"; sha256 = "d8c3f02545b395ad525b86760ad721a2c50efa3b8e602a8d486a1f47f68c6250"; };
+      doCheck = commonDoCheck;
+      buildInputs = commonBuildInputs;
+      propagatedBuildInputs = [
+      self."Markdown"
+    ];
+      meta = with pkgs.stdenv.lib; {
+        homepage = "http://github.com/dcolish/flask-markdown";
+        license = licenses.bsdOriginal;
+        description = "Small extension to make using markdown easy";
+      };
+    };
+
+
+
     "Flask-SocketIO" = python.mkDerivation {
       name = "Flask-SocketIO-3.0.0";
       src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/7b/5a/674e764e57d42c54c4ce35d9eca607f4bbe6982322f0daa3d9e5f2f3d227/Flask-SocketIO-3.0.0.tar.gz"; sha256 = "388e0b12d66ea2ca0519a4a8d1cbeb90feb5a98034b44220f256014aad7c5e89"; };
@@ -127,6 +142,21 @@ let
         homepage = "http://jinja.pocoo.org/";
         license = licenses.bsdOriginal;
         description = "A small but fast and easy to use stand-alone template engine written in pure python.";
+      };
+    };
+
+
+
+    "Markdown" = python.mkDerivation {
+      name = "Markdown-2.6.11";
+      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/b3/73/fc5c850f44af5889192dff783b7b0d8f3fe8d30b65c8e3f78f8f0265fecf/Markdown-2.6.11.tar.gz"; sha256 = "a856869c7ff079ad84a3e19cd87a64998350c2b94e9e08e44270faef33400f81"; };
+      doCheck = commonDoCheck;
+      buildInputs = commonBuildInputs;
+      propagatedBuildInputs = [ ];
+      meta = with pkgs.stdenv.lib; {
+        homepage = "https://Python-Markdown.github.io/";
+        license = licenses.bsdOriginal;
+        description = "Python implementation of Markdown.";
       };
     };
 
