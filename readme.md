@@ -28,6 +28,19 @@ Finally, visit `localhost:5000` in your browser.
 
 Note: do *not* install actual websockets stuff (gevent, eventlets, etc) as that seems to break it.
 
+Serve
+-----
+
+This is a terrible idea from a security perspective,
+but the fastest way to access it from elsewhere on the local network is:
+
+```.bash
+sudo sysctl -w net.ipv4.conf.all.route_localnet=1
+sudo iptables -t nat -I PREROUTING -p tcp --dport 8080 -j DNAT --to 127.0.0.1:5000
+```
+
+Replace `8080` with whatever port you want.
+
 Files
 -----
 
