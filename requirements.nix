@@ -222,6 +222,21 @@ let
 
 
 
+    "psutil" = python.mkDerivation {
+      name = "psutil-5.4.5";
+      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/14/a2/8ac7dda36eac03950ec2668ab1b466314403031c83a95c5efc81d2acf163/psutil-5.4.5.tar.gz"; sha256 = "ebe293be36bb24b95cdefc5131635496e88b17fabbcf1e4bc9b5c01f5e489cfe"; };
+      doCheck = commonDoCheck;
+      buildInputs = commonBuildInputs;
+      propagatedBuildInputs = [ ];
+      meta = with pkgs.stdenv.lib; {
+        homepage = "https://github.com/giampaolo/psutil";
+        license = licenses.bsdOriginal;
+        description = "Cross-platform lib for process and system monitoring in Python.";
+      };
+    };
+
+
+
     "python-engineio" = python.mkDerivation {
       name = "python-engineio-2.1.1";
       src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/ae/28/11a0c38bf1bdf3d25901b9120dc554fae90647162b48997644cfa026d518/python-engineio-2.1.1.tar.gz"; sha256 = "68307a9cc24392d7a581460226fd0246f92b1923722c37a4af83c374d94b2c8a"; };

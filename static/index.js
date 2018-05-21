@@ -22,6 +22,14 @@ $(document).ready(function(){
 		};
 	});
 
+	// display server info
+	socket.on('serverinfo', function(nfo) {
+		var txt = 'users:  ' + nfo.users + '<br/>'
+			+ 'cpu:    ' + nfo.cpu   + '%<br/>'
+			+ 'memory: ' + nfo.memory + '%';
+		$('#serverinfo').html(txt);
+	});
+
 	// display a line of output sent from the repl
 	// TODO don't add the >> unless it was a line of input (don't send those from server at all?)
 	socket.on('replstdout', function(msg) {

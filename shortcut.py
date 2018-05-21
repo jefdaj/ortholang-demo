@@ -8,6 +8,7 @@ from flask_socketio    import SocketIO, emit
 from flaskext.markdown import Markdown
 from glob              import glob
 from os.path           import join, realpath
+from psutil            import cpu_percent, virtual_memory
 from re                import sub
 from shutil            import rmtree
 from subprocess        import Popen, PIPE, STDOUT
@@ -102,7 +103,38 @@ Markdown(app)
 app.config['SECRET_KEY'] = 'so-secret!'
 socketio = SocketIO(app, manage_session=False, logger=True, engineio_logger=True)
 
-# these are used to render the code examples
+# used to update server info by the "Zilputer" logo
+class ServerInfoThread(Thread):
+    def __init__(self):
+        self.delay  = 5
+        self.users  = 0
+        super(ServerInfoThread, self).__init__()
+        self.daemon = True
+
+    def run(self):
+        log('starting ServerInfoThread')
+        while True:
+            self.emitInfo()
+            sleep(self.delay)
+
+    def emitInfo(self):
+        log('emitting server info')
+        cpu = round(cpu_percent())
+        mem = round(virtual_memory().percent)
+        nfo = {'users': self.users, 'cpu': cpu, 'memory': mem}
+        log('server info: %s' % nfo)
+        socketio.emit('serverinfo', nfo, namespace='/')
+
+    def userConnected(self):
+        self.users += 1
+
+    def userDisconnected(self):
+        self.users -= 1
+
+server_info = ServerInfoThread()
+server_info.start()
+
+# used to render the code examples
 examples = {}
 for path in glob('examples/*.cut'):
     with open(path, 'r') as f:
@@ -123,11 +155,15 @@ def handle_connect():
     thread = threads[sid]
     if not thread.isAlive():
         thread.start()
+    global server_info
+    server_info.userConnected()
 
 @socketio.on('disconnect')
 def handle_disconnect():
     log('client %s disconnected' % request.sid)
     threads[request.sid].kill() # TODO any point to waiting a while first?
+    global server_info
+    server_info.userDisconnected()
 
 @socketio.on('replstdin')
 def handle_replstdin(line):

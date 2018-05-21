@@ -14,9 +14,10 @@ Then run the server the [Nix][2] way:
 nix-shell requirements.nix --command ./shortcut.py
 ```
 
-... or the regular Python way:
+... or the regular Debian + Python way:
 
 ```.bash
+sudo apt-get install python-dev
 virtualenv .venv
 source .venv/bin/activate
 pip install -r requirements.txt

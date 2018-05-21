@@ -23,9 +23,17 @@ code {
 	font-style: bold;
 	font-size: 18;
 }
-#replstdin, #replstdout {
+#replstdin, #replstdout, #serverinfo {
 	font-family: monospace;
 	font-style: bold;
 	font-size: 18;
 	white-space: pre;
+}
+#serverinfo {
+	font-size: 14;
+	color: #5d5d60;
+}
+#title {
+	font-style: bold;
+	font-size: 24;
 }
