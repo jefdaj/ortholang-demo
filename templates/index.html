@@ -132,20 +132,18 @@ You can also assign it yourself when the script is done to say what the final re
 This is probably the simplest script you could write:
 
 {% endfilter %}
-{% with path='examples/tutorial01.cut' %} {% include "example.html" %} {% endwith %}
+{% with path='examples/variables01.cut' %} {% include "example.html" %} {% endwith %}
 {% filter markdown %}
 
-If you downloaded ShortCut and ran `shortcut --script examples/tutorial01.cut`, it would print
+If you downloaded ShortCut and ran `shortcut --script examples/variables01.cut`, it would print
 `"hello world!"`.
 
-You don't have to run the whole script at once though.
+You don't have to run a whole script at once though.
 You'll spend most of your time editing it in the interpreter,
 defining and evaluating individual variables.
 Here is a script with several of them.
 
-{% endfilter %}
-{% with path='examples/tutorial02.cut' %} {% include "example.html" %} {% endwith %}
-{% filter markdown %}
+{% with path='examples/variables02.cut' %} {% include "example.html" %} {% endwith %}
 
 ShortCut keeps track of dependencies between variables, like this:
 
@@ -160,6 +158,57 @@ ShortCut will print `-1.485`.  Then if you type `var2`, the graph will change to
 ![]({{ url_for('static',filename='var2.svg') }})
 
 ... and it will print `"nothing depends on var2 so far"`.
+
+You can find what a given variable depends on with `:depends`,
+and what depends on it with `:rdepends` ("reverse dependencies").
+
+### NCBI BLAST+
+
+ShortCut includes the most common command line BLAST tools:
+
+* `blastn`
+* `blastp`
+* `blastx`
+* `tblastn`
+* `tblastx`
+* `megablast`
+* `psiblast`
+
+_Note: Just ask if you want one of the more exotic ones added, like `rps-blast` or `delta-blast`._
+
+### Psiblast
+
+When making a cut you'll often want to do a broad search for distant homologs,
+and PSI-BLAST (position-specific iterated blast) is usually the best one for
+that. You do have to be a little careful though, because it's possible for the
+search to be "poisoned": if the first BLASTP iteration picks up unrelated
+proteins, and they have more homologs in the database than your actual protein
+of interest does, it will train itself to pick up more and more of the wrong
+ones.
+
+So if you only have one or a few genes to search for the best strategy is to
+look through the results of each iteration on the NCBI site to make sure they
+seem reasonable. Obviously that's not very high-throughput though. ShortCut
+can't assess whether the results make sense, but you can use it to tune the
+search settings to pick up known positive control genes while excluding as many
+others as possible. That's the topic of the next section.
+
+### PRS pattern
+
+## TODO
+
+Tutorial:
+
+* Transcribe from poster
+* Tmpfiles
+* Types (genes, genomes, lists)
+* Sets (lists, subtraction)
+* BLAST+ (types, functions)
+* Psiblast (pssms, functions)
+* PRS Pattern
+* Permute (drop each, sample)
+* Repeat (repeat and randomness, repeat_each)
+* Summarize (length_each, score_*, plot_*)
 
 {% endfilter %}
 		</div>
