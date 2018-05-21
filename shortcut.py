@@ -30,8 +30,6 @@ def log(msg):
 # shortcut threads #
 ####################
 
-threads = {}
-
 class ShortcutThread(Thread):
     def __init__(self, sessionid):
         log('creating new ShortcutThread with shortcut-session-id %s' % sessionid)
@@ -94,6 +92,8 @@ class ShortcutThread(Thread):
                 line = sub(r'^(>> )*', '', line)
                 self.emitLine(line)
 
+shortcut_threads = {}
+
 #############
 # webserver #
 #############
@@ -103,7 +103,6 @@ Markdown(app)
 app.config['SECRET_KEY'] = 'so-secret!'
 socketio = SocketIO(app, manage_session=False, logger=True, engineio_logger=True)
 
-# used to update server info by the "Zilputer" logo
 class ServerInfoThread(Thread):
     def __init__(self):
         self.delay  = 5
@@ -118,11 +117,10 @@ class ServerInfoThread(Thread):
             sleep(self.delay)
 
     def emitInfo(self):
-        log('emitting server info')
         cpu = round(cpu_percent())
         mem = round(virtual_memory().percent)
         nfo = {'users': self.users, 'cpu': cpu, 'memory': mem}
-        log('server info: %s' % nfo)
+        log('emitting serverinfo: %s' % nfo)
         socketio.emit('serverinfo', nfo, namespace='/')
 
     def userConnected(self):
@@ -149,10 +147,10 @@ def index():
 def handle_connect():
     sid = request.sid
     print('client %s connected' % sid)
-    global threads
-    if not sid in threads:
-        threads[sid] = ShortcutThread(sid)
-    thread = threads[sid]
+    global shortcut_threads
+    if not sid in shortcut_threads:
+        shortcut_threads[sid] = ShortcutThread(sid)
+    thread = shortcut_threads[sid]
     if not thread.isAlive():
         thread.start()
     global server_info
@@ -161,13 +159,13 @@ def handle_connect():
 @socketio.on('disconnect')
 def handle_disconnect():
     log('client %s disconnected' % request.sid)
-    threads[request.sid].kill() # TODO any point to waiting a while first?
+    shortcut_threads[request.sid].kill() # TODO any point to waiting a while first?
     global server_info
     server_info.userDisconnected()
 
 @socketio.on('replstdin')
 def handle_replstdin(line):
-    threads[request.sid].readLine(line)
+    shortcut_threads[request.sid].readLine(line)
 
 @socketio.on('comment')
 def handle_comment(comment):
@@ -178,6 +176,4 @@ def handle_comment(comment):
         f.write(comment.encode('utf-8'))
 
 if __name__ == '__main__':
-    # use this if you encounter stability problems:
-    # socketio.run(app)
     socketio.run(app, debug=True)
