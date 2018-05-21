@@ -1,0 +1,8 @@
+<div style="text-align: left; width: 90%;">
+	<form id="{{ examples[path]['id'] }}" style="float: right;">
+		<input type="button" onclick="autofill_repl(':load {{ path }}')" name="submit" value="Load">
+	</form>
+	<pre><code>
+		{{ examples[path]['content'] }}
+	</pre></code>
+</div>

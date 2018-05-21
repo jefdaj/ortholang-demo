@@ -76,14 +76,7 @@
 		<div style="width: 95%;">
 			<p>This side will be a tutorial with a bunch of examples. Each example will have a little "load" or "try it" button that pastes the code in the box on the left. Remaining text is filler for now...</p>
 
-			<center>
-				<div style="text-align: left; width: 90%;">
-					<form id="tutorial1" style="float: right;">
-						<input type="button" onclick="autofill_repl(':load tutorial/basic01.cut')" name="submit" value="Load">
-					</form>
-					<pre><code>test code block 1<br/>now with a second line for layout testing<br/>ok and a third...</pre></code>
-				</div>
-			</center>
+			{% with path='tutorial/basic01.cut' %} {% include "loadcode.html" %} {% endwith %}
 
 			<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce nec lorem mauris. Nulla fermentum tincidunt nulla et dignissim. In porttitor sem id velit lobortis aliquam. Duis et purus ac orci porttitor luctus at quis leo. Mauris vulputate pellentesque est, sit amet egestas tellus facilisis sit amet. Cras sodales bibendum tellus, a gravida tortor hendrerit sed. Pellentesque blandit posuere nisl, sit amet cursus nisl dignissim non.</p>
 

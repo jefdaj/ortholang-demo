@@ -5,6 +5,7 @@
 from datetime       import datetime
 from flask          import Flask, render_template, request, make_response
 from flask_socketio import SocketIO, emit
+from glob           import glob
 from os.path        import join, realpath
 from re             import sub
 from shutil         import rmtree
@@ -12,6 +13,7 @@ from subprocess     import Popen, PIPE, STDOUT
 from threading      import Thread, Event
 from time           import sleep
 from uuid           import uuid4
+
 
 #############
 # utilities #
@@ -99,9 +101,16 @@ app = Flask(__name__)
 app.config['SECRET_KEY'] = 'so-secret!'
 socketio = SocketIO(app, manage_session=False, logger=True, engineio_logger=True)
 
+# these are used to render the code examples
+examples = {}
+for path in glob('tutorial/*.cut'):
+    with open(path, 'r') as f:
+        txt = f.read()
+    examples[path] = {'id': path.replace('/', '_'), 'content': txt}
+
 @app.route('/')
 def index():
-    return render_template('index.html')
+    return render_template('index.html', examples=examples)
 
 @socketio.on('connect')
 def handle_connect():
@@ -132,4 +141,6 @@ def handle_comment(comment):
         f.write(comment.encode('utf-8'))
 
 if __name__ == '__main__':
-    socketio.run(app)
+    # use this if you encounter stability problems:
+    # socketio.run(app)
+    socketio.run(app, debug=True)

@@ -12,7 +12,8 @@ $(document).ready(function(){
 	// send a line to the repl when you click send
 	$('#runstop').on('click', function() {
 		socket.emit('replstdin', $('#replstdin').val());
-		$('#replstdin').val('')
+		$('#replstdin').val('');
+		$('#replstdin').focus();
 	});
 	$('#replstdin').on('keypress', function(e) {
 		if(e.which == 13) {
