@@ -2,18 +2,18 @@
 
 # TODO thank that guy for the random numbers example that fixed the bug
 
-from datetime       import datetime
-from flask          import Flask, render_template, request, make_response
-from flask_socketio import SocketIO, emit
-from glob           import glob
-from os.path        import join, realpath
-from re             import sub
-from shutil         import rmtree
-from subprocess     import Popen, PIPE, STDOUT
-from threading      import Thread, Event
-from time           import sleep
-from uuid           import uuid4
-
+from datetime          import datetime
+from flask             import Flask, render_template, request, make_response
+from flask_socketio    import SocketIO, emit
+from flaskext.markdown import Markdown
+from glob              import glob
+from os.path           import join, realpath
+from re                import sub
+from shutil            import rmtree
+from subprocess        import Popen, PIPE, STDOUT
+from threading         import Thread, Event
+from time              import sleep
+from uuid              import uuid4
 
 #############
 # utilities #
@@ -98,12 +98,13 @@ class ShortcutThread(Thread):
 #############
 
 app = Flask(__name__)
+Markdown(app)
 app.config['SECRET_KEY'] = 'so-secret!'
 socketio = SocketIO(app, manage_session=False, logger=True, engineio_logger=True)
 
 # these are used to render the code examples
 examples = {}
-for path in glob('tutorial/*.cut'):
+for path in glob('examples/*.cut'):
     with open(path, 'r') as f:
         txt = f.read()
     examples[path] = {'id': path.replace('/', '_'), 'content': txt}
