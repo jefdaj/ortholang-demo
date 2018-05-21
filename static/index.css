@@ -18,7 +18,14 @@
 	margin-right: auto;
 	width: 50%;
 }
+code {
+	font-family: monospace;
+	font-style: bold;
+	font-size: 18;
+}
 #replstdin, #replstdout {
 	font-family: monospace;
+	font-style: bold;
+	font-size: 18;
 	white-space: pre;
 }

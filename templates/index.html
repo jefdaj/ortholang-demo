@@ -81,26 +81,30 @@ might be imprortant for a trait of interest.
 
 Cut script is a simple language for making phylogenomic cuts. It aims to be the
 easiest way to conduct searches too complex for the NCBI website, but maybe not
-so complex that you want to get bogged down with a "real" language like Python
-or R just to do some BLAST searches. It also aims to describe searches
-succinctly and reproducibly, so that some day it might make it into your
-supplemental material. Everyone wins when your work is easy to build on!
+so complex that you want to get bogged down with all the details of a "real"
+language like Python or R just to do some BLAST searches. It also aims to
+describe searches succinctly and reproducibly, so that some day it might make
+it into your supplemental material. Everyone wins when your work is easy to
+build on!
 
 The `shortcut` program is a command-line language interpreter, kind of like
 `python` or `R` but for cut scripts. On your left is a hacky "terminal" I made
-so it can be run from a web browser. You can do most of the same things with it
-that you could if you downloaded and installed ShortCut proper, except:
+so it can be run from a web browser. You can do most of the same things in it
+that you could if you downloaded ShortCut proper, except:
 
 * Your session will be deleted when you leave this page
-* The server might kill your script without warning if it takes up too much CPU
+* The server might kill your script without warning if it takes too much CPU time
 * Some terminal niceties like tab completion and clearing the screen are missing
 
-### Quick Start
+You can upload your own genomes and gene lists, save and restore scripts,
+and download results using the buttons at the bottom left. *Note: buttons don't work yet*
+
+## Quick Start
 
 OK, so what can you do with it? These examples are explained in more detail
 below, but let's try running them first. Press one of the `Load` buttons to
-fill in the command to load that example. Once it's loaded type `:show` to see
-the variable definitions, then `result` to get the result.
+fill in the command to load that example. Once it's loaded type `:show` to show
+the variable definitions, then `result` to run everything.
 
 {% endfilter %}
 {% with path='examples/quick01.cut' %} {% include "example.html" %} {% endwith %}
@@ -117,38 +121,50 @@ the variable definitions, then `result` to get the result.
 _Note: these mostly use BLAST, but multiple sequence alignments +
 tree building + clustering are in the works too._
 
-### Tutorial
+## Tutorial
 
-Let's start at the beginning.
+Let's start at the beginning...
+
+### `result` and other variables
+
+If you type a plain expression like `4 * 4` without assigning it to a variable,
+the interpreter assigns it to `result` by default.
+So `result` always holds the latest result.
+You can also assign it yourself when the script is done to say what the final result should be.
+
 This is probably the simplest script you could write:
 
 {% endfilter %}
 {% with path='examples/tutorial01.cut' %} {% include "example.html" %} {% endwith %}
 {% filter markdown %}
 
-Every script should have a `result` variable that says what to evaluate when it's run.
-This is pretty common in programming languages, except most call it `main`.
+If you downloaded ShortCut and ran `shortcut --script examples/tutorial01.cut`, it would print
+`"hello world!"`.
 
 You don't have to run the whole script at once though.
-You can also play with it in the interpreter, evaluating different variables individually.
-Here is a script with several variables.
+You'll spend most of your time editing it in the interpreter,
+defining and evaluating individual variables.
+Here is a script with several of them.
 
 {% endfilter %}
 {% with path='examples/tutorial02.cut' %} {% include "example.html" %} {% endwith %}
 {% filter markdown %}
 
-ShortCut keeps track of which variables depend on which other variables, like this:
+ShortCut keeps track of dependencies between variables, like this:
 
-<!-- graphviz here -->
+![]({{ url_for('static',filename='vars.svg') }})
 
-You can evaluate any one of them by typing its name.
-ShortCut will evaluate each of the dependencies first, then print the result.
-It keeps a cache of everything evaluated so far so that only the new parts need to be done each time.
+You can evaluate one of them by typing its name.
+ShortCut will point `result` to that variable if needed,
+evaluate the dependencies (`var1`, `var3`, `var4`),
+then print `result`.
 
-If you type a plain expression like `4 * 4` without assigning it to a variable,
-the interpreter assigns it to `result` before evaluating it.
-So `result` always holds the result that was just printed.
-You can also assign it yourself when the script is done to say what the final result should be.
+So, if you type `result` or `var4` here the graph will stay the same and
+ShortCut will print `-1.485`.  Then if you type `var2`, the graph will change to:
+
+![]({{ url_for('static',filename='var2.svg') }})
+
+... and it will print `"nothing depends on var2 so far"`.
 
 {% endfilter %}
 		</div>
