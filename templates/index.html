@@ -82,13 +82,13 @@
 Phylogenomic cuts are lists of candidate genes whose distribution suggests they
 might be imprortant for a trait of interest.
 
-Cut script is a simple language for making phylogenomic cuts. It aims to be the
-easiest way to conduct searches too complex for the NCBI website, but maybe not
-so complex that you want to get bogged down with all the details of a "real"
-language like Python or R just to do some BLAST searches. It also aims to
-describe searches succinctly and reproducibly, so that some day it might make
-it into your supplemental material. Everyone wins when your work is easy to
-build on!
+Cut script is a simple(ish) language for making phylogenomic cuts. It aims to
+be the easiest way to conduct searches too complex for the NCBI website, but
+not so complex that you want to get bogged down with all the details of a
+"real" language like Python or R just to do some BLAST searches. It also aims
+to describe searches succinctly and reproducibly, so that some day it might
+make it into your supplemental material. Everyone wins when your work is easy
+to build on!
 
 The `shortcut` program is a command-line language interpreter, kind of like
 `python` or `R` but for cut scripts. On your left is a hacky "terminal" I made
@@ -109,17 +109,11 @@ below, but let's try running them first. Press one of the `Load` buttons to
 fill in the command to load that example. Once it's loaded type `:show` to show
 the variable definitions, then `result` to run everything.
 
-{% endfilter %}
 {% with path='examples/quick01.cut' %} {% include "example.html" %} {% endwith %}
-{% filter markdown %}
 
-{% endfilter %}
 {% with path='examples/quick02.cut' %} {% include "example.html" %} {% endwith %}
-{% filter markdown %}
 
-{% endfilter %}
 {% with path='examples/quick03.cut' %} {% include "example.html" %} {% endwith %}
-{% filter markdown %}
 
 _Note: these mostly use BLAST, but multiple sequence alignments +
 tree building + clustering are in the works too._
@@ -159,9 +153,7 @@ ShortCut keeps track of dependencies between variables, like this:
 
 You can evaluate one of them by typing its name.
 ShortCut will point `result` to that variable if needed,
-evaluate the dependencies (`var1`, `var3`, `var4`),
-then print `result`.
-
+evaluate the dependencies, and print `result`.
 So, if you type `result` or `var4` here the graph will stay the same and
 ShortCut will print `-1.485`.  Then if you type `var2`, the graph will change to:
 
