@@ -75,7 +75,7 @@ class ShortcutThread(Thread):
             self.process.stdin.write(line + '\n')
         except IOError:
             if not self._stop.is_set():
-                self.emitLine('Shortcut died. Resetting demo...\n')
+                self.emitLine('Shortcut died. Resetting demo...\n\n')
                 self.spawnRepl()
                 self.process.stdin.write(line + '\n')
 
@@ -85,7 +85,6 @@ class ShortcutThread(Thread):
             try:
                 line = self.process.stdout.readline()
             except:
-                self.emitLine('resetting demo...') # TODO remove?
                 self.process.terminate() # TODO remove? kill instead?
                 break
             if line:
