@@ -109,11 +109,13 @@ the tutorial below, but let's try running them first. Press one of the `Load`
 buttons to fill in the command to load that example. Once it's loaded type
 `:show` to show the variable definitions, then `result` to run everything.
 
+{% endfilter %}
 {% with path='examples/quick01.cut' %} {% include "example.html" %} {% endwith %}
 
 {% with path='examples/quick02.cut' %} {% include "example.html" %} {% endwith %}
 
-{% with path='examples/quick03.cut' %} {% include "example.html" %} {% endwith %}
+{% with path='examples/diatom.cut' %} {% include "example.html" %} {% endwith %}
+{% filter markdown %}
 
 _Note: these mostly use BLAST, but multiple sequence alignments +
 tree building + clustering are in the works too._

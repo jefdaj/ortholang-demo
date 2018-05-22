@@ -1,0 +1,14 @@
+# Please don't run this one yet!
+# It should work, but training 120K pssms will crash the webserver.
+# I'll try running it first on the hpc and caching results, or small it down.
+
+ptr = concat_faa (load_faa_each
+        ["Phatr2_chromosomes_GeneModels_AllModels_20070523_aa.fasta",
+         "Phatr2_bd_unmapped_GeneModels_AllModels_20070514_aa.fasta"])
+    
+tps = concat_faa (load_faa_each
+        ["Thaps3_chromosomes_geneModels_AllModels_20060913_aa.fasta",
+         "Thaps3_bd_unmapped_GeneModels_AllModels_20070514_aa.fasta"])
+
+ptr_pssms = psiblast_train_pssms 1e-5 (split_faa ptr) tps
+result = ptr_pssms

@@ -23,8 +23,6 @@ p {
 }
 code {
 	font-family: monospace;
-	font-style: bold;
-	font-size: 18;
 }
 #replstdin, #replstdout, #serverinfo {
 	font-family: monospace;
