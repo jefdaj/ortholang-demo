@@ -10,5 +10,5 @@ tps = concat_faa (load_faa_each
         ["Thaps3_chromosomes_geneModels_AllModels_20060913_aa.fasta",
          "Thaps3_bd_unmapped_GeneModels_AllModels_20070514_aa.fasta"])
 
-ptr_pssms = psiblast_train_pssms 1e-5 (split_faa ptr) tps
+ptr_pssms = psiblast_train_pssms 1e-10 (split_faa ptr) tps
 result = ptr_pssms

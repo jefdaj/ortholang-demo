@@ -111,9 +111,15 @@ buttons to fill in the command to load that example. Once it's loaded type
 
 {% endfilter %}
 {% with path='examples/quick01.cut' %} {% include "example.html" %} {% endwith %}
+{% filter markdown %}
 
+{% endfilter %}
 {% with path='examples/quick02.cut' %} {% include "example.html" %} {% endwith %}
+{% filter markdown %}
 
+Find reciprocal best PSI-BLAST hits between two (large) diatom genomes:
+
+{% endfilter %}
 {% with path='examples/diatom.cut' %} {% include "example.html" %} {% endwith %}
 {% filter markdown %}
 
@@ -128,6 +134,7 @@ way to learn, and also the fastest way for me to get bug reports. Just type
 them in the box on the lower left. Something short like "I did this and
 expected this, but this happened instead" is fine. If the tutorial is
 confusing, that counts as a bug too!
+
 
 ### `result` and other variables
 
@@ -200,6 +207,130 @@ _Note: actual Venn diagrams coming soon._
 
 <!-- TODO bug: brackets misplaced in :type of & -->
 
+
+### Types and Filetypes
+
+Before loading files and running BLAST, we need to detour and learn a couple
+things about how ShortCut evaluates code. If you skip this, things will be
+confusing later!
+
+The first important thing to know is that ShortCut is a typed language. Types
+are the standard technique for preventing a large and very annoying class of
+bugs where the script crashes partway through because you accidentally swapped
+two variables or misread how some function works.  The idea is that your
+program should fail immediately if it's not going to work, because why waste
+time? (Python is famously bad at this)
+
+To catch errors the interpreter tags each thing (variable or expression) with a
+type: "number", "string", "blast hit table", etc. You can ask ShortCut the type
+of anything with the `:type` command. For example, `:type "my string"` is `str`
+and `:type var4` (from the example above) is `num`.
+
+Each function has a "type signature" that says what types it accepts, and when
+you try to call it with the wrong one the interpreter will stop you. Here are
+the type signatures of a couple functions we've already used:
+
+    * : num num -> num
+    & : <whatever>.list <whatever>.list -> <whatever>.list
+
+The first means that `*` takes two numbers and returns another number.
+
+The second one is my possibly-too-casual notation for "set intersection takes
+two lists of any type and returns another list of the same type". So it works
+with lists of numbers or lists of strings or lists of genomes, but you can't
+accidentally mix them.
+
+You can see the types of all variables in your current script at once by typing
+just `:type`. For the last example, it should look like:
+
+    var1.num = 1.5
+    var2.str = "nothing depends on var2 so far"
+    var3.num = 2.0e-3 * var1
+    var4.num = var3 * 5 - var1
+    result.num = var4
+
+The second important thing to know is that in ShortCut, every piece of code you
+evaluate gets written to its own temporary file. That's the reason for the
+weird dot notation above: variable types are equivalent to file extensions.
+After evaluating `var4` you can look in the temporary directory and find a file
+`vars/var4.num` with `-1.485` written in it. If you create a list of numbers
+you'll get a `.num.list`. You can also make a `.num.list.list` and so on:
+
+<!-- TODO example -->
+
+### Loading Files
+
+OK, so how does that relate to loading sequences and running BLAST?
+When you load a file you need to use the right type of load function.
+Here are the current options:
+
+    load_faa          : str      -> faa
+    load_faa_each     : str.list -> faa.list
+    load_faa_glob     : str      -> faa.list
+    load_fna          : str      -> fna
+    load_fna_each     : str.list -> fna.list
+    load_fna_glob     : str      -> fna.list
+    load_gbk          : str      -> gbk
+    load_gbk_each     : str.list -> gbk.list
+    load_gbk_glob     : str      -> gbk.list
+    load_list         : str      -> str.list
+    load_nucl_db      : str      -> ndb
+    load_nucl_db_each : str.list -> ndb.list
+    load_prot_db      : str      -> pdb
+    load_prot_db_each : str.list -> pdb.list
+
+The basic types they load are:
+
+* `fna` and `faa` for FASTA nucleic acid and amino acid respectively
+* `ndb` and `pdb` for BLAST nucleic acid and protein databases respectively
+* `gbk` for Genbank
+
+The `_each` versions take a list of strings and load a list of files.
+
+<!-- TODO example -->
+
+The `_glob` versions are similar but take a single string with a "glob"
+wildcard pattern describing the files to load.
+For example `load_gbk_glob "data/SynPCC7942*.gbk"`
+would load the two 7942 genbank files in the `data` folder.
+
+I often name my actual files following the same conventions, but you don't have
+to. `.fasta` or `.cds.fa` or whatever a particular sequencing project named it
+is fine as long as you use the right load function.
+
+<!-- TODO example -->
+
+`load_list` loads a list of literal strings,
+so you can input your gene IDs or a list of genomes to search.
+Then wrap it in `load_<whatever>_each` to actually load those files if needed.
+
+<!-- TODO example -->
+
+Here are a bunch of random things loaded properly to play around with:
+
+<!-- TODO example -->
+
+Evaluating them prints out the first few lines for file types where that makes sense,
+or just some kind of summary if not. Lists do the same thing for each element.
+
+
+### Working with Sequences
+
+Once you have some genomes or other FASTA files loaded you can extract a list of sequence IDs:
+
+<!-- TODO example -->
+
+You can also start with a list of sequence IDs and extract just those sequences to a new FASTA:
+
+<!-- TODO example -->
+
+Finally, you can convert between formats and concatenate things:
+
+<!-- TODO example -->
+
+_Note: ShortCut doesn't actually use GenBank for anything yet; all it can do is convert it to FASTA._
+
+
 ### NCBI BLAST+
 
 ShortCut includes the most common command line BLAST tools:
@@ -239,6 +370,7 @@ transporters, you might also try a hybrid strategy:
 1. pick a few random ones with the `sample` function
 2. confirm those work on the NCBI site
 3. do them all in ShortCut
+
 
 ### PRS pattern
 
