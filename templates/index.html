@@ -104,10 +104,10 @@ and download results using the buttons at the bottom left. *Note: buttons don't 
 
 ## Quick Start
 
-OK, so what can you do with it? These examples are explained in more detail
-below, but let's try running them first. Press one of the `Load` buttons to
-fill in the command to load that example. Once it's loaded type `:show` to show
-the variable definitions, then `result` to run everything.
+OK, so what can you do with it? These examples are explained in more detail in
+the tutorial below, but let's try running them first. Press one of the `Load`
+buttons to fill in the command to load that example. Once it's loaded type
+`:show` to show the variable definitions, then `result` to run everything.
 
 {% with path='examples/quick01.cut' %} {% include "example.html" %} {% endwith %}
 
@@ -120,20 +120,19 @@ tree building + clustering are in the works too._
 
 ## Tutorial
 
-Let's start at the beginning...
+The best way to use this tutorial is probably to
+load each example and play around with it a bit as you go. That's the fastest
+way to learn, and also the fastest way for me to get bug reports. Just type
+them in the box on the lower left. Something short like "I did this and
+expected this, but this happened instead" is fine. If the tutorial is
+confusing, that counts as a bug too!
 
 ### `result` and other variables
 
-If you type a plain expression like `4 * 4` without assigning it to a variable,
-the interpreter assigns it to `result` by default.
-So `result` always holds the latest result.
-You can also assign it yourself when the script is done to say what the final result should be.
-
+Let's start at the beginning.
 This is probably the simplest script you could write:
 
-{% endfilter %}
 {% with path='examples/variables01.cut' %} {% include "example.html" %} {% endwith %}
-{% filter markdown %}
 
 If you downloaded ShortCut and ran `shortcut --script examples/variables01.cut`, it would print
 `"hello world!"`.
@@ -150,17 +149,54 @@ ShortCut keeps track of dependencies between variables, like this:
 ![]({{ url_for('static',filename='vars.svg') }})
 
 You can evaluate one of them by typing its name.
-ShortCut will point `result` to that variable if needed,
-evaluate the dependencies, and print `result`.
+Anything it depends on will also get evaluated.
+You can find what a given variable depends on with the `:depends` command,
+and what depends on it with `:rdepends` ("reverse dependencies").
+
+`result` always holds the latest result.
+If you type a plain expression like `4 * 4` without assigning it to a variable,
+that becomes the new `result`.
+You can also assign it yourself when the script is done to say what the final result should be.
+
 So, if you type `result` or `var4` here the graph will stay the same and
-ShortCut will print `-1.485`.  Then if you type `var2`, the graph will change to:
+ShortCut will print `-1.485`. Then if you type `var2`, the graph will change to:
 
 ![]({{ url_for('static',filename='var2.svg') }})
 
 ... and it will print `"nothing depends on var2 so far"`.
 
-You can find what a given variable depends on with `:depends`,
-and what depends on it with `:rdepends` ("reverse dependencies").
+### Math
+
+Math is pretty simple. It works like you would expect, except that everything
+is left-to-right rather than following order of operations. _Note: that could
+be added easily if people prefer it._
+
+A few examples:
+
+{% with path='examples/math01.cut' %} {% include "example.html" %} {% endwith %}
+
+You can enter numbers in decimal or scientific notation. There's only one type
+of number instead of the several different ones like doubles and floats you
+would find in a typical language. Parentheses also work the regular "mathy" way
+to group things together; you'll see a little further down that function
+application doesn't use them.
+
+Notice that ShortCut might remove your parentheses automatically,
+but only where it doesn't change the meaning.
+<!-- TODO bug: it actually does seem to matter here. Put PEMDAS back? -->
+
+### Sets
+
+Besides regular math, you might want to do set operations. They also apply left
+to right and can be grouped with parentheses. They're very useful for comparing
+sets of genes and genomes. With these 3 you can describe the equivalent of any
+Venn diagram:
+
+_Note: actual Venn diagrams coming soon._
+
+### Types
+
+<!-- TODO bug: brackets misplaced in :type of & -->
 
 ### NCBI BLAST+
 
@@ -176,15 +212,17 @@ ShortCut includes the most common command line BLAST tools:
 
 _Note: Just ask if you want one of the more exotic ones added, like `rps-blast` or `delta-blast`._
 
-### Psiblast
+_Note: `:help` for individual functions coming soon._
 
-When making a cut you'll often want to do a broad search for distant homologs,
-and PSI-BLAST (position-specific iterated blast) is usually the best one for
-that. You do have to be a little careful though, because it's possible for the
-search to be "poisoned": if the first BLASTP iteration picks up unrelated
-proteins, and they have more homologs in the database than your actual protein
-of interest does, it will train itself to pick up more and more of the wrong
-ones.
+### PSI-BLAST
+
+When making a cut you'll often want to do a sensitive search for distant
+homologs, and PSI-BLAST (position-specific iterated blast) is usually the best
+one for that. You do have to be a little careful though, because it's possible
+for the search to be "poisoned": if the first BLASTP iteration picks up
+unrelated proteins, and they have more hits in the database than your actual
+protein of interest does, it will train itself to pick up more and more of the
+wrong ones.
 
 So if you only have one or a few genes to search for the best strategy is to
 look through the results of each iteration on the NCBI site to make sure they
@@ -192,6 +230,13 @@ seem reasonable. Obviously that's not very high-throughput though. ShortCut
 can't assess whether the results make sense, but you can use it to tune the
 search settings to pick up known positive control genes while excluding as many
 others as possible. That's the topic of the next section.
+
+If you have a large number of similar genes, like a bunch of membrane
+transporters, you might also try a hybrid strategy:
+
+1. pick a few random ones with the `sample` function
+2. confirm those work on the NCBI site
+3. do them all in ShortCut
 
 ### PRS pattern
 
