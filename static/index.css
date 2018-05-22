@@ -1,5 +1,5 @@
 p {
-	font-size: 16;
+	font-size: 14;
 }
 #content, html, body {
 	height: 98%;
@@ -23,6 +23,8 @@ p {
 }
 code {
 	font-family: monospace;
+	color: #007f12;
+	font-size: 14;
 }
 #replstdin, #replstdout, #serverinfo {
 	font-family: monospace;

@@ -136,7 +136,7 @@ expected this, but this happened instead" is fine. If the tutorial is
 confusing, that counts as a bug too!
 
 
-### `result` and other variables
+### Result and Other Variables
 
 Let's start at the beginning.
 This is probably the simplest script you could write:
@@ -258,7 +258,7 @@ you'll get a `.num.list`. You can also make a `.num.list.list` and so on:
 
 <!-- TODO example -->
 
-### Loading Files
+### Loading and Working with Sequence Files
 
 OK, so how does that relate to loading sequences and running BLAST?
 When you load a file you need to use the right type of load function.
@@ -285,36 +285,54 @@ The basic types they load are:
 * `ndb` and `pdb` for BLAST nucleic acid and protein databases respectively
 * `gbk` for Genbank
 
-The `_each` versions take a list of strings and load a list of files.
-
-<!-- TODO example -->
-
-The `_glob` versions are similar but take a single string with a "glob"
-wildcard pattern describing the files to load.
-For example `load_gbk_glob "data/SynPCC7942*.gbk"`
-would load the two 7942 genbank files in the `data` folder.
-
-I often name my actual files following the same conventions, but you don't have
-to. `.fasta` or `.cds.fa` or whatever a particular sequencing project named it
+I often name my actual files with these extensions, but you don't have to.
+`.fasta` or `.genes.masked.fa` or whatever a particular sequencing project named it
 is fine as long as you use the right load function.
 
-<!-- TODO example -->
+The `_each` versions take a list of strings and load a list of files.
+There are also `concat_` functions for types that can be concatenated,
+which is helpful if a genome is distributed as multiple files.
+
+{% endfilter %}
+{% with path='examples/load01.cut' %} {% include "example.html" %} {% endwith %}
+{% filter markdown %}
+
+As you can see if you try it out, evaluating those functions prints the first few lines.
+Lists do the same thing for each element.
+For some types like BLAST databases that wouldn't work,
+so you get a summary instead (see next section).
+
+If you look at the `:type` of that script, hopefully the notation will start to seem reasonable!
+
+Another thing to notice is that function application doesn't use parentheses;
+it happens automatically when you put things next to each other and parentheses are
+only needed for grouping when that would be unclear.
+They can be omitted if something else breaks up the function calls,
+like they're inside a list or on different lines.
+
+The `_glob` versions are similar to the `_each` ones but take a single string with a "glob"
+wildcard pattern describing the files to load.
+These two do the same thing:
+
+{% endfilter %}
+{% with path='examples/load02.cut' %} {% include "example.html" %} {% endwith %}
+{% filter markdown %}
+
+The first one should generally be preferred for clarity though,
+unless you mean to load a list of files that might change.
 
 `load_list` loads a list of literal strings,
 so you can input your gene IDs or a list of genomes to search.
-Then wrap it in `load_<whatever>_each` to actually load those files if needed.
+Then wrap it in `load_<whatever>_each` to actually load those files if needed:
 
-<!-- TODO example -->
+{% endfilter %}
+{% with path='examples/load03.cut' %} {% include "example.html" %} {% endwith %}
+{% filter markdown %}
+
 
 Here are a bunch of random things loaded properly to play around with:
 
 <!-- TODO example -->
-
-Evaluating them prints out the first few lines for file types where that makes sense,
-or just some kind of summary if not. Lists do the same thing for each element.
-
-
-### Working with Sequences
 
 Once you have some genomes or other FASTA files loaded you can extract a list of sequence IDs:
 
@@ -327,9 +345,6 @@ You can also start with a list of sequence IDs and extract just those sequences 
 Finally, you can convert between formats and concatenate things:
 
 <!-- TODO example -->
-
-_Note: ShortCut doesn't actually use GenBank for anything yet; all it can do is convert it to FASTA._
-
 
 ### NCBI BLAST+
 

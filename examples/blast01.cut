@@ -1,0 +1,5 @@
+# list available BLAST databases with "human" in their names
+blastdblist "human"
+
+# download the SwissProt database
+sp = blastdbget "swissprot"
