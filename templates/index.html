@@ -201,14 +201,14 @@ to right and can be grouped with parentheses. They're very useful for comparing
 sets of genes and genomes. With these 3 you can describe the equivalent of any
 Venn diagram:
 
+<img src="https://github.com/jefdaj/ShortCut/raw/master/poster/venn-sets.png" width="300">
+
 _Note: actual Venn diagrams coming soon._
-
-### Types
-
-<!-- TODO bug: brackets misplaced in :type of & -->
 
 
 ### Types and Filetypes
+
+<!-- TODO bug: brackets misplaced in :type of & -->
 
 Before loading files and running BLAST, we need to detour and learn a couple
 things about how ShortCut evaluates code. If you skip this, things will be
@@ -361,6 +361,13 @@ ShortCut includes the most common command line BLAST tools:
 _Note: Just ask if you want one of the more exotic ones added, like `rps-blast` or `delta-blast`._
 
 _Note: `:help` for individual functions coming soon._
+
+You can also download the standard NCBI databases. Try this:
+
+{% endfilter %}
+{% with path='examples/blast01.cut' %} {% include "example.html" %} {% endwith %}
+{% filter markdown %}
+
 
 ### PSI-BLAST
 

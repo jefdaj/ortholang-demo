@@ -1,5 +1,7 @@
 # list available BLAST databases with "human" in their names
-blastdblist "human"
+human_dbs = blastdblist "human"
 
 # download the SwissProt database
-sp = blastdbget "swissprot"
+swissprot = blastdbget "swissprot"
+
+result = human_dbs
