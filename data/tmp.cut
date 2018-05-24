@@ -1,0 +1,37 @@
+pcc7942 = concat_faa [gbk_to_faa (load_gbk "SynPCC7942_chr.gbk"),
+                      gbk_to_faa (load_gbk "SynPCC7942_pANL.gbk")]
+pcc6803 = load_faa "ncbi_Synechocystis-PCC-6803-uid57659_NC_000911.faa"
+mit9303 = load_faa "ncbi_Prochlorococcus-marinus-MIT-9303-uid58305_NC_008820.faa"
+cyanobacteria = [pcc7942, pcc6803, mit9303]
+other_bacteria = load_faa_each ["Pseudomonas_aeruginosa_PAO1_107.faa"]
+ptr = concat_faa (load_faa_each ["Phatr2_chromosomes_GeneModels_AllModels_20070523_aa.fasta",
+                                 "Phatr2_bd_unmapped_GeneModels_AllModels_20070514_aa.fasta"])
+tps = concat_faa (load_faa_each ["Thaps3_chromosomes_geneModels_AllModels_20060913_aa.fasta",
+                                 "Thaps3_bd_unmapped_GeneModels_AllModels_20070514_aa.fasta"])
+diatoms = [ptr, tps]
+oomycetes = load_faa_each ["ramorum1.proteins.fasta",
+                           "Physo3_all_proteins_20110401.aa.fasta"]
+chlamy = load_faa "Creinhardtii_281_v5.5.protein.fa"
+chlorophyta = [chlamy] |
+              load_faa_each ["2507525004.genes.faa",
+                             "Ost9901_3_GeneModels_AllModels_20111212_aa.fasta",
+                             "OstreococcusRCC809v2.allModels.proteins.fasta"]
+streptophyta = [translate (load_fna "Araport11_genes.201606.cds.fasta"),
+                load_faa "Ppatens_318_v3.3.protein.fa"]
+rhodophyta = load_faa_each ["Cyanidioschyzon_merolae_cds.fasta"]
+unikonts = [translate (load_fna "Dictyostelium_discoideum.dicty_2.7.cds.all.fa"),
+            load_faa "GRCh38_latest_protein.faa"]
+heterokonts = diatoms | oomycetes
+bacteria = cyanobacteria | other_bacteria
+viridiplantae = chlorophyta | streptophyta
+plantae = viridiplantae | rhodophyta
+eukaryotes = plantae | heterokonts | unikonts
+greens = plantae | cyanobacteria | diatoms
+others = unikonts | oomycetes | other_bacteria
+queries = split_faa pcc7942
+train_cutoff = 1.0e-5
+big_db = makeblastdb_prot_all (greens | others)
+green_db = makeblastdb_prot_all greens
+pssms = psiblast_train_pssms_db train_cutoff queries green_db
+search_cutoff = 1.0e-5
+result = pssms

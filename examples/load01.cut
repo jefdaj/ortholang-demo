@@ -1,8 +1,0 @@
-# load two transcriptomes individually
-pcc6803 = load_fna "data/6803genes.fna"
-pcc7942 = load_fna "data/7942genes.fna"
-
-# load both at once
-both = load_fna_glob "data/*genes.fna"
-
-result = both

@@ -36,6 +36,7 @@ class ShortcutThread(Thread):
         self.delay = 0.01
         self.sessionid = sessionid
         self.tmpdir = join(realpath('tmpdirs'), sessionid)
+        self.datadir = realpath('data')
         self._stop = Event()
         self.spawnRepl()
         super(ShortcutThread, self).__init__()
@@ -64,7 +65,7 @@ class ShortcutThread(Thread):
 
     def spawnRepl(self):
         log('spawning repl with shortcut-session-id %s' % self.sessionid)
-        cmd = ['shortcut', '--interactive', '--tmpdir', self.tmpdir]
+        cmd = ['shortcut', '--interactive', '--tmpdir', self.tmpdir, '--workdir', self.datadir]
         self.process = Popen(cmd, stdin=PIPE, stdout=PIPE, stderr=STDOUT, bufsize=1)
 
     def emitLine(self, line):
@@ -134,7 +135,7 @@ server_info.start()
 
 # used to render the code examples
 examples = {}
-for path in glob('examples/*.cut'):
+for path in glob('data/*.cut'):
     with open(path, 'r') as f:
         txt = f.read()
     examples[path] = {'id': path.replace('/', '_'), 'content': txt}

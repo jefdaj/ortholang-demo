@@ -110,17 +110,17 @@ buttons to fill in the command to load that example. Once it's loaded type
 `:show` to show the variable definitions, then `result` to run everything.
 
 {% endfilter %}
-{% with path='examples/quick01.cut' %} {% include "example.html" %} {% endwith %}
+{% with path='quick01.cut' %} {% include "example.html" %} {% endwith %}
 {% filter markdown %}
 
 {% endfilter %}
-{% with path='examples/quick02.cut' %} {% include "example.html" %} {% endwith %}
+{% with path='quick02.cut' %} {% include "example.html" %} {% endwith %}
 {% filter markdown %}
 
 Find reciprocal best PSI-BLAST hits between two (large) diatom genomes:
 
 {% endfilter %}
-{% with path='examples/diatom.cut' %} {% include "example.html" %} {% endwith %}
+{% with path='diatom.cut' %} {% include "example.html" %} {% endwith %}
 {% filter markdown %}
 
 _Note: these mostly use BLAST, but multiple sequence alignments +
@@ -141,9 +141,9 @@ confusing, that counts as a bug too!
 Let's start at the beginning.
 This is probably the simplest script you could write:
 
-{% with path='examples/variables01.cut' %} {% include "example.html" %} {% endwith %}
+{% with path='variables01.cut' %} {% include "example.html" %} {% endwith %}
 
-If you downloaded ShortCut and ran `shortcut --script examples/variables01.cut`, it would print
+If you downloaded ShortCut and ran `shortcut --script variables01.cut`, it would print
 `"hello world!"`.
 
 You don't have to run a whole script at once though.
@@ -151,7 +151,7 @@ You'll spend most of your time editing it in the interpreter,
 defining and evaluating individual variables.
 Here is a script with several of them.
 
-{% with path='examples/variables02.cut' %} {% include "example.html" %} {% endwith %}
+{% with path='variables02.cut' %} {% include "example.html" %} {% endwith %}
 
 ShortCut keeps track of dependencies between variables, like this:
 
@@ -182,7 +182,7 @@ be added easily if people prefer it._
 
 A few examples:
 
-{% with path='examples/math01.cut' %} {% include "example.html" %} {% endwith %}
+{% with path='math01.cut' %} {% include "example.html" %} {% endwith %}
 
 You can enter numbers in decimal or scientific notation. There's only one type
 of number instead of the several different ones like doubles and floats you
@@ -251,12 +251,20 @@ just `:type`. For the last example, it should look like:
 
 The second important thing to know is that in ShortCut, every piece of code you
 evaluate gets written to its own temporary file. That's the reason for the
-weird dot notation above: variable types are equivalent to file extensions.
+weird dot notation above: types are equivalent to file extensions.
 After evaluating `var4` you can look in the temporary directory and find a file
 `vars/var4.num` with `-1.485` written in it. If you create a list of numbers
-you'll get a `.num.list`. You can also make a `.num.list.list` and so on:
+you'll get a `.num.list`. You can also make a `.num.list.list` and so on.
+Look at the `:type`s of these:
 
-<!-- TODO example -->
+{% with path='types01.cut' %} {% include "example.html" %} {% endwith %}
+
+This might seem like overkill at first, but becomes important for large-scale
+bookkeeping. Imagine you have a few hundred thousand cryptically named
+tempfiles. Your script chews through them in various ways and finally returns
+an empty list (`[]`). You want to be confident that there really are no hits,
+instead of going back and poring over every command to make sure two files
+didn't get mixed up somewhere! This happened to me probably 10 or 15 times before I added the type system.
 
 ### Loading and Working with Sequence Files
 
@@ -294,7 +302,7 @@ There are also `concat_` functions for types that can be concatenated,
 which is helpful if a genome is distributed as multiple files.
 
 {% endfilter %}
-{% with path='examples/load01.cut' %} {% include "example.html" %} {% endwith %}
+{% with path='load01.cut' %} {% include "example.html" %} {% endwith %}
 {% filter markdown %}
 
 As you can see if you try it out, evaluating those functions prints the first few lines.
@@ -315,7 +323,7 @@ wildcard pattern describing the files to load.
 These two do the same thing:
 
 {% endfilter %}
-{% with path='examples/load02.cut' %} {% include "example.html" %} {% endwith %}
+{% with path='load02.cut' %} {% include "example.html" %} {% endwith %}
 {% filter markdown %}
 
 The first one should generally be preferred for clarity though,
@@ -326,7 +334,7 @@ so you can input your gene IDs or a list of genomes to search.
 Then wrap it in `load_<whatever>_each` to actually load those files if needed:
 
 {% endfilter %}
-{% with path='examples/load03.cut' %} {% include "example.html" %} {% endwith %}
+{% with path='load03.cut' %} {% include "example.html" %} {% endwith %}
 {% filter markdown %}
 
 
@@ -365,7 +373,7 @@ _Note: `:help` for individual functions coming soon._
 You can also download the standard NCBI databases. Try this:
 
 {% endfilter %}
-{% with path='examples/blast01.cut' %} {% include "example.html" %} {% endwith %}
+{% with path='blast01.cut' %} {% include "example.html" %} {% endwith %}
 {% filter markdown %}
 
 The SwissProt DB will take a minute or two to download,
@@ -404,6 +412,19 @@ transporters, you might also try a hybrid strategy:
 
 
 ### PRS pattern
+
+# GreenCut
+
+Now you know everything you need to make an actual, useful cut.
+Like, the kind you could publish!
+
+{% endfilter %}
+{% with path='green.cut' %} {% include "example.html" %} {% endwith %}
+{% filter markdown %}
+
+{% endfilter %}
+{% with path='green-ids.cut' %} {% include "example.html" %} {% endwith %}
+{% filter markdown %}
 
 ## TODO
 
@@ -452,6 +473,9 @@ Tutorial:
     - if possible, compare a couple different training cutoffs
     - show variables when explaining types + extensions
 
+* Add example of getting homolog IDs that I just used for greencut
+* Actually make a section at the end for the current greencut
+* Add example from Dhruv?
 * Add a PSIICut if you can get it working! Probably not though
 * Add johancut if you can get it working! maybe just with a smaller number of genes
 * Add table of psiblast types from code to a reference eventually

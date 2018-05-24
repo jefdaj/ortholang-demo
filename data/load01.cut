@@ -1,0 +1,8 @@
+# load two transcriptomes individually
+pcc6803 = load_fna "6803genes.fna"
+pcc7942 = load_fna "7942genes.fna"
+
+# load both at once
+both = load_fna_glob "*genes.fna"
+
+result = both
