@@ -9,7 +9,7 @@ from flaskext.markdown import Markdown
 from glob              import glob
 from os.path           import join, realpath
 from psutil            import cpu_percent, virtual_memory
-from re                import sub
+from re                import sub, DOTALL
 from shutil            import rmtree
 from subprocess        import Popen, PIPE, STDOUT
 from threading         import Thread, Event
@@ -35,7 +35,7 @@ class ShortcutThread(Thread):
         log('creating new ShortcutThread with shortcut-session-id %s' % sessionid)
         self.delay = 0.01
         self.sessionid = sessionid
-        self.tmpdir = join(realpath('tmpdirs'), sessionid)
+        self.tmpdir = join(realpath('static/tmpdirs'), sessionid)
         self.datadir = realpath('data')
         self._stop = Event()
         self.spawnRepl()
@@ -69,6 +69,9 @@ class ShortcutThread(Thread):
         self.process = Popen(cmd, stdin=PIPE, stdout=PIPE, stderr=STDOUT, bufsize=1)
 
     def emitLine(self, line):
+        # hacky way to show images in the repl
+        line = sub(".*plot image '(.*?)'.*", r' <img src="\1" style="max-width: 400px;"></img> ', line, flags=DOTALL)
+        line = sub('/tmp/tmpdirs', 'static/tmpdirs', line)
         socketio.emit('replstdout', line, namespace='/', room=self.sessionid)
 
     def readLine(self, line):

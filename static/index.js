@@ -34,7 +34,15 @@ $(document).ready(function(){
 	// TODO don't add the >> unless it was a line of input (don't send those from server at all?)
 	socket.on('replstdout', function(msg) {
 		var ro = document.getElementById('replstdout');
-		var content = document.createTextNode(msg);
+		if(msg.indexOf('<img') != -1){
+			// hack to display images in the repl
+			var template = document.createElement('template');
+			msg = msg.trim()
+			template.innerHTML = msg;
+			var content = template.content.firstChild;
+		} else {
+			var content = document.createTextNode(msg);
+		}
 		ro.appendChild(content);
 		$('#replstdout').scrollTop(100000);
 	});
