@@ -2,30 +2,46 @@
 
 # TODO thank that guy for the random numbers example that fixed the bug
 
-from datetime          import datetime
-from flask             import Flask, render_template, request, make_response
-from flask_socketio    import SocketIO, emit
-from flaskext.markdown import Markdown
-from flask_twisted     import Twisted
-from glob              import glob
-from os.path           import join, realpath
-from psutil            import cpu_percent, virtual_memory
-from re                import sub, DOTALL
-from shutil            import rmtree
-from subprocess        import Popen, PIPE, STDOUT
-from threading         import Thread, Event
-from time              import sleep
-from uuid              import uuid4
+import logging
 
-#############
-# utilities #
-#############
+from datetime           import datetime
+from flask              import Flask, render_template, request, make_response
+from flask_socketio     import SocketIO, emit
+from flask_twisted      import Twisted
+from flaskext.markdown  import Markdown
+from glob               import glob
+from os.path            import join, realpath
+from psutil             import cpu_percent, virtual_memory
+from re                 import sub, DOTALL
+from shutil             import rmtree
+from subprocess         import Popen, PIPE, STDOUT
+from threading          import Thread, Event
+from time               import sleep
+from twisted.internet   import reactor
+from twisted.web.server import Site
+from twisted.web.wsgi   import WSGIResource
+from uuid               import uuid4
+
+
+###########
+# logging #
+###########
+
+# see https://www.blog.pythonlibrary.org/2012/08/02/python-101-an-intro-to-logging/
+# all modules will use this
+fh = logging.FileHandler('shortcut_demo.log')
+fh.setFormatter(logging.Formatter('%(asctime)s %(name)s %(levelname)s %(message)s'))
+
+# set up logging for this module
+# note: socketio + engineio loggers are messed with later
+log = logging.getLogger('shortcut_demo')
+log.setLevel(logging.INFO)
+log.addHandler(fh)
+log.info('starting shortcut_demo.py')
 
 def timestamp():
     return datetime.today().strftime('%Y-%m-%d_%H:%M:%S')
 
-def log(msg):
-    print '[%s] %s' % (timestamp(), msg)
 
 ####################
 # shortcut threads #
@@ -33,7 +49,7 @@ def log(msg):
 
 class ShortcutThread(Thread):
     def __init__(self, sessionid):
-        log('creating new ShortcutThread with shortcut-session-id %s' % sessionid)
+        log.info('creating new ShortcutThread with shortcut-session-id %s' % sessionid)
         self.delay = 0.01
         self.sessionid = sessionid
         self.tmpdir = join(realpath('static/tmpdirs'), sessionid)
@@ -65,7 +81,7 @@ class ShortcutThread(Thread):
             rmtree(self.tmpdir, ignore_errors=True)
 
     def spawnRepl(self):
-        log('spawning repl with shortcut-session-id %s' % self.sessionid)
+        log.info('spawning repl with shortcut-session-id %s' % self.sessionid)
         cmd = ['shortcut', '--interactive', '--tmpdir', self.tmpdir, '--workdir', self.datadir]
         self.process = Popen(cmd, stdin=PIPE, stdout=PIPE, stderr=STDOUT, bufsize=1)
 
@@ -99,15 +115,25 @@ class ShortcutThread(Thread):
 
 shortcut_threads = {}
 
+
 #############
 # webserver #
 #############
 
+# TODO any way (or reason) to not run this when importing the module?
 app = Flask(__name__)
 Twisted(app)
 Markdown(app)
 app.config['SECRET_KEY'] = 'so-secret!'
 socketio = SocketIO(app, manage_session=False, logger=True, engineio_logger=True)
+
+# swap other modules' log handlers for mine
+logging.getLogger().handlers = []
+logging.getLogger().addHandler(fh)
+logging.getLogger('socketio').handlers = []
+logging.getLogger('socketio').addHandler(fh)
+logging.getLogger('engineio').handlers = []
+logging.getLogger('engineio').addHandler(fh)
 
 class ServerInfoThread(Thread):
     def __init__(self):
@@ -117,7 +143,7 @@ class ServerInfoThread(Thread):
         self.daemon = True
 
     def run(self):
-        log('starting ServerInfoThread')
+        log.info('starting ServerInfoThread')
         while True:
             self.emitInfo()
             sleep(self.delay)
@@ -126,7 +152,7 @@ class ServerInfoThread(Thread):
         cpu = round(cpu_percent())
         mem = round(virtual_memory().percent)
         nfo = {'users': self.users, 'cpu': cpu, 'memory': mem}
-        log('emitting serverinfo: %s' % nfo)
+        log.info('emitting serverinfo: %s' % nfo)
         socketio.emit('serverinfo', nfo, namespace='/')
 
     def userConnected(self):
@@ -152,7 +178,7 @@ def index():
 @socketio.on('connect')
 def handle_connect():
     sid = request.sid
-    print('client %s connected' % sid)
+    log.info('client %s connected' % sid)
     global shortcut_threads
     if not sid in shortcut_threads:
         shortcut_threads[sid] = ShortcutThread(sid)
@@ -164,7 +190,7 @@ def handle_connect():
 
 @socketio.on('disconnect')
 def handle_disconnect():
-    log('client %s disconnected' % request.sid)
+    log.info('client %s disconnected' % request.sid)
     shortcut_threads[request.sid].kill() # TODO any point to waiting a while first?
     global server_info
     server_info.userDisconnected()
@@ -176,36 +202,25 @@ def handle_replstdin(line):
 @socketio.on('comment')
 def handle_comment(comment):
     sid = request.sid
-    log("client %s submitted a comment: '%s'" % (sid, comment))
+    log.info("client %s submitted a comment: '%s'" % (sid, comment))
     filename = join('comments', '%s_%s.txt' % (timestamp(), sid))
     with open(filename, 'w') as f:
         f.write(comment.encode('utf-8'))
 
-# if __name__ == '__main__':
-#     # socketio.run(app, debug=True)
-#     # this appears to work with twisted + socketio, since we don't want actual websockets:
-#     app.run()
-
-# from https://gist.github.com/ianschenck/977379a91154fe264897
-if __name__ == "__main__":
+def run_twisted_wsgi(app):
+    # based on https://gist.github.com/ianschenck/977379a91154fe264897
+    # TODO can this be run interactively or is it a once-only thing?
     reactor_args = {}
+    resource = WSGIResource(reactor, reactor.getThreadPool(), app)
+    site = Site(resource)
+    reactor.listenTCP(5000, site)
+    reactor.run(**reactor_args)
+    if app.debug:
+        # Disable twisted signal handlers in development only.
+        reactor_args['installSignalHandlers'] = 0
+        # Turn on auto reload.
+        import werkzeug.serving
+        run_twisted_wsgi = werkzeug.serving.run_with_reloader(run_twisted_wsgi)
 
-    def run_twisted_wsgi():
-        from twisted.internet import reactor
-        from twisted.web.server import Site
-        from twisted.web.wsgi import WSGIResource
-
-        resource = WSGIResource(reactor, reactor.getThreadPool(), app)
-        site = Site(resource)
-        reactor.listenTCP(5000, site)
-        reactor.run(**reactor_args)
-
-        if app.debug:
-            # Disable twisted signal handlers in development only.
-            reactor_args['installSignalHandlers'] = 0
-            # Turn on auto reload.
-            import werkzeug.serving
-            run_twisted_wsgi = werkzeug.serving.run_with_reloader(run_twisted_wsgi)
-    
-    run_twisted_wsgi()
-
+if __name__ == "__main__":
+    run_twisted_wsgi(app)
