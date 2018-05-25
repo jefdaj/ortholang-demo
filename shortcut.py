@@ -6,6 +6,7 @@ from datetime          import datetime
 from flask             import Flask, render_template, request, make_response
 from flask_socketio    import SocketIO, emit
 from flaskext.markdown import Markdown
+from flask_twisted     import Twisted
 from glob              import glob
 from os.path           import join, realpath
 from psutil            import cpu_percent, virtual_memory
@@ -103,6 +104,7 @@ shortcut_threads = {}
 #############
 
 app = Flask(__name__)
+Twisted(app)
 Markdown(app)
 app.config['SECRET_KEY'] = 'so-secret!'
 socketio = SocketIO(app, manage_session=False, logger=True, engineio_logger=True)
@@ -180,4 +182,6 @@ def handle_comment(comment):
         f.write(comment.encode('utf-8'))
 
 if __name__ == '__main__':
-    socketio.run(app, debug=True)
+    # socketio.run(app, debug=True)
+    # this appears to work with twisted + socketio, since we don't want actual websockets:
+    app.run()

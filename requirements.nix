@@ -75,6 +75,25 @@ let
 
   generated = self: {
 
+    "Automat" = python.mkDerivation {
+      name = "Automat-0.6.0";
+      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/de/05/b8e453085cf8a7f27bb1226596f4ccf5cc9e758377d60284f990bbdc592c/Automat-0.6.0.tar.gz"; sha256 = "3c1fd04ecf08ac87b4dd3feae409542e9bf7827257097b2b6ed5692f69d6f6a8"; };
+      doCheck = commonDoCheck;
+      buildInputs = commonBuildInputs;
+      propagatedBuildInputs = [
+      # self."Twisted"
+      self."attrs"
+      self."six"
+    ];
+      meta = with pkgs.stdenv.lib; {
+        homepage = "https://github.com/glyph/Automat";
+        license = licenses.mit;
+        description = "Self-service finite-state machines for the programmer on the go.";
+      };
+    };
+
+
+
     "Flask" = python.mkDerivation {
       name = "Flask-1.0.2";
       src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/4b/12/c1fbf4971fda0e4de05565694c9f0c92646223cff53f15b6eb248a310a62/Flask-1.0.2.tar.gz"; sha256 = "2271c0070dbcb5275fad4a82e29f23ab92682dc45f9dfbc22c02ba9b9322ce48"; };
@@ -130,6 +149,25 @@ let
 
 
 
+    "Flask-Twisted" = python.mkDerivation {
+      name = "Flask-Twisted-0.1.2";
+      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/dd/b1/28ff09ffe40631c80e74890038755dfc9481c13fc48856671cb8a5521eab/Flask-Twisted-0.1.2.tar.gz"; sha256 = "a8d0fa513374d630e0a4cda50a67cb4b329051bf8b228c43844f8aceb457d917"; };
+      doCheck = commonDoCheck;
+      buildInputs = commonBuildInputs;
+      propagatedBuildInputs = [
+      self."Flask"
+      self."Twisted"
+      self."observable"
+    ];
+      meta = with pkgs.stdenv.lib; {
+        homepage = "http://github.com/cravler/flask-twisted/";
+        license = licenses.mit;
+        description = "Simple integration of Flask and Twisted";
+      };
+    };
+
+
+
     "Jinja2" = python.mkDerivation {
       name = "Jinja2-2.10";
       src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/56/e6/332789f295cf22308386cf5bbd1f4e00ed11484299c5d7383378cf48ba47/Jinja2-2.10.tar.gz"; sha256 = "f84be1bb0040caca4cea721fcbbbbd61f9be9464ca236387158b0feea01914a4"; };
@@ -177,6 +215,28 @@ let
 
 
 
+    "Twisted" = python.mkDerivation {
+      name = "Twisted-18.4.0";
+      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/12/2a/e9e4fb2e6b2f7a75577e0614926819a472934b0b85f205ba5d5d2add54d0/Twisted-18.4.0.tar.bz2"; sha256 = "a4cc164a781859c74de47f17f0e85f4bce8a3321a9d0892c015c8f80c4158ad9"; };
+      doCheck = commonDoCheck;
+      buildInputs = commonBuildInputs;
+      propagatedBuildInputs = [
+      self."Automat"
+      self."constantly"
+      self."hyperlink"
+      self."idna"
+      self."incremental"
+      self."zope.interface"
+    ];
+      meta = with pkgs.stdenv.lib; {
+        homepage = "http://twistedmatrix.com/";
+        license = licenses.mit;
+        description = "An asynchronous networking framework written in Python";
+      };
+    };
+
+
+
     "Werkzeug" = python.mkDerivation {
       name = "Werkzeug-0.14.1";
       src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/9f/08/a3bb1c045ec602dc680906fc0261c267bed6b3bb4609430aff92c3888ec8/Werkzeug-0.14.1.tar.gz"; sha256 = "c3fd7a7d41976d9f44db327260e263132466836cef6f91512889ed60ad26557c"; };
@@ -187,6 +247,24 @@ let
         homepage = "https://www.palletsprojects.org/p/werkzeug/";
         license = licenses.bsdOriginal;
         description = "The comprehensive WSGI web application library.";
+      };
+    };
+
+
+
+    "attrs" = python.mkDerivation {
+      name = "attrs-18.1.0";
+      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/e4/ac/a04671e118b57bee87dabca1e0f2d3bda816b7a551036012d0ca24190e71/attrs-18.1.0.tar.gz"; sha256 = "e0d0eb91441a3b53dab4d9b743eafc1ac44476296a2053b6ca3af0b139faf87b"; };
+      doCheck = commonDoCheck;
+      buildInputs = commonBuildInputs;
+      propagatedBuildInputs = [
+      self."six"
+      self."zope.interface"
+    ];
+      meta = with pkgs.stdenv.lib; {
+        homepage = "http://www.attrs.org/";
+        license = licenses.mit;
+        description = "Classes Without Boilerplate";
       };
     };
 
@@ -207,6 +285,71 @@ let
 
 
 
+    "constantly" = python.mkDerivation {
+      name = "constantly-15.1.0";
+      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/95/f1/207a0a478c4bb34b1b49d5915e2db574cadc415c9ac3a7ef17e29b2e8951/constantly-15.1.0.tar.gz"; sha256 = "586372eb92059873e29eba4f9dec8381541b4d3834660707faf8ba59146dfc35"; };
+      doCheck = commonDoCheck;
+      buildInputs = commonBuildInputs;
+      propagatedBuildInputs = [ ];
+      meta = with pkgs.stdenv.lib; {
+        homepage = "https://github.com/twisted/constantly";
+        license = licenses.mit;
+        description = "Symbolic constants in Python";
+      };
+    };
+
+
+
+    "hyperlink" = python.mkDerivation {
+      name = "hyperlink-18.0.0";
+      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/41/e1/0abd4b480ec04892b1db714560f8c855d43df81895c98506442babf3652f/hyperlink-18.0.0.tar.gz"; sha256 = "f01b4ff744f14bc5d0a22a6b9f1525ab7d6312cb0ff967f59414bbac52f0a306"; };
+      doCheck = commonDoCheck;
+      buildInputs = commonBuildInputs;
+      propagatedBuildInputs = [
+      self."idna"
+    ];
+      meta = with pkgs.stdenv.lib; {
+        homepage = "https://github.com/python-hyper/hyperlink";
+        license = licenses.mit;
+        description = "A featureful, immutable, and correct URL for Python.";
+      };
+    };
+
+
+
+    "idna" = python.mkDerivation {
+      name = "idna-2.6";
+      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/f4/bd/0467d62790828c23c47fc1dfa1b1f052b24efdf5290f071c7a91d0d82fd3/idna-2.6.tar.gz"; sha256 = "2c6a5de3089009e3da7c5dde64a141dbc8551d5b7f6cf4ed7c2568d0cc520a8f"; };
+      doCheck = commonDoCheck;
+      buildInputs = commonBuildInputs;
+      propagatedBuildInputs = [ ];
+      meta = with pkgs.stdenv.lib; {
+        homepage = "https://github.com/kjd/idna";
+        license = licenses.bsdOriginal;
+        description = "Internationalized Domain Names in Applications (IDNA)";
+      };
+    };
+
+
+
+    "incremental" = python.mkDerivation {
+      name = "incremental-17.5.0";
+      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/8f/26/02c4016aa95f45479eea37c90c34f8fab6775732ae62587a874b619ca097/incremental-17.5.0.tar.gz"; sha256 = "7b751696aaf36eebfab537e458929e194460051ccad279c72b755a167eebd4b3"; };
+      doCheck = commonDoCheck;
+      buildInputs = commonBuildInputs;
+      propagatedBuildInputs = [
+      # self."Twisted"
+      self."click"
+    ];
+      meta = with pkgs.stdenv.lib; {
+        homepage = "https://github.com/twisted/incremental";
+        license = licenses.mit;
+        description = "UNKNOWN";
+      };
+    };
+
+
+
     "itsdangerous" = python.mkDerivation {
       name = "itsdangerous-0.24";
       src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/dc/b4/a60bcdba945c00f6d608d8975131ab3f25b22f2bcfe1dab221165194b2d4/itsdangerous-0.24.tar.gz"; sha256 = "cbb3fcf8d3e33df861709ecaf89d9e6629cff0a217bc2848f1b41cd30d360519"; };
@@ -217,6 +360,21 @@ let
         homepage = "http://github.com/mitsuhiko/itsdangerous";
         license = licenses.bsdOriginal;
         description = "Various helpers to pass trusted data to untrusted environments and back.";
+      };
+    };
+
+
+
+    "observable" = python.mkDerivation {
+      name = "observable-0.3.2";
+      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/cc/88/448d24481afa4861d7b095014aab2ffac120137accdc8f76494fd315f2dc/observable-0.3.2.tar.gz"; sha256 = "1c9fe3e05d3047e900d39f98a514611a29bb81c1aa459c5d7fad669743712d4e"; };
+      doCheck = commonDoCheck;
+      buildInputs = commonBuildInputs;
+      propagatedBuildInputs = [ ];
+      meta = with pkgs.stdenv.lib; {
+        homepage = "https://github.com/timofurrer/pyobservable";
+        license = "";
+        description = "event system for python";
       };
     };
 
@@ -282,6 +440,21 @@ let
         homepage = "http://pypi.python.org/pypi/six/";
         license = licenses.mit;
         description = "Python 2 and 3 compatibility utilities";
+      };
+    };
+
+
+
+    "zope.interface" = python.mkDerivation {
+      name = "zope.interface-4.5.0";
+      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/ac/8a/657532df378c2cd2a1fe6b12be3b4097521570769d4852ec02c24bd3594e/zope.interface-4.5.0.tar.gz"; sha256 = "57c38470d9f57e37afb460c399eb254e7193ac7fb8042bd09bdc001981a9c74c"; };
+      doCheck = commonDoCheck;
+      buildInputs = commonBuildInputs;
+      propagatedBuildInputs = [ ];
+      meta = with pkgs.stdenv.lib; {
+        homepage = "https://github.com/zopefoundation/zope.interface";
+        license = licenses.zpl21;
+        description = "Interfaces for Python";
       };
     };
 
