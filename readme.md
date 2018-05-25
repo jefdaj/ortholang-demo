@@ -11,17 +11,18 @@ First, you need `shortcut` on your `PATH`.
 Then run the server the [Nix][2] way:
 
 ```.bash
-nix-shell requirements.nix --command ./shortcut.py
+nix-shell requirements.nix --command ./shortcut_demo.py
 ```
 
 ... or the regular Debian + Python way:
 
 ```.bash
+# TODO need python-twisted-bin too?
 sudo apt-get install python-dev
 virtualenv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
-./shortcut.py
+./shortcut_demo.py
 ```
 
 Finally, visit `localhost:5000` in your browser.
