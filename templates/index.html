@@ -110,11 +110,7 @@ buttons to fill in the command to load that example. Once it's loaded type
 `:show` to show the variable definitions, then `result` to run everything.
 
 {% endfilter %}
-{% with path='quick01.cut' %} {% include "example.html" %} {% endwith %}
-{% filter markdown %}
-
-{% endfilter %}
-{% with path='quick02.cut' %} {% include "example.html" %} {% endwith %}
+{% with path='prs02.cut' %} {% include "example.html" %} {% endwith %}
 {% filter markdown %}
 
 Find reciprocal best PSI-BLAST hits between two (large) diatom genomes:
@@ -122,6 +118,14 @@ Find reciprocal best PSI-BLAST hits between two (large) diatom genomes:
 {% endfilter %}
 {% with path='diatom.cut' %} {% include "example.html" %} {% endwith %}
 {% filter markdown %}
+
+Repeat any series of steps, changing one variable at a time and plotting the results.
+(Trivial steps shown here)
+
+{% endfilter %}
+{% with path='plot_linegraph.cut' %} {% include "example.html" %} {% endwith %}
+{% filter markdown %}
+
 
 _Note: these mostly use BLAST, but multiple sequence alignments +
 tree building + clustering are in the works too._
@@ -356,21 +360,30 @@ Finally, you can convert between formats and concatenate things:
 
 ### NCBI BLAST+
 
-ShortCut includes the most common command line BLAST tools:
+ShortCut provides the most common NCBI BLAST programs, which differ in their
+subject and query types.
 
-* `blastn`
-* `blastp`
-* `blastx`
-* `tblastn`
-* `tblastx`
-* `megablast`
-* `psiblast`
+<img src="static/blast1.png"></img>
+
+
+There are several variants of each one, named with suffixes:
+
+<img src="static/blast2.png"></img>
+
+A couple examples:
+
+
+Not all functions come in all variants, because some of them wouldn't make sense.
 
 _Note: Just ask if you want one of the more exotic ones added, like `rps-blast` or `delta-blast`._
 
 _Note: `:help` for individual functions coming soon._
 
 You can also download the standard NCBI databases. Try this:
+
+{% endfilter %}
+{% with path='blast02.cut' %} {% include "example.html" %} {% endwith %}
+{% filter markdown %}
 
 {% endfilter %}
 {% with path='blast01.cut' %} {% include "example.html" %} {% endwith %}
@@ -385,6 +398,32 @@ and then you should see a summary like this:
     Volumes: /tmp/tmpdirs/57862f1e67784c01814382ead3d122df/cache/blastdbget/swissprot.00
 
 You can use it in any function that takes a protein database (`.pdb`).
+
+### CRB-BLAST
+
+Reciprocal best hits are the most common method used to find orthologs, but
+they can sometimes be overly conservative, missing true orthologs. For that
+reason, ShortCut also includes CRB-BLAST ([Aubry _et al._ 2014][4]). For each
+pair of genomes, it:
+
+1. Does a standard reciprocal BLAST search
+2. Plots e-value vs sequence length of the reciprocal best hits and fits
+   a curve to it
+3. Adds non-reciprocal hits whose e-values are at least as good
+
+This is illustrated in the paper:
+
+<img src="https://github.com/jefdaj/ShortCut/raw/master/poster/crb-blast.png" height="400">
+
+According to the authors it significantly improves the accuracy of ortholog
+assignment. Another useful feature is that it prevents having to pick e-value
+cutoffs.
+
+Example:
+
+{% endfilter %}
+{% with path='crb.cut' %} {% include "example.html" %} {% endwith %}
+{% filter markdown %}
 
 ### PSI-BLAST
 
@@ -411,7 +450,47 @@ transporters, you might also try a hybrid strategy:
 3. do them all in ShortCut
 
 
-### PRS pattern
+### Permute, Repeat, Summarize (PRS)
+
+Making a cut involves choices: which genomes to include, whether to trust their
+gene annotations, which BLAST functions to use, which e-value cutoffs to apply
+at each step... How can you be sure the parameters you picked are reasonable?
+ShortCut implements a novel solution made possible by lazy evaluation and
+caching: duplicate parts of the program, re-run them starting from alternate
+values, and see how the results change.
+
+Suppose you have the original program in the box on the left, and want to know,
+"What happens to `var6` if I change `var1`?"
+
+<img src="https://github.com/jefdaj/ShortCut/raw/master/poster/prs.png" width="800">
+
+`repeat_each` recalculates `var6` starting from 3 alternate versions of `var1`,
+and reports a list of results.
+
+Note that this is all "repeat"; the "permute" and "summarize" steps would be
+separate functions to generate the list of `var1` permutations and aggregate
+the final results in some way, perhaps filtering or plotting them. The overall
+strategy is similar to ["split apply combine"][9] in R.
+
+Here is a simpler and more practical example:
+
+{% endfilter %}
+{% with path='prs02.cut' %} {% include "example.html" %} {% endwith %}
+{% filter markdown %}
+
+### Plotting
+
+{% endfilter %}
+{% with path='plot_histogram.cut' %} {% include "example.html" %} {% endwith %}
+{% filter markdown %}
+
+{% endfilter %}
+{% with path='plot_scatterplot.cut' %} {% include "example.html" %} {% endwith %}
+{% filter markdown %}
+
+{% endfilter %}
+{% with path='plot_linegraph.cut' %} {% include "example.html" %} {% endwith %}
+{% filter markdown %}
 
 # GreenCut
 
