@@ -82,7 +82,7 @@ class ShortcutThread(Thread):
 
     def spawnRepl(self):
         log.info('spawning repl with shortcut-session-id %s' % self.sessionid)
-        cmd = ['shortcut', '--interactive', '--tmpdir', self.tmpdir, '--workdir', self.datadir]
+        cmd = ['shortcut', '--secure', '--interactive', '--tmpdir', self.tmpdir, '--workdir', self.datadir]
         self.process = Popen(cmd, stdin=PIPE, stdout=PIPE, stderr=STDOUT, bufsize=1)
 
     def emitLine(self, line):
