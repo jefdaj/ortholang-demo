@@ -26,13 +26,13 @@ code {
 	color: #007f12;
 	font-size: 14;
 }
-#replstdin, #replstdout, #serverinfo {
+#replstdin, #replstdout, #serverload {
 	font-family: monospace;
 	font-style: bold;
 	font-size: 16;
 	white-space: pre;
 }
-#serverinfo {
+#serverload {
 	color: #5d5d60;
 }
 #title {

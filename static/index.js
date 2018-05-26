@@ -23,11 +23,11 @@ $(document).ready(function(){
 	});
 
 	// display server info
-	socket.on('serverinfo', function(nfo) {
+	socket.on('serverload', function(nfo) {
 		var txt = 'users:  ' + nfo.users + '<br/>'
 			+ 'cpu:    ' + nfo.cpu   + '%<br/>'
 			+ 'memory: ' + nfo.memory + '%';
-		$('#serverinfo').html(txt);
+		$('#serverload').html(txt);
 	});
 
 	// display a line of output sent from the repl
