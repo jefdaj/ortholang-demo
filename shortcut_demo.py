@@ -7,9 +7,10 @@ import logging
 from datetime           import datetime
 from flask              import Flask, render_template, request, make_response
 from flask_socketio     import SocketIO, emit
-from flask_twisted      import Twisted
 from flaskext.markdown  import Markdown
 from glob               import glob
+from signal             import SIGKILL
+from os                 import setsid, getpgid, killpg
 from os.path            import join, realpath
 from psutil             import cpu_percent, virtual_memory
 from re                 import sub, DOTALL
@@ -34,7 +35,7 @@ fh.setFormatter(logging.Formatter('%(asctime)s %(name)s %(levelname)s %(message)
 
 # set up logging for this module
 # note: socketio + engineio loggers are messed with later
-log = logging.getLogger('shortcut_demo')
+log = logging.getLogger('shortcut')
 log.setLevel(logging.INFO)
 log.addHandler(fh)
 log.info('starting shortcut_demo.py')
@@ -54,60 +55,59 @@ class ShortcutThread(Thread):
         self.sessionid = sessionid
         self.tmpdir = join(realpath('static/tmpdirs'), sessionid)
         self.datadir = realpath('data')
-        self._stop = Event()
+        self._done = Event()
+        self.process = None
         self.spawnRepl()
         super(ShortcutThread, self).__init__()
 
     def run(self):
-        while True:
+        global server_info
+        server_info.sessionStarted()
+        while not self._done.is_set():
+            self.spawnRepl()
             self.emitStdout()
-            if self._stop.is_set():
-                break
-            else:
-                self.spawnRepl()
-        self.cleanup()
+        server_info.sessionEnded()
 
-    def kill(self):
-        self._stop.set()
-        self.process.kill()
-        self.cleanup()
-
-    def cleanup(self):
-        try:
-            self.process.kill()
-        except:
-            pass
-        finally:
-            rmtree(self.tmpdir, ignore_errors=True)
+    def killRepl(self):
+        # see https://stackoverflow.com/a/22582602
+        log.info('killing session %s' % self.sessionid)
+        pgid = getpgid(self.process.pid)
+        killpg(pgid, SIGKILL)
+        self.process.wait()
+        rmtree(self.tmpdir, ignore_errors=True)
 
     def spawnRepl(self):
+        if self.process is not None:
+            self.killRepl()
         log.info('spawning repl with shortcut-session-id %s' % self.sessionid)
         cmd = ['shortcut', '--secure', '--interactive', '--tmpdir', self.tmpdir, '--workdir', self.datadir]
-        self.process = Popen(cmd, stdin=PIPE, stdout=PIPE, stderr=STDOUT, bufsize=1)
+        self.process = Popen(cmd, stdin=PIPE, stdout=PIPE, stderr=STDOUT, bufsize=1, preexec_fn=setsid)
 
     def emitLine(self, line):
         # hacky way to show images in the repl
-        line = sub(".*plot image '(.*?)'.*", r' <img src="\1" style="max-width: 400px;"></img> ', line, flags=DOTALL)
+        old = ".*plot image '(.*?)'.*"
+        new = r' <img src="\1" style="max-width: 400px;"></img> '
+        line = sub(old, new, line, flags=DOTALL)
         line = sub('/tmp/tmpdirs', 'static/tmpdirs', line)
         socketio.emit('replstdout', line, namespace='/', room=self.sessionid)
 
     def readLine(self, line):
-        self.emitLine('>> ' + line + '\n')
         try:
             self.process.stdin.write(line + '\n')
+            self.emitLine('>> ' + line + '\n')
         except IOError:
-            if not self._stop.is_set():
-                self.emitLine('Shortcut died. Resetting demo...\n\n')
+            if not self._done.is_set():
+                self.emitLine('Resetting demo...\n')
                 self.spawnRepl()
-                self.process.stdin.write(line + '\n')
+                sleep(2)
+                self.readLine(line)
 
     def emitStdout(self):
         while True:
-            sleep(self.delay)
+            sleep(self.delay) # TODO remove? decrease?
             try:
                 line = self.process.stdout.readline()
             except:
-                self.process.terminate() # TODO remove? kill instead?
                 break
             if line:
                 line = sub(r'^(>> )*', '', line)
@@ -122,14 +122,11 @@ shortcut_threads = {}
 
 # TODO any way (or reason) to not run this when importing the module?
 app = Flask(__name__)
-Twisted(app)
 Markdown(app)
 app.config['SECRET_KEY'] = 'so-secret!'
 socketio = SocketIO(app, manage_session=False, logger=True, engineio_logger=True)
 
 # swap other modules' log handlers for mine
-logging.getLogger().handlers = []
-logging.getLogger().addHandler(fh)
 logging.getLogger('socketio').handlers = []
 logging.getLogger('socketio').addHandler(fh)
 logging.getLogger('engineio').handlers = []
@@ -137,8 +134,8 @@ logging.getLogger('engineio').addHandler(fh)
 
 class ServerInfoThread(Thread):
     def __init__(self):
-        self.delay  = 5
-        self.users  = 0
+        self.delay = 5
+        self.n_sessions= 0
         super(ServerInfoThread, self).__init__()
         self.daemon = True
 
@@ -151,15 +148,15 @@ class ServerInfoThread(Thread):
     def emitInfo(self):
         cpu = round(cpu_percent())
         mem = round(virtual_memory().percent)
-        nfo = {'users': self.users, 'cpu': cpu, 'memory': mem}
+        nfo = {'users': self.n_sessions, 'cpu': cpu, 'memory': mem}
         log.info('emitting serverinfo: %s' % nfo)
         socketio.emit('serverinfo', nfo, namespace='/')
 
-    def userConnected(self):
-        self.users += 1
+    def sessionStarted(self):
+        self.n_sessions += 1
 
-    def userDisconnected(self):
-        self.users -= 1
+    def sessionEnded(self):
+        self.n_sessions -= 1
 
 server_info = ServerInfoThread()
 server_info.start()
@@ -185,15 +182,15 @@ def handle_connect():
     thread = shortcut_threads[sid]
     if not thread.isAlive():
         thread.start()
-    global server_info
-    server_info.userConnected()
 
 @socketio.on('disconnect')
 def handle_disconnect():
     log.info('client %s disconnected' % request.sid)
-    shortcut_threads[request.sid].kill() # TODO any point to waiting a while first?
     global server_info
-    server_info.userDisconnected()
+    server_info.sessionEnded()
+    thread = shortcut_threads[request.sid]
+    thread._done.set()
+    thread.killRepl()
 
 @socketio.on('replstdin')
 def handle_replstdin(line):
@@ -207,20 +204,14 @@ def handle_comment(comment):
     with open(filename, 'w') as f:
         f.write(comment.encode('utf-8'))
 
-def run_twisted_wsgi(app):
-    # based on https://gist.github.com/ianschenck/977379a91154fe264897
-    # TODO can this be run interactively or is it a once-only thing?
-    reactor_args = {}
-    resource = WSGIResource(reactor, reactor.getThreadPool(), app)
-    site = Site(resource)
-    reactor.listenTCP(5000, site)
-    reactor.run(**reactor_args)
-    if app.debug:
-        # Disable twisted signal handlers in development only.
-        reactor_args['installSignalHandlers'] = 0
-        # Turn on auto reload.
-        import werkzeug.serving
-        run_twisted_wsgi = werkzeug.serving.run_with_reloader(run_twisted_wsgi)
+########
+# main #
+########
 
-if __name__ == "__main__":
-    run_twisted_wsgi(app)
+# based on https://gist.github.com/ianschenck/977379a91154fe264897
+# but I had trouble getting the reloader to work without zombie processes
+
+resource = WSGIResource(reactor, reactor.getThreadPool(), app)
+site = Site(resource)
+reactor.listenTCP(5000, site)
+reactor.run(installSignalHandlers=True)
