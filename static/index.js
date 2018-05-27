@@ -6,13 +6,13 @@ function repl_autofill(text) {
 function repl_enable() {
 	document.getElementById('replstdin').disabled = false;
 	document.getElementById('replstdin').focus();
-	document.getElementById('runstop').innerHTML = 'Run';
+	document.getElementById('runkill').innerHTML = 'Run';
 }
 
 function repl_disable() {
 	document.getElementById('replstdin').disabled = true;
-	document.getElementById('runstop').innerHTML = 'Stop';
-	document.getElementById('runstop').focus();
+	document.getElementById('runkill').innerHTML = 'Kill';
+	document.getElementById('runkill').focus();
 }
 
 $(document).ready(function(){
@@ -24,11 +24,15 @@ $(document).ready(function(){
 	function run_line(line) {
 		socket.emit('replstdin', $('#replstdin').val());
 		$('#replstdin').val('');
-		repl_disable();
+		//repl_disable();
 	}
-	$('#runstop').on('click', function() {
+	$('#runkill').on('click', function() {
 		$('#replstdin').focus();
-		run_line($('#replstdin').val())
+		if (document.getElementById('runkill').innerHTML == 'Kill') {
+			socket.emit('replkill');
+		} else {
+			run_line($('#replstdin').val())
+		}
 	});
 	$('#replstdin').on('keypress', function(e) {
 		// TODO have to disable this too when repl disabled?

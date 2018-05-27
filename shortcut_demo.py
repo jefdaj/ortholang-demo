@@ -137,6 +137,10 @@ def handle_disconnect():
 def handle_replstdin(line):
     SESSIONS[request.sid].readLine(line)
 
+@SOCKETIO.on('replkill')
+def handle_replkill():
+    SESSIONS[request.sid].stopEval()
+
 @SOCKETIO.on('comment')
 def handle_comment(comment):
     sid = request.sid
@@ -170,13 +174,25 @@ class ShortcutThread(Thread):
             self.emitStdout()
         LOAD.sessionEnded()
 
+    # TODO currently this is the same as killing the interpreter... handle separately in shortcut?
+    def stopEval(self):
+        LOGGER.info('session %s stopping %s evaluation' % (self.sessionid, self.process.pid))
+        self.killRepl()
+        self.emitLine('Resetting demo...\n')
+        self.spawnRepl()
+        # self.readLine('')
+
     def killRepl(self):
         # see https://stackoverflow.com/a/22582602
         LOGGER.info('session %s killing interpreter %s' % (self.sessionid, self.process.pid))
-        pgid = getpgid(self.process.pid)
-        killpg(pgid, SIGKILL)
-        self.process.wait()
-        rmtree(self.tmpdir, ignore_errors=True)
+        try:
+            pgid = getpgid(self.process.pid)
+            killpg(pgid, SIGKILL)
+            self.process.wait()
+        except:
+            pass
+        finally:
+            rmtree(self.tmpdir, ignore_errors=True)
 
     def spawnRepl(self):
         if self.process is not None:
@@ -200,7 +216,7 @@ class ShortcutThread(Thread):
         try:
             self.process.stdin.write(line + '\n')
             self.emitLine('>> ' + line + '\n')
-            if line.startswith(':'):
+            if line.startswith(':') or len(line.strip()) == 0:
                 # repl commands are generally instant, but don't print a newline
                 # so to help it along with auto-reenable
                 self.enableInput()
@@ -210,8 +226,7 @@ class ShortcutThread(Thread):
                 self.disableInput()
         except IOError:
             if not self._done.is_set():
-                self.emitLine('Resetting demo...\n')
-                self.spawnRepl()
+                self.stopEval()
                 sleep(2)
                 self.readLine(line)
 
