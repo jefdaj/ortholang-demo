@@ -1,0 +1,24 @@
+{% filter markdown %}
+Phylogenomic cuts are lists of candidate genes whose distribution suggests they
+might be imprortant for a trait of interest.
+
+Cut script is a simple(ish) language for making phylogenomic cuts. It aims to
+be the easiest way to conduct searches too complex for the NCBI website, but
+not so complex that you want to get bogged down with all the details of a
+"real" language like Python or R just to do some BLAST searches. It also aims
+to describe searches succinctly and reproducibly, so that some day it might
+make it into your supplemental material. Everyone wins when your work is easy
+to build on!
+
+The `shortcut` program is a command-line language interpreter, kind of like
+`python` or `R` but for cut scripts. On your left is a hacky "terminal" I made
+so it can be run from a web browser. You can do most of the same things in it
+that you could if you downloaded ShortCut proper, except:
+
+* Your session will be deleted when you leave this page
+* The server might kill your script without warning if it takes too much CPU time
+* Some terminal niceties like tab completion and clearing the screen are missing
+
+You can upload your own genomes and gene lists, save and restore scripts,
+and download results using the buttons at the bottom left. *Note: buttons don't work yet*
+{% endfilter %}

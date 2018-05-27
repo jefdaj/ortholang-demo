@@ -1,0 +1,27 @@
+{% filter markdown %}
+OK, so what can you do with it? These examples are explained in more detail in
+the tutorial below, but let's try running them first. Press one of the `Load`
+buttons to fill in the command to load that example. Once it's loaded type
+`:show` to show the variable definitions, then `result` to run everything.
+
+{% endfilter %}
+{% with path='prs02.cut' %} {% include "example.html" %} {% endwith %}
+{% filter markdown %}
+
+Find reciprocal best PSI-BLAST hits between two (large) diatom genomes:
+
+{% endfilter %}
+{% with path='diatom.cut' %} {% include "example.html" %} {% endwith %}
+{% filter markdown %}
+
+Repeat any series of steps, changing one variable at a time and plotting the results.
+(Trivial steps shown here)
+
+{% endfilter %}
+{% with path='plot_linegraph.cut' %} {% include "example.html" %} {% endwith %}
+{% filter markdown %}
+
+
+_Note: these mostly use BLAST, but multiple sequence alignments +
+tree building + clustering are in the works too._
+{% endfilter %}

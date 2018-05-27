@@ -1,0 +1,11 @@
+{% filter markdown %}
+
+Now you know everything you need to make an actual, useful cut.
+Like, the kind you could publish!
+
+{% endfilter %}
+{% with path='green.cut' %} {% include "example.html" %} {% endwith %}
+{% filter markdown %}
+
+{% endfilter %}
+{% with path='green-ids.cut' %} {% include "example.html" %} {% endwith %}
