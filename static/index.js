@@ -112,6 +112,21 @@ $(document).ready(function(){
 		$('#replstdout').scrollTop(100000);
 	});
 
+	// upload scripts
+	// TODO other files too like fasta
+	// see https://www.accelebrate.com/blog/file-uploads-web-sockets-part-3-of-3/
+	$('#uploadbutton').on('click', function(e) {
+		var files = document.getElementById('upload').files;
+		for (var x=0; x < files.length; x++) {
+			var reader = new FileReader();
+			var name = files[x].name;
+			reader.addEventListener('loadend', function() {
+				socket.emit('upload', {fileName: name, fileData: reader.result});
+			});
+			reader.readAsArrayBuffer(files[x]);
+		}
+	});
+
 	// submit a comment
 	$('#commentbutton').on('click', function() {
 		socket.emit('comment', $('#commentfield').val());

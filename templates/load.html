@@ -1,4 +1,4 @@
-<div style="float: left; width: 45%; text-align: left;">
+<div style="float: left; width: 50%; text-align: left;">
 	<button id="loadbutton">Load script</button>
 	<select id="loadmenu">
 		{% for name in example_names %}
@@ -7,6 +7,7 @@
 	</select>
 	<br/>
 	<br/>
-	<button id="uploadbutton">Upload file</button>
-	<input id="upload" type="file" accept="*">
+	<button id="uploadbutton">Upload script</button>
+	<!-- TODO could accept other files, but need to show progress somehow? -->
+	<input id="upload" type="file" accept="*.cut" multiple>
 </div>

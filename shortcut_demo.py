@@ -184,6 +184,10 @@ def handle_comment(comment):
     with open(filename, 'w') as f:
         f.write(comment.encode('utf-8'))
 
+@SOCKETIO.on('upload')
+def handle_upload(data):
+    sid = request.sid
+    LOGGER.info("client %s uploaded a file: '%s'" % (sid, data))
 
 ############
 # shortcut #
