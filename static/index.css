@@ -1,4 +1,5 @@
-p {
+* {
+	font-family: Arial;
 	font-size: 14;
 }
 #content, html, body {
@@ -20,10 +21,10 @@ p {
 	margin-right: auto;
 	width: 50%;
 }
-code {
+code, .highlight {
 	font-family: monospace;
-	color: #007f12;
-	font-size: 14;
+	font-size: 12pt;
+	background-color: #f8f8f8
 }
 #replstdin, #replstdout, #serverload {
 	font-family: monospace;

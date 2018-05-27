@@ -97,10 +97,10 @@ LOAD = ServerLoadThread()
 
 class HighlighterRenderer(HtmlRenderer):
     def blockcode(self, text, lang):
-        formatter = HtmlFormatter(noclasses=True) # TODO theoretically, css is better...
-        return highlight(text, PythonLexer(), formatter)
+        return highlight(text, PythonLexer(), HtmlFormatter())
 
-MD = Markdown(HighlighterRenderer(), extensions=('highlight', 'fenced-code', 'tables'))
+MARKDOWN = Markdown(HighlighterRenderer(),
+                    extensions=('highlight', 'fenced-code', 'tables'))
 
 # used to render the code examples
 # LOGGER.info('rendering example cut scripts')
@@ -108,7 +108,7 @@ EXAMPLES = {}
 for path in glob('data/*.cut'):
     with open(path, 'r') as f:
         txt = '```\n%s\n```\n' % f.read()
-    EXAMPLES[path] = {'id': path.replace('/', '_'), 'content': MD(txt)}
+    EXAMPLES[path] = {'id': path.replace('/', '_'), 'content': MARKDOWN(txt)}
 
 
 #########

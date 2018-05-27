@@ -2,9 +2,11 @@
 <head>
 	<title>ShortCut Demo Server</title>
 	<meta charset="utf-8"/>
-	<script type="text/javascript" src="{{ url_for('static',filename='jquery-3.3.1.js') }}"></script>
-	<script type="text/javascript" src="{{ url_for('static',filename='socket.io.dev.js') }}"></script>
+	<script type="text/javascript" src="{{ url_for('static',filename='jquery.min.js') }}"></script>
+	<script type="text/javascript" src="{{ url_for('static',filename='socket.io.slim.js') }}"></script>
 	<script type="text/javascript" src="{{ url_for('static',filename='index.js') }}"></script>
+	<!-- also nice looking: borland, default, emacs, tango -->
+	<link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='pygments-github.css') }}">
 	<link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='index.css') }}">
 </head>
 
@@ -92,9 +94,9 @@
 
 <div class="tab">
 	<button class="tablinks" onclick="openTab(event, 'Intro')">Intro</button>
-	<button class="tablinks" onclick="openTab(event, 'QuickStart')">Quick Start</button>
+	<button class="tablinks" onclick="openTab(event, 'Examples')">Examples</button>
 	<button class="tablinks" onclick="openTab(event, 'Tutorial')">Tutorial</button>
-	<button class="tablinks" onclick="openTab(event, 'Cuts')">Cuts</button>
+	<button class="tablinks" onclick="openTab(event, 'GreenCut')">GreenCut</button>
 	<button class="tablinks" onclick="openTab(event, 'Reference')">Reference</button>
 	<button class="tablinks" onclick="openTab(event, 'TODO')">TODO</button>
 </div>
@@ -126,7 +128,7 @@ and download results using the buttons at the bottom left. *Note: buttons don't 
 {% endfilter %}
 </div>
 
-<div id="QuickStart" class="tabcontent">
+<div id="Examples" class="tabcontent">
 {% filter markdown %}
 OK, so what can you do with it? These examples are explained in more detail in
 the tutorial below, but let's try running them first. Press one of the `Load`
@@ -156,7 +158,7 @@ tree building + clustering are in the works too._
 {% endfilter %}
 </div>
 
-<div id="Cuts" class="tabcontent">
+<div id="GreenCut" class="tabcontent">
 {% filter markdown %}
 
 Now you know everything you need to make an actual, useful cut.
@@ -288,11 +290,13 @@ accidentally mix them.
 You can see the types of all variables in your current script at once by typing
 just `:type`. For the last example, it should look like:
 
-    var1.num = 1.5
-    var2.str = "nothing depends on var2 so far"
-    var3.num = 2.0e-3 * var1
-    var4.num = var3 * 5 - var1
-    result.num = var4
+```python
+var1.num = 1.5
+var2.str = "nothing depends on var2 so far"
+var3.num = 2.0e-3 * var1
+var4.num = var3 * 5 - var1
+result.num = var4
+```
 
 The second important thing to know is that in ShortCut, every piece of code you
 evaluate gets written to its own temporary file. That's the reason for the
