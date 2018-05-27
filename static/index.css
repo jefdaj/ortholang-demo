@@ -13,7 +13,6 @@ p {
 	float: left;
 	width: 50%;
 	height: 100%;
-	overflow-y: scroll;
 }
 #logo {
 	display: block;
@@ -50,6 +49,7 @@ code {
 	overflow: hidden;
 	border: 1px solid #ccc;
 	background-color: #f1f1f1;
+	width: 100%;
 }
 
 /* Style the buttons inside the tab */
@@ -76,7 +76,8 @@ code {
 /* Style the tab content */
 .tabcontent {
 	display: none;
-	padding: 6px 12px;
-	border: 1px solid #ccc;
 	border-top: none;
+	height: 95%; /* TODO padding instead? */
+	overflow-y: scroll;
+	border: 1px solid #ccc;
 }

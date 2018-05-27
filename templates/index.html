@@ -75,37 +75,20 @@
 			</div>
 		</div>
 	</div>
-	<div id="right">
-		<div style="width: 95%;">
+<div id="right">
 
 <!-- start test of full-page tabs -->
-<p>Click on the buttons inside the tabbed menu:</p>
-
 <div class="tab">
-	  <button class="tablinks" onclick="openCity(event, 'London')">London</button>
-	    <button class="tablinks" onclick="openCity(event, 'Paris')">Paris</button>
-	      <button class="tablinks" onclick="openCity(event, 'Tokyo')">Tokyo</button>
+	<button class="tablinks" onclick="openTab(event, 'Intro')">Intro</button>
+	<button class="tablinks" onclick="openTab(event, 'QuickStart')">Quick Start</button>
+	<button class="tablinks" onclick="openTab(event, 'Tutorial')">Tutorial</button>
+	<button class="tablinks" onclick="openTab(event, 'Cuts')">Cuts</button>
+	<button class="tablinks" onclick="openTab(event, 'Reference')">Reference</button>
+	<button class="tablinks" onclick="openTab(event, 'TODO')">TODO</button>
 </div>
 
-<div id="London" class="tabcontent">
-	  <h3>London</h3>
-	    <p>London is the capital city of England.</p>
-</div>
-
-<div id="Paris" class="tabcontent">
-	  <h3>Paris</h3>
-	    <p>Paris is the capital of France.</p> 
-</div>
-
-<div id="Tokyo" class="tabcontent">
-	  <h3>Tokyo</h3>
-	    <p>Tokyo is the capital of Japan.</p>
-</div>
-<!-- end test of full-page tabs -->
-
-
+<div id="Intro" class="tabcontent">
 {% filter markdown %}
-
 Phylogenomic cuts are lists of candidate genes whose distribution suggests they
 might be imprortant for a trait of interest.
 
@@ -128,9 +111,11 @@ that you could if you downloaded ShortCut proper, except:
 
 You can upload your own genomes and gene lists, save and restore scripts,
 and download results using the buttons at the bottom left. *Note: buttons don't work yet*
+{% endfilter %}
+</div>
 
-## Quick Start
-
+<div id="QuickStart" class="tabcontent">
+{% filter markdown %}
 OK, so what can you do with it? These examples are explained in more detail in
 the tutorial below, but let's try running them first. Press one of the `Load`
 buttons to fill in the command to load that example. Once it's loaded type
@@ -156,9 +141,27 @@ Repeat any series of steps, changing one variable at a time and plotting the res
 
 _Note: these mostly use BLAST, but multiple sequence alignments +
 tree building + clustering are in the works too._
+{% endfilter %}
+</div>
 
-## Tutorial
+<div id="Cuts" class="tabcontent">
+{% filter markdown %}
 
+Now you know everything you need to make an actual, useful cut.
+Like, the kind you could publish!
+
+{% endfilter %}
+{% with path='green.cut' %} {% include "example.html" %} {% endwith %}
+{% filter markdown %}
+
+{% endfilter %}
+{% with path='green-ids.cut' %} {% include "example.html" %} {% endwith %}
+
+</div>
+<!-- end test of full-page tabs -->
+
+<div id="Tutorial" class="tabcontent">
+{% filter markdown %}
 The best way to use this tutorial is probably to
 load each example and play around with it a bit as you go. That's the fastest
 way to learn, and also the fastest way for me to get bug reports. Just type
@@ -517,23 +520,17 @@ Here is a simpler and more practical example:
 
 {% endfilter %}
 {% with path='plot_linegraph.cut' %} {% include "example.html" %} {% endwith %}
+</div>
+
+<div id="Reference" class="tabcontent">
 {% filter markdown %}
-
-# GreenCut
-
-Now you know everything you need to make an actual, useful cut.
-Like, the kind you could publish!
-
+There will be a list of all function types here, plus whatever else people think might help.
+Maybe the tables of BLAST subject and query types?
 {% endfilter %}
-{% with path='green.cut' %} {% include "example.html" %} {% endwith %}
+</div>
+
+<div id="TODO" class="tabcontent">
 {% filter markdown %}
-
-{% endfilter %}
-{% with path='green-ids.cut' %} {% include "example.html" %} {% endwith %}
-{% filter markdown %}
-
-## TODO
-
 Tutorial:
 
 * Transcribe from github readme:
@@ -610,7 +607,8 @@ ShortCut features:
 * Venn diagrams if easy from that (don't waste time!)
 
 {% endfilter %}
-		</div>
+</div>
+</div>
 	</div>
 </div>
 	</body>

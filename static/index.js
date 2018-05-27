@@ -15,7 +15,7 @@ function repl_disable() {
 	document.getElementById('runkill').focus();
 }
 
-function openCity(evt, cityName) {
+function openTab(evt, cityName) {
 	var i, tabcontent, tablinks;
 	tabcontent = document.getElementsByClassName("tabcontent");
 	for (i = 0; i < tabcontent.length; i++) {
@@ -126,7 +126,6 @@ $(document).ready(function(){
 		socket.disconnect();
 	}, false);
 
-	// Get the element with id="defaultOpen" and click on it
-	// document.getElementById("defaultOpen").click(); 
-
+	// open the tutorial first
+	document.getElementById("Intro").click()
 });
