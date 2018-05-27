@@ -187,7 +187,13 @@ def handle_comment(comment):
 @SOCKETIO.on('upload')
 def handle_upload(data):
     sid = request.sid
-    LOGGER.info("client %s uploaded a file: '%s'" % (sid, data))
+    LOGGER.info("client %s uploaded a file: '%s'" % (sid, data['fileName']))
+    # TODO some kind of check and/or put in separate uploads folder
+    # TODO get root dir from FLASK
+    filename = join('data', data['fileName'])
+    with open(filename, 'w') as f:
+        f.write(data['fileData'])
+    LOGGER.info("saved user file '%s'" % filename)
 
 ############
 # shortcut #
@@ -253,9 +259,10 @@ class ShortcutThread(Thread):
 
     def readLine(self, line):
         try:
+            line = line.strip()
             self.process.stdin.write(line + '\n')
             self.emitLine('>> ' + line + '\n')
-            if line.startswith(':') or len(line.strip()) == 0:
+            if line.startswith(':') or line.startswith('#') or len(line) == 0:
                 # repl commands are generally instant, but don't print a newline
                 # so to help it along with auto-reenable
                 self.enableInput()

@@ -122,6 +122,7 @@ $(document).ready(function(){
 			var name = files[x].name;
 			reader.addEventListener('loadend', function() {
 				socket.emit('upload', {fileName: name, fileData: reader.result});
+				repl_autorun(':load ' + name);
 			});
 			reader.readAsArrayBuffer(files[x]);
 		}
