@@ -9,16 +9,18 @@ $(document).ready(function(){
 	// TODO would explicit disconnect help?
 	var socket = io.connect('http://' + document.domain + ':' + location.port);
 
-	// send a line to the repl when you click send
-	$('#runstop').on('click', function() {
+	// send a line to the repl when you click the button or press enter
+	function run_line(line) {
 		socket.emit('replstdin', $('#replstdin').val());
 		$('#replstdin').val('');
 		$('#replstdin').focus();
+	}
+	$('#runstop').on('click', function() {
+		run_line($('#replstdin').val())
 	});
 	$('#replstdin').on('keypress', function(e) {
 		if(e.which == 13) {
-			socket.emit('replstdin', $('#replstdin').val());
-			$('#replstdin').val('');
+			run_line($('#replstdin').val())
 		};
 	});
 
@@ -70,8 +72,6 @@ $(document).ready(function(){
 	});
 	$('#filename').on('keypress', function(e) {
 		if(e.which == 13) {
-			// TODO have to strip out the newline or it auto-triggers the repl too?
-			// TODO or maybe block default action so it doesn't get added at first
 			autofill_repl(':write ' + $('#filename').val())
 		};
 	});
