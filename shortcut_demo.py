@@ -8,6 +8,8 @@ import logging as LOGGING
 from datetime           import datetime
 from flask              import Flask, render_template, request, make_response
 from flask_socketio     import SocketIO, emit
+# from flask_flatpages.utils import pygmented_markdown
+from flask_misaka   import Misaka
 from flaskext.markdown  import Markdown
 from glob               import glob
 from signal             import SIGKILL
@@ -23,6 +25,7 @@ from twisted.internet   import reactor as REACTOR
 from twisted.web.server import Site
 from twisted.web.wsgi   import WSGIResource
 from uuid               import uuid4
+# from pypandoc           import convert_text
 
 
 ###########
@@ -85,14 +88,24 @@ LOAD = ServerLoadThread()
 
 # TODO any way (or reason) to not run this when importing the module?
 FLASK = Flask(__name__)
+jinja_options = dict(FLASK.jinja_options)
+
+# see https://github.com/tlatsas/jinja2-highlight
+# jinja_options.setdefault('extensions', []).append('jinja2_highlight.HighlightExtension')
+# FLASK.jinja_options = jinja_options
+# FLASK.jinja_env.extend(jinja2_highlight_cssclass = 'codehilite')
+
 FLASK.config['SECRET_KEY'] = 'so-secret!'
-MARKDOWN = Markdown(FLASK) # TODO should this be used when rendering templates?
+# TODO remove this in favor of directly rendering with pandoc and splicing in final html?
+# MARKDOWN = Markdown(FLASK, extensions=['codehilite'], safe_mode=False) # TODO should this be used when rendering templates?
+Misaka(FLASK, tables=True, fenced_code=True, highlight=True)
 
 # used to render the code examples
+# LOGGER.info('rendering example cut scripts')
 EXAMPLES = {}
 for path in glob('data/*.cut'):
     with open(path, 'r') as f:
-        txt = f.read()
+        txt = '```python\n%s\n```\n' % f.read()
     EXAMPLES[path] = {'id': path.replace('/', '_'), 'content': txt}
 
 @FLASK.route('/')

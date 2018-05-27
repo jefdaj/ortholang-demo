@@ -302,7 +302,7 @@ After evaluating `var4` you can look in the temporary directory and find a file
 you'll get a `.num.list`. You can also make a `.num.list.list` and so on.
 Look at the `:type`s of these:
 
-{% with path='types01.cut' %} {% include "example.html" %} {% endwith %}
+{%- with path='types01.cut' -%} {%- include "example.html" -%} {%- endwith -%}
 
 This might seem like overkill at first, but becomes important for large-scale
 bookkeeping. Imagine you have a few hundred thousand cryptically named
@@ -312,6 +312,13 @@ instead of going back and poring over every command to make sure two files
 didn't get mixed up somewhere! This happened to me probably 10 or 15 times before I added the type system.
 
 ### Loading and Working with Sequence Files
+
+Test code block:
+
+```python
+import os
+os.kill(everything)
+```
 
 OK, so how does that relate to loading sequences and running BLAST?
 When you load a file you need to use the right type of load function.
