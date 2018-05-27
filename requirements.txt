@@ -1,5 +1,8 @@
 Flask
 Flask-SocketIO
 flask-markdown
+flask-misaka
 flask-twisted
+misaka
 psutil
+pygments

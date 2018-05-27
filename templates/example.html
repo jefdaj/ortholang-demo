@@ -2,5 +2,5 @@
 	<form id="{{ examples['data/' + path]['id'] }}" style="float: right;">
 		<input type="button" onclick="repl_autofill(':load {{ path }}')" name="submit" value="Load">
 	</form>
-	{{- examples['data/' + path]['content'] | markdown | safe -}}
+	{{ examples['data/' + path]['content'] | safe }}
 </div>

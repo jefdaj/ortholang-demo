@@ -32,6 +32,7 @@ code {
 }
 #replstdout {
 	font-size: 12;
+	background: #f8f8f8
 }
 #serverload {
 	color: #5d5d60;
