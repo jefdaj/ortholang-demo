@@ -1,7 +1,18 @@
-function autofill_repl(text) {
-	i = $('#replstdin');
-	i.val(text); // TODO strip trailing newline here?
-	i.focus();
+function repl_autofill(text) {
+	$('#replstdin').val(text); // TODO strip trailing newline here?
+	$('#replstdin').focus();
+}
+
+function repl_enable() {
+	document.getElementById('replstdin').disabled = false;
+	document.getElementById('replstdin').focus();
+	document.getElementById('runstop').innerHTML = 'Run';
+}
+
+function repl_disable() {
+	document.getElementById('replstdin').disabled = true;
+	document.getElementById('runstop').innerHTML = 'Stop';
+	document.getElementById('runstop').focus();
 }
 
 $(document).ready(function(){
@@ -13,15 +24,28 @@ $(document).ready(function(){
 	function run_line(line) {
 		socket.emit('replstdin', $('#replstdin').val());
 		$('#replstdin').val('');
-		$('#replstdin').focus();
+		repl_disable();
 	}
 	$('#runstop').on('click', function() {
+		$('#replstdin').focus();
 		run_line($('#replstdin').val())
 	});
 	$('#replstdin').on('keypress', function(e) {
+		// TODO have to disable this too when repl disabled?
 		if(e.which == 13) {
 			run_line($('#replstdin').val())
 		};
+	});
+
+	// TODO replinput should be:
+	//        disabled right after you run something?
+	//        re-enabled after shortcut prints something, even a line break
+	//        ... except not while it's still printing continuous lines
+	socket.on('replbusy', function(msg) {
+		repl_disable();
+	});
+	socket.on('replready', function(msg) {
+		repl_enable();
 	});
 
 	// display server info
@@ -60,19 +84,19 @@ $(document).ready(function(){
 	// autofill repl with :load to load a previous script
 	// TODO same issue with it disappearing as the save one below...
 	$('#loadbutton').on('click', function() {
-		autofill_repl(':load ' + $('#loadmenu').val())
+		repl_autofill(':load ' + $('#loadmenu').val())
 	});
 
 	// autofill repl input with :write to save a script
 	$('#savebutton').on('click', function() {
 		filename = $('#filename').val()
 		if (filename != '') {
-			autofill_repl(':write ' + filename)
+			repl_autofill(':write ' + filename)
 		}
 	});
 	$('#filename').on('keypress', function(e) {
 		if(e.which == 13) {
-			autofill_repl(':write ' + $('#filename').val())
+			repl_autofill(':write ' + $('#filename').val())
 		};
 	});
 

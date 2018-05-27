@@ -200,12 +200,26 @@ class ShortcutThread(Thread):
         try:
             self.process.stdin.write(line + '\n')
             self.emitLine('>> ' + line + '\n')
+            if line.startswith(':'):
+                # repl commands are generally instant, but don't print a newline
+                # so to help it along with auto-reenable
+                self.enableInput()
+            else:
+                # other commands might actually be doing work
+                # so we disable until they print something
+                self.disableInput()
         except IOError:
             if not self._done.is_set():
                 self.emitLine('Resetting demo...\n')
                 self.spawnRepl()
                 sleep(2)
                 self.readLine(line)
+
+    def disableInput(self):
+        SOCKETIO.emit('replbusy', namespace='/', room=self.sessionid)
+
+    def enableInput(self):
+        SOCKETIO.emit('replready', namespace='/', room=self.sessionid)
 
     def emitStdout(self):
         while True:
@@ -215,6 +229,7 @@ class ShortcutThread(Thread):
             except:
                 break
             if line:
+                self.enableInput() # TODO what about when about to print more lines?
                 line = sub(r'^(>> )*', '', line)
                 self.emitLine(line)
 
