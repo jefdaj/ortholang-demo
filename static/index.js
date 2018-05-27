@@ -1,6 +1,23 @@
-function repl_autofill(text) {
+function press_return(id) {
+	var e = jQuery.Event("keypress");
+	e.which = 13;
+	e.keyCode = 13;
+	$(id).trigger(e);
+}
+
+function on_enter(id, fn) {
+	$(id).on('keypress', function(e) {
+		// TODO have to disable this too when repl disabled?
+		if(e.which == 13) {
+			fn();
+		};
+	});
+}
+
+function repl_autorun(text) {
 	$('#replstdin').val(text); // TODO strip trailing newline here?
 	$('#replstdin').focus();
+	setTimeout(function() { press_return('#replstdin'); }, 500)
 }
 
 function repl_enable() {
@@ -13,6 +30,13 @@ function repl_disable() {
 	document.getElementById('replstdin').disabled = true;
 	document.getElementById('runkill').innerHTML = 'Kill';
 	document.getElementById('runkill').focus();
+}
+
+function repl_write(filename) {
+	var filename = $('#filename').val()
+	if (filename != '') {
+		repl_autorun(':write ' + filename);
+	}
 }
 
 function openTab(evt, cityName) {
@@ -48,11 +72,8 @@ $(document).ready(function(){
 			run_line($('#replstdin').val())
 		}
 	});
-	$('#replstdin').on('keypress', function(e) {
-		// TODO have to disable this too when repl disabled?
-		if(e.which == 13) {
-			run_line($('#replstdin').val())
-		};
+	on_enter('#replstdin', function() {
+		run_line($('#replstdin').val());
 	});
 
 	// TODO replinput should be:
@@ -99,23 +120,14 @@ $(document).ready(function(){
 		// TODO can I set the placeholder to say comment recieved?
 	});
 
-	// autofill repl with :load to load a previous script
+	// autorun repl with :load to load a previous script
 	// TODO same issue with it disappearing as the save one below...
 	$('#loadbutton').on('click', function() {
-		repl_autofill(':load ' + $('#loadmenu').val())
+		repl_autorun(':load ' + $('#loadmenu').val());
 	});
-// autofill repl input with :write to save a script
-	$('#savebutton').on('click', function() {
-		filename = $('#filename').val()
-		if (filename != '') {
-			repl_autofill(':write ' + filename)
-		}
-	});
-	$('#filename').on('keypress', function(e) {
-		if(e.which == 13) {
-			repl_autofill(':write ' + $('#filename').val())
-		};
-	});
+// autorun repl input with :write to save a script
+	$('#savebutton').on('click', repl_write);
+	on_enter('#filename', repl_write);
 
 	window.onbeforeunload = confirmExit;
 	function confirmExit(){

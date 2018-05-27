@@ -1,6 +1,6 @@
 <div style="text-align: left; width: 90%;">
 	<form id="{{ examples['data/' + path]['id'] }}" style="float: right;">
-		<input type="button" onclick="repl_autofill(':load {{ path }}')" name="submit" value="Load">
+		<input type="button" onclick="repl_autorun(':load {{ path }}', ':show')" name="submit" value="Load">
 	</form>
 	{{ examples['data/' + path]['content'] | safe }}
 </div>
