@@ -1,6 +1,6 @@
-* {
+p {
 	font-family: Arial;
-	font-size: 14;
+	font-size: 12pt;
 }
 #content, html, body {
 	height: 98%;
@@ -21,10 +21,13 @@
 	margin-right: auto;
 	width: 50%;
 }
-code, .highlight {
+pre {
+	width: 90%;
+}
+code, pre, div .highlight {
 	font-family: monospace;
 	font-size: 12pt;
-	background-color: #f8f8f8
+	background-color: #f8f8f8;
 }
 #replstdin, #replstdout, #serverload {
 	font-family: monospace;
@@ -33,11 +36,12 @@ code, .highlight {
 }
 #replstdout {
 	font-size: 12;
-	background: #f8f8f8
+	background: #f8f8f8;
 }
 #serverload {
 	color: #5d5d60;
 	font-size: 14;
+	background-color: white;
 }
 #title {
 	font-style: bold;
