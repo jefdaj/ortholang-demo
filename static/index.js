@@ -15,6 +15,20 @@ function repl_disable() {
 	document.getElementById('runkill').focus();
 }
 
+function openCity(evt, cityName) {
+	var i, tabcontent, tablinks;
+	tabcontent = document.getElementsByClassName("tabcontent");
+	for (i = 0; i < tabcontent.length; i++) {
+		tabcontent[i].style.display = "none";
+	}
+	tablinks = document.getElementsByClassName("tablinks");
+	for (i = 0; i < tablinks.length; i++) {
+		tablinks[i].className = tablinks[i].className.replace(" active", "");
+	}
+	document.getElementById(cityName).style.display = "block";
+	evt.currentTarget.className += " active";
+}
+
 $(document).ready(function(){
 
 	// TODO would explicit disconnect help?
@@ -90,8 +104,7 @@ $(document).ready(function(){
 	$('#loadbutton').on('click', function() {
 		repl_autofill(':load ' + $('#loadmenu').val())
 	});
-
-	// autofill repl input with :write to save a script
+// autofill repl input with :write to save a script
 	$('#savebutton').on('click', function() {
 		filename = $('#filename').val()
 		if (filename != '') {
@@ -112,5 +125,8 @@ $(document).ready(function(){
 	window.addEventListener('beforeunload', function(event) {
 		socket.disconnect();
 	}, false);
+
+	// Get the element with id="defaultOpen" and click on it
+	// document.getElementById("defaultOpen").click(); 
 
 });
