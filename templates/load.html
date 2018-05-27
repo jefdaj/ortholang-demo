@@ -1,9 +1,9 @@
 <div style="float: left; width: 45%; text-align: left;">
 	<button id="loadbutton">Load script</button>
 	<select id="loadmenu">
-		<option value="userscript1.cut">userscript1.cut</option>
-		<option value="johan.cut">johan.cut</option>
-		<option value="another.cut">another.cut</option>
+		{% for name in example_names %}
+			<option value="{{ name }}">{{ name }}</option>
+		{% endfor %}
 	</select>
 	<br/>
 	<br/>

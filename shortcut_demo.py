@@ -20,7 +20,7 @@ from flask_socketio      import SocketIO, emit
 from glob                import glob
 from misaka              import Markdown, HtmlRenderer
 from os                  import setsid, getpgid, killpg
-from os.path             import join, realpath, dirname
+from os.path             import join, realpath, dirname, basename
 from psutil              import cpu_percent, virtual_memory
 from pygments            import highlight
 from pygments.formatters import HtmlFormatter, ClassNotFound
@@ -110,6 +110,9 @@ for path in glob('data/*.cut'):
         txt = '```\n%s\n```\n' % f.read()
     EXAMPLES[path] = {'id': path.replace('/', '_'), 'content': MARKDOWN(txt)}
 
+# for the load script menu
+EXAMPLE_NAMES = [basename(k) for k in EXAMPLES.keys()]
+EXAMPLE_NAMES.sort()
 
 #########
 # flask #
@@ -129,7 +132,7 @@ Misaka(FLASK, tables=True, fenced_code=True, highlight=True)
 
 @FLASK.route('/')
 def index():
-    return render_template('index.html', examples=EXAMPLES)
+    return render_template('index.html', examples=EXAMPLES, example_names=EXAMPLE_NAMES)
 
 
 ############
