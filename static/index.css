@@ -42,8 +42,6 @@ code {
 	font-size: 20;
 }
 
-/* From W3C "How TO - Full Page Tabs" */
-
 /* Style the tab */
 .tab {
 	overflow: hidden;
@@ -80,4 +78,8 @@ code {
 	height: 95%; /* TODO padding instead? */
 	overflow-y: scroll;
 	border: 1px solid #ccc;
+}
+
+#skim-the-docs {
+	width: 250px;
 }

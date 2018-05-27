@@ -127,5 +127,6 @@ $(document).ready(function(){
 	}, false);
 
 	// open the tutorial first
+	// TODO why does this not work?
 	document.getElementById("Intro").click()
 });
