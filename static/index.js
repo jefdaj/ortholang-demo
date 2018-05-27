@@ -128,6 +128,10 @@ $(document).ready(function(){
 		}
 	});
 
+	// download script or result
+	$('#dlscript').on('click', function() { socket.emit('dlscript'); });
+	$('#dlresult').on('click', function() { socket.emit('dlresult'); });
+
 	// submit a comment
 	$('#commentbutton').on('click', function() {
 		socket.emit('comment', $('#commentfield').val());

@@ -195,6 +195,15 @@ def handle_upload(data):
         f.write(data['fileData'])
     LOGGER.info("saved user file '%s'" % filename)
 
+@SOCKETIO.on('dlscript')
+def handle_dlscript():
+    LOGGER.info("client %s requested script download" % request.sid)
+
+@SOCKETIO.on('dlresult')
+def handle_dlresult():
+    LOGGER.info("client %s requested result download" % request.sid)
+
+
 ############
 # shortcut #
 ############
