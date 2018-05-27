@@ -51,42 +51,14 @@
 				<br/>
 				<div style="display: inline-block; width: 100%;">
 					<div id="script">
-
 						<!-- TODO group these by top row being autofills and bottom being server actions -->
-
-						<!-- load/upload -->
-						<div style="float: left; width: 45%; text-align: left;">
-							<button id="loadbutton">Load script</button>
-							<select id="loadmenu">
-								<option value="userscript1.cut">userscript1.cut</option>
-								<option value="johan.cut">johan.cut</option>
-								<option value="another.cut">another.cut</option>
-							</select>
-							<br/>
-							<br/>
-							<button id="uploadbutton">Upload file</button>
-							<input id="upload" type="file" accept="*">
-						</div>
-
-						<div style="float: right; width: 45%; text-align: left;">
-							<!-- save/download -->
-							<button id="savebutton">Save script</button>
-							<input id="filename" type="text" name="scriptname" placeholder="your-script-name.cut">
-							<br/>
-							<br/>
-							<input id="dlscript" type="submit" value="Download script">
-							<input id="dlresult" type="submit" value="Download result">
-						</div>
-
+						{% include "load.html" %}
+						{% include "save.html" %}
 					</div>
 				</div>
 				<br/>
 				<br/>
-
-				<div>
-						<textarea id="commentfield" placeholder="Leave Jeff a question/comment/bug report! Paste anything relevant here too, and include your name if you want a response." style="width:100%; height: 5%; expand: vertical; resize: vertical; float: left;"></textarea>
-						<button id="commentbutton" style="float: right;">Submit comment</button>
-				</div>
+				{% include "comment.html" %}
 			</div>
 		</div>
 	</div>
