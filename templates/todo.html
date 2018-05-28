@@ -1,6 +1,8 @@
 {% filter markdown %}
 Tutorial:
 
+* Include an explanation of the web interface
+
 * Transcribe from github readme:
 
     - Sets
@@ -65,13 +67,22 @@ Tutorial:
 
 ShortCut demo features:
 
-* include inline graphs if possible (should be easy?)
-* pandoc or markdown syntax highlighting?
+* refresh "load script" menu when new scripts written
+* have shortcut also look for files in a default tmpdir if possible
+* if not possible, mass symlink a default folder of tmpfiles to each new one on startup
+
+ShortCut bugfixes:
+
+* redefining result shouldn't cause things to be evaluated
+* crash when running several blast searches at once
+* repeat_each not evaluating the list elements in parallel
 
 ShortCut features:
 
 * anything more needed to turn trained pssms into a working greencut?
 * generate homolog tables like for johan
+* bar graphs for comparing different genomes, sets of genomes to use
 * Venn diagrams if easy from that (don't waste time!)
+* include statements should be fairly easy
 
 {% endfilter %}
