@@ -14,18 +14,33 @@ function on_enter(id, fn) {
 	});
 }
 
-function repl_autorun(text) {
-	// clear terminal when loading a new script
-	// see https://stackoverflow.com/a/3955238
-	if (text.startsWith(':l')) {
-		var repl = document.getElementById("replstdout");
-		while (repl.lastChild) {
-			repl.removeChild(repl.lastChild);
-		}
+// see https://stackoverflow.com/a/3955238
+function repl_clear() {
+	var repl = document.getElementById("replstdout");
+	while (repl.lastChild) {
+		repl.removeChild(repl.lastChild);
 	}
-	$('#replstdin').val(text); // TODO strip trailing newline here?
+}
+
+function repl_autorun(lines) {
+	// clear terminal when loading a new script
+	if (lines[0].startsWith(':l')) {
+		setTimeout(repl_clear, 1000)
+	}
+	// use timeouts + recursion to create a loop with delay each iteration
+	// see https://stackoverflow.com/a/3583740
+	var i = 0;
+	function runLines() {
+		setTimeout(function () {
+			$('#replstdin').val(lines[i]); // TODO strip trailing newline here?
+			// $('#replstdin').focus();
+			setTimeout(function() { press_return('#replstdin'); }, 500)
+			i++;
+			if (i<lines.length) { runLines(); }
+		}, 1000)
+	}
 	$('#replstdin').focus();
-	setTimeout(function() { press_return('#replstdin'); }, 500)
+	runLines();
 }
 
 function repl_enable() {
@@ -43,7 +58,7 @@ function repl_disable() {
 function repl_write(filename) {
 	var filename = $('#filename').val()
 	if (filename != '') {
-		repl_autorun(':write ' + filename);
+		repl_autorun([':write ' + filename]);
 	}
 }
 
@@ -151,7 +166,7 @@ $(document).ready(function(){
 			var name = files[x].name;
 			reader.addEventListener('loadend', function() {
 				socket.emit('upload', {fileName: name, fileData: reader.result});
-				repl_autorun(':load ' + name);
+				repl_autorun([':load ' + name]);
 			});
 			reader.readAsArrayBuffer(files[x]);
 		}
@@ -190,7 +205,7 @@ $(document).ready(function(){
 	// autorun repl with :load to load a previous script
 	// TODO same issue with it disappearing as the save one below...
 	$('#loadbutton').on('click', function() {
-		repl_autorun(':load ' + $('#loadmenu').val());
+		repl_autorun([':load ' + $('#loadmenu').val()]);
 	});
 
         // autorun repl input with :write to save a script
