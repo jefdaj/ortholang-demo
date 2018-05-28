@@ -53,6 +53,21 @@ function openTab(evt, tabName) {
 	evt.currentTarget.className += " active";
 }
 
+// present a text file as a download to the user
+// have to create a temporary link and click it apparently
+// see https://stackoverflow.com/a/15832662
+// see https://stackoverflow.com/questions/13405129/javascript-create-and-save-file
+function download_file(name, text) {
+	var file = new Blob([text], {type: 'text/plain'});
+	var link = document.createElement("a");
+	link.download = name;
+	link.href = URL.createObjectURL(file);
+	document.body.appendChild(link);
+	link.click();
+	document.body.removeChild(link);
+	delete link;
+}
+
 $(document).ready(function(){
 
 	// TODO would explicit disconnect help?
@@ -145,22 +160,16 @@ $(document).ready(function(){
 		}
 	});
 
-	// save script download when received
-	// have to create a temporary link and click it apparently
-	// see https://stackoverflow.com/a/15832662
-	// see https://stackoverflow.com/questions/13405129/javascript-create-and-save-file
+	// respond when script is sent
 	socket.on('dlscript', function(data) {
-		var file = new Blob([data['scriptText']], {type: 'text/plain'});
-		var link = document.createElement("a");
-		link.download = data['scriptName']
-		link.href = URL.createObjectURL(file);
-		document.body.appendChild(link);
-		link.click();
-		document.body.removeChild(link);
-		delete link;
+		download_file(data['scriptName'], data['scriptText'])
 	});
 
-	$('#dlresult').on('click', function() { socket.emit('dlresult'); });
+	// same as script download, except simpler because no name
+	$('#dlresult').on('click', function() { socket.emit('reqresult'); });
+	socket.on('dlresult', function(data) {
+		download_file(data['resultName'], data['resultText'])
+	});
 
 	// submit a comment
 	$('#commentbutton').on('click', function() {

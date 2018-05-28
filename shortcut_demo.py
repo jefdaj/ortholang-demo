@@ -206,9 +206,17 @@ def handle_reqscript(data):
         txt = f.read()
     SOCKETIO.emit('dlscript', {'scriptName': name, 'scriptText': txt})
 
-@SOCKETIO.on('dlresult')
-def handle_dlresult():
-    LOGGER.info("client %s requested result download" % request.sid)
+@SOCKETIO.on('reqresult')
+def handle_reqresult():
+    sid = request.sid
+    LOGGER.info("client %s requested result download" % sid)
+    path = join(SESSIONS[sid].tmpdir, 'vars/result')
+    LOGGER.info("sending '%s' to client %s" % (path, request.sid))
+    with open(path, 'r') as f:
+        txt = f.read()
+    # TODO what about when the result is an image? have them save as for now i guess
+    # TODO how to not log the entire result file?
+    SOCKETIO.emit('dlresult', {'resultName': 'result', 'resultText': txt})
 
 
 ############
