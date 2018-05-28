@@ -15,6 +15,14 @@ function on_enter(id, fn) {
 }
 
 function repl_autorun(text) {
+	// clear terminal when loading a new script
+	// see https://stackoverflow.com/a/3955238
+	if (text.startsWith(':l')) {
+		var repl = document.getElementById("replstdout");
+		while (repl.lastChild) {
+			repl.removeChild(repl.lastChild);
+		}
+	}
 	$('#replstdin').val(text); // TODO strip trailing newline here?
 	$('#replstdin').focus();
 	setTimeout(function() { press_return('#replstdin'); }, 500)
