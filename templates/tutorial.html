@@ -1,4 +1,14 @@
 {% filter markdown %}
+
+Test of running stuff in the repl:
+
+<!-- TODO this is super verbose. how to refactor? -->
+{% endfilter %}
+{%- with lines=[':load green.cut', ':depends green_hits', ':rdepends green_hits'] -%}
+{%- include "run.html" -%}
+{%- endwith -%}
+{% filter markdown %}
+
 The best way to use this tutorial is probably to
 load each example and play around with it a bit as you go. That's the fastest
 way to learn, and also the fastest way for me to get bug reports. Just type

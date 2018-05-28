@@ -1,0 +1,6 @@
+<div style="text-align: left; width: 90%;">
+	<form style="float: right;">
+		<input type="button" onclick="repl_autorun({{ lines | safe }})" name="submit" value="Run">
+	</form>
+	<pre>{{ lines | join('\n') | safe }}</pre>
+</div>
