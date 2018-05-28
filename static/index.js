@@ -43,6 +43,8 @@ function repl_autorun(lines) {
 	runLines();
 }
 
+function repl_autoload(script) { repl_autorun([':load ' + script, ':show']); }
+
 function repl_enable() {
 	document.getElementById('replstdin').disabled = false;
 	document.getElementById('replstdin').focus();
@@ -166,7 +168,7 @@ $(document).ready(function(){
 			var name = files[x].name;
 			reader.addEventListener('loadend', function() {
 				socket.emit('upload', {fileName: name, fileData: reader.result});
-				repl_autorun([':load ' + name]);
+				repl_autoload(name);
 			});
 			reader.readAsArrayBuffer(files[x]);
 		}
@@ -205,7 +207,7 @@ $(document).ready(function(){
 	// autorun repl with :load to load a previous script
 	// TODO same issue with it disappearing as the save one below...
 	$('#loadbutton').on('click', function() {
-		repl_autorun([':load ' + $('#loadmenu').val()]);
+		repl_autoload($('#loadmenu').val());
 	});
 
         // autorun repl input with :write to save a script
