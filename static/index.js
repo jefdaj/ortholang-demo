@@ -59,7 +59,9 @@ function repl_disable() {
 
 function repl_write(filename) {
 	var filename = $('#filename').val()
-	if (filename != '') {
+	if (filename == '') {
+		$('#filename').focus();
+	} else {
 		repl_autorun([':write ' + filename]);
 	}
 }
