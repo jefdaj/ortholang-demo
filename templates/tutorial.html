@@ -1,13 +1,20 @@
+{% macro run_example(lines2) %}
+  {%- with lines=lines2 -%}
+    {%- include "run.html" -%}
+  {%- endwith -%}
+{% endmacro %}
+
+{%- macro load_example(name) -%}
+  {%- with path=name -%}
+    {%- include "example.html" -%}
+  {%- endwith -%}
+{%- endmacro -%}
+
 {% filter markdown %}
 
 Test of running stuff in the repl:
 
-<!-- TODO this is super verbose. how to refactor? -->
-{% endfilter %}
-{%- with lines=[':load green.cut', ':depends green_hits', ':rdepends green_hits'] -%}
-{%- include "run.html" -%}
-{%- endwith -%}
-{% filter markdown %}
+{{ run_example([':load green.cut', ':depends green_hits', ':rdepends green_hits']) }}
 
 The best way to use this tutorial is probably to
 load each example and play around with it a bit as you go. That's the fastest
@@ -22,7 +29,7 @@ confusing, that counts as a bug too!
 Let's start at the beginning.
 This is probably the simplest script you could write:
 
-{% with path='variables01.cut' %} {% include "example.html" %} {% endwith %}
+{{ load_example('variables01.cut') }}
 
 If you downloaded ShortCut and ran `shortcut --script variables01.cut`, it would print
 `"hello world!"`.
@@ -32,7 +39,7 @@ You'll spend most of your time editing it in the interpreter,
 defining and evaluating individual variables.
 Here is a script with several of them.
 
-{% with path='variables02.cut' %} {% include "example.html" %} {% endwith %}
+{{ load_example('variables02.cut') }}
 
 ShortCut keeps track of dependencies between variables, like this:
 
@@ -63,7 +70,7 @@ be added easily if people prefer it._
 
 A few examples:
 
-{% with path='math01.cut' %} {% include "example.html" %} {% endwith %}
+{{ load_example('math01.cut') }}
 
 You can enter numbers in decimal or scientific notation. There's only one type
 of number instead of the several different ones like doubles and floats you
@@ -140,7 +147,7 @@ After evaluating `var4` you can look in the temporary directory and find a file
 you'll get a `.num.list`. You can also make a `.num.list.list` and so on.
 Look at the `:type`s of these:
 
-{%- with path='types01.cut' -%} {%- include "example.html" -%} {%- endwith -%}
+{{ load_example('types01.cut') }}
 
 This might seem like overkill at first, but becomes important for large-scale
 bookkeeping. Imagine you have a few hundred thousand cryptically named
@@ -191,9 +198,7 @@ The `_each` versions take a list of strings and load a list of files.
 There are also `concat_` functions for types that can be concatenated,
 which is helpful if a genome is distributed as multiple files.
 
-{% endfilter %}
-{% with path='load01.cut' %} {% include "example.html" %} {% endwith %}
-{% filter markdown %}
+{{ load_example('load01.cut') }}
 
 As you can see if you try it out, evaluating those functions prints the first few lines.
 Lists do the same thing for each element.
@@ -212,9 +217,7 @@ The `_glob` versions are similar to the `_each` ones but take a single string wi
 wildcard pattern describing the files to load.
 These two do the same thing:
 
-{% endfilter %}
-{% with path='load02.cut' %} {% include "example.html" %} {% endwith %}
-{% filter markdown %}
+{{ load_example('load02.cut') }}
 
 The first one should generally be preferred for clarity though,
 unless you mean to load a list of files that might change.
@@ -223,9 +226,7 @@ unless you mean to load a list of files that might change.
 so you can input your gene IDs or a list of genomes to search.
 Then wrap it in `load_<whatever>_each` to actually load those files if needed:
 
-{% endfilter %}
-{% with path='load03.cut' %} {% include "example.html" %} {% endwith %}
-{% filter markdown %}
+{{ load_example('load03.cut') }}
 
 
 Here are a bunch of random things loaded properly to play around with:
@@ -267,13 +268,9 @@ _Note: `:help` for individual functions coming soon._
 
 You can also download the standard NCBI databases. Try this:
 
-{% endfilter %}
-{% with path='blast02.cut' %} {% include "example.html" %} {% endwith %}
-{% filter markdown %}
+{{ load_example('blast02.cut') }}
 
-{% endfilter %}
-{% with path='blast01.cut' %} {% include "example.html" %} {% endwith %}
-{% filter markdown %}
+{{ load_example('blast01.cut') }}
 
 The SwissProt DB will take a minute or two to download,
 and then you should see a summary like this:
@@ -307,9 +304,7 @@ cutoffs.
 
 Example:
 
-{% endfilter %}
-{% with path='crb.cut' %} {% include "example.html" %} {% endwith %}
-{% filter markdown %}
+{{ load_example('crb.cut') }}
 
 ### PSI-BLAST
 
@@ -360,19 +355,14 @@ strategy is similar to ["split apply combine"][9] in R.
 
 Here is a simpler and more practical example:
 
-{% endfilter %}
-{% with path='prs02.cut' %} {% include "example.html" %} {% endwith %}
-{% filter markdown %}
+{{ load_example('prs02.cut') }}
 
 ### Plotting
 
-{% endfilter %}
-{% with path='plot_histogram.cut' %} {% include "example.html" %} {% endwith %}
-{% filter markdown %}
+{{ load_example('plot_histogram.cut') }}
+
+{{ load_example('plot_scatterplot.cut') }}
+
+{{ load_example('plot_linegraph.cut') }}
 
 {% endfilter %}
-{% with path='plot_scatterplot.cut' %} {% include "example.html" %} {% endwith %}
-{% filter markdown %}
-
-{% endfilter %}
-{% with path='plot_linegraph.cut' %} {% include "example.html" %} {% endwith %}
