@@ -232,7 +232,7 @@ class ShortcutThread(Thread):
         self.datadir = realpath('data')
         self._done = Event()
         self.process = None
-        self.spawnRepl()
+        # self.spawnRepl()
         super(ShortcutThread, self).__init__()
 
     def run(self):
