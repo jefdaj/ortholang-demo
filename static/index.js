@@ -105,11 +105,17 @@ $(document).ready(function(){
 			msg = msg.trim()
 			template.innerHTML = msg;
 			var content = template.content.firstChild;
+			ro.appendChild(content);
+			ro.appendChild(document.createElement('br'));
+			ro.appendChild(document.createElement('br'));
+			// not sure why, but it doesn't scroll all the way without animation
+			// see https://stackoverflow.com/a/10777978
+			$('#replstdout').animate({scrollTop: 100000}, 100);
 		} else {
-			var content = document.createTextNode(msg);
+			ro.appendChild(document.createTextNode(msg));
+			// don't want to animate all lines though because it locks scrollbar temporarily
+			$('#replstdout').scrollTop(100000);
 		}
-		ro.appendChild(content);
-		$('#replstdout').scrollTop(100000);
 	});
 
 	// upload scripts
