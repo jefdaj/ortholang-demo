@@ -128,8 +128,32 @@ $(document).ready(function(){
 		}
 	});
 
-	// download script or result
-	$('#dlscript').on('click', function() { socket.emit('dlscript'); });
+	// request script download
+	$('#dlscript').on('click', function() {
+		var filename = $('#filename').val()
+		if (filename && filename != "") {
+			// TODO auto-save with repl here?
+			socket.emit('reqscript', {fileName: filename});
+		} else {
+			$('#filename').focus()
+		}
+	});
+
+	// save script download when received
+	// have to create a temporary link and click it apparently
+	// see https://stackoverflow.com/a/15832662
+	// see https://stackoverflow.com/questions/13405129/javascript-create-and-save-file
+	socket.on('dlscript', function(data) {
+		var file = new Blob([data['scriptText']], {type: 'text/plain'});
+		var link = document.createElement("a");
+		link.download = data['scriptName']
+		link.href = URL.createObjectURL(file);
+		document.body.appendChild(link);
+		link.click();
+		document.body.removeChild(link);
+		delete link;
+	});
+
 	$('#dlresult').on('click', function() { socket.emit('dlresult'); });
 
 	// submit a comment
@@ -145,7 +169,8 @@ $(document).ready(function(){
 	$('#loadbutton').on('click', function() {
 		repl_autorun(':load ' + $('#loadmenu').val());
 	});
-// autorun repl input with :write to save a script
+
+        // autorun repl input with :write to save a script
 	$('#savebutton').on('click', repl_write);
 	on_enter('#filename', repl_write);
 

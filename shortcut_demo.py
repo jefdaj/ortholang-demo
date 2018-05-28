@@ -195,9 +195,16 @@ def handle_upload(data):
         f.write(data['fileData'])
     LOGGER.info("saved user file '%s'" % filename)
 
-@SOCKETIO.on('dlscript')
-def handle_dlscript():
-    LOGGER.info("client %s requested script download" % request.sid)
+@SOCKETIO.on('reqscript')
+def handle_reqscript(data):
+    # TODO autosave script before downloading maybe-old version?
+    name = data['fileName']
+    LOGGER.info("client %s requested script download (name: '%s')" % (request.sid, name))
+    path = join(realpath('data'), name)
+    LOGGER.info("sending '%s' to client %s" % (path, request.sid))
+    with open(path, 'r') as f:
+        txt = f.read()
+    SOCKETIO.emit('dlscript', {'scriptName': name, 'scriptText': txt})
 
 @SOCKETIO.on('dlresult')
 def handle_dlresult():
@@ -271,7 +278,7 @@ class ShortcutThread(Thread):
             line = line.strip()
             self.process.stdin.write(line + '\n')
             self.emitLine('>> ' + line + '\n')
-            if line.startswith(':') or line.startswith('#') or len(line) == 0:
+            if '=' in line or line.startswith(':') or line.startswith('#') or len(line) == 0:
                 # repl commands are generally instant, but don't print a newline
                 # so to help it along with auto-reenable
                 self.enableInput()
