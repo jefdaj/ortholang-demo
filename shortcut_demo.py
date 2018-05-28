@@ -28,7 +28,7 @@ from pygments.lexers     import PythonLexer
 from re                  import sub, DOTALL
 from shutil              import rmtree
 from signal              import SIGKILL
-from subprocess          import Popen, PIPE, STDOUT
+from subprocess          import Popen, PIPE, STDOUT, check_call
 from threading           import Thread, Event
 from time                import sleep
 from twisted.internet    import reactor as REACTOR
@@ -113,6 +113,7 @@ for path in glob('data/*.cut'):
 # for the load script menu
 EXAMPLE_NAMES = [basename(k) for k in EXAMPLES.keys()]
 EXAMPLE_NAMES.sort()
+
 
 #########
 # flask #
@@ -223,6 +224,8 @@ def handle_reqresult():
 # shortcut #
 ############
 
+TMPCACHE = realpath('tmpcache')
+
 class ShortcutThread(Thread):
     def __init__(self, sessionid):
         LOGGER.info('creating session %s' % sessionid)
@@ -231,17 +234,23 @@ class ShortcutThread(Thread):
         self.tmpdir = join(realpath('static/tmpdirs'), sessionid)
         self.datadir = realpath('data')
         self._done = Event()
-        self.process = None
+        self.process = None # TODO is this safe since run will be called before anything else?
         # self.spawnRepl()
         super(ShortcutThread, self).__init__()
 
     def run(self):
         global LOAD
         LOAD.sessionStarted()
+        self.copyTmpfiles()
         while not self._done.is_set():
             self.spawnRepl()
             self.emitStdout()
         LOAD.sessionEnded()
+
+    def copyTmpfiles(self):
+        LOGGER.info('copying default tmpfiles for session %s' % self.sessionid)
+        cmd = ['./symlink-tmpfiles.sh', TMPCACHE, self.tmpdir]
+        check_call(cmd)
 
     # TODO currently this is the same as killing the interpreter... handle separately in shortcut?
     def stopEval(self):
