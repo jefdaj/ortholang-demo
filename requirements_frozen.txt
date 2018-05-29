@@ -1,9 +1,11 @@
 appdirs==1.4.3
 attrs==18.1.0
 Automat==0.6.0
+cffi==1.11.5
 click==6.7
 constantly==15.1.0
 Flask==1.0.2
+Flask-Misaka==0.4.1
 Flask-SocketIO==3.0.0
 Flask-Twisted==0.1.2
 hyperlink==18.0.0
@@ -12,9 +14,11 @@ incremental==17.5.0
 itsdangerous==0.24
 Jinja2==2.10
 MarkupSafe==1.0
+misaka==2.1.0
 observable==0.3.2
 packaging==16.8
 psutil==5.4.5
+pycparser==2.18
 Pygments==2.2.0
 pyparsing==2.2.0
 python-engineio==2.1.1

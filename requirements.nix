@@ -2,7 +2,7 @@
 # See more at: https://github.com/garbas/pypi2nix
 #
 # COMMAND:
-#   pypi2nix -r requirements.txt -V 2.7
+#   pypi2nix -r requirements.txt -V 2.7 -E libffi
 #
 
 { pkgs ? import <nixpkgs> {}
@@ -29,7 +29,7 @@ let
       };
   };
 
-  commonBuildInputs = [];
+  commonBuildInputs = with pkgs; [ libffi ];
   commonDoCheck = false;
 
   withPackages = pkgs':
@@ -81,7 +81,7 @@ let
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [
-      self."Twisted"
+      # self."Twisted"
       self."attrs"
       self."six"
     ];
@@ -109,6 +109,24 @@ let
         homepage = "https://www.palletsprojects.com/p/flask/";
         license = licenses.bsdOriginal;
         description = "A simple framework for building complex web applications.";
+      };
+    };
+
+
+
+    "Flask-Misaka" = python.mkDerivation {
+      name = "Flask-Misaka-0.4.1";
+      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/3d/19/71e8dc5c537f6a4e3b9ae2836f442a8643c2ce900eafd2484ef18ad87cb3/Flask-Misaka-0.4.1.tar.gz"; sha256 = "1dad09a312aafc3783dd4228bcc60708e339494c1653d6bb8e1936b5c4fdeaac"; };
+      doCheck = commonDoCheck;
+      buildInputs = commonBuildInputs;
+      propagatedBuildInputs = [
+      self."Flask"
+      self."misaka"
+    ];
+      meta = with pkgs.stdenv.lib; {
+        homepage = "https://github.com/singingwolfboy/flask-misaka/";
+        license = licenses.mit;
+        description = "A pleasant interface between the Flask web framework and the Misaka Markdown parser.";
       };
     };
 
@@ -253,6 +271,23 @@ let
 
 
 
+    "cffi" = python.mkDerivation {
+      name = "cffi-1.11.5";
+      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/e7/a7/4cd50e57cc6f436f1cc3a7e8fa700ff9b8b4d471620629074913e3735fb2/cffi-1.11.5.tar.gz"; sha256 = "e90f17980e6ab0f3c2f3730e56d1fe9bcba1891eeea58966e89d352492cc74f4"; };
+      doCheck = commonDoCheck;
+      buildInputs = commonBuildInputs;
+      propagatedBuildInputs = [
+      self."pycparser"
+    ];
+      meta = with pkgs.stdenv.lib; {
+        homepage = "http://cffi.readthedocs.org";
+        license = licenses.mit;
+        description = "Foreign Function Interface for Python calling C code.";
+      };
+    };
+
+
+
     "click" = python.mkDerivation {
       name = "click-6.7";
       src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/95/d9/c3336b6b5711c3ab9d1d3a80f1a3e2afeb9d8c02a7166462f6cc96570897/click-6.7.tar.gz"; sha256 = "f15516df478d5a56180fbf80e68f206010e6d160fc39fa508b65e035fd75130b"; };
@@ -321,7 +356,7 @@ let
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [
-      self."Twisted"
+      # self."Twisted"
       self."click"
     ];
       meta = with pkgs.stdenv.lib; {
@@ -343,6 +378,23 @@ let
         homepage = "http://github.com/mitsuhiko/itsdangerous";
         license = licenses.bsdOriginal;
         description = "Various helpers to pass trusted data to untrusted environments and back.";
+      };
+    };
+
+
+
+    "misaka" = python.mkDerivation {
+      name = "misaka-2.1.0";
+      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/47/c2/ba9c82ae0ec62bcec62d690e715be6ead4457f83000f4ef6e919f77a8e5f/misaka-2.1.0.tar.gz"; sha256 = "87637d90f5f52595d07ed1be93d0576d32632d125694b96b8e4ce55cd4c019fb"; };
+      doCheck = commonDoCheck;
+      buildInputs = commonBuildInputs;
+      propagatedBuildInputs = [
+      self."cffi"
+    ];
+      meta = with pkgs.stdenv.lib; {
+        homepage = "https://github.com/FSX/misaka";
+        license = licenses.mit;
+        description = "A CFFI binding for Hoedown, a markdown parsing library.";
       };
     };
 
@@ -373,6 +425,21 @@ let
         homepage = "https://github.com/giampaolo/psutil";
         license = licenses.bsdOriginal;
         description = "Cross-platform lib for process and system monitoring in Python.";
+      };
+    };
+
+
+
+    "pycparser" = python.mkDerivation {
+      name = "pycparser-2.18";
+      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/8c/2d/aad7f16146f4197a11f8e91fb81df177adcc2073d36a17b1491fd09df6ed/pycparser-2.18.tar.gz"; sha256 = "99a8ca03e29851d96616ad0404b4aad7d9ee16f25c9f9708a11faf2810f7b226"; };
+      doCheck = commonDoCheck;
+      buildInputs = commonBuildInputs;
+      propagatedBuildInputs = [ ];
+      meta = with pkgs.stdenv.lib; {
+        homepage = "https://github.com/eliben/pycparser";
+        license = licenses.bsdOriginal;
+        description = "C parser in Python";
       };
     };
 

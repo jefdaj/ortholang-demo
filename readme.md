@@ -27,7 +27,11 @@ pip install -r requirements.txt
 
 Finally, visit `localhost:5000` in your browser.
 
-Note: do *not* install actual websockets stuff (gevent, eventlets, etc) as that seems to break it.
+Gotchas:
+
+* do *not* install actual websockets stuff (gevent, eventlets, etc) as that seems to break it
+* when updating `requirements.nix` you might have to manually remove
+  some dependencies on `self."Twisted"` to fix an infinite recursion bug
 
 Serve
 -----
