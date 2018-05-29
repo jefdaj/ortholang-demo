@@ -1,8 +1,6 @@
 Flask
+Flask-Misaka
 Flask-SocketIO
-flask-markdown
-flask-misaka
-flask-twisted
-misaka
+Flask-Twisted
 psutil
 pygments

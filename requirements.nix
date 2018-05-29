@@ -81,7 +81,7 @@ let
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [
-      # self."Twisted"
+      self."Twisted"
       self."attrs"
       self."six"
     ];
@@ -109,23 +109,6 @@ let
         homepage = "https://www.palletsprojects.com/p/flask/";
         license = licenses.bsdOriginal;
         description = "A simple framework for building complex web applications.";
-      };
-    };
-
-
-
-    "Flask-Markdown" = python.mkDerivation {
-      name = "Flask-Markdown-0.3";
-      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/08/b0/8149a3c43418220386c0968713282fc0a3a4ef9fef991f7af2173b52505a/Flask-Markdown-0.3.tar.gz"; sha256 = "d8c3f02545b395ad525b86760ad721a2c50efa3b8e602a8d486a1f47f68c6250"; };
-      doCheck = commonDoCheck;
-      buildInputs = commonBuildInputs;
-      propagatedBuildInputs = [
-      self."Markdown"
-    ];
-      meta = with pkgs.stdenv.lib; {
-        homepage = "http://github.com/dcolish/flask-markdown";
-        license = licenses.bsdOriginal;
-        description = "Small extension to make using markdown easy";
       };
     };
 
@@ -185,21 +168,6 @@ let
 
 
 
-    "Markdown" = python.mkDerivation {
-      name = "Markdown-2.6.11";
-      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/b3/73/fc5c850f44af5889192dff783b7b0d8f3fe8d30b65c8e3f78f8f0265fecf/Markdown-2.6.11.tar.gz"; sha256 = "a856869c7ff079ad84a3e19cd87a64998350c2b94e9e08e44270faef33400f81"; };
-      doCheck = commonDoCheck;
-      buildInputs = commonBuildInputs;
-      propagatedBuildInputs = [ ];
-      meta = with pkgs.stdenv.lib; {
-        homepage = "https://Python-Markdown.github.io/";
-        license = licenses.bsdOriginal;
-        description = "Python implementation of Markdown.";
-      };
-    };
-
-
-
     "MarkupSafe" = python.mkDerivation {
       name = "MarkupSafe-1.0";
       src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/4d/de/32d741db316d8fdb7680822dd37001ef7a448255de9699ab4bfcbdf4172b/MarkupSafe-1.0.tar.gz"; sha256 = "a6be69091dac236ea9c6bc7d012beab42010fa914c459791d627dad4910eb665"; };
@@ -210,6 +178,21 @@ let
         homepage = "http://github.com/pallets/markupsafe";
         license = licenses.bsdOriginal;
         description = "Implements a XML/HTML/XHTML Markup safe string for Python";
+      };
+    };
+
+
+
+    "Pygments" = python.mkDerivation {
+      name = "Pygments-2.2.0";
+      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/71/2a/2e4e77803a8bd6408a2903340ac498cb0a2181811af7c9ec92cb70b0308a/Pygments-2.2.0.tar.gz"; sha256 = "dbae1046def0efb574852fab9e90209b23f556367b5a320c0bcb871c77c3e8cc"; };
+      doCheck = commonDoCheck;
+      buildInputs = commonBuildInputs;
+      propagatedBuildInputs = [ ];
+      meta = with pkgs.stdenv.lib; {
+        homepage = "http://pygments.org/";
+        license = licenses.bsdOriginal;
+        description = "Pygments is a syntax highlighting package written in Python.";
       };
     };
 
@@ -338,7 +321,7 @@ let
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [
-      # self."Twisted"
+      self."Twisted"
       self."click"
     ];
       meta = with pkgs.stdenv.lib; {
