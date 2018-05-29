@@ -1,7 +1,7 @@
-shortcut-web
-============
+shortcut-demo
+=============
 
-A relatively simple demo server for [ShortCut][1]!
+An interactive web demo + tutorial for [ShortCut][1].
 
 Install
 -------
