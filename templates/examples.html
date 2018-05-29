@@ -1,10 +1,9 @@
 {%- macro load_example(name) -%}
   {%- with path=name -%}
-    {%- include "example.html" -%}
+    {%- include "loadexample.html" -%}
   {%- endwith -%}
 {%- endmacro -%}
 
-{% filter markdown %}
 OK, so what can you do with it? These examples are explained in more detail in
 the tutorial below, but let's try running them first. Press one of the `Load`
 buttons to fill in the command to load that example. Once it's loaded type
@@ -21,7 +20,5 @@ Repeat any series of steps, changing one variable at a time and plotting the res
 
 {{ load_example('plot_linegraph.cut') }}
 
-
 _Note: these mostly use BLAST, but multiple sequence alignments +
 tree building + clustering are in the works too._
-{% endfilter %}

@@ -1,0 +1,31 @@
+<div style="display: inline-block; width: 100%;">
+	<div id="script">
+
+		<!-- TODO group these by top row being autofills and bottom being server actions -->
+		<div style="float: left; width: 50%; text-align: left;">
+			<button id="loadbutton">Load script</button>
+			<select id="loadmenu">
+				{% for name in example_names %}
+				<option value="{{ name }}">{{ name }}</option>
+				{% endfor %}
+			</select>
+			<br/>
+			<br/>
+			<button id="uploadbutton">Upload script</button>
+			<!-- TODO could accept other files, but need to show progress somehow? -->
+			<input id="upload" type="file" accept="*.cut" multiple>
+		</div>
+
+		<div style="float: right; width: 45%; text-align: left;">
+			<!-- save/download -->
+			<button id="savebutton">Save script</button>
+			<input id="filename" type="text" name="scriptname" placeholder="your-script-name.cut">
+			<br/>
+			<br/>
+			<input id="dlscript" type="submit" value="Download script">
+			<input id="dlresult" type="submit" value="Download result">
+		</div>
+
+	</div>
+</div>
+

@@ -1,3 +1,9 @@
+{%- macro markdown_doc(basename) -%}
+  {%- filter markdown -%}
+    {%- include basename -%}
+  {%- endfilter -%}
+{%- endmacro -%}
+
 <div class="tab">
 	<button id="introbutton" class="tablinks" onclick="openTab(event, 'Intro')">Intro</button>
 	<button class="tablinks" onclick="openTab(event, 'Examples')">Examples</button>
@@ -6,9 +12,9 @@
 	<button class="tablinks" onclick="openTab(event, 'Reference')">Reference</button>
 	<button class="tablinks" onclick="openTab(event, 'TODO')">TODO</button>
 </div>
-<div id="Intro"     class="tabcontent">{% include "intro.html"     %}</div>
-<div id="Examples"  class="tabcontent">{% include "examples.html"  %}</div>
-<div id="Tutorial"  class="tabcontent">{% include "tutorial.html"  %}</div>
-<div id="GreenCut"  class="tabcontent">{% include "greencut.html"  %}</div>
-<div id="Reference" class="tabcontent">{% include "reference.html" %}</div>
-<div id="TODO"      class="tabcontent">{% include "todo.html"      %}</div>
+<div id="Intro"     class="tabcontent">{{ markdown_doc("intro.html")     }}</div>
+<div id="Examples"  class="tabcontent">{{ markdown_doc("examples.html")  }}</div>
+<div id="Tutorial"  class="tabcontent">{{ markdown_doc("tutorial.html")  }}</div>
+<div id="GreenCut"  class="tabcontent">{{ markdown_doc("greencut.html")  }}</div>
+<div id="Reference" class="tabcontent">{{ markdown_doc("reference.html") }}</div>
+<div id="TODO"      class="tabcontent">{{ markdown_doc("todo.html")      }}</div>

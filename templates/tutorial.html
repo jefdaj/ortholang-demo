@@ -1,16 +1,14 @@
 {% macro run_example(lines2) %}
   {%- with lines=lines2 -%}
-    {%- include "run.html" -%}
+    {%- include "runexample.html" -%}
   {%- endwith -%}
 {% endmacro %}
 
 {%- macro load_example(name) -%}
   {%- with path=name -%}
-    {%- include "example.html" -%}
+    {%- include "loadexample.html" -%}
   {%- endwith -%}
 {%- endmacro -%}
-
-{% filter markdown %}
 
 Test of running stuff in the repl:
 
@@ -364,5 +362,3 @@ Here is a simpler and more practical example:
 {{ load_example('plot_scatterplot.cut') }}
 
 {{ load_example('plot_linegraph.cut') }}
-
-{% endfilter %}

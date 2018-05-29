@@ -1,10 +1,8 @@
 {%- macro load_example(name) -%}
   {%- with path=name -%}
-    {%- include "example.html" -%}
+    {%- include "loadexample.html" -%}
   {%- endwith -%}
 {%- endmacro -%}
-
-{% filter markdown %}
 
 Now you know everything you need to make an actual, useful cut.
 Like, the kind you could publish!
@@ -12,5 +10,3 @@ Like, the kind you could publish!
 {{ load_example('green.cut') }}
 
 {{ load_example('green-ids.cut') }}
-
-{% endfilter %}
