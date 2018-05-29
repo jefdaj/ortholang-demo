@@ -2,5 +2,6 @@ Flask
 Flask-Misaka
 Flask-SocketIO
 Flask-Twisted
+Misaka
 psutil
 pygments
