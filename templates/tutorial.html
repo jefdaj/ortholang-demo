@@ -1,18 +1,8 @@
-{% macro run_example(lines2) %}
-  {%- with lines=lines2 -%}
-    {%- include "runexample.html" -%}
-  {%- endwith -%}
-{% endmacro %}
-
 {%- macro load_example(name) -%}
   {%- with path=name -%}
     {%- include "loadexample.html" -%}
   {%- endwith -%}
 {%- endmacro -%}
-
-Test of running stuff in the repl:
-
-{{ run_example([':load green.cut', ':depends green_hits', ':rdepends green_hits']) }}
 
 The best way to use this tutorial is probably to
 load each example and play around with it a bit as you go. That's the fastest
