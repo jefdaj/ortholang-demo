@@ -251,12 +251,12 @@ There are several variants of each one, named with suffixes:
 
 | Format            | Meaning |
 | :-----            | :------ |
-| function          | "Regular" version (no suffix) automatically creates a database from the subject FASTA file before searching |
-| function_db       | Uses a prebuilt BLAST database as the subject. Useful for searching the larger NCBI databases, such as nr or refseq_rna |
-| function_rbh      | Does forward and reverse searches (query -> subject, subject -> query), and keeps only the reciprocal best hits (those where each gene is the other's top hit) |
-| function_each     | BLASTs the query against a list of subjects and returns a list of hit tables |
-| function_db_each  | Searches against a list of prebuilt databases |
-| function_rbh_each | Reciprocal best hits against a list of FASTA files |
+| `function`          | "Regular" version (no suffix) automatically creates a database from the subject FASTA file before searching |
+| `function_db`       | Uses a prebuilt BLAST database as the subject. Useful for searching the larger NCBI databases, such as nr or refseq_rna |
+| `function_rbh`      | Does forward and reverse searches (query -> subject, subject -> query), and keeps only the reciprocal best hits (those where each gene is the other's top hit) |
+| `function_each`     | BLASTs the query against a list of subjects and returns a list of hit tables |
+| `function_db_each`  | Searches against a list of prebuilt databases |
+| `function_rbh_each` | Reciprocal best hits against a list of FASTA files |
 
 A couple examples:
 

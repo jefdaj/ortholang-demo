@@ -31,14 +31,15 @@ that you could if you downloaded ShortCut proper, except:
 * Some terminal niceties like tab completion and clearing the screen are missing
 
 You can upload your own genomes and gene lists, save and restore scripts,
-and download results using the buttons at the bottom left. *Note: buttons don't work yet*
+and download results using the buttons at the bottom left.
 
-## How to use this site
+## How to use the terminal
 
-The terminal on the left interacts with an instance of ShortCut running on the server.
+The terminal on the left interacts with a ShortCut interpreter running on the server.
+It gets wiped and replaced with a new one if you leave or refresh the page.
 Here are the controls:
 
-<img src="/static/controls.png" style="width: 80%;"></img>
+<img src="{{ url_for('static', filename='controls.png') }}" style="width: 80%;"></img>
 
 1. Type text commands in the command line and press enter or click `Run` to run them.
    While a command is running this will grey out and `Run` will change to `Kill`,
@@ -52,10 +53,12 @@ Here are the controls:
 3. Save/download stuff. The only rule here is please don't overwrite someone else's script!
    Pick your own unique name.
    `Download result` always has the latest result,
-   but `Download script` only has the latest version you saved.
+   but `Download script` only has the last version you saved.
 
 4. Tell me if there's something broken, something you want to see or are confused about, or whatever.
    The site doesn't do any kind of user tracking, so include your name and the error message if applicable.
+
+## How to use the docs
 
 The righthand side is documentation. It includes lots of code samples.  There are two types of interactive code blocks:
 
