@@ -158,7 +158,10 @@ EXAMPLE_NAMES.sort()
 
 # TODO any way (or reason) to not run this when importing the module?
 # TODO will this break when put in a package?
-FLASK = Flask(__name__)
+SRCDIR = join(dirname(dirname(__file__)), 'src')
+FLASK = Flask(__name__,
+             template_folder=join(SRCDIR,'templates'),
+             static_folder=join(SRCDIR, 'static'))
 jinja_options = dict(FLASK.jinja_options)
 
 # see https://github.com/tlatsas/jinja2-highlight
@@ -319,6 +322,7 @@ class ShortcutThread(Thread):
         old = ".*plot image '(.*?)'.*"
         new = r' <img src="\1" style="max-width: 400px;"></img> '
         line = sub(old, new, line, flags=DOTALL)
+        # TODO correct this for nix package
         line = sub(dirname(self.tmpdir), 'static/tmpdirs', line)
         SOCKETIO.emit('replstdout', line, namespace='/', room=self.sessionid)
 
