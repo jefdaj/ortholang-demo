@@ -1,5 +1,25 @@
 #!/usr/bin/env python2
 
+# TODO hardcode data dir? make it a separate nix expression? use string path to repo?
+
+'''
+The ShortCut demo server.
+
+Usage:
+  shortcut-demo (-h | --help)
+  shortcut-demo -b BIN_PATH -l LOG_PATH -d DATA_DIR -c COMMENT_DIR -u UPLOAD_DIR -s SCRATCH_DIR -p PORT
+
+Options:
+  -h, --help      Show this help text
+  -b BIN_PATH     Path to the shortcut binary
+  -l LOG_PATH     Path to the log file
+  -d DATA_DIR     Path to the data directory
+  -c COMMENT_DIR  Path to the user comments directory
+  -u UPLOAD_DIR   Path to the user uploads directory
+  -s SCRATCH_DIR  Path to the scratch directory (user tmpfiles etc)
+  -p PORT         Port to serve the demo site
+'''
+ 
 ############################
 # TODO OH MAN! JUST START HERE: http://pygments.org/docs/quickstart/
 # TODO since pygments generates html directly, should be able to put it into the markdown right?
@@ -14,13 +34,14 @@
 import logging as LOGGING
 
 from datetime            import datetime
+from docopt              import docopt
 from flask               import Flask, render_template, request, make_response
 from flask_misaka        import Misaka
 from flask_socketio      import SocketIO, emit
 from glob                import glob
 from misaka              import Markdown, HtmlRenderer
 from os                  import setsid, getpgid, killpg
-from os.path             import join, realpath, dirname, basename
+from os.path             import join, realpath, dirname, basename, splitext
 from psutil              import cpu_percent, virtual_memory
 from pygments            import highlight
 from pygments.formatters import HtmlFormatter, ClassNotFound
@@ -37,13 +58,28 @@ from twisted.web.wsgi    import WSGIResource
 from uuid                import uuid4
 
 
+##########
+# config # 
+##########
+
+ARGS = docopt(__doc__)
+CONFIG = {}
+CONFIG['data_dir'     ] = realpath(ARGS['-d'])
+CONFIG['log_path'     ] = realpath(ARGS['-l'])
+CONFIG['bin_path'     ] = realpath(ARGS['-b'])
+CONFIG['comment_dir'  ] = realpath(ARGS['-c'])
+CONFIG['upload_dir'   ] = realpath(ARGS['-u'])
+CONFIG['scratch_dir'  ] = realpath(ARGS['-s'])
+CONFIG['port'         ] = int(ARGS['-p'])
+
+
 ###########
 # logging #
 ###########
 
 # see https://www.blog.pythonlibrary.org/2012/08/02/python-101-an-intro-to-logging/
 # all modules will use this
-HANDLER = LOGGING.FileHandler('shortcut_demo.log')
+HANDLER = LOGGING.FileHandler(CONFIG['log_path'])
 HANDLER.setFormatter(LOGGING.Formatter('%(asctime)s %(name)s %(levelname)s %(message)s'))
 
 # set up logging for this module
@@ -51,7 +87,7 @@ HANDLER.setFormatter(LOGGING.Formatter('%(asctime)s %(name)s %(levelname)s %(mes
 LOGGER = LOGGING.getLogger('shortcut')
 LOGGER.setLevel(LOGGING.INFO)
 LOGGER.addHandler(HANDLER)
-LOGGER.info('starting shortcut_demo.py')
+LOGGER.info('starting demo.py')
 
 def timestamp():
     return datetime.today().strftime('%Y-%m-%d_%H:%M:%S')
@@ -105,20 +141,23 @@ MARKDOWN = Markdown(HighlighterRenderer(),
 # used to render the code examples
 # LOGGER.info('rendering example cut scripts')
 EXAMPLES = {}
-for path in glob('data/*.cut'):
+for path in glob(join(CONFIG['data_dir'], '*.cut')):
     with open(path, 'r') as f:
         txt = '```\n%s\n```\n' % f.read()
-    EXAMPLES[path] = {'id': path.replace('/', '_'), 'content': MARKDOWN(txt)}
+        name = basename(path)
+    EXAMPLES[name] = {'id': name.replace('.', '_'), 'path': path, 'content': MARKDOWN(txt)}
 
 # for the load script menu
 EXAMPLE_NAMES = [basename(k) for k in EXAMPLES.keys()]
 EXAMPLE_NAMES.sort()
+
 
 #########
 # flask #
 #########
 
 # TODO any way (or reason) to not run this when importing the module?
+# TODO will this break when put in a package?
 FLASK = Flask(__name__)
 jinja_options = dict(FLASK.jinja_options)
 
@@ -130,6 +169,7 @@ jinja_options = dict(FLASK.jinja_options)
 FLASK.config['SECRET_KEY'] = 'so-secret!'
 Misaka(FLASK, tables=True, fenced_code=True, highlight=True)
 
+# TODO will this break when put in a package?
 @FLASK.route('/')
 def index():
     return render_template('index.html', examples=EXAMPLES, example_names=EXAMPLE_NAMES)
@@ -180,7 +220,7 @@ def handle_replkill():
 def handle_comment(comment):
     sid = request.sid
     LOGGER.info("client %s submitted a comment: '%s'" % (sid, comment))
-    filename = join('comments', '%s_%s.txt' % (timestamp(), sid))
+    filename = join(CONFIG['comment_dir'], '%s_%s.txt' % (timestamp(), sid))
     with open(filename, 'w') as f:
         f.write(comment.encode('utf-8'))
 
@@ -190,7 +230,8 @@ def handle_upload(data):
     LOGGER.info("client %s uploaded a file: '%s'" % (sid, data['fileName']))
     # TODO some kind of check and/or put in separate uploads folder
     # TODO get root dir from FLASK
-    filename = join('data', data['fileName'])
+    # TODO or pass data dir
+    filename = join(CONFIG['data_dir'], data['fileName'])
     with open(filename, 'w') as f:
         f.write(data['fileData'])
     LOGGER.info("saved user file '%s'" % filename)
@@ -200,7 +241,7 @@ def handle_reqscript(data):
     # TODO autosave script before downloading maybe-old version?
     name = data['fileName']
     LOGGER.info("client %s requested script download (name: '%s')" % (request.sid, name))
-    path = join(realpath('data'), name)
+    path = join(CONFIG['data_dir'], name)
     LOGGER.info("sending '%s' to client %s" % (path, request.sid))
     with open(path, 'r') as f:
         txt = f.read()
@@ -228,8 +269,8 @@ class ShortcutThread(Thread):
         LOGGER.info('creating session %s' % sessionid)
         self.delay = 0.01
         self.sessionid = sessionid
-        self.tmpdir = join(realpath('static/tmpdirs'), sessionid)
-        self.datadir = realpath('data')
+        self.tmpdir = join(CONFIG['scratch_dir'], sessionid)
+        self.datadir = CONFIG['data_dir']
         self._done = Event()
         self.process = None
         # self.spawnRepl()
@@ -266,7 +307,7 @@ class ShortcutThread(Thread):
     def spawnRepl(self):
         if self.process is not None:
             self.killRepl()
-        cmd = ['shortcut', '--secure', '--interactive',
+        cmd = [CONFIG['bin_path'], '--secure', '--interactive',
                '--tmpdir', self.tmpdir, '--workdir', self.datadir]
         self.process = Popen(cmd, stdin=PIPE, stdout=PIPE, stderr=STDOUT, preexec_fn=setsid)
         LOGGER.info('session %s spawned interpreter %s' % (self.sessionid, self.process.pid))
@@ -330,5 +371,5 @@ SESSIONS = {}
 
 RESOURCE = WSGIResource(REACTOR, REACTOR.getThreadPool(), FLASK)
 SITE = Site(RESOURCE)
-REACTOR.listenTCP(5000, SITE)
+REACTOR.listenTCP(CONFIG['port'], SITE)
 REACTOR.run(installSignalHandlers=True)

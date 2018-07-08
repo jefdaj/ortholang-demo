@@ -76,8 +76,8 @@ let
   generated = self: {
 
     "Automat" = python.mkDerivation {
-      name = "Automat-0.6.0";
-      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/de/05/b8e453085cf8a7f27bb1226596f4ccf5cc9e758377d60284f990bbdc592c/Automat-0.6.0.tar.gz"; sha256 = "3c1fd04ecf08ac87b4dd3feae409542e9bf7827257097b2b6ed5692f69d6f6a8"; };
+      name = "Automat-0.7.0";
+      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/4a/4f/64db3ffda8828cb0541fe949354615f39d02f596b4c33fb74863756fc565/Automat-0.7.0.tar.gz"; sha256 = "cbd78b83fa2d81fe2a4d23d258e1661dd7493c9a50ee2f1a5b2cac61c1793b0e"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [
@@ -133,8 +133,8 @@ let
 
 
     "Flask-SocketIO" = python.mkDerivation {
-      name = "Flask-SocketIO-3.0.0";
-      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/7b/5a/674e764e57d42c54c4ce35d9eca607f4bbe6982322f0daa3d9e5f2f3d227/Flask-SocketIO-3.0.0.tar.gz"; sha256 = "388e0b12d66ea2ca0519a4a8d1cbeb90feb5a98034b44220f256014aad7c5e89"; };
+      name = "Flask-SocketIO-3.0.1";
+      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/78/db/4346643cb8396d82d2513837ab959d7cc9e7b6e6268fb355453aabe11375/Flask-SocketIO-3.0.1.tar.gz"; sha256 = "034c36bad808f93efd5b0aeafd740dc314b0a848f17e9ec6c387c74b3f22dfe7"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [
@@ -318,6 +318,21 @@ let
 
 
 
+    "docopt" = python.mkDerivation {
+      name = "docopt-0.6.2";
+      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/a2/55/8f8cab2afd404cf578136ef2cc5dfb50baa1761b68c9da1fb1e4eed343c9/docopt-0.6.2.tar.gz"; sha256 = "49b3a825280bd66b3aa83585ef59c4a8c82f2c8a522dbe754a8bc8d08c85c491"; };
+      doCheck = commonDoCheck;
+      buildInputs = commonBuildInputs;
+      propagatedBuildInputs = [ ];
+      meta = with pkgs.stdenv.lib; {
+        homepage = "http://docopt.org";
+        license = licenses.mit;
+        description = "Pythonic argument parser, that will make you smile";
+      };
+    };
+
+
+
     "hyperlink" = python.mkDerivation {
       name = "hyperlink-18.0.0";
       src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/41/e1/0abd4b480ec04892b1db714560f8c855d43df81895c98506442babf3652f/hyperlink-18.0.0.tar.gz"; sha256 = "f01b4ff744f14bc5d0a22a6b9f1525ab7d6312cb0ff967f59414bbac52f0a306"; };
@@ -336,8 +351,8 @@ let
 
 
     "idna" = python.mkDerivation {
-      name = "idna-2.6";
-      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/f4/bd/0467d62790828c23c47fc1dfa1b1f052b24efdf5290f071c7a91d0d82fd3/idna-2.6.tar.gz"; sha256 = "2c6a5de3089009e3da7c5dde64a141dbc8551d5b7f6cf4ed7c2568d0cc520a8f"; };
+      name = "idna-2.7";
+      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/65/c4/80f97e9c9628f3cac9b98bfca0402ede54e0563b56482e3e6e45c43c4935/idna-2.7.tar.gz"; sha256 = "684a38a6f903c1d71d6d5fac066b58d7768af4de2b832e426ec79c30daa94a16"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [ ];
@@ -416,8 +431,8 @@ let
 
 
     "psutil" = python.mkDerivation {
-      name = "psutil-5.4.5";
-      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/14/a2/8ac7dda36eac03950ec2668ab1b466314403031c83a95c5efc81d2acf163/psutil-5.4.5.tar.gz"; sha256 = "ebe293be36bb24b95cdefc5131635496e88b17fabbcf1e4bc9b5c01f5e489cfe"; };
+      name = "psutil-5.4.6";
+      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/51/9e/0f8f5423ce28c9109807024f7bdde776ed0b1161de20b408875de7e030c3/psutil-5.4.6.tar.gz"; sha256 = "686e5a35fe4c0acc25f3466c32e716f2d498aaae7b7edc03e2305b682226bcf6"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [ ];
@@ -446,8 +461,8 @@ let
 
 
     "python-engineio" = python.mkDerivation {
-      name = "python-engineio-2.1.1";
-      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/ae/28/11a0c38bf1bdf3d25901b9120dc554fae90647162b48997644cfa026d518/python-engineio-2.1.1.tar.gz"; sha256 = "68307a9cc24392d7a581460226fd0246f92b1923722c37a4af83c374d94b2c8a"; };
+      name = "python-engineio-2.2.0";
+      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/07/09/682c70c33e727aac028fca7216bb0b6efcd276e67118d1df417f778a3af1/python-engineio-2.2.0.tar.gz"; sha256 = "d35c50db73bf372f82975dc87f18f1cbfab7d5bed2dfc2553ae784579502a461"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [
@@ -463,8 +478,8 @@ let
 
 
     "python-socketio" = python.mkDerivation {
-      name = "python-socketio-1.9.0";
-      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/37/94/aab2fc3c2f2a5b974b676d8b47f0b630d7dd406aa28437e38ed47250af5c/python-socketio-1.9.0.tar.gz"; sha256 = "71feb10a1b7b410d8f86bbcb0f589c75a32504a01259ed89aa1d7d5dae9190cc"; };
+      name = "python-socketio-2.0.0";
+      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/23/28/a446c8d6a32449b933d4ec39572bc26c0f42cc955563b28a03bbb328f452/python-socketio-2.0.0.tar.gz"; sha256 = "bde24ef6132a3c2e1b24e77847b31d331abdf8da8c711f0ef9cee4785000e023"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [
