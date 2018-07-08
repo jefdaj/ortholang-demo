@@ -9,17 +9,16 @@ Launch the ShortCut demo server.
 
 Usage:
   shortcut-demo (-h | --help)
-  shortcut-demo -b BIN_PATH -l LOG_PATH -d DATA_DIR -c COMMENT_DIR -u UPLOAD_DIR -s SCRATCH_DIR -p PORT
+  shortcut-demo -l LOG -d DATA -c COMMENTS -u UPLOADS -s SCRATCH -p PORT
 
 Options:
-  -h, --help      Show this help text
-  -b BIN_PATH     Path to the shortcut binary
-  -l LOG_PATH     Path to the log file
-  -d DATA_DIR     Path to the data directory
-  -c COMMENT_DIR  Path to the user comments directory
-  -u UPLOAD_DIR   Path to the user uploads directory
-  -s SCRATCH_DIR  Path to the scratch directory (user tmpfiles etc)
-  -p PORT         Port to serve the demo site
+  -h, --help  Show this help text
+  -l LOG      Path to the log file
+  -d DATA     Path to the data directory
+  -c COMMENTS Path to the user comments directory
+  -u UPLOADS  Path to the user uploads directory
+  -s SCRATCH  Path to the scratch directory (user tmpfiles etc)
+  -p PORT     Port to serve the demo site
 '''
 
 import logging as LOGGING
@@ -57,7 +56,6 @@ ARGS = docopt(__doc__)
 CONFIG = {}
 CONFIG['data_dir'   ] = realpath(ARGS['-d'])
 CONFIG['log_path'   ] = realpath(ARGS['-l'])
-CONFIG['bin_path'   ] = realpath(ARGS['-b'])
 CONFIG['comment_dir'] = realpath(ARGS['-c'])
 CONFIG['upload_dir' ] = realpath(ARGS['-u'])
 CONFIG['scratch_dir'] = realpath(ARGS['-s'])
@@ -305,7 +303,7 @@ class ShortcutThread(Thread):
     def spawnRepl(self):
         if self.process is not None:
             self.killRepl()
-        cmd = [CONFIG['bin_path'], '--secure', '--interactive',
+        cmd = ['shortcut', '--secure', '--interactive',
                '--tmpdir', self.tmpdir, '--workdir', self.datadir]
         self.process = Popen(cmd, stdin=PIPE, stdout=PIPE, stderr=STDOUT, preexec_fn=setsid)
         LOGGER.info('session %s spawned interpreter %s' % (self.sessionid, self.process.pid))

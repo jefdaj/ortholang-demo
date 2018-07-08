@@ -1,11 +1,23 @@
 with import ../shortcut/nixpkgs;
 
 # TODO need to add python + shortcut dependencies to the package
+# TODO take shortcut, global package set as arguments
+# TODO or make shortcut a submodule?
 
 let
-  py = import ./requirements.nix { inherit pkgs; };
-  # shortcut = callPackage ../shortcut {};
-  runDepends = [ ];
+  shortcut = import ../shortcut;
+  myPython = import ./requirements.nix { inherit pkgs; };
+  runDepends = [
+    myPython.interpreter
+    myPython.packages."Flask"
+    myPython.packages."Flask-Misaka"
+    myPython.packages."Flask-SocketIO"
+    myPython.packages."Flask-Twisted"
+    myPython.packages."Pygments"
+    myPython.packages."misaka"
+    myPython.packages."psutil"
+    shortcut
+  ];
 
 in stdenv.mkDerivation rec {
   src = ./.;
