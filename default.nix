@@ -1,5 +1,7 @@
 with import ../shortcut/nixpkgs;
 
+# TODO need to add python + shortcut dependencies to the package
+
 let
   py = import ./requirements.nix { inherit pkgs; };
   # shortcut = callPackage ../shortcut {};

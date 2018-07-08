@@ -1,9 +1,11 @@
 #!/usr/bin/env python2
 
 # TODO hardcode data dir? make it a separate nix expression? use string path to repo?
+# TODO draw a better logo with a map? later for the paper
+# TODO thank that guy for the random numbers example that fixed the bug
 
 '''
-The ShortCut demo server.
+Launch the ShortCut demo server.
 
 Usage:
   shortcut-demo (-h | --help)
@@ -19,17 +21,6 @@ Options:
   -s SCRATCH_DIR  Path to the scratch directory (user tmpfiles etc)
   -p PORT         Port to serve the demo site
 '''
- 
-############################
-# TODO OH MAN! JUST START HERE: http://pygments.org/docs/quickstart/
-# TODO since pygments generates html directly, should be able to put it into the markdown right?
-# TODO and it seems like misaka already does markdown in included templates right?
-#      ...should be almost good to go then!
-# TODO whoa here's a crazy idea: you could syntax highlight the actual repl input too... NO! EXTRA WORK
-############################
-
-# TODO thank that guy for the random numbers example that fixed the bug
-# TODO clean up all these crazy global variables? or is that just python...
 
 import logging as LOGGING
 
@@ -64,13 +55,13 @@ from uuid                import uuid4
 
 ARGS = docopt(__doc__)
 CONFIG = {}
-CONFIG['data_dir'     ] = realpath(ARGS['-d'])
-CONFIG['log_path'     ] = realpath(ARGS['-l'])
-CONFIG['bin_path'     ] = realpath(ARGS['-b'])
-CONFIG['comment_dir'  ] = realpath(ARGS['-c'])
-CONFIG['upload_dir'   ] = realpath(ARGS['-u'])
-CONFIG['scratch_dir'  ] = realpath(ARGS['-s'])
-CONFIG['port'         ] = int(ARGS['-p'])
+CONFIG['data_dir'   ] = realpath(ARGS['-d'])
+CONFIG['log_path'   ] = realpath(ARGS['-l'])
+CONFIG['bin_path'   ] = realpath(ARGS['-b'])
+CONFIG['comment_dir'] = realpath(ARGS['-c'])
+CONFIG['upload_dir' ] = realpath(ARGS['-u'])
+CONFIG['scratch_dir'] = realpath(ARGS['-s'])
+CONFIG['port'       ] = int(ARGS['-p'])
 
 
 ###########
@@ -227,6 +218,10 @@ def handle_comment(comment):
     with open(filename, 'w') as f:
         f.write(comment.encode('utf-8'))
 
+# TODO put uploads in a separate user folder
+# TODO allow uploads of other file types too, not just .cut
+# TODO detect whether uploaded file was .cut and update menu
+#      (need to avoid incorrectly :loading non-cut files)
 @SOCKETIO.on('upload')
 def handle_upload(data):
     sid = request.sid
