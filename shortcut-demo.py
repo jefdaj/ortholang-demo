@@ -12,13 +12,13 @@ Usage:
   shortcut-demo -l LOG -d DATA -c COMMENTS -u UPLOADS -s SCRATCH -p PORT
 
 Options:
-  -h, --help  Show this help text
-  -l LOG      Path to the log file
-  -d DATA     Path to the data directory
-  -c COMMENTS Path to the user comments directory
-  -u UPLOADS  Path to the user uploads directory
-  -s SCRATCH  Path to the scratch directory (user tmpfiles etc)
-  -p PORT     Port to serve the demo site
+  -h, --help   Show this help text
+  -l LOG       Path to the log file
+  -d DATA      Path to the data directory
+  -c COMMENTS  Path to the user comments directory
+  -u UPLOADS   Path to the user uploads directory
+  -s SCRATCH   Path to the scratch directory (user tmpfiles etc)
+  -p PORT      Port to serve the demo site
 '''
 
 import logging as LOGGING
