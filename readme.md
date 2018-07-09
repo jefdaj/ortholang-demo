@@ -6,6 +6,35 @@ An interactive web demo + tutorial for [ShortCut][1].
 Install
 -------
 
+The easiest way is as a NixOS service.
+Just add it to your `/etc/nixos/configuration.nix`:
+
+```.nix
+{
+  imports =
+    [ ...
+      /home/jefdaj/shortcut-demo/service.nix
+    ];
+
+  ...
+
+  services.shortcutDemo = {
+    enable      = true;
+    user        = "jefdaj"; # TODO swtich to dedicated user
+    scratchDir  = "/tmp/shortcut-demo";
+    logPath     = "/tmp/shortcut-demo.log";
+    dataDir     = "/mnt/data/data";
+    commentsDir = "/mnt/data/comments";
+    uploadsDir  = "/mnt/data/uploads";
+    port        = 45772;
+  };
+
+  ...
+
+}
+```
+
+You can also run it standalone.
 First, you need `shortcut` on your `PATH`.
 
 Then run the server the [Nix][2] way:
