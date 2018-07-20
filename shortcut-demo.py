@@ -153,7 +153,7 @@ AUTH = HTTPBasicAuth()
 AUTH_USERS = {}
 
 with open(CONFIG['auth_path'], 'r') as f:
-    for line f.readlines():
+    for line in f.readlines():
         u = line.split()[0] # TODO is this right?
         p = line.split()[1] # TODO is this right?
         AUTH_USERS[u] = p

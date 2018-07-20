@@ -114,6 +114,23 @@ let
 
 
 
+    "Flask-HTTPAuth" = python.mkDerivation {
+      name = "Flask-HTTPAuth-3.2.4";
+      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/f3/b4/1a477f481239620e15392049912bc9b16ea9e2cbf559cf0b55789e685e08/Flask-HTTPAuth-3.2.4.tar.gz"; sha256 = "f71b7611f385fbdf350e8c430eed17b41c3b2200dc35eae19c1734264b68e31d"; };
+      doCheck = commonDoCheck;
+      buildInputs = commonBuildInputs;
+      propagatedBuildInputs = [
+      self."Flask"
+    ];
+      meta = with pkgs.stdenv.lib; {
+        homepage = "http://github.com/miguelgrinberg/flask-httpauth/";
+        license = licenses.mit;
+        description = "Basic and Digest HTTP authentication for Flask routes";
+      };
+    };
+
+
+
     "Flask-Misaka" = python.mkDerivation {
       name = "Flask-Misaka-0.4.1";
       src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/3d/19/71e8dc5c537f6a4e3b9ae2836f442a8643c2ce900eafd2484ef18ad87cb3/Flask-Misaka-0.4.1.tar.gz"; sha256 = "1dad09a312aafc3783dd4228bcc60708e339494c1653d6bb8e1936b5c4fdeaac"; };
@@ -201,6 +218,23 @@ let
 
 
 
+    "PyHamcrest" = python.mkDerivation {
+      name = "PyHamcrest-1.9.0";
+      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/a4/89/a469aad9256aedfbb47a29ec2b2eeb855d9f24a7a4c2ff28bd8d1042ef02/PyHamcrest-1.9.0.tar.gz"; sha256 = "8ffaa0a53da57e89de14ced7185ac746227a8894dbd5a3c718bf05ddbd1d56cd"; };
+      doCheck = commonDoCheck;
+      buildInputs = commonBuildInputs;
+      propagatedBuildInputs = [
+      self."six"
+    ];
+      meta = with pkgs.stdenv.lib; {
+        homepage = "https://github.com/hamcrest/PyHamcrest";
+        license = licenses.bsdOriginal;
+        description = "Hamcrest framework for matcher objects";
+      };
+    };
+
+
+
     "Pygments" = python.mkDerivation {
       name = "Pygments-2.2.0";
       src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/71/2a/2e4e77803a8bd6408a2903340ac498cb0a2181811af7c9ec92cb70b0308a/Pygments-2.2.0.tar.gz"; sha256 = "dbae1046def0efb574852fab9e90209b23f556367b5a320c0bcb871c77c3e8cc"; };
@@ -217,12 +251,14 @@ let
 
 
     "Twisted" = python.mkDerivation {
-      name = "Twisted-18.4.0";
-      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/12/2a/e9e4fb2e6b2f7a75577e0614926819a472934b0b85f205ba5d5d2add54d0/Twisted-18.4.0.tar.bz2"; sha256 = "a4cc164a781859c74de47f17f0e85f4bce8a3321a9d0892c015c8f80c4158ad9"; };
+      name = "Twisted-18.7.0";
+      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/90/50/4c315ce5d119f67189d1819629cae7908ca0b0a6c572980df5cc6942bc22/Twisted-18.7.0.tar.bz2"; sha256 = "95ae985716e8107816d8d0df249d558dbaabb677987cc2ace45272c166b267e4"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [
       self."Automat"
+      self."PyHamcrest"
+      self."attrs"
       self."constantly"
       self."hyperlink"
       self."idna"
