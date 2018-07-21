@@ -9,7 +9,7 @@ Launch the ShortCut demo server.
 
 Usage:
   shortcut-demo (-h | --help)
-  shortcut-demo -l LOG -d DATA -c COMMENTS -u UPLOADS -s SCRATCH -p PORT
+  shortcut-demo -l LOG -d DATA -c COMMENTS -u UPLOADS -s SCRATCH -p PORT -a AUTH
 
 Options:
   -h, --help   Show this help text
@@ -19,6 +19,7 @@ Options:
   -u UPLOADS   Path to the user uploads directory
   -s SCRATCH   Path to the scratch directory (user tmpfiles etc)
   -p PORT      Port to serve the demo site
+  -a AUTH      Path to user authentication file
 '''
 
 import logging as LOGGING
@@ -28,6 +29,7 @@ from docopt              import docopt
 from flask               import Flask, render_template, request, make_response
 from flask_misaka        import Misaka
 from flask_socketio      import SocketIO, emit
+from flask_httpauth      import HTTPBasicAuth
 from glob                import glob
 from misaka              import Markdown, HtmlRenderer
 from os                  import setsid, getpgid, killpg
@@ -59,6 +61,7 @@ CONFIG['log_path'   ] = realpath(ARGS['-l'])
 CONFIG['comment_dir'] = realpath(ARGS['-c'])
 CONFIG['upload_dir' ] = realpath(ARGS['-u'])
 CONFIG['scratch_dir'] = realpath(ARGS['-s'])
+CONFIG['auth_path'  ] = realpath(ARGS['-a'])
 CONFIG['port'       ] = int(ARGS['-p'])
 
 
@@ -142,6 +145,26 @@ EXAMPLE_NAMES = [basename(k) for k in EXAMPLES.keys()]
 EXAMPLE_NAMES.sort()
 
 
+##################
+# authentication #
+##################
+
+AUTH = HTTPBasicAuth()
+AUTH_USERS = {}
+
+with open(CONFIG['auth_path'], 'r') as f:
+    for line f.readlines():
+        u = line.split()[0] # TODO is this right?
+        p = line.split()[1] # TODO is this right?
+        AUTH_USERS[u] = p
+
+@AUTH.get_password
+def get_pw(username):
+    if username in AUTH_USERS:
+        return AUTH_USERS.get(username)
+    return None
+
+
 #########
 # flask #
 #########
@@ -162,8 +185,9 @@ jinja_options = dict(FLASK.jinja_options)
 FLASK.config['SECRET_KEY'] = 'so-secret!'
 Misaka(FLASK, tables=True, fenced_code=True, highlight=True)
 
-# TODO will this break when put in a package?
+# this is a single-page app so only the one route
 @FLASK.route('/')
+@AUTH.login_required
 def index():
     return render_template('index.html', examples=EXAMPLES, example_names=EXAMPLE_NAMES)
 
