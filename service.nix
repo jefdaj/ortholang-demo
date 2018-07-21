@@ -74,7 +74,7 @@ with lib;
       };
 
       port = mkOption {
-        default = 45772;
+        default = 80;
         type = with types; int;
         description = ''
           Port to serve the website on.
@@ -85,7 +85,7 @@ with lib;
   };
 
   config = mkIf cfg.enable {
-    systemd.services."shortcut-demo-server" = {
+    systemd.services."shortcut-demo" = {
       wantedBy = [ "multi-user.target" ];
       after = [ "network.target" ];
       description = "ShortCut demo server";

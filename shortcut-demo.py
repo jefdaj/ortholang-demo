@@ -100,11 +100,12 @@ class ServerLoadThread(Thread):
             sleep(self.delay)
 
     def emitInfo(self):
-        cpu = round(cpu_percent())
-        mem = round(virtual_memory().percent)
-        nfo = {'users': self.n_sessions, 'cpu': cpu, 'memory': mem}
-        LOGGER.info('emitting serverload: %s' % nfo)
-        SOCKETIO.emit('serverload', nfo, namespace='/')
+        if self.n_sessions > 0:
+            cpu = round(cpu_percent())
+            mem = round(virtual_memory().percent)
+            nfo = {'users': self.n_sessions, 'cpu': cpu, 'memory': mem}
+            LOGGER.info('emitting serverload: %s' % nfo)
+            SOCKETIO.emit('serverload', nfo, namespace='/')
 
     def sessionStarted(self):
         self.n_sessions += 1
@@ -316,6 +317,8 @@ class ShortcutThread(Thread):
         new = r' <img src="\1" style="max-width: 400px;"></img> '
         line = sub(old, new, line, flags=DOTALL)
         # TODO correct this for nix package
+
+        # TODO this needs rethinking now that the static dir is actually static in the nix store
         line = sub(dirname(self.tmpdir), 'static/tmpdirs', line)
         SOCKETIO.emit('replstdout', line, namespace='/', room=self.sessionid)
 
