@@ -9,7 +9,7 @@ Launch the ShortCut demo server.
 
 Usage:
   shortcut-demo (-h | --help)
-  shortcut-demo -l LOG -d DATA -c COMMENTS -u UPLOADS -s SCRATCH -p PORT -a AUTH
+  shortcut-demo -l LOG -d DATA -c COMMENTS -u UPLOADS -t TMP -p PORT -a AUTH
 
 Options:
   -h, --help   Show this help text
@@ -17,7 +17,7 @@ Options:
   -d DATA      Path to the data directory
   -c COMMENTS  Path to the user comments directory
   -u UPLOADS   Path to the user uploads directory
-  -s SCRATCH   Path to the scratch directory (user tmpfiles etc)
+  -t TMP       Path to the user tmpdirs
   -p PORT      Port to serve the demo site
   -a AUTH      Path to user authentication file
 '''
@@ -26,7 +26,7 @@ import logging as LOGGING
 
 from datetime            import datetime
 from docopt              import docopt
-from flask               import Flask, render_template, request, make_response
+from flask               import Flask, render_template, request, make_response, send_file
 from flask_misaka        import Misaka
 from flask_socketio      import SocketIO, emit
 from flask_httpauth      import HTTPBasicAuth
@@ -60,7 +60,7 @@ CONFIG['data_dir'   ] = realpath(ARGS['-d'])
 CONFIG['log_path'   ] = realpath(ARGS['-l'])
 CONFIG['comment_dir'] = realpath(ARGS['-c'])
 CONFIG['upload_dir' ] = realpath(ARGS['-u'])
-CONFIG['scratch_dir'] = realpath(ARGS['-s'])
+CONFIG['tmp_dir'    ] = realpath(ARGS['-t'])
 CONFIG['auth_path'  ] = realpath(ARGS['-a'])
 CONFIG['port'       ] = int(ARGS['-p'])
 
@@ -191,6 +191,11 @@ Misaka(FLASK, tables=True, fenced_code=True, highlight=True)
 def index():
     return render_template('index.html', examples=EXAMPLES, example_names=EXAMPLE_NAMES)
 
+@FLASK.route('/tmpdirs/<path:filename>')
+def send_tmpfile(filename):
+    LOGGER.info('sending from tmpdirs: %s' % filename)
+    return send_file(join(CONFIG['tmp_dir'], filename))
+
 
 ############
 # socketio #
@@ -290,7 +295,7 @@ class ShortcutThread(Thread):
         LOGGER.info('creating session %s' % sessionid)
         self.delay = 0.01
         self.sessionid = sessionid
-        self.tmpdir = join(CONFIG['scratch_dir'], sessionid)
+        self.tmpdir = join(CONFIG['tmp_dir'], sessionid)
         self.datadir = CONFIG['data_dir']
         self._done = Event()
         self.process = None
@@ -340,10 +345,11 @@ class ShortcutThread(Thread):
         old = ".*plot image '(.*?)'.*"
         new = r' <img src="\1" style="max-width: 400px;"></img> '
         line = sub(old, new, line, flags=DOTALL)
-        # TODO correct this for nix package
 
-        # TODO this needs rethinking now that the static dir is actually static in the nix store
-        line = sub(dirname(self.tmpdir), 'static/tmpdirs', line)
+        # this is a little weird: actual tmpdir gets replaced with /tmpdirs,
+        # then flask reroutes to the actual tmpdir again in send_tmpfile
+        line = sub(dirname(self.tmpdir), '/tmpdirs', line)
+
         SOCKETIO.emit('replstdout', line, namespace='/', room=self.sessionid)
 
     def readLine(self, line):

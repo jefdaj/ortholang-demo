@@ -73,7 +73,7 @@ with lib;
         '';
       };
 
-      scratchDir = mkOption {
+      tmpDir = mkOption {
         default = "/tmp/shortcut-demo";
         type = with types; uniq string;
         description = ''
@@ -100,8 +100,16 @@ with lib;
       serviceConfig = {
         Type = "simple";
         User = "${cfg.user}";
-        ExecStart = ''${pkgs2.shortcut-demo}/bin/shortcut-demo -l ${cfg.logPath} -d ${cfg.dataDir} -c ${cfg.commentsDir} -u ${cfg.uploadsDir} -s ${cfg.scratchDir} -p ${toString cfg.port} -a ${cfg.authPath}'';
-
+        ExecStart = ''
+          ${pkgs2.shortcut-demo}/bin/shortcut-demo \
+            -l ${cfg.logPath} \
+            -d ${cfg.dataDir} \
+            -c ${cfg.commentsDir} \
+            -u ${cfg.uploadsDir} \
+            -t ${cfg.tmpDir} \
+            -p ${toString cfg.port} \
+            -a ${cfg.authPath}
+        '';
         # TODO get more specific than python?
         ExecStop = "${pkgs2.procps}/bin/pkill -9 python";
       };
