@@ -20,21 +20,9 @@ confusing, that counts as a bug too!
 
 ### Test of Asciinema demos
 
+TODO: re-record the current demos more tersely and put them in the docs like this:
+
 {{ asciicast('test.cast') }}
-
-{{ asciicast('MW5oHH9jMI0gFHXUnimwt3Sap') }}
-
-{{ asciicast('mS8way8pStBVJ1rWQrHMAC8wN') }}
-
-{{ asciicast('g5GErr9NQQABK6jfVHD3oX0cU') }}
-
-{{ asciicast('euimAp0wYpVFfhZBqFaHoYc5h') }}
-
-{{ asciicast('170962') }}
-
-{{ asciicast('170970') }}
-
-{{ asciicast('170999') }}
 
 
 ### Result and Other Variables
