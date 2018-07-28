@@ -5,10 +5,13 @@
 		<script type="text/javascript" src="{{ url_for('static',filename='jquery.min.js') }}"></script>
 		<script type="text/javascript" src="{{ url_for('static',filename='socket.io.slim.js') }}"></script>
 		<script type="text/javascript" src="{{ url_for('static',filename='index.js') }}"></script>
+		<script type="text/javascript" src="{{ url_for('static',filename='asciinema-player.js') }}"></script>
 		<!-- also nice looking: borland, default, emacs, tango -->
 		<link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='tables.css') }}">
 		<link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='pygments-github.css') }}">
 		<link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='index.css') }}">
+		<link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='asciinema-player.css') }}">
+		<link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='asciinema-theme-github.css') }}">
 	</head>
 	<body>
 		<div id="content" style="height: 100%;">
