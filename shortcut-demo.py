@@ -3,14 +3,14 @@
 # TODO hardcode data dir? make it a separate nix expression? use string path to repo?
 # TODO draw a better logo with a map? later for the paper
 # TODO thank that guy for the random numbers example that fixed the bug
-# TODO should collab dir be optional?
+# TODO should users dir be optional?
 
 '''
 Launch the ShortCut demo server.
 
 Usage:
   shortcut-demo (-h | --help)
-  shortcut-demo -l LOG -d DATA -c COMMENTS -u UPLOADS -t TMP -p PORT -a AUTH -o COLLAB
+  shortcut-demo -l LOG -d DATA -c COMMENTS -u UPLOADS -t TMP -p PORT -a AUTH -s USERS
 
 Options:
   -h, --help   Show this help text
@@ -21,7 +21,7 @@ Options:
   -t TMP       Path to the user tmpdirs
   -p PORT      Port to serve the demo site
   -a AUTH      Path to user authentication file
-  -o COLLAB    Path to "work with collaborators" directory
+  -s USERS     Path to user data directory
 '''
 
 import logging as LOGGING
@@ -65,7 +65,7 @@ CONFIG['comment_dir'] = realpath(ARGS['-c'])
 CONFIG['upload_dir' ] = realpath(ARGS['-u'])
 CONFIG['tmp_dir'    ] = realpath(ARGS['-t'])
 CONFIG['auth_path'  ] = realpath(ARGS['-a'])
-CONFIG['collab_dir' ] = realpath(ARGS['-o'])
+CONFIG['users_dir'  ] = realpath(ARGS['-s'])
 CONFIG['port'       ] = int(ARGS['-p'])
 
 
@@ -138,7 +138,7 @@ MARKDOWN = Markdown(HighlighterRenderer(),
 # used to render the code examples
 # LOGGER.info('rendering example cut scripts')
 CODEBLOCKS = {}
-for path in glob(join(CONFIG['data_dir'], '*.cut')) + glob(join(CONFIG['collab_dir'], '*/*.cut')):
+for path in glob(join(CONFIG['data_dir'], '*.cut')) + glob(join(CONFIG['users_dir'], '*/*.cut')):
     with open(path, 'r') as f:
         txt = '```\n%s\n```\n' % f.read()
         name = basename(path)
@@ -194,18 +194,7 @@ FLASK = Flask(__name__,
              template_folder=join(SRCDIR,'templates'),
              static_folder=join(SRCDIR, 'static'))
 
-# def find_collab_page(user):
-#     page = join(user, 'main.md')
-#     if exists(join(CONFIG['collab_dir'], page)):
-#         return page
-#     else:
-#         # return join(join(SRCDIR, 'templates'), 'collab_guest.md')
-#         return 'collab_guest.md'
-
-# template_dirs = FileSystemLoader(join(SRCDIR, 'templates'), CONFIG['collab_dir'])
-FLASK.jinja_loader = ChoiceLoader([FLASK.jinja_loader, FileSystemLoader(CONFIG['collab_dir'])])
-# FLASK.jinja_env.globals.update(find_collab_page=find_collab_page, loader=template_dirs)
-# jinja_options = dict(FLASK.jinja_options)
+FLASK.jinja_loader = ChoiceLoader([FLASK.jinja_loader, FileSystemLoader(CONFIG['users_dir'])])
 
 # see https://github.com/tlatsas/jinja2-highlight
 # jinja_options.setdefault('extensions', []).append('jinja2_highlight.HighlightExtension')
@@ -336,12 +325,13 @@ class ShortcutThread(Thread):
         self.sessionid = sessionid
         self.username  = username
         self.tmpdir = join(CONFIG['tmp_dir'], sessionid)
-        self.datadir = join(self.tmpdir, 'data')
-        collab_dir = join(CONFIG['collab_dir'], self.username)
-        if exists(collab_dir):
-            makedirs(self.tmpdir)
-            symlink(collab_dir, self.datadir)
+        user_dir = join(CONFIG['users_dir'], self.username)
+        if exists(user_dir):
+            # makedirs(self.tmpdir)
+            # symlink(users_dir, self.datadir)
+            self.datadir = user_dir
         else:
+            self.datadir = join(self.tmpdir, 'data')
             makedirs(self.datadir)
         try:
             symlink(CONFIG['data_dir'], join(self.datadir, 'examples')) # TODO rename data examples?

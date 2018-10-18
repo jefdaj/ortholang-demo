@@ -1,6 +1,6 @@
 {%- macro markdown_doc(user) -%}
   {%- filter markdown -%}
-    {%- include [user + '/main.md'] ignore missing -%}
+    {%- include [user + '/collaborate.md'] ignore missing -%}
   {%- endfilter -%}
 {%- endmacro -%}
 
@@ -10,8 +10,6 @@
   {%- endwith -%}
 {%- endmacro -%}
 
-
-
 {% if user == 'guest' %}
 
 Interested in collaborating on a cut script, or want a new feature?
@@ -20,9 +18,7 @@ We can put work on it together and keep notes + code here.
 
 {% else %}
 
-Hi {{ user }}!
-
-<!-- TODO put the above blurb here unless the user main.md exists already -->
+<!-- TODO put the above blurb here unless the user collaborate.md exists already -->
 
 {{ markdown_doc(user) }}
 
