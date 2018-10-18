@@ -324,13 +324,12 @@ class ShortcutThread(Thread):
         self.delay = 0.01
         self.sessionid = sessionid
         self.username  = username
-        self.tmpdir = join(CONFIG['tmp_dir'], sessionid)
         user_dir = join(CONFIG['users_dir'], self.username)
         if exists(user_dir):
-            # makedirs(self.tmpdir)
-            # symlink(users_dir, self.datadir)
             self.datadir = user_dir
+            self.tmpdir  = join(self.datadir, 'tmpdir')
         else:
+            self.tmpdir  = join(CONFIG['tmp_dir'], sessionid)
             self.datadir = join(self.tmpdir, 'data')
             makedirs(self.datadir)
         try:
@@ -368,7 +367,8 @@ class ShortcutThread(Thread):
         except:
             pass
         finally:
-            rmtree(self.tmpdir, ignore_errors=True)
+            if self.username == 'guest':
+                rmtree(self.tmpdir, ignore_errors=True)
 
     def spawnRepl(self):
         if self.process is not None:
@@ -388,6 +388,7 @@ class ShortcutThread(Thread):
 
         # this is a little weird: actual tmpdir gets replaced with /tmpdirs,
         # then flask reroutes to the actual tmpdir again in send_tmpfile
+        # TODO keep this from messing up :config and other things
         line = sub(dirname(self.tmpdir), '/tmpdirs', line)
 
         SOCKETIO.emit('replstdout', line, namespace='/', room=self.sessionid)
