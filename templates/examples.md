@@ -1,5 +1,5 @@
 {%- macro load_example(name) -%}
-  {%- with path=name -%}
+  {%- with path='examples/' + name -%}
     {%- include "loadcode.html" -%}
   {%- endwith -%}
 {%- endmacro -%}

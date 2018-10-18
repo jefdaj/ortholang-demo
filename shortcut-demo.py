@@ -35,7 +35,7 @@ from flask_httpauth      import HTTPBasicAuth
 from glob                import glob
 from jinja2              import ChoiceLoader, FileSystemLoader
 from misaka              import Markdown, HtmlRenderer
-from os                  import setsid, getpgid, killpg
+from os                  import setsid, getpgid, killpg, makedirs, symlink
 from os.path             import exists, join, realpath, dirname, basename, splitext
 from psutil              import cpu_percent, virtual_memory
 from pygments            import highlight
@@ -145,7 +145,7 @@ for path in glob(join(CONFIG['data_dir'], '*.cut')) + glob(join(CONFIG['collab_d
     CODEBLOCKS[name] = {'id': name.replace('.', '_'), 'path': path, 'content': MARKDOWN(txt)}
 
 # for the load script menu
-CODEBLOCK_NAMES = [basename(k) for k in CODEBLOCKS.keys()]
+CODEBLOCK_NAMES = ['examples/' + basename(k) for k in CODEBLOCKS.keys()]
 CODEBLOCK_NAMES.sort()
 
 
@@ -336,7 +336,17 @@ class ShortcutThread(Thread):
         self.sessionid = sessionid
         self.username  = username
         self.tmpdir = join(CONFIG['tmp_dir'], sessionid)
-        self.datadir = CONFIG['data_dir'] # TODO unique data dir per user with examples symlink
+        self.datadir = join(self.tmpdir, 'data')
+        collab_dir = join(CONFIG['collab_dir'], self.username)
+        if exists(collab_dir):
+            makedirs(self.tmpdir)
+            symlink(collab_dir, self.datadir)
+        else:
+            makedirs(self.datadir)
+        try:
+            symlink(CONFIG['data_dir'], join(self.datadir, 'examples')) # TODO rename data examples?
+        except OSError:
+            pass # already exists
         self._done = Event()
         self.process = None
         # self.spawnRepl()
