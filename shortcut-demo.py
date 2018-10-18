@@ -158,11 +158,24 @@ with open(CONFIG['auth_path'], 'r') as f:
         p = line.split()[1] # TODO is this right?
         AUTH_USERS[u] = p
 
-@AUTH.get_password
-def get_pw(username):
-    if username in AUTH_USERS:
-        return AUTH_USERS.get(username)
-    return None
+@AUTH.verify_password
+def verify_pw(username, password):
+    global AUTH_USERS
+    if not username in AUTH_USERS:
+        # go ahead and create it, as long as some password given
+        if len(password) == 0: #TODO require good passwords?
+            return False
+        create_user(username, password)
+    return password == AUTH_USERS[username]
+
+def create_user(username, password):
+    # note this assumes the username isn't taken!
+    # also that a user is different from a SessionUser, which might not have a username
+    LOGGER.info("creating user '%s' with password '%s'" % (username, password))
+    global AUTH_USERS
+    AUTH_USERS[username] = password
+    with open(CONFIG['auth_path'], 'a') as f:
+        f.write('%s\t%s\n' % (username, password))
 
 
 #########
@@ -171,7 +184,8 @@ def get_pw(username):
 
 # TODO any way (or reason) to not run this when importing the module?
 # TODO will this break when put in a package?
-SRCDIR = join(dirname(dirname(__file__)), 'src')
+# SRCDIR = join(dirname(dirname(__file__)), 'src')
+SRCDIR = join(dirname(dirname(__file__)))
 FLASK = Flask(__name__,
              template_folder=join(SRCDIR,'templates'),
              static_folder=join(SRCDIR, 'static'))
@@ -187,9 +201,15 @@ Misaka(FLASK, tables=True, fenced_code=True, highlight=True)
 
 # this is a single-page app so only the one route
 @FLASK.route('/')
+def guest():
+    return render_template('index.html', user='guest', examples=EXAMPLES, example_names=EXAMPLE_NAMES)
+
+# ... but a second entry point helps with authenticated content
+@FLASK.route('/user')
 @AUTH.login_required
-def index():
-    return render_template('index.html', examples=EXAMPLES, example_names=EXAMPLE_NAMES)
+def user():
+    user = AUTH.username()
+    return render_template('index.html', user=user, examples=EXAMPLES, example_names=EXAMPLE_NAMES)
 
 
 ############

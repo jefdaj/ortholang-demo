@@ -66,6 +66,8 @@ Tutorial:
 
 ShortCut demo features:
 
+* download result could make a zip file of all the vars!
+* default to no-auth index, but allow logging in to "collaborator area"
 * get plain markdown working in templates
 * refresh "load script" menu when new scripts written
 * have shortcut also look for files in a default tmpdir if possible

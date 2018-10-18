@@ -1,6 +1,18 @@
 <div style="display: inline-block; width: 100%;">
 	<div id="script">
 
+{% if user == 'guest' %}
+
+		<!-- TODO also create accounts here -->
+		<div style="float: left; text-align: left; font-size: 10pt;">
+			 <a href="/user">Click here</a> to log in or create an account.
+			Accounts are optional, but scripts saved without one may be edited by others or periodically cleaned up.
+		</div>
+		<br/>
+		<br/>
+
+{% endif %}
+
 		<!-- TODO group these by top row being autofills and bottom being server actions -->
 		<div style="float: left; width: 50%; text-align: left;">
 			<button id="loadbutton">Load script</button>
