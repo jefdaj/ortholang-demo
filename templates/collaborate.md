@@ -1,8 +1,15 @@
+{%- macro markdown_doc(user) -%}
+  {%- filter markdown -%}
+    {%- include [user + '/main.md'] ignore missing -%}
+  {%- endfilter -%}
+{%- endmacro -%}
+
 {%- macro load_example(name) -%}
   {%- with path=name -%}
-    {%- include "loadexample.html" -%}
+    {%- include "loadcode.html" -%}
   {%- endwith -%}
 {%- endmacro -%}
+
 
 
 {% if user == 'guest' %}
@@ -13,13 +20,10 @@ We can put work on it together and keep notes + code here.
 
 {% else %}
 
-<!-- TODO render user collaboration page here -->
-Welcome back, {{ user }}!
+Hi {{ user }}!
+
+<!-- TODO put the above blurb here unless the user main.md exists already -->
+
+{{ markdown_doc(user) }}
 
 {% endif %}
-
-<!--
-{{ load_example('green.cut') }}
-
-{{ load_example('green-ids.cut') }}
--->

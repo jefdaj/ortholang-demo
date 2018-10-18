@@ -3,13 +3,14 @@
 # TODO hardcode data dir? make it a separate nix expression? use string path to repo?
 # TODO draw a better logo with a map? later for the paper
 # TODO thank that guy for the random numbers example that fixed the bug
+# TODO should collab dir be optional?
 
 '''
 Launch the ShortCut demo server.
 
 Usage:
   shortcut-demo (-h | --help)
-  shortcut-demo -l LOG -d DATA -c COMMENTS -u UPLOADS -t TMP -p PORT -a AUTH
+  shortcut-demo -l LOG -d DATA -c COMMENTS -u UPLOADS -t TMP -p PORT -a AUTH -o COLLAB
 
 Options:
   -h, --help   Show this help text
@@ -20,6 +21,7 @@ Options:
   -t TMP       Path to the user tmpdirs
   -p PORT      Port to serve the demo site
   -a AUTH      Path to user authentication file
+  -o COLLAB    Path to "work with collaborators" directory
 '''
 
 import logging as LOGGING
@@ -31,6 +33,7 @@ from flask_misaka        import Misaka
 from flask_socketio      import SocketIO, emit
 from flask_httpauth      import HTTPBasicAuth
 from glob                import glob
+from jinja2              import ChoiceLoader, FileSystemLoader
 from misaka              import Markdown, HtmlRenderer
 from os                  import setsid, getpgid, killpg
 from os.path             import exists, join, realpath, dirname, basename, splitext
@@ -62,6 +65,7 @@ CONFIG['comment_dir'] = realpath(ARGS['-c'])
 CONFIG['upload_dir' ] = realpath(ARGS['-u'])
 CONFIG['tmp_dir'    ] = realpath(ARGS['-t'])
 CONFIG['auth_path'  ] = realpath(ARGS['-a'])
+CONFIG['collab_dir' ] = realpath(ARGS['-o'])
 CONFIG['port'       ] = int(ARGS['-p'])
 
 
@@ -133,16 +137,16 @@ MARKDOWN = Markdown(HighlighterRenderer(),
 
 # used to render the code examples
 # LOGGER.info('rendering example cut scripts')
-EXAMPLES = {}
-for path in glob(join(CONFIG['data_dir'], '*.cut')):
+CODEBLOCKS = {}
+for path in glob(join(CONFIG['data_dir'], '*.cut')) + glob(join(CONFIG['collab_dir'], '*/*.cut')):
     with open(path, 'r') as f:
         txt = '```\n%s\n```\n' % f.read()
         name = basename(path)
-    EXAMPLES[name] = {'id': name.replace('.', '_'), 'path': path, 'content': MARKDOWN(txt)}
+    CODEBLOCKS[name] = {'id': name.replace('.', '_'), 'path': path, 'content': MARKDOWN(txt)}
 
 # for the load script menu
-EXAMPLE_NAMES = [basename(k) for k in EXAMPLES.keys()]
-EXAMPLE_NAMES.sort()
+CODEBLOCK_NAMES = [basename(k) for k in CODEBLOCKS.keys()]
+CODEBLOCK_NAMES.sort()
 
 
 ##################
@@ -189,7 +193,19 @@ if exists(join(SRCDIR, 'src')): # when in the final package
 FLASK = Flask(__name__,
              template_folder=join(SRCDIR,'templates'),
              static_folder=join(SRCDIR, 'static'))
-jinja_options = dict(FLASK.jinja_options)
+
+# def find_collab_page(user):
+#     page = join(user, 'main.md')
+#     if exists(join(CONFIG['collab_dir'], page)):
+#         return page
+#     else:
+#         # return join(join(SRCDIR, 'templates'), 'collab_guest.md')
+#         return 'collab_guest.md'
+
+# template_dirs = FileSystemLoader(join(SRCDIR, 'templates'), CONFIG['collab_dir'])
+FLASK.jinja_loader = ChoiceLoader([FLASK.jinja_loader, FileSystemLoader(CONFIG['collab_dir'])])
+# FLASK.jinja_env.globals.update(find_collab_page=find_collab_page, loader=template_dirs)
+# jinja_options = dict(FLASK.jinja_options)
 
 # see https://github.com/tlatsas/jinja2-highlight
 # jinja_options.setdefault('extensions', []).append('jinja2_highlight.HighlightExtension')
@@ -202,14 +218,14 @@ Misaka(FLASK, tables=True, fenced_code=True, highlight=True)
 # this is a single-page app so only the one route
 @FLASK.route('/')
 def guest():
-    return render_template('index.html', user='guest', examples=EXAMPLES, example_names=EXAMPLE_NAMES)
+    return render_template('index.html', user='guest', codeblocks=CODEBLOCKS, codeblock_names=CODEBLOCK_NAMES)
 
 # ... but a second entry point helps with authenticated content
 @FLASK.route('/user')
 @AUTH.login_required
 def user():
     user = AUTH.username()
-    return render_template('index.html', user=user, examples=EXAMPLES, example_names=EXAMPLE_NAMES)
+    return render_template('index.html', user=user, codeblocks=CODEBLOCKS, code_names=CODEBLOCK_NAMES)
 
 @FLASK.route('/tmpdirs/<path:filename>')
 def send_tmpfile(filename):
@@ -236,7 +252,10 @@ def handle_connect():
     LOGGER.info('client %s connected' % sid)
     global SESSIONS
     if not sid in SESSIONS:
-        SESSIONS[sid] = ShortcutThread(sid)
+        uname = AUTH.username()
+        if not uname:
+            uname = 'guest'
+        SESSIONS[sid] = ShortcutThread(sid, uname)
     thread = SESSIONS[sid]
     if not thread.isAlive():
         thread.start()
@@ -311,12 +330,13 @@ def handle_reqresult():
 ############
 
 class ShortcutThread(Thread):
-    def __init__(self, sessionid):
+    def __init__(self, sessionid, username):
         LOGGER.info('creating session %s' % sessionid)
         self.delay = 0.01
         self.sessionid = sessionid
+        self.username  = username
         self.tmpdir = join(CONFIG['tmp_dir'], sessionid)
-        self.datadir = CONFIG['data_dir']
+        self.datadir = CONFIG['data_dir'] # TODO unique data dir per user with examples symlink
         self._done = Event()
         self.process = None
         # self.spawnRepl()
