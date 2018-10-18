@@ -1,3 +1,9 @@
+{%- macro asciicast(name) -%}
+  {%- with path=name -%}
+    {%- include "asciicast.html" -%}
+  {%- endwith -%}
+{%- endmacro -%}
+
 {%- macro load_example(name) -%}
   {%- with path=name -%}
     {%- include "loadexample.html" -%}
@@ -10,6 +16,13 @@ way to learn, and also the fastest way for me to get bug reports. Just type
 them in the box on the lower left. Something short like "I did this and
 expected this, but this happened instead" is fine. If the tutorial is
 confusing, that counts as a bug too!
+
+
+### Test of Asciinema demos
+
+TODO: re-record the current demos more tersely and put them in the docs like this:
+
+{{ asciicast('test.cast') }}
 
 
 ### Result and Other Variables

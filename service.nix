@@ -33,6 +33,14 @@ with lib;
         '';
       };
 
+      authPath = mkOption {
+        default = "/tmp/shortcut-users.txt"; # TODO where should this go by default?
+        type = with types; uniq string;
+        description = ''
+          Path to the auth file (tab-separated usernames and passwords)
+        '';
+      };
+
       logPath = mkOption {
         default = "/tmp/shortcut-demo.log";
         type = with types; uniq string;
@@ -65,7 +73,7 @@ with lib;
         '';
       };
 
-      scratchDir = mkOption {
+      tmpDir = mkOption {
         default = "/tmp/shortcut-demo";
         type = with types; uniq string;
         description = ''
@@ -92,8 +100,16 @@ with lib;
       serviceConfig = {
         Type = "simple";
         User = "${cfg.user}";
-        ExecStart = ''${pkgs2.shortcut-demo}/bin/shortcut-demo -l ${cfg.logPath} -d ${cfg.dataDir} -c ${cfg.commentsDir} -u ${cfg.uploadsDir} -s ${cfg.scratchDir} -p ${toString cfg.port}'';
-
+        ExecStart = ''
+          ${pkgs2.shortcut-demo}/bin/shortcut-demo \
+            -l ${cfg.logPath} \
+            -d ${cfg.dataDir} \
+            -c ${cfg.commentsDir} \
+            -u ${cfg.uploadsDir} \
+            -t ${cfg.tmpDir} \
+            -p ${toString cfg.port} \
+            -a ${cfg.authPath}
+        '';
         # TODO get more specific than python?
         ExecStop = "${pkgs2.procps}/bin/pkill -9 python";
       };
