@@ -1,3 +1,11 @@
+Bugfixes:
+
+* openFile: resource exhausted (Too many open files):
+
+    - happens only when printing a large list?
+    - should i just print the first couple elements?
+    - why isn't strict file reading working here?
+
 Tutorial:
 
 * Include an explanation of the web interface
