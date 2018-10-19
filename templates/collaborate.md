@@ -10,16 +10,6 @@
   {%- endwith -%}
 {%- endmacro -%}
 
-{% if user == 'guest' %}
-
-Interested in collaborating on a cut script, or want a new feature?
-Create an account, then email Jeff or leave a comment about it.
-We can put work on it together and keep notes + code here.
-
-{% else %}
-
 <!-- TODO put the above blurb here unless the user collaborate.md exists already -->
 
 {{ markdown_doc(user) }}
-
-{% endif %}
