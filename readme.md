@@ -2,6 +2,7 @@ shortcut-demo
 =============
 
 An interactive web demo + tutorial for [ShortCut][1].
+Try the live version at [shortcut.pmb.berkeley.edu](https://shortcut.pmb.berkeley.edu)!
 
 Install
 -------
