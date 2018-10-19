@@ -74,6 +74,7 @@ Tutorial:
 
 ShortCut demo features:
 
+* write lines to history.txt
 * download result could make a zip file of all the vars!
 * default to no-auth index, but allow logging in to "collaborator area"
 * get plain markdown working in templates
