@@ -197,6 +197,7 @@ FLASK = Flask(__name__,
              static_folder=join(SRCDIR, 'static'))
 
 FLASK.jinja_loader = ChoiceLoader([FLASK.jinja_loader, FileSystemLoader(CONFIG['users_dir'])])
+FLASK.config['TEMPLATES_AUTO_RELOAD'] = True
 
 # see https://github.com/tlatsas/jinja2-highlight
 # jinja_options.setdefault('extensions', []).append('jinja2_highlight.HighlightExtension')
