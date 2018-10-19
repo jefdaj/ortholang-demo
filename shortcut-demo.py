@@ -51,6 +51,7 @@ from twisted.internet    import reactor as REACTOR
 from twisted.web.server  import Site
 from twisted.web.wsgi    import WSGIResource
 from uuid                import uuid4
+from werkzeug.security   import generate_password_hash, check_password_hash
 
 
 ##########
@@ -167,19 +168,20 @@ def verify_pw(username, password):
     global AUTH_USERS
     if not username in AUTH_USERS:
         # go ahead and create it, as long as some password given
-        if len(password) == 0: #TODO require good passwords?
+        if len(password) == 0: # TODO require good passwords?
             return False
         create_user(username, password)
-    return password == AUTH_USERS[username]
+    return check_password_hash(AUTH_USERS[username], password)
 
 def create_user(username, password):
     # note this assumes the username isn't taken!
     # also that a user is different from a SessionUser, which might not have a username
-    LOGGER.info("creating user '%s' with password '%s'" % (username, password))
+    pwhash = generate_password_hash(password)
+    LOGGER.info("creating user '%s' with password hash '%s'" % (username, pwhash))
     global AUTH_USERS
-    AUTH_USERS[username] = password
+    AUTH_USERS[username] = pwhash
     with open(CONFIG['auth_path'], 'a') as f:
-        f.write('%s\t%s\n' % (username, password))
+        f.write('%s\t%s\n' % (username, pwhash))
 
 
 #########
