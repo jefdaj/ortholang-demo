@@ -11,9 +11,9 @@ buttons to fill in the command to load that example. Once it's loaded type
 
 {{ load_example('prs02.cut') }}
 
-Find reciprocal best PSI-BLAST hits between two (large) diatom genomes:
+Find reciprocal best PSI-BLAST hits between two genomes:
 
-{{ load_example('diatom.cut') }}
+{{ load_example('psiblast_rbh.cut') }}
 
 Repeat any series of steps, changing one variable at a time and plotting the results.
 (Trivial steps shown here)
