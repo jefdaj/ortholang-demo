@@ -181,6 +181,7 @@ $(document).ready(function(){
 		var filename = $('#filename').val()
 		if (filename && filename != "") {
 			// TODO auto-save with repl here?
+			// TODO set repl to point to newly saved script too?
 			socket.emit('reqscript', {fileName: filename});
 		} else {
 			$('#filename').focus()

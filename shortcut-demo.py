@@ -28,7 +28,7 @@ import logging as LOGGING
 
 from datetime            import datetime
 from docopt              import docopt
-from flask               import Flask, render_template, request, make_response, send_file
+from flask               import Flask, render_template, request, make_response, send_from_directory
 from flask_misaka        import Misaka
 from flask_socketio      import SocketIO, emit
 from flask_httpauth      import HTTPBasicAuth
@@ -216,11 +216,30 @@ def user():
     user = AUTH.username()
     return render_template('index.html', user=user, codeblocks=CODEBLOCKS, code_names=CODEBLOCK_NAMES)
 
-@FLASK.route('/tmpdirs/<path:filename>')
+# Flask doesn't like sending random files from all over for security reasons,
+# so we make these simplified routes where /TMPDIR and /WORKDIR refer to their ShortCut equivalents.
+# Lines from ShortCut get rewritten with regexes to include that (messy I know),
+# and then this function finds the real paths again when we need to fetch a file.
+@FLASK.route('/TMPDIR/<path:filename>')
 def send_tmpfile(filename):
-    LOGGER.info('sending from tmpdirs: %s' % filename)
-    return send_file(join(CONFIG['tmp_dir'], filename))
+    filename = with_real_paths(filename)
+    LOGGER.info('sending tmpfile: %s' % filename)
+    # return send_file(filename)
+    return send_from_directory(dirname(filename), basename(filename))
 
+@FLASK.route('/img/<path:filename>')
+def get_image(filename):
+    filename = '/' + filename
+    LOGGER.info("sending image: '%s'" % filename)
+    return send_from_directory(dirname(filename), basename(filename), mimetype='image/png')
+
+def with_real_paths(sid, line):
+    repl = SESSIONS[sid]
+    # print "line before: '%s'" % line
+    line = sub('/TMPDIR' , repl.tmpdir , line)
+    line = sub('/WORKDIR', repl.workdir, line)
+    # print "line after: '%s'" % line
+    return line
 
 ############
 # socketio #
@@ -295,7 +314,8 @@ def handle_reqscript(data):
     # TODO autosave script before downloading maybe-old version?
     name = data['fileName']
     LOGGER.info("client %s requested script download (name: '%s')" % (request.sid, name))
-    path = join(CONFIG['data_dir'], name)
+    repl = SESSIONS[request.sid]
+    path = join(repl.workdir, name)
     LOGGER.info("sending '%s' to client %s" % (path, request.sid))
     with open(path, 'r') as f:
         txt = f.read()
@@ -326,14 +346,14 @@ class ShortcutThread(Thread):
         self.username  = username
         user_dir = join(CONFIG['users_dir'], self.username)
         if exists(user_dir):
-            self.datadir = user_dir
-            self.tmpdir  = join(self.datadir, 'tmpdir')
+            self.workdir = user_dir
+            self.tmpdir  = join(self.workdir, 'tmpdir')
         else:
             self.tmpdir  = join(CONFIG['tmp_dir'], sessionid)
-            self.datadir = join(self.tmpdir, 'data')
-            makedirs(self.datadir)
+            self.workdir = join(self.tmpdir, 'data')
+            makedirs(self.workdir)
         try:
-            symlink(CONFIG['data_dir'], join(self.datadir, 'examples')) # TODO rename data examples?
+            symlink(CONFIG['data_dir'], join(self.workdir, 'examples')) # TODO rename data examples?
         except OSError:
             pass # already exists
         self._done = Event()
@@ -374,7 +394,7 @@ class ShortcutThread(Thread):
         if self.process is not None:
             self.killRepl()
         cmd = ['shortcut', '--secure', '--interactive',
-               '--tmpdir', self.tmpdir, '--workdir', self.datadir]
+               '--tmpdir', self.tmpdir, '--workdir', self.workdir]
         self.process = Popen(cmd, stdin=PIPE, stdout=PIPE, stderr=STDOUT, preexec_fn=setsid)
         LOGGER.info('session %s spawned interpreter %s' % (self.sessionid, self.process.pid))
 
@@ -383,13 +403,16 @@ class ShortcutThread(Thread):
         # TODO also hack it to show them one per line
         # TODO ... and with list brackets?
         old = ".*plot image '(.*?)'.*"
-        new = r' <img src="\1" style="max-width: 400px;"></img> '
+        new = r' <img src="/img\1" style="max-width: 400px;"></img> '
         line = sub(old, new, line, flags=DOTALL)
 
-        # this is a little weird: actual tmpdir gets replaced with /tmpdirs,
-        # then flask reroutes to the actual tmpdir again in send_tmpfile
-        # TODO keep this from messing up :config and other things
-        line = sub(dirname(self.tmpdir), '/tmpdirs', line)
+        if not '<img' in line:
+            # rewrites tmpdir and workdir paths for simpler routes
+            # see find_real_filename for the rationale + undoing it
+            # print "line before: '%s'" % line
+            line = sub(self.workdir, '/WORKDIR', line)
+            line = sub(self.tmpdir , '/TMPDIR' , line)
+            # print "line after: '%s'" % line
 
         SOCKETIO.emit('replstdout', line, namespace='/', room=self.sessionid)
 
