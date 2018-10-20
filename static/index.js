@@ -213,7 +213,7 @@ $(document).ready(function(){
 		repl_autoload($('#loadmenu').val());
 	});
 
-        // autorun repl input with :write to save a script
+    // autorun repl input with :write to save a script
 	$('#savebutton').on('click', repl_write);
 	on_enter('#filename', repl_write);
 
@@ -227,6 +227,10 @@ $(document).ready(function(){
 	}, false);
 
 	// show intro tab when page first loaded
-	document.getElementById('Intro').style.display = "block";
-	document.getElementById('introbutton').className += " active";
+	// TODO go back to this way once the site is set up
+	// document.getElementById('Intro').style.display = "block";
+	// document.getElementById('introbutton').className += " active";
+
+	document.getElementById('Collaborate').style.display = "block";
+	document.getElementById('collabbutton').className += " active";
 });
