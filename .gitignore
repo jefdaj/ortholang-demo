@@ -1,8 +1,7 @@
+*.log
 *.pyc
 *.sw*
 .venv
 comments
-tmpdirs
-*.log
-data
 result
+tmpdirs

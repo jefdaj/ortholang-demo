@@ -3,13 +3,14 @@
 # TODO hardcode data dir? make it a separate nix expression? use string path to repo?
 # TODO draw a better logo with a map? later for the paper
 # TODO thank that guy for the random numbers example that fixed the bug
+# TODO should users dir be optional?
 
 '''
 Launch the ShortCut demo server.
 
 Usage:
   shortcut-demo (-h | --help)
-  shortcut-demo -l LOG -d DATA -c COMMENTS -u UPLOADS -t TMP -p PORT -a AUTH
+  shortcut-demo -l LOG -d DATA -c COMMENTS -u UPLOADS -t TMP -p PORT -a AUTH -s USERS
 
 Options:
   -h, --help   Show this help text
@@ -20,20 +21,22 @@ Options:
   -t TMP       Path to the user tmpdirs
   -p PORT      Port to serve the demo site
   -a AUTH      Path to user authentication file
+  -s USERS     Path to user data directory
 '''
 
 import logging as LOGGING
 
 from datetime            import datetime
 from docopt              import docopt
-from flask               import Flask, render_template, request, make_response, send_file
+from flask               import Flask, render_template, request, make_response, send_from_directory
 from flask_misaka        import Misaka
 from flask_socketio      import SocketIO, emit
 from flask_httpauth      import HTTPBasicAuth
 from glob                import glob
+from jinja2              import ChoiceLoader, FileSystemLoader
 from misaka              import Markdown, HtmlRenderer
-from os                  import setsid, getpgid, killpg
-from os.path             import join, realpath, dirname, basename, splitext
+from os                  import setsid, getpgid, killpg, makedirs, symlink
+from os.path             import exists, join, realpath, dirname, basename, splitext
 from psutil              import cpu_percent, virtual_memory
 from pygments            import highlight
 from pygments.formatters import HtmlFormatter, ClassNotFound
@@ -48,6 +51,7 @@ from twisted.internet    import reactor as REACTOR
 from twisted.web.server  import Site
 from twisted.web.wsgi    import WSGIResource
 from uuid                import uuid4
+from werkzeug.security   import generate_password_hash, check_password_hash
 
 
 ##########
@@ -62,6 +66,7 @@ CONFIG['comment_dir'] = realpath(ARGS['-c'])
 CONFIG['upload_dir' ] = realpath(ARGS['-u'])
 CONFIG['tmp_dir'    ] = realpath(ARGS['-t'])
 CONFIG['auth_path'  ] = realpath(ARGS['-a'])
+CONFIG['users_dir'  ] = realpath(ARGS['-s'])
 CONFIG['port'       ] = int(ARGS['-p'])
 
 
@@ -133,16 +138,16 @@ MARKDOWN = Markdown(HighlighterRenderer(),
 
 # used to render the code examples
 # LOGGER.info('rendering example cut scripts')
-EXAMPLES = {}
-for path in glob(join(CONFIG['data_dir'], '*.cut')):
+CODEBLOCKS = {}
+for path in glob(join(CONFIG['data_dir'], '*.cut')) + glob(join(CONFIG['users_dir'], '*/*.cut')):
     with open(path, 'r') as f:
         txt = '```\n%s\n```\n' % f.read()
         name = basename(path)
-    EXAMPLES[name] = {'id': name.replace('.', '_'), 'path': path, 'content': MARKDOWN(txt)}
+    CODEBLOCKS[name] = {'id': name.replace('.', '_'), 'path': path, 'content': MARKDOWN(txt)}
 
 # for the load script menu
-EXAMPLE_NAMES = [basename(k) for k in EXAMPLES.keys()]
-EXAMPLE_NAMES.sort()
+CODEBLOCK_NAMES = ['examples/' + basename(k) for k in CODEBLOCKS.keys()]
+CODEBLOCK_NAMES.sort()
 
 
 ##################
@@ -158,24 +163,41 @@ with open(CONFIG['auth_path'], 'r') as f:
         p = line.split()[1] # TODO is this right?
         AUTH_USERS[u] = p
 
-@AUTH.get_password
-def get_pw(username):
-    if username in AUTH_USERS:
-        return AUTH_USERS.get(username)
-    return None
+@AUTH.verify_password
+def verify_pw(username, password):
+    global AUTH_USERS
+    if not username in AUTH_USERS:
+        # go ahead and create it, as long as some password given
+        if len(password) == 0: # TODO require good passwords?
+            return False
+        create_user(username, password)
+    return check_password_hash(AUTH_USERS[username], password)
+
+def create_user(username, password):
+    # note this assumes the username isn't taken!
+    # also that a user is different from a SessionUser, which might not have a username
+    pwhash = generate_password_hash(password)
+    LOGGER.info("creating user '%s' with password hash '%s'" % (username, pwhash))
+    global AUTH_USERS
+    AUTH_USERS[username] = pwhash
+    with open(CONFIG['auth_path'], 'a') as f:
+        f.write('%s\t%s\n' % (username, pwhash))
 
 
 #########
 # flask #
 #########
 
-# TODO any way (or reason) to not run this when importing the module?
-# TODO will this break when put in a package?
-SRCDIR = join(dirname(dirname(__file__)), 'src')
+SRCDIR = join(dirname(dirname(__file__))) # when testing in nix-shell
+if exists(join(SRCDIR, 'src')): # when in the final package
+  SRCDIR = join(SRCDIR, 'src')
+
 FLASK = Flask(__name__,
              template_folder=join(SRCDIR,'templates'),
              static_folder=join(SRCDIR, 'static'))
-jinja_options = dict(FLASK.jinja_options)
+
+FLASK.jinja_loader = ChoiceLoader([FLASK.jinja_loader, FileSystemLoader(CONFIG['users_dir'])])
+FLASK.config['TEMPLATES_AUTO_RELOAD'] = True
 
 # see https://github.com/tlatsas/jinja2-highlight
 # jinja_options.setdefault('extensions', []).append('jinja2_highlight.HighlightExtension')
@@ -187,15 +209,40 @@ Misaka(FLASK, tables=True, fenced_code=True, highlight=True)
 
 # this is a single-page app so only the one route
 @FLASK.route('/')
+def guest():
+    return render_template('index.html', user='guest', codeblocks=CODEBLOCKS, codeblock_names=CODEBLOCK_NAMES)
+
+# ... but a second entry point helps with authenticated content
+@FLASK.route('/user')
 @AUTH.login_required
-def index():
-    return render_template('index.html', examples=EXAMPLES, example_names=EXAMPLE_NAMES)
+def user():
+    user = AUTH.username()
+    return render_template('index.html', user=user, codeblocks=CODEBLOCKS, code_names=CODEBLOCK_NAMES)
 
-@FLASK.route('/tmpdirs/<path:filename>')
+# Flask doesn't like sending random files from all over for security reasons,
+# so we make these simplified routes where /TMPDIR and /WORKDIR refer to their ShortCut equivalents.
+# Lines from ShortCut get rewritten with regexes to include that (messy I know),
+# and then this function finds the real paths again when we need to fetch a file.
+@FLASK.route('/TMPDIR/<path:filename>')
 def send_tmpfile(filename):
-    LOGGER.info('sending from tmpdirs: %s' % filename)
-    return send_file(join(CONFIG['tmp_dir'], filename))
+    filename = with_real_paths(filename)
+    LOGGER.info('sending tmpfile: %s' % filename)
+    # return send_file(filename)
+    return send_from_directory(dirname(filename), basename(filename))
 
+@FLASK.route('/img/<path:filename>')
+def get_image(filename):
+    filename = '/' + filename
+    LOGGER.info("sending image: '%s'" % filename)
+    return send_from_directory(dirname(filename), basename(filename), mimetype='image/png')
+
+def with_real_paths(sid, line):
+    repl = SESSIONS[sid]
+    # print "line before: '%s'" % line
+    line = sub('/TMPDIR' , repl.tmpdir , line)
+    line = sub('/WORKDIR', repl.workdir, line)
+    # print "line after: '%s'" % line
+    return line
 
 ############
 # socketio #
@@ -216,7 +263,10 @@ def handle_connect():
     LOGGER.info('client %s connected' % sid)
     global SESSIONS
     if not sid in SESSIONS:
-        SESSIONS[sid] = ShortcutThread(sid)
+        uname = AUTH.username()
+        if not uname:
+            uname = 'guest'
+        SESSIONS[sid] = ShortcutThread(sid, uname)
     thread = SESSIONS[sid]
     if not thread.isAlive():
         thread.start()
@@ -267,7 +317,8 @@ def handle_reqscript(data):
     # TODO autosave script before downloading maybe-old version?
     name = data['fileName']
     LOGGER.info("client %s requested script download (name: '%s')" % (request.sid, name))
-    path = join(CONFIG['data_dir'], name)
+    repl = SESSIONS[request.sid]
+    path = join(repl.workdir, name)
     LOGGER.info("sending '%s' to client %s" % (path, request.sid))
     with open(path, 'r') as f:
         txt = f.read()
@@ -291,12 +342,23 @@ def handle_reqresult():
 ############
 
 class ShortcutThread(Thread):
-    def __init__(self, sessionid):
+    def __init__(self, sessionid, username):
         LOGGER.info('creating session %s' % sessionid)
         self.delay = 0.01
         self.sessionid = sessionid
-        self.tmpdir = join(CONFIG['tmp_dir'], sessionid)
-        self.datadir = CONFIG['data_dir']
+        self.username  = username
+        user_dir = join(CONFIG['users_dir'], self.username)
+        if exists(user_dir):
+            self.workdir = user_dir
+            self.tmpdir  = join(self.workdir, 'tmpdir')
+        else:
+            self.tmpdir  = join(CONFIG['tmp_dir'], sessionid)
+            self.workdir = join(self.tmpdir, 'data')
+            makedirs(self.workdir)
+        try:
+            symlink(CONFIG['data_dir'], join(self.workdir, 'examples')) # TODO rename data examples?
+        except OSError:
+            pass # already exists
         self._done = Event()
         self.process = None
         # self.spawnRepl()
@@ -328,13 +390,14 @@ class ShortcutThread(Thread):
         except:
             pass
         finally:
-            rmtree(self.tmpdir, ignore_errors=True)
+            if self.username == 'guest':
+                rmtree(self.tmpdir, ignore_errors=True)
 
     def spawnRepl(self):
         if self.process is not None:
             self.killRepl()
         cmd = ['shortcut', '--secure', '--interactive',
-               '--tmpdir', self.tmpdir, '--workdir', self.datadir]
+               '--tmpdir', self.tmpdir, '--workdir', self.workdir]
         self.process = Popen(cmd, stdin=PIPE, stdout=PIPE, stderr=STDOUT, preexec_fn=setsid)
         LOGGER.info('session %s spawned interpreter %s' % (self.sessionid, self.process.pid))
 
@@ -343,12 +406,16 @@ class ShortcutThread(Thread):
         # TODO also hack it to show them one per line
         # TODO ... and with list brackets?
         old = ".*plot image '(.*?)'.*"
-        new = r' <img src="\1" style="max-width: 400px;"></img> '
+        new = r' <img src="/img\1" style="max-width: 400px;"></img> '
         line = sub(old, new, line, flags=DOTALL)
 
-        # this is a little weird: actual tmpdir gets replaced with /tmpdirs,
-        # then flask reroutes to the actual tmpdir again in send_tmpfile
-        line = sub(dirname(self.tmpdir), '/tmpdirs', line)
+        if not '<img' in line:
+            # rewrites tmpdir and workdir paths for simpler routes
+            # see find_real_filename for the rationale + undoing it
+            # print "line before: '%s'" % line
+            line = sub(self.workdir, '/WORKDIR', line)
+            line = sub(self.tmpdir , '/TMPDIR' , line)
+            # print "line after: '%s'" % line
 
         SOCKETIO.emit('replstdout', line, namespace='/', room=self.sessionid)
 
