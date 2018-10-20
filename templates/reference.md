@@ -124,3 +124,15 @@ sense. They each return a BLAST hit table (`bht`), or a list of those. Use
 `extract_queries` to get a list of genes from your query genome with hits, or
 `extract_targets` for a list of the genes they matched. Use `length` to find
 out how many hits without printing all of them.
+
+## PsiBLAST
+
+## HMMER
+
+## InParanoid
+
+## OrthoFinder
+
+## SourMash
+
+## TreeCl
