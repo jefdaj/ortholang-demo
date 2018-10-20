@@ -249,32 +249,9 @@ Finally, you can convert between formats and concatenate things:
 ### NCBI BLAST+
 
 ShortCut provides the most common NCBI BLAST programs, which differ in their
-subject and query types.
-
-| Function  | Query | Subject |
-| :-------  | :---- | :------ |
-| blastn    | nucl  | nucl    |
-| blastp    | prot  | prot    |
-| blastx    | trans | prot    |
-| tblastn   | prot  | nucl (translated) |
-| tblastx   | nucl (translated) | nucl (translated) |
-| megablast | nucl  | nucl    |
-
-There are several variants of each one, named with suffixes:
-
-| Format            | Meaning |
-| :-----            | :------ |
-| `function`          | "Regular" version (no suffix) automatically creates a database from the subject FASTA file before searching |
-| `function_db`       | Uses a prebuilt BLAST database as the subject. Useful for searching the larger NCBI databases, such as nr or refseq_rna |
-| `function_rbh`      | Does forward and reverse searches (query -> subject, subject -> query), and keeps only the reciprocal best hits (those where each gene is the other's top hit) |
-| `function_each`     | BLASTs the query against a list of subjects and returns a list of hit tables |
-| `function_db_each`  | Searches against a list of prebuilt databases |
-| `function_rbh_each` | Reciprocal best hits against a list of FASTA files |
+subject and query types. See the Reference tab at the top for all the variants.
 
 A couple examples:
-
-
-Not all functions come in all variants, because some of them wouldn't make sense.
 
 _Note: Just ask if you want one of the more exotic ones added, like `rps-blast` or `delta-blast`._
 
