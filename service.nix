@@ -1,4 +1,5 @@
 {config, pkgs, lib, ...}:
+with lib;
 
 # TODO clean up the pkgs, pkgs2 thing
 # TODO don't kill all python processes when stopping
@@ -10,11 +11,7 @@ let
     "shortcut-demo" = import /home/jefdaj/shortcut-demo;
   };
 
-in
-
-with lib;
-
-{
+in {
   options = {
     services.shortcutDemo = {
       enable = mkOption {
@@ -49,6 +46,7 @@ with lib;
         '';
       };
 
+      # TODO does this actually work?
       dataDir = mkOption {
         default = "/mnt/data/data";
         type = with types; uniq string;
@@ -81,6 +79,14 @@ with lib;
         '';
       };
 
+      usersDir = mkOption {
+        default = "/mnt/data/users";
+        type = with types; uniq string;
+        description = ''
+          Where to save persistent user files. Probably on your big data drive.
+        '';
+      };
+
       port = mkOption {
         default = 80;
         type = with types; int;
@@ -108,7 +114,8 @@ with lib;
             -u ${cfg.uploadsDir} \
             -t ${cfg.tmpDir} \
             -p ${toString cfg.port} \
-            -a ${cfg.authPath}
+            -a ${cfg.authPath} \
+            -s ${cfg.usersDir}
         '';
         # TODO get more specific than python?
         ExecStop = "${pkgs2.procps}/bin/pkill -9 python";
