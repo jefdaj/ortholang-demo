@@ -210,7 +210,9 @@ Misaka(FLASK, tables=True, fenced_code=True, highlight=True)
 # this is a single-page app so only the one route
 @FLASK.route('/')
 def guest():
-    return render_template('index.html', user='guest', codeblocks=CODEBLOCKS, codeblock_names=CODEBLOCK_NAMES)
+    return render_template('construction.html')
+    # TODO put main site back once it's a little more ready
+    # return render_template('index.html', user='guest', codeblocks=CODEBLOCKS, codeblock_names=CODEBLOCK_NAMES)
 
 # ... but a second entry point helps with authenticated content
 @FLASK.route('/user')
