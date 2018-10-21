@@ -334,17 +334,15 @@ values, and see how the results change.
 Suppose you have the original program in the box on the left, and want to know,
 "What happens to `var6` if I change `var1`?"
 
+Using the `repeat_each` function you can recalculate `var6` starting from 3 alternate versions of `var1`:
+
 <img src="{{ url_for('static',filename='prs.png') }}" width="800">
 
-`repeat_each` recalculates `var6` starting from 3 alternate versions of `var1`,
-and reports a list of results.
-
 Note that this is all "repeat"; the "permute" and "summarize" steps would be
-separate functions to generate the list of `var1` permutations and aggregate
-the final results in some way, perhaps filtering or plotting them. The overall
-strategy is similar to ["split apply combine"][9] in R.
+separate functions to generate the list of `var1` permutations (during step 2) and aggregate
+the final results in some way, perhaps filtering or plotting them (during step 4).
 
-Here is a simpler and more practical example:
+Here is a more practical example that repeats a BLAST search with a list of cutoffs:
 
 {{ load_example('prs02.cut') }}
 
