@@ -136,19 +136,22 @@ class HighlighterRenderer(HtmlRenderer):
 MARKDOWN = Markdown(HighlighterRenderer(),
                     extensions=('highlight', 'fenced-code', 'tables'))
 
-# used to render the code examples
-# LOGGER.info('rendering example cut scripts')
-CODEBLOCKS = {}
-for path in glob(join(CONFIG['data_dir'], '*.cut')) + glob(join(CONFIG['users_dir'], '*/*.cut')):
-    with open(path, 'r') as f:
-        txt = '```\n%s\n```\n' % f.read()
-        name = basename(path)
-    CODEBLOCKS[name] = {'id': name.replace('.', '_'), 'path': path, 'content': MARKDOWN(txt)}
+def load_codeblock_names(codeblocks):
+    # for the load script menu
+    # TODO use paths instead of basenames
+    names = [basename(k) for k in codeblocks.keys()]
+    names.sort()
+    return names
 
-# for the load script menu
-# TODO use paths instead of basenames
-CODEBLOCK_NAMES = [basename(k) for k in CODEBLOCKS.keys()]
-CODEBLOCK_NAMES.sort()
+def load_codeblocks():
+    # used to render the code examples
+    codeblocks = {}
+    for path in glob(join(CONFIG['data_dir'], '*.cut')) + glob(join(CONFIG['users_dir'], '*/*.cut')):
+        with open(path, 'r') as f:
+            txt = '```\n%s\n```\n' % f.read()
+            name = basename(path)
+        codeblocks[name] = {'id': name.replace('.', '_'), 'path': path, 'content': MARKDOWN(txt)}
+    return codeblocks
 
 
 ##################
@@ -192,6 +195,7 @@ def create_user(username, password):
 #########
 
 def list_user_scripts(username):
+    # load_code_blocks() # super hacky but reloads code blocks along with templates
     upath = join(CONFIG['users_dir'], username)
     paths = [relpath(p, upath) for p in glob(join(upath, '*.cut')) + glob(join(upath, '*/*.cut'))]
     # paths.sort()
@@ -220,16 +224,18 @@ Misaka(FLASK, tables=True, fenced_code=True, highlight=True)
 # this is a single-page app so only the one route
 @FLASK.route('/')
 def guest():
-    return render_template('construction.html')
     # TODO put main site back once it's a little more ready
     # return render_template('index.html', user='guest', codeblocks=CODEBLOCKS, codeblock_names=CODEBLOCK_NAMES)
+    return render_template('construction.html')
 
 # ... but a second entry point helps with authenticated content
 @FLASK.route('/user')
 @AUTH.login_required
 def user():
     user = AUTH.username()
-    return render_template('index.html', user=user, codeblocks=CODEBLOCKS, codeblock_names=CODEBLOCK_NAMES)
+    blocks = load_codeblocks()
+    names = load_codeblock_names(blocks)
+    return render_template('index.html', user=user, codeblocks=blocks, codeblock_names=names)
 
 # Flask doesn't like sending random files from all over for security reasons,
 # so we make these simplified routes where /TMPDIR and /WORKDIR refer to their ShortCut equivalents.
