@@ -12,11 +12,7 @@
 		<br/>
 		ShortCut demo server under construction.
 		<br/>
-		{% if user == 'guest' %}
-			<a id="loginlink" href="/user">Click here</a> to try it if you have an account.
-		{% else %}
-			<a id="loginlink" href={{ url_for('user', _external=True).replace('://', '://guest:guest@') }}>Click here</a> to try it if you have an account.
-		{% endif %}
+		<a id="loginlink" href="/user">Click here</a> to try it if you have an account.
 		</center>
 	</p>
 </html>

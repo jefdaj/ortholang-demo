@@ -36,7 +36,7 @@ from glob                import glob
 from jinja2              import ChoiceLoader, FileSystemLoader
 from misaka              import Markdown, HtmlRenderer
 from os                  import setsid, getpgid, killpg, makedirs, symlink
-from os.path             import exists, join, realpath, dirname, basename, splitext
+from os.path             import exists, join, relpath, realpath, dirname, basename, splitext
 from psutil              import cpu_percent, virtual_memory
 from pygments            import highlight
 from pygments.formatters import HtmlFormatter, ClassNotFound
@@ -146,7 +146,8 @@ for path in glob(join(CONFIG['data_dir'], '*.cut')) + glob(join(CONFIG['users_di
     CODEBLOCKS[name] = {'id': name.replace('.', '_'), 'path': path, 'content': MARKDOWN(txt)}
 
 # for the load script menu
-CODEBLOCK_NAMES = ['examples/' + basename(k) for k in CODEBLOCKS.keys()]
+# TODO use paths instead of basenames
+CODEBLOCK_NAMES = [basename(k) for k in CODEBLOCKS.keys()]
 CODEBLOCK_NAMES.sort()
 
 
@@ -190,6 +191,12 @@ def create_user(username, password):
 # flask #
 #########
 
+def list_user_scripts(username):
+    upath = join(CONFIG['users_dir'], username)
+    paths = [relpath(p, upath) for p in glob(join(upath, '*.cut')) + glob(join(upath, '*/*.cut'))]
+    # paths.sort()
+    return paths
+
 SRCDIR = join(dirname(dirname(__file__))) # when testing in nix-shell
 if exists(join(SRCDIR, 'src')): # when in the final package
   SRCDIR = join(SRCDIR, 'src')
@@ -198,6 +205,7 @@ FLASK = Flask(__name__,
              template_folder=join(SRCDIR,'templates'),
              static_folder=join(SRCDIR, 'static'))
 
+FLASK.jinja_env.globals.update(list_user_scripts=list_user_scripts)
 FLASK.jinja_loader = ChoiceLoader([FLASK.jinja_loader, FileSystemLoader(CONFIG['users_dir'])])
 FLASK.config['TEMPLATES_AUTO_RELOAD'] = True
 
@@ -221,7 +229,7 @@ def guest():
 @AUTH.login_required
 def user():
     user = AUTH.username()
-    return render_template('index.html', user=user, codeblocks=CODEBLOCKS, code_names=CODEBLOCK_NAMES)
+    return render_template('index.html', user=user, codeblocks=CODEBLOCKS, codeblock_names=CODEBLOCK_NAMES)
 
 # Flask doesn't like sending random files from all over for security reasons,
 # so we make these simplified routes where /TMPDIR and /WORKDIR refer to their ShortCut equivalents.
