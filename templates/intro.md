@@ -26,7 +26,7 @@ to build on!
 The `shortcut` program is a command-line language interpreter, kind of like
 `python` or `R` but for cut scripts. On your left is a hacky "terminal" I made
 so you can try it from a web browser. You can do most of the same things in it
-that you could if you [installed ShortCut proper][1], except:
+that you could if you [install ShortCut on your computer][1], except:
 
 * Your session will be deleted when you leave this page
 * Long-running scripts might be killed without warning to keep the demo responsive for others
@@ -35,7 +35,7 @@ that you could if you [installed ShortCut proper][1], except:
 You can upload your own genomes and gene lists, save and restore scripts,
 and download results using the buttons under the terminal.
 
-For anything compute-intensive, you probably want to [install it on your own computer][1]
+For anything compute-intensive, you probably want to install it on your own computer
 instead. You can also contact Jeff (bottom left) to discuss running your search
 on the [Berkeley high-performance computing][2] cluster or installing ShortCut
 at your institution.
