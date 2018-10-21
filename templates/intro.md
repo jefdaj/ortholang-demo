@@ -5,7 +5,7 @@
 {% endmacro %}
 
 {%- macro load_example(name) -%}
-  {%- with path=name -%}
+  {%- with path= 'examples/' + name -%}
     {%- include "loadcode.html" -%}
   {%- endwith -%}
 {%- endmacro -%}
@@ -40,17 +40,13 @@ instead. You can also contact Jeff (bottom left) to discuss running your search
 on the [Berkeley high-performance computing][2] cluster or installing ShortCut
 at your institution.
 
-## Accounts
+## Make an account
 
-Making an account is optional, but scripts saved as `guest` are public and others might edit them.
-No email or signup is required! Just [click here][3] and make up a username + password.
-If you do want to be updated when a new version comes out, leave your email in the comment box.
+This is optional, but scripts saved as `guest` are public and others might edit them.
+No email or signup form required! Just [click here][3] and make up a username + password.
+If you want to be updated when a new version comes out, leave your email in the comment box.
 
 ## How to use the terminal
-
-The terminal on the left interacts with a ShortCut interpreter running on the server.
-It gets wiped and replaced with a new one if you leave or refresh the page.
-Here are the controls:
 
 <img src="{{ url_for('static', filename='controls.png') }}" style="width: 80%;"></img>
 
@@ -73,21 +69,18 @@ Here are the controls:
 
 ## How to use the docs
 
-The righthand side is documentation. It includes lots of code samples.  There are two types of interactive code blocks:
-
-Complete cut scripts with `Load` buttons to load them in the interpreter. For example:
+There are two types of interactive code blocks.
+Complete cut scripts with `Load` buttons like this:
 
 {{ load_example('load03.cut') }}
 
-Examples of commands you would type in the interpreter.
+... and examples of commands you would type in the interpreter.
 The `Run` button just types them for you.
 They can include loading scripts, but also anything else you might do live:
-redefine variables, look at depdencies, etc. For example:
+redefine variables, look at depdencies, etc.
 
 {{ run_example([':load green.cut', ':depends green_hits', ':rdepends green_hits']) }}
 
-The best way to approach the tutorial is to guess what each command will do, try it, and then rethink if the output was unexpected.
-That will get you going much faster than just reading and thinking "Sure that makes sense".
 
 [1]: https://github.com/jefdaj/shortcut
 [2]: https://research-it.berkeley.edu/services/high-performance-computing

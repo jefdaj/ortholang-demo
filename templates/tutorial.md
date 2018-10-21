@@ -90,7 +90,7 @@ to right and can be grouped with parentheses. They're very useful for comparing
 sets of genes and genomes. With these 3 you can describe the equivalent of any
 Venn diagram:
 
-<img src="https://github.com/jefdaj/ShortCut/raw/master/poster/venn-sets.png" width="300">
+<img src="{{ url_for('static',filename='venn-sets.png') }}" width="300">
 
 _Note: actual Venn diagrams coming soon._
 
@@ -287,7 +287,7 @@ pair of genomes, it:
 
 This is illustrated in the paper:
 
-<img src="https://github.com/jefdaj/ShortCut/raw/master/poster/crb-blast.png" height="400">
+<img src="{{ url_for('static',filename='crb-blast.png') }}" width="400">
 
 According to the authors it significantly improves the accuracy of ortholog
 assignment. Another useful feature is that it prevents having to pick e-value
@@ -334,7 +334,7 @@ values, and see how the results change.
 Suppose you have the original program in the box on the left, and want to know,
 "What happens to `var6` if I change `var1`?"
 
-<img src="https://github.com/jefdaj/ShortCut/raw/master/poster/prs.png" width="800">
+<img src="{{ url_for('static',filename='prs.png') }}" width="800">
 
 `repeat_each` recalculates `var6` starting from 3 alternate versions of `var1`,
 and reports a list of results.
