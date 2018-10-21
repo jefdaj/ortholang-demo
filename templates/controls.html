@@ -5,8 +5,8 @@
 		<div style="float: left; width: 50%; text-align: left;">
 			<button id="loadbutton">Load script</button>
 			<select id="loadmenu">
-				{% for name in codeblock_names %}
-				<option value="{{ name }}">{{ name }}</option>
+				{% for path in list_user_scripts(user) %}
+				<option value="{{ path }}">{{ path }}</option>
 				{% endfor %}
 			</select>
 			<br/>

@@ -64,6 +64,7 @@ function repl_write(filename) {
 	} else {
 		repl_autorun([':write ' + filename]);
 	}
+	$('#loadmenu').prepend('<option selected="selected" value="' + filename + '">' + filename + '</option>');
 }
 
 function openTab(evt, tabName) {
