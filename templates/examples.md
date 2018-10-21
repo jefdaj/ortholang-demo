@@ -4,10 +4,11 @@
   {%- endwith -%}
 {%- endmacro -%}
 
-OK, so what can you do with it? These examples are explained in more detail in
-the tutorial below, but let's try running them first. Press one of the `Load`
-buttons to fill in the command to load that example. Once it's loaded type
-`:show` to show the variable definitions, then `result` to run everything.
+Here are some cut scripts. Press the `Load` button to load one in the terminal,
+then type `result` to run it. You can also run intermediate variables or redefine them.
+Try changing some numbers.
+
+If you find these examples promising, to on to the Tutorial and learn to write your own!
 
 {{ load_example('prs02.cut') }}
 
