@@ -165,6 +165,8 @@ with open(CONFIG['auth_path'], 'r') as f:
 
 @AUTH.verify_password
 def verify_pw(username, password):
+    if username == 'guest':
+        return False
     global AUTH_USERS
     if not username in AUTH_USERS:
         # go ahead and create it, as long as some password given

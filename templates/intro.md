@@ -21,17 +21,30 @@ to describe searches succinctly and reproducibly, so that some day it might
 make it into your supplemental material. Everyone wins when your work is easy
 to build on!
 
+## About this Server
+
 The `shortcut` program is a command-line language interpreter, kind of like
 `python` or `R` but for cut scripts. On your left is a hacky "terminal" I made
-so it can be run from a web browser. You can do most of the same things in it
-that you could if you downloaded ShortCut proper, except:
+so you can try it from a web browser. You can do most of the same things in it
+that you could if you [installed ShortCut proper][1], except:
 
 * Your session will be deleted when you leave this page
-* The server might kill your script without warning if it takes too much CPU time
+* Long-running scripts might be killed without warning to keep the demo responsive for others
 * Some terminal niceties like tab completion and clearing the screen are missing
 
 You can upload your own genomes and gene lists, save and restore scripts,
-and download results using the buttons at the bottom left.
+and download results using the buttons under the terminal.
+
+For anything compute-intensive, you probably want to [install it on your own computer][1]
+instead. You can also contact Jeff (bottom left) to discuss running your search
+on the [Berkeley high-performance computing][2] cluster or installing ShortCut
+at your institution.
+
+## Accounts
+
+Making an account is optional, but scripts saved as `guest` are public and others might edit them.
+No email or signup is required! Just [click here][3] and make up a username + password.
+If you do want to be updated when a new version comes out, leave your email in the comment box.
 
 ## How to use the terminal
 
@@ -75,3 +88,7 @@ redefine variables, look at depdencies, etc. For example:
 
 The best way to approach the tutorial is to guess what each command will do, try it, and then rethink if the output was unexpected.
 That will get you going much faster than just reading and thinking "Sure that makes sense".
+
+[1]: https://github.com/jefdaj/shortcut
+[2]: https://research-it.berkeley.edu/services/high-performance-computing
+[3]: /user

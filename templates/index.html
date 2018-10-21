@@ -1,4 +1,3 @@
-<html>
 	<head>
 		<title>ShortCut Demo Server</title>
 		<meta charset="utf-8"/>
@@ -27,14 +26,19 @@
 								<div id="title">"The Zilputer"<br/>ShortCut Demo Server</div>
 								<pre><div id="serverload">users:<br/>cpu:</br>memory:</div></pre>
 							</div>
-							&nbsp; &nbsp;
-							&nbsp; &nbsp;
-							&nbsp; &nbsp;
-							&nbsp; &nbsp;
-							&nbsp; &nbsp;
-							&nbsp; &nbsp;
-							&nbsp; &nbsp;
-							&nbsp; &nbsp;
+
+							<div id="account" style="float: left; text-align: center; font-size: 10pt;">
+								<br/><br/><br/><br/><br/>
+								Account: <code style="background: white;">{{ user }}</code>
+								<br/>
+								{% if user == 'guest' %}
+									<a id="loginlink" href="/user">Click here</a> to log in.
+								{% else %}
+									<!-- TODO get logout working despite how HTTP spec sucks -->
+									<a id="logoutlink" href="/">Click here</a> to log out.
+								{% endif %}
+							</div>
+
 							&nbsp; &nbsp;
 							&nbsp; &nbsp;
 							<img id="skim-the-docs" src="/static/skim-the-docs.png">
