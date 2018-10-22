@@ -209,9 +209,9 @@ FLASK = Flask(__name__,
              template_folder=join(SRCDIR,'templates'),
              static_folder=join(SRCDIR, 'static'))
 
+FLASK.config['TEMPLATES_AUTO_RELOAD'] = True
 FLASK.jinja_env.globals.update(list_user_scripts=list_user_scripts)
 FLASK.jinja_loader = ChoiceLoader([FLASK.jinja_loader, FileSystemLoader(CONFIG['users_dir'])])
-FLASK.config['TEMPLATES_AUTO_RELOAD'] = True
 
 # see https://github.com/tlatsas/jinja2-highlight
 # jinja_options.setdefault('extensions', []).append('jinja2_highlight.HighlightExtension')
@@ -255,7 +255,7 @@ def get_image(filename):
     return send_from_directory(dirname(filename), basename(filename), mimetype='image/png')
 
 def with_real_paths(sid, line):
-    repl = SESSIONS[sid]
+    repl = find_session(sid=sid)
     # print "line before: '%s'" % line
     line = sub('/TMPDIR' , repl.tmpdir , line)
     line = sub('/WORKDIR', repl.workdir, line)
@@ -275,17 +275,34 @@ LOGGING.getLogger('socketio').addHandler(HANDLER)
 LOGGING.getLogger('engineio').handlers = []
 LOGGING.getLogger('engineio').addHandler(HANDLER)
 
+def find_session(sid=None, username=None):
+    if sid is None: # TODO is this part needed?
+        sid = request.sid
+    try:
+        return SESSIONS[AUTH.username()]
+    except KeyError:
+        return SESSIONS[sid]
+
 @SOCKETIO.on('connect')
 def handle_connect():
     sid = request.sid
-    LOGGER.info('client %s connected' % sid)
+    uname = AUTH.username()
+    LOGGER.info('client %s connected (account: %s)' % (sid, uname))
     global SESSIONS
     if not sid in SESSIONS:
-        uname = AUTH.username()
         if not uname:
-            uname = 'guest'
-        SESSIONS[sid] = ShortcutThread(sid, uname)
-    thread = SESSIONS[sid]
+            LOGGER.info('client %s started a guest session' % sid)
+            SESSIONS[sid] = ShortcutThread(sid, 'guest')
+            thread = SESSIONS[sid]
+        else:
+            if not uname in SESSIONS:
+                LOGGER.info('%s started a new session with id %s' % (uname, sid))
+                SESSIONS[uname] = ShortcutThread(sid, uname)
+            else:
+                LOGGER.info('%s resuming with new session id %s' % (uname, sid))
+                SESSIONS[uname].sessionid = sid
+                SESSIONS[uname].readLine(':show\n')
+            thread = SESSIONS[uname]
     if not thread.isAlive():
         thread.start()
 
@@ -294,17 +311,18 @@ def handle_disconnect():
     LOGGER.info('client %s disconnected' % request.sid)
     global LOAD
     LOAD.sessionEnded()
-    thread = SESSIONS[request.sid]
+    thread = find_session()
     thread._done.set()
-    thread.killRepl()
+    if AUTH.username() == 'guest':
+        thread.killRepl()
 
 @SOCKETIO.on('replstdin')
 def handle_replstdin(line):
-    SESSIONS[request.sid].readLine(line)
+    find_session().readLine(line)
 
 @SOCKETIO.on('replkill')
 def handle_replkill():
-    SESSIONS[request.sid].stopEval()
+    find_session().stopEval()
 
 @SOCKETIO.on('comment')
 def handle_comment(comment):
@@ -335,7 +353,7 @@ def handle_reqscript(data):
     # TODO autosave script before downloading maybe-old version?
     name = data['fileName']
     LOGGER.info("client %s requested script download (name: '%s')" % (request.sid, name))
-    repl = SESSIONS[request.sid]
+    repl = find_session()
     path = join(repl.workdir, name)
     LOGGER.info("sending '%s' to client %s" % (path, request.sid))
     with open(path, 'r') as f:
@@ -346,7 +364,7 @@ def handle_reqscript(data):
 def handle_reqresult():
     sid = request.sid
     LOGGER.info("client %s requested result download" % sid)
-    path = join(SESSIONS[sid].tmpdir, 'vars/result')
+    path = join(find_session().tmpdir, 'vars/result')
     LOGGER.info("sending '%s' to client %s" % (path, request.sid))
     with open(path, 'r') as f:
         txt = f.read()
@@ -474,6 +492,7 @@ class ShortcutThread(Thread):
                 line = sub(r'^(>> )*', '', line)
                 self.emitLine(line)
 
+# repl sessions, indexed by sid and also username if logged in
 SESSIONS = {}
 
 

@@ -28,9 +28,8 @@ The `shortcut` program is a command-line language interpreter, kind of like
 so you can try it from a web browser. You can do most of the same things in it
 that you could if you [install ShortCut on your computer][1], except:
 
-* Your session will be deleted when you leave this page
-* Long-running scripts might be killed without warning to keep the demo responsive for others
-* Some terminal niceties like tab completion and clearing the screen are missing
+* Some terminal niceties like tab completion of function names are missing
+* Long-running scripts might be killed to keep the demo responsive for others
 
 You can upload your own genomes and gene lists, save and restore scripts,
 and download results using the buttons under the terminal.
