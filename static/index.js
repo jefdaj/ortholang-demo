@@ -228,10 +228,10 @@ $(document).ready(function(){
 	}, false);
 
 	// show intro tab when page first loaded
-	// TODO go back to this way once the site is set up
-	// document.getElementById('Intro').style.display = "block";
-	// document.getElementById('introbutton').className += " active";
+	document.getElementById('Intro').style.display = "block";
+	document.getElementById('introbutton').className += " active";
 
-	document.getElementById('Collaborate').style.display = "block";
-	document.getElementById('collabbutton').className += " active";
+	// TODO start on the collaborator tab if the user has a custom one?
+	// document.getElementById('Collaborate').style.display = "block";
+	// document.getElementById('collabbutton').className += " active";
 });
