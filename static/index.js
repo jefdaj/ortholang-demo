@@ -218,11 +218,13 @@ $(document).ready(function(){
 	$('#savebutton').on('click', repl_write);
 	on_enter('#filename', repl_write);
 
-	window.onbeforeunload = confirmExit;
-	function confirmExit(){
-		alert("Leave the page? ShortCut demo will be reset.");
-		return false;
-	}
+	// TODO any need to confirm exit now that named sessions resume?
+	// window.onbeforeunload = confirmExit;
+	// function confirmExit(){
+		// alert("Leave the page? ShortCut demo will be reset.");
+		// return false;
+	// }
+
 	window.addEventListener('beforeunload', function(event) {
 		socket.disconnect();
 	}, false);
