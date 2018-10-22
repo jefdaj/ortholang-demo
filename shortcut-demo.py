@@ -10,14 +10,13 @@ Launch the ShortCut demo server.
 
 Usage:
   shortcut-demo (-h | --help)
-  shortcut-demo -l LOG -d DATA -c COMMENTS -u UPLOADS -t TMP -p PORT -a AUTH -s USERS
+  shortcut-demo -l LOG -d DATA -c COMMENTS -t TMP -p PORT -a AUTH -s USERS
 
 Options:
   -h, --help   Show this help text
   -l LOG       Path to the log file
   -d DATA      Path to the data directory
   -c COMMENTS  Path to the user comments directory
-  -u UPLOADS   Path to the user uploads directory
   -t TMP       Path to the user tmpdirs
   -p PORT      Port to serve the demo site
   -a AUTH      Path to user authentication file
@@ -63,7 +62,6 @@ CONFIG = {}
 CONFIG['data_dir'   ] = realpath(ARGS['-d'])
 CONFIG['log_path'   ] = realpath(ARGS['-l'])
 CONFIG['comment_dir'] = realpath(ARGS['-c'])
-CONFIG['upload_dir' ] = realpath(ARGS['-u'])
 CONFIG['tmp_dir'    ] = realpath(ARGS['-t'])
 CONFIG['auth_path'  ] = realpath(ARGS['-a'])
 CONFIG['users_dir'  ] = realpath(ARGS['-s'])
@@ -338,12 +336,10 @@ def handle_comment(comment):
 #      (need to avoid incorrectly :loading non-cut files)
 @SOCKETIO.on('upload')
 def handle_upload(data):
-    sid = request.sid
-    LOGGER.info("client %s uploaded a file: '%s'" % (sid, data['fileName']))
+    repl = find_session()
+    LOGGER.info("client %s uploaded a file: '%s'" % (repl.sessionid, data['fileName']))
     # TODO some kind of check and/or put in separate uploads folder
-    # TODO get root dir from FLASK
-    # TODO or pass data dir
-    filename = join(CONFIG['data_dir'], data['fileName'])
+    filename = join(repl.workdir, data['fileName'])
     with open(filename, 'w') as f:
         f.write(data['fileData'])
     LOGGER.info("saved user file '%s'" % filename)

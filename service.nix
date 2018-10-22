@@ -63,14 +63,6 @@ in {
         '';
       };
 
-      uploadsDir = mkOption {
-        default = "/mnt/data/uploads";
-        type = with types; uniq string;
-        description = ''
-          Where to save user-uploaded files.
-        '';
-      };
-
       tmpDir = mkOption {
         default = "/tmp/shortcut-demo";
         type = with types; uniq string;
@@ -111,7 +103,6 @@ in {
             -l ${cfg.logPath} \
             -d ${cfg.dataDir} \
             -c ${cfg.commentsDir} \
-            -u ${cfg.uploadsDir} \
             -t ${cfg.tmpDir} \
             -p ${toString cfg.port} \
             -a ${cfg.authPath} \

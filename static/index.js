@@ -64,6 +64,10 @@ function repl_write(filename) {
 	} else {
 		repl_autorun([':write ' + filename]);
 	}
+	add_script_to_load_menu(filename)
+}
+
+function add_script_to_load_menu(filename) {
 	$('#loadmenu').prepend('<option selected="selected" value="' + filename + '">' + filename + '</option>');
 }
 
@@ -162,18 +166,22 @@ $(document).ready(function(){
 	});
 
 	// upload scripts
-	// TODO other files too like fasta
 	// see https://www.accelebrate.com/blog/file-uploads-web-sockets-part-3-of-3/
 	$('#uploadbutton').on('click', function(e) {
 		var files = document.getElementById('upload').files;
 		for (var x=0; x < files.length; x++) {
-			var reader = new FileReader();
-			var name = files[x].name;
-			reader.addEventListener('loadend', function() {
-				socket.emit('upload', {fileName: name, fileData: reader.result});
-				repl_autoload(name);
-			});
-			reader.readAsArrayBuffer(files[x]);
+			var r = new FileReader();
+			r.fileName = files[x].name;
+			r.onloadend = function(e) {
+				var n = e.target.fileName;
+				socket.emit('upload', {fileName: n, fileData: e.target.result});
+				// if the file is a cut script, add it to the load menu
+    			var ext = n.substring(n.lastIndexOf('.') + 1);
+				if (ext == 'cut') {
+					add_script_to_load_menu(n);
+				}
+			};
+			r.readAsArrayBuffer(files[x]);
 		}
 	});
 
