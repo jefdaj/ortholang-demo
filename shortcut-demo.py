@@ -310,10 +310,10 @@ def handle_connect():
 def handle_disconnect():
     LOGGER.info('client %s disconnected' % request.sid)
     global LOAD
-    LOAD.sessionEnded()
-    thread = find_session()
-    thread._done.set()
     if AUTH.username() == 'guest':
+        LOAD.sessionEnded()
+        thread = find_session()
+        thread._done.set()
         thread.killRepl()
 
 @SOCKETIO.on('replstdin')
