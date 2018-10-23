@@ -208,6 +208,11 @@ $(document).ready(function(){
 		download_file(data['resultName'], data['resultText'])
 	});
 
+	socket.on('replclear', function(data) {
+		repl_clear();
+	});
+
+
 	// submit a comment
 	$('#commentbutton').on('click', function() {
 		socket.emit('comment', $('#commentfield').val());
