@@ -286,6 +286,7 @@ def handle_connect():
     sid = request.sid
     uname = AUTH.username()
     LOGGER.info('client %s connected (account: %s)' % (sid, uname))
+    SOCKETIO.emit('replclear')
     global SESSIONS
     if not sid in SESSIONS:
         if not uname:
