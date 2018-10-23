@@ -4,62 +4,57 @@ If you want to do something not listed here, leave a comment or email me and I'l
 Or if you figure it out, also tell me that so I can add it here!
 
 
-Separate the main cut from testing code
----------------------------------------
+## Separate the main cut from testing code
 
 _Note: This makes make more sense explained live in the screencast (coming soon)._
 
 As you build a cut, you'll probably want to test variations on each step.
-I've found that the easiest way to do it without developing a huge pile of messy code is to make one script for the actual cut and another for each set of "experiments" on it.
+I've found that the easiest way to do it without developing a huge pile of messy variable names
+is to make one script for the actual cut and another for each set of "experiments" on it.
 For example this might be a good layout:
 
 ```
 greencut/
-├── basic.cut
+├── unoptimized.cut
 ├── optimize-search-cutoff.cut
-├── optimize-reference-genome.cut
 └── optimize-green-genomes.cut
 ```
 
-Most code is in `basic.cut`, with each thing you want to optimize assigned to a variable:
-it should have `search_cutoff`, `reference_genome`, and `green_genomes` along with anything you want to use in scoring like `n_hits`.
-Then when you want to optimize something you can do it in a new file like this:
+Most code is in `unoptimized.cut`, with each thing you want to optimize assigned to a variable:
+it should have `search_cutoff` and `green_genomes` along with anything you want to use in scoring like `n_hits`.
+Then when you want to optimize one of them you do it in a new file like this:
 
 ```
-include "basic.cut"
+include "unoptimized.cut"
 n_hits_by_search_cutoff = score_repeats n_hits search_cutoff [1e-2, 1e-5, 1e-10, 1e-20, 1e-50]
 result = linegraph "n hits by search cutoff" n_hits_by_search_cutoff
 ```
 
-If you don't get any difinitive answer to a particular question you can abandon that file, and if you do then start the next one from there.
-For example if your definition of "optimal" is that your results align with another published study
+<!-- TODO need to demonstrate `minimize` or `maximize` functions here -->
+
+If you don't get any difinitive answer to a particular question you can abandon that file with no extra mess.
+But if it improves the cut you `include` the new improved version when optimizing the next thing.
+At the end your code not only gives reasonable results, but is also easy to explain!
 
 
-Start small and gradually increase the number of computations
--------------------------------------------------------------
+## Start small and gradually increase the number of computations
 
-Whenever I'm doing something that will require a lot of genes or genomes, I try it out first with a few and then increase it to estimate the runtime.
-Just add a `sample` call and a variable saying how many to sample. Here it is with two variables at once:
+Whenever I'm doing something that may require a lot of genes or genomes, I try it out first with a few and then increase it to estimate the runtime.
+Just add a `sample` call and a variable saying how many to sample:
 
 ```
-# start these small, then increase
-n_seqs = 20
 n_genomes = 5
-
-seqs_to_use = sample n_seqs (split_faa my_query_genome)
 genomes_to_use = sample n_genomes all_genomes
 ```
 
 
-Come up with scoring criteria, then optimize
---------------------------------------------
+## Come up with scoring criteria, then optimize
 
 Once you have an initial list of candidate genes, consider tweaking it a bit before you go and put weeks or months into cloning!
 The general idea is you need way to score your list, and then you can try to maximize/minimize that score.
 
 
-Score by overlap with a list of known genes
--------------------------------------------
+### Score by overlap with a list of known genes
 
 One good way to score your hits is by making a list of known "positive control" genes and checking how many of them you find.
 The score can be the number of known genes found, fraction of known genes found, or fraction of your hits that are known genes (to penalize longer lists).
@@ -74,16 +69,14 @@ Try out a few different scores and see what matches best with your intuition.
 Just be sure to keep it relatively simple to minimize overfitting or p-hacking.
 
 
-Filter by robustness
---------------------
+### Filter by robustness
 
 Note that this is for deciding which genes will go in your final list, whereas the methods above are for deciding how much you trust that list.
 Basically, you perturb the input genes + genomes and only keep the results that are consistent.
 
-Look for diminishing returns
-----------------------------
+## Look for diminishing returns
 
-If you're already using both the tips above (ramping up number of genomes and scoring your results), consider plotting them against each other.
+If you're already using both the tips above (ramping up number of genes or genomes and scoring your results), consider plotting them against each other.
 You might find that it's not worth using more than 5 genomes from a certain group, for example.
 
 ```

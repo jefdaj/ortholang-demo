@@ -17,15 +17,19 @@ These are the things ShortCut can work with so far.
 | `faa` | FASTA amino acid file |
 | `ndb` | BLAST nucleic acid database file |
 | `pdb` | BLAST protein database file (note: not a PDB structure file) |
+| `bht` | BLAST hits table |
 | `gbk` | Genbank file |
 
 You can also have lists of anything, including other lists: `str.list`, `str.list.list` etc.
 
+I often name my actual files with these extensions, but you don't have to.
+`.fasta` or `.genes.masked.fa` or whatever a particular sequencing project named it
+is fine as long as you use the right load function.
+
 
 ## Load Functions
 
-Make sure to use the right load function, because it determines what type
-ShortCut thinks your file is and therefore which functions you can use it in.
+These determine what type ShortCut thinks your file is and therefore which functions you can use it in.
 
 The input strings in most of these should be filenames,
 either absolute or relative to your working directory.
@@ -48,16 +52,12 @@ The only exception is you can use `*` wildcards in the `glob` functions.
 | `load_prot_db`      | `str`      | `pdb`      |
 | `load_prot_db_each` | `str.list` | `pdb.list` |
 
-I often name my actual files with these extensions, but you don't have to.
-`.fasta` or `.genes.masked.fa` or whatever a particular sequencing project named it
-is fine as long as you use the right load function.
-
 The `_each` versions take a list of strings and load a list of files.
 
 
 ## Convert Functions
 
-Functions for getting things in the right format before/after working with them.
+These get things in the right format before/after working with them.
 
 | Function            | Input      | Output     |
 | :------------------ | :--------- | :--------- |
@@ -83,7 +83,7 @@ Math works as you expect, except no order of operations. Use parentheses as need
 | `*`      | `num` | multiplication |
 | `/`      | `num` | division |
 
-Set operations work the same way, except they require two lists of the same type.
+Set operations are similar, except they require two lists of the same type.
 
 | Operator | Types | Meaning |
 | :------- | :---- | :------ |
@@ -108,6 +108,11 @@ ShortCut provides most of the standard NCBI BLAST+ functions, which differ in th
 | tblastx   | nucl (translated) | nucl (translated) |
 | megablast | nucl  | nucl    |
 
+They each return a BLAST hit table (`bht`). Use
+`extract_queries` to get a list of genes from your query genome with hits, or
+`extract_targets` for a list of the genes they matched. Use `length` to find
+out how many hits without printing all of them.
+
 There are several variants of each one, named with suffixes:
 
 | Format            | Meaning |
@@ -119,11 +124,8 @@ There are several variants of each one, named with suffixes:
 | `function_db_each`  | Searches against a list of prebuilt databases |
 | `function_rbh_each` | Reciprocal best hits against a list of FASTA files |
 
-Not all functions come in all variants, because some of them wouldn't make
-sense. They each return a BLAST hit table (`bht`), or a list of those. Use
-`extract_queries` to get a list of genes from your query genome with hits, or
-`extract_targets` for a list of the genes they matched. Use `length` to find
-out how many hits without printing all of them.
+Not all functions come in all variants, because some of them wouldn't make sense.
+For example, `blastx_rbh` couldn't do the reverse searches while still being BLASTX.
 
 ## PsiBLAST
 

@@ -39,7 +39,7 @@ The `shortcut` program is a command-line language interpreter, kind of like
 so you can try it from a web browser. You can do most of the same things in it
 that you could if you [install ShortCut on your computer][1], except:
 
-* Some terminal niceties like tab completion of function names are missing
+* Some terminal niceties like tab completion of variables + function names are missing
 * Long-running scripts might be killed to keep the demo responsive for others
 
 You can upload your own genomes and gene lists, save and restore scripts,
@@ -71,8 +71,8 @@ The `Run` button just types them for you.
 They can include loading scripts, but also anything else you might do live:
 redefine variables, look at depdencies, etc.
 
-{{ run_example([':load examples/load03.cut', ':depends genes_of_interest',
-':rdepends genes_of_interest', 'sample 10 genes_of_interest', ':show']) }}
+{{ run_example([':load examples/load03.cut', ':depends sequences_of_interest',
+'sample 10 genes_of_interest', ':show']) }}
 
 
 ## How to use the terminal
