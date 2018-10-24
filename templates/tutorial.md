@@ -33,7 +33,7 @@ This is probably the simplest script you could write:
 {{ load_example('variables01.cut') }}
 
 If you downloaded ShortCut and ran `shortcut --script variables01.cut`, it would print
-`"hello world!"`.
+`"hello world!"`. You can also `Load` it in the demo terminal and type `result`.
 
 You don't have to run a whole script at once though.
 You'll spend most of your time editing it in the interpreter,
@@ -61,13 +61,13 @@ ShortCut will print `-1.485`. Then if you type `var2`, the graph will change to:
 
 ![]({{ url_for('static',filename='var2.svg') }})
 
-... and it will print `"nothing depends on var2 so far"`.
+And it will print `"nothing depends on var2 so far"`.... which technically isn't quite true anymore.
+
 
 ### Math
 
 Math is pretty simple. It works like you would expect, except that everything
-is left-to-right rather than following order of operations. _Note: that could
-be added easily if people prefer it._
+is left-to-right rather than following order of operations.
 
 A few examples:
 
@@ -81,16 +81,19 @@ application doesn't use them.
 
 Notice that ShortCut might remove your parentheses automatically,
 but only where it doesn't change the meaning.
-<!-- TODO bug: it actually does seem to matter here. Put PEMDAS back? -->
+
 
 ### Sets
 
 Besides regular math, you might want to do set operations. They also apply left
 to right and can be grouped with parentheses. They're very useful for comparing
-sets of genes and genomes. With these 3 you can describe the equivalent of any
+lists of genes and genomes. With these 3 you can describe the equivalent of any
 Venn diagram:
 
 <img src="{{ url_for('static',filename='venn-sets.png') }}" width="300">
+
+The single-character operators `|`, `&`, and `~` each work on two lists.
+`any` and `all` work on lists of lists of any length.
 
 _Note: actual Venn diagrams coming soon._
 
@@ -152,19 +155,12 @@ Look at the `:type`s of these:
 
 This might seem like overkill at first, but becomes important for large-scale
 bookkeeping. Imagine you have a few hundred thousand cryptically named
-tempfiles. Your script chews through them in various ways and finally returns
+tempfiles. Your script chews through them for several days and finally returns
 an empty list (`[]`). You want to be confident that there really are no hits,
 instead of going back and poring over every command to make sure two files
 didn't get mixed up somewhere! This happened to me probably 10 or 15 times before I added the type system.
 
 ### Loading and Working with Sequence Files
-
-Test code block:
-
-```python
-import os
-os.kill(everything)
-```
 
 OK, so how does that relate to loading sequences and running BLAST?
 When you load a file you need to use the right type of load function.

@@ -45,14 +45,15 @@ that you could if you [install ShortCut on your computer][1], except:
 You can upload your own genomes and gene lists, save and restore scripts,
 and download results using the buttons under the terminal.
 Making an account is optional, but scripts saved as `guest` are public and others might edit them.
-No email or signup form required! Just [click here][3] and make up a username + password.
+Also guest terminal sessions are destroyed when you leave the page, whereas named ones resume later.
+No email or signup form is required to make an account! Just [click here][3] and make up a username + password.
 If you want to be updated when a new version comes out, leave your email in the comment box.
 
 This "server" is just a regular desktop computer; for anything
-compute-intensive you probably want to install ShortCut on your own hardware instead.
-You can also contact Jeff (comment box or email) to discuss running your search on the
-[Berkeley high-performance computing][2] cluster or installing ShortCut at your
-institution.
+compute-intensive you may want to install ShortCut on your own hardware
+instead. You can also contact Jeff (use the comment box or find my email
+[here][4]) about collaborating, running your search on the [Berkeley
+high-performance compute cluster][2], or installing ShortCut at your institution.
 
 
 ## How to use the docs
@@ -97,3 +98,4 @@ redefine variables, look at depdencies, etc.
 [1]: https://github.com/jefdaj/shortcut
 [2]: https://research-it.berkeley.edu/services/high-performance-computing
 [3]: /user
+[4]: http://niyogilab.berkeley.edu/lab-directory
