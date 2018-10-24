@@ -5,12 +5,12 @@
 {%- endmacro -%}
 
 <div class="tab">
-	<button id="introbutton" class="tablinks" onclick="openTab(event, 'Intro')">Intro</button>
-	<button class="tablinks" onclick="openTab(event, 'Tutorial')">Tutorial</button>
-	<button class="tablinks" onclick="openTab(event, 'Examples')">Examples</button>
-	<button class="tablinks" onclick="openTab(event, 'Reference')">Reference</button>
-	<button class="tablinks" onclick="openTab(event, 'CookBook')">CookBook</button>
-	<button id="collabbutton" class="tablinks" onclick="openTab(event, 'Collaborate')">Collaborate</button>
+	<button id="introbutton"       class="tablinks" onclick="openTab(event, 'Intro')">Intro</button>
+	<button id="tutorialbutton"    class="tablinks" onclick="openTab(event, 'Tutorial')">Tutorial</button>
+	<button id="examplesbutton"    class="tablinks" onclick="openTab(event, 'Examples')">Examples</button>
+	<button id="referencebutton"   class="tablinks" onclick="openTab(event, 'Reference')">Reference</button>
+	<button id="cookbookbutton"    class="tablinks" onclick="openTab(event, 'CookBook')">CookBook</button>
+	<button id="collaboratebutton" class="tablinks" onclick="openTab(event, 'Collaborate')">Collaborate</button>
 </div>
 <div id="Intro"     class="tabcontent">{{ markdown_doc("intro.md")     }}</div>
 <div id="Tutorial"  class="tabcontent">{{ markdown_doc("tutorial.md")  }}</div>

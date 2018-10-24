@@ -67,6 +67,9 @@ CONFIG['auth_path'  ] = realpath(ARGS['-a'])
 CONFIG['users_dir'  ] = realpath(ARGS['-s'])
 CONFIG['port'       ] = int(ARGS['-p'])
 
+# repl sessions, indexed by sid and also username if logged in
+SESSIONS = {}
+
 
 ###########
 # logging #
@@ -303,6 +306,20 @@ def handle_connect():
     if not thread.isAlive():
         thread.start()
 
+@SOCKETIO.on('pagerefreshed')
+def handle_refresh():
+    tab = find_session().currenttab
+    LOGGER.info('page refreshed; opening tab %s' % tab)
+    SOCKETIO.emit('opentab', {'tabName': tab})
+
+@SOCKETIO.on('settab')
+def handle_settab(data):
+    thread = find_session()
+    thread.currenttab = data['tabName']
+    LOGGER.info('set current tab of session %s to %s' % (thread.sessionid, data['tabName']))
+    # SOCKETIO.emit('opentab', {'tabName': tab})
+
+
 # TODO why isn't this being called to clean up old guest repls?
 #      maybe have to set a socketio timeout?
 #      something about how long since the last PING would be nice
@@ -385,6 +402,7 @@ class ShortcutThread(Thread):
         self.delay = 0.01
         self.sessionid = sessionid
         self.username  = username
+        self.currenttab  = 'Intro' # changes when user clicks tabs
         user_dir = join(CONFIG['users_dir'], self.username)
         if exists(user_dir):
             self.workdir = user_dir
@@ -489,9 +507,6 @@ class ShortcutThread(Thread):
                 self.enableInput() # TODO what about when about to print more lines?
                 line = sub(r'^(>> )*', '', line)
                 self.emitLine(line)
-
-# repl sessions, indexed by sid and also username if logged in
-SESSIONS = {}
 
 
 ###########
