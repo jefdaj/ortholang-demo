@@ -95,7 +95,6 @@ def timestamp():
 class ServerLoadThread(Thread):
     def __init__(self):
         self.delay = 5
-        self.n_sessions= 0
         super(ServerLoadThread, self).__init__()
         self.daemon = True
 
@@ -106,20 +105,18 @@ class ServerLoadThread(Thread):
             sleep(self.delay)
 
     def emitInfo(self):
-        if self.n_sessions > 0:
-            cpu = round(cpu_percent())
-            mem = round(virtual_memory().percent)
-            nfo = {'users': self.n_sessions, 'cpu': cpu, 'memory': mem}
-            LOGGER.info('emitting serverload: %s' % nfo)
-            SOCKETIO.emit('serverload', nfo, namespace='/')
-
-    def sessionStarted(self):
-        self.n_sessions += 1
-
-    def sessionEnded(self):
-        self.n_sessions -= 1
+        n_sessions = len(SESSIONS)
+        if n_sessions == 0:
+            return
+        cpu = round(cpu_percent())
+        mem = round(virtual_memory().percent)
+        nfo = {'users': n_sessions, 'cpu': cpu, 'memory': mem}
+        LOGGER.info('emitting serverload: %s' % nfo, 2)
+        SOCKETIO.emit('serverload', nfo, namespace='/')
 
 # this is started later because it needs SOCKETIO
+# TODO why does it count an extra user when you clear the http auth?
+#      guess it starts a guest on refresh and doesn't time it out properly? add a timeout
 LOAD = ServerLoadThread()
 
 
@@ -127,12 +124,14 @@ LOAD = ServerLoadThread()
 # misaka #
 ##########
 
+# note: misaka is actually initialized later, in the flask section
+
 class HighlighterRenderer(HtmlRenderer):
     def blockcode(self, text, lang):
+        # cut scripts look decent with python syntax highlighting
         return highlight(text, PythonLexer(), HtmlFormatter())
 
-MARKDOWN = Markdown(HighlighterRenderer(),
-                    extensions=('highlight', 'fenced-code', 'tables'))
+MARKDOWN = Markdown(HighlighterRenderer(), extensions=('highlight', 'fenced-code', 'tables'))
 
 def load_codeblock_names(codeblocks):
     # for the load script menu
@@ -169,17 +168,15 @@ with open(CONFIG['auth_path'], 'r') as f:
 def verify_pw(username, password):
     if username == 'guest':
         return False
-    global AUTH_USERS
+    if len(password) == 0: # TODO enforce good passwords too?
+        return False
     if not username in AUTH_USERS:
-        # go ahead and create it, as long as some password given
-        if len(password) == 0: # TODO require good passwords?
-            return False
+        # go ahead and create it
         create_user(username, password)
     return check_password_hash(AUTH_USERS[username], password)
 
 def create_user(username, password):
     # note this assumes the username isn't taken!
-    # also that a user is different from a SessionUser, which might not have a username
     pwhash = generate_password_hash(password)
     LOGGER.info("creating user '%s' with password hash '%s'" % (username, pwhash))
     global AUTH_USERS
@@ -203,10 +200,7 @@ SRCDIR = join(dirname(dirname(__file__))) # when testing in nix-shell
 if exists(join(SRCDIR, 'src')): # when in the final package
   SRCDIR = join(SRCDIR, 'src')
 
-FLASK = Flask(__name__,
-             template_folder=join(SRCDIR,'templates'),
-             static_folder=join(SRCDIR, 'static'))
-
+FLASK = Flask(__name__, template_folder=join(SRCDIR,'templates'), static_folder=join(SRCDIR, 'static'))
 FLASK.config['TEMPLATES_AUTO_RELOAD'] = True
 FLASK.jinja_env.globals.update(list_user_scripts=list_user_scripts)
 FLASK.jinja_loader = ChoiceLoader([FLASK.jinja_loader, FileSystemLoader(CONFIG['users_dir'])])
@@ -276,9 +270,13 @@ LOGGING.getLogger('engineio').addHandler(HANDLER)
 def find_session(sid=None, username=None):
     if sid is None: # TODO is this part needed?
         sid = request.sid
-    try:
-        return SESSIONS[AUTH.username()]
-    except KeyError:
+    uname = AUTH.username()
+    if uname in SESSIONS:
+        if sid in SESSIONS:
+            # remove guest repl because we found their logged in one
+            disconnect(sid, 'guest')
+        return SESSIONS[uname]
+    else:
         return SESSIONS[sid]
 
 @SOCKETIO.on('connect')
@@ -305,15 +303,22 @@ def handle_connect():
     if not thread.isAlive():
         thread.start()
 
+# TODO why isn't this being called to clean up old guest repls?
+#      maybe have to set a socketio timeout?
+#      something about how long since the last PING would be nice
 @SOCKETIO.on('disconnect')
 def handle_disconnect():
-    LOGGER.info('client %s disconnected' % request.sid)
-    global LOAD
-    if AUTH.username() == 'guest':
-        LOAD.sessionEnded()
+    diconnect(request.sid, AUTH.username())
+
+def diconnect(sid, uname):
+    LOGGER.info('client %s disconnected' % sid)
+    global SESSIONS
+    if uname == 'guest':
+        LOGGER.info('killing guest repl %s (account: %s)' % (sid, uname))
         thread = find_session()
         thread._done.set()
         thread.killRepl()
+        del SESSIONS[sid]
 
 @SOCKETIO.on('replstdin')
 def handle_replstdin(line):
@@ -394,16 +399,12 @@ class ShortcutThread(Thread):
             pass # already exists
         self._done = Event()
         self.process = None
-        # self.spawnRepl()
         super(ShortcutThread, self).__init__()
 
     def run(self):
-        global LOAD
-        LOAD.sessionStarted()
         while not self._done.is_set():
             self.spawnRepl()
             self.emitStdout()
-        LOAD.sessionEnded()
 
     # TODO currently this is the same as killing the interpreter... handle separately in shortcut?
     def stopEval(self):
