@@ -349,3 +349,13 @@ Here is a more practical example that repeats a BLAST search with a list of cuto
 {{ load_example('plot_scatterplot.cut') }}
 
 {{ load_example('plot_linegraph.cut') }}
+
+
+### Break up your code
+
+You can include code from one script inside another.
+It's pretty simple:
+
+{{ load_example('include.cut') }}
+
+Use it to keep the current code clean while you try something new!
