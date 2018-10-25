@@ -114,7 +114,7 @@ class ServerLoadThread(Thread):
         cpu = round(cpu_percent())
         mem = round(virtual_memory().percent)
         nfo = {'users': n_sessions, 'cpu': cpu, 'memory': mem}
-        LOGGER.info('emitting serverload: %s' % nfo, 2)
+        LOGGER.info('emitting serverload: %s' % nfo)
         SOCKETIO.emit('serverload', nfo, namespace='/')
 
 # this is started later because it needs SOCKETIO
