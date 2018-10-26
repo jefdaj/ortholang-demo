@@ -39,20 +39,21 @@ The `shortcut` program is a command-line language interpreter, kind of like
 so you can try it from a web browser. You can do most of the same things in it
 that you could if you [install ShortCut on your computer][1], except:
 
-* Some terminal niceties like tab completion of function names are missing
+* Some terminal niceties like tab completion of variables + function names are missing
 * Long-running scripts might be killed to keep the demo responsive for others
 
 You can upload your own genomes and gene lists, save and restore scripts,
 and download results using the buttons under the terminal.
 Making an account is optional, but scripts saved as `guest` are public and others might edit them.
-No email or signup form required! Just [click here][3] and make up a username + password.
+Also guest terminal sessions are destroyed when you leave the page, whereas named ones resume later.
+No email or signup form is required to make an account! Just [click here][3] and make up a username + password.
 If you want to be updated when a new version comes out, leave your email in the comment box.
 
 This "server" is just a regular desktop computer; for anything
-compute-intensive you probably want to install ShortCut on your own hardware instead.
-You can also contact Jeff (comment box or email) to discuss running your search on the
-[Berkeley high-performance computing][2] cluster or installing ShortCut at your
-institution.
+compute-intensive you may want to install ShortCut on your own hardware
+instead. You can also contact Jeff (use the comment box or find my email
+[here][4]) about collaborating, running your search on the [Berkeley
+high-performance compute cluster][2], or installing ShortCut at your institution.
 
 
 ## How to use the docs
@@ -71,8 +72,8 @@ The `Run` button just types them for you.
 They can include loading scripts, but also anything else you might do live:
 redefine variables, look at depdencies, etc.
 
-{{ run_example([':load examples/load03.cut', ':depends genes_of_interest',
-':rdepends genes_of_interest', 'sample 10 genes_of_interest', ':show']) }}
+{{ run_example([':load examples/load03.cut', ':depends sequences_of_interest',
+'sample 10 genes_of_interest', ':show']) }}
 
 
 ## How to use the terminal
@@ -97,3 +98,4 @@ redefine variables, look at depdencies, etc.
 [1]: https://github.com/jefdaj/shortcut
 [2]: https://research-it.berkeley.edu/services/high-performance-computing
 [3]: /user
+[4]: http://niyogilab.berkeley.edu/lab-directory

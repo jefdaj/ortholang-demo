@@ -8,8 +8,6 @@ Here are some cut scripts. Press the `Load` button to load one in the terminal,
 then type `result` to run it. You can also run intermediate variables or redefine them.
 Try changing some numbers.
 
-If you find these examples promising, to on to the Tutorial and learn to write your own!
-
 {{ load_example('prs02.cut') }}
 
 Find reciprocal best PSI-BLAST hits between two genomes:

@@ -1,3 +1,5 @@
+var SOCKET = null;
+
 function press_return(id) {
 	var e = jQuery.Event("keypress");
 	e.which = 13;
@@ -72,6 +74,8 @@ function add_script_to_load_menu(filename) {
 }
 
 function openTab(evt, tabName) {
+	// used to open the tabs as you click on them
+	// TODO why can't this be replaced with the ByName version below?
 	var i, tabcontent, tablinks;
 	tabcontent = document.getElementsByClassName("tabcontent");
 	for (i = 0; i < tabcontent.length; i++) {
@@ -83,6 +87,13 @@ function openTab(evt, tabName) {
 	}
 	document.getElementById(tabName).style.display = "block";
 	evt.currentTarget.className += " active";
+	SOCKET.emit('settab', {'tabName': tabName});
+}
+
+function openTabByName(tabname) {
+	// used to open the current tab on page load/refresh
+	document.getElementById(tabname).style.display = "block";
+	document.getElementById(tabname.toLowerCase() + 'button').className += " active";
 }
 
 // present a text file as a download to the user
@@ -103,18 +114,18 @@ function download_file(name, text) {
 $(document).ready(function(){
 
 	// TODO would explicit disconnect help?
-	var socket = io.connect('http://' + document.domain + ':' + location.port);
+	SOCKET = io.connect('http://' + document.domain + ':' + location.port);
 
 	// send a line to the repl when you click the button or press enter
 	function run_line(line) {
-		socket.emit('replstdin', $('#replstdin').val());
+		SOCKET.emit('replstdin', $('#replstdin').val());
 		$('#replstdin').val('');
 		//repl_disable();
 	}
 	$('#runkill').on('click', function() {
 		$('#replstdin').focus();
 		if (document.getElementById('runkill').innerHTML == 'Kill') {
-			socket.emit('replkill');
+			SOCKET.emit('replkill');
 		} else {
 			run_line($('#replstdin').val())
 		}
@@ -127,15 +138,15 @@ $(document).ready(function(){
 	//        disabled right after you run something?
 	//        re-enabled after shortcut prints something, even a line break
 	//        ... except not while it's still printing continuous lines
-	socket.on('replbusy', function(msg) {
+	SOCKET.on('replbusy', function(msg) {
 		repl_disable();
 	});
-	socket.on('replready', function(msg) {
+	SOCKET.on('replready', function(msg) {
 		repl_enable();
 	});
 
 	// display server info
-	socket.on('serverload', function(nfo) {
+	SOCKET.on('serverload', function(nfo) {
 		var txt = 'users:  ' + nfo.users + '<br/>'
 			+ 'cpu:    ' + nfo.cpu   + '%<br/>'
 			+ 'memory: ' + nfo.memory + '%';
@@ -144,7 +155,7 @@ $(document).ready(function(){
 
 	// display a line of output sent from the repl
 	// TODO don't add the >> unless it was a line of input (don't send those from server at all?)
-	socket.on('replstdout', function(msg) {
+	SOCKET.on('replstdout', function(msg) {
 		var ro = document.getElementById('replstdout');
 		if(msg.indexOf('<img') != -1){
 			// hack to display images in the repl
@@ -174,7 +185,7 @@ $(document).ready(function(){
 			r.fileName = files[x].name;
 			r.onloadend = function(e) {
 				var n = e.target.fileName;
-				socket.emit('upload', {fileName: n, fileData: e.target.result});
+				SOCKET.emit('upload', {fileName: n, fileData: e.target.result});
 				// if the file is a cut script, add it to the load menu
     			var ext = n.substring(n.lastIndexOf('.') + 1);
 				if (ext == 'cut') {
@@ -191,31 +202,31 @@ $(document).ready(function(){
 		if (filename && filename != "") {
 			// TODO auto-save with repl here?
 			// TODO set repl to point to newly saved script too?
-			socket.emit('reqscript', {fileName: filename});
+			SOCKET.emit('reqscript', {fileName: filename});
 		} else {
 			$('#filename').focus()
 		}
 	});
 
 	// respond when script is sent
-	socket.on('dlscript', function(data) {
+	SOCKET.on('dlscript', function(data) {
 		download_file(data['scriptName'], data['scriptText'])
 	});
 
 	// same as script download, except simpler because no name
-	$('#dlresult').on('click', function() { socket.emit('reqresult'); });
-	socket.on('dlresult', function(data) {
+	$('#dlresult').on('click', function() { SOCKET.emit('reqresult'); });
+	SOCKET.on('dlresult', function(data) {
 		download_file(data['resultName'], data['resultText'])
 	});
 
-	socket.on('replclear', function(data) {
+	SOCKET.on('replclear', function(data) {
 		repl_clear();
 	});
 
 
 	// submit a comment
 	$('#commentbutton').on('click', function() {
-		socket.emit('comment', $('#commentfield').val());
+		SOCKET.emit('comment', $('#commentfield').val());
 		$('#commentfield').val('')
 		$('#commentfield').attr("placeholder", "Comment submitted. Leave another one if you want.")
 		// TODO can I set the placeholder to say comment recieved?
@@ -239,12 +250,14 @@ $(document).ready(function(){
 	// }
 
 	window.addEventListener('beforeunload', function(event) {
-		socket.disconnect();
+		SOCKET.disconnect();
 	}, false);
 
-	// show intro tab when page first loaded
-	document.getElementById('Intro').style.display = "block";
-	document.getElementById('introbutton').className += " active";
+	// tells the thread to bring back the current tab when page refreshed (or first loaded)
+	SOCKET.emit('pagerefreshed');
+	SOCKET.on('opentab', function(data) {
+		openTabByName(data['tabName']);
+	});
 
 	// TODO start on the collaborator tab if the user has a custom one?
 	// document.getElementById('Collaborate').style.display = "block";
