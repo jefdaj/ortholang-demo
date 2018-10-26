@@ -123,14 +123,13 @@ you try to call it with the wrong one the interpreter will stop you. Here are
 the type signatures of a couple functions we've already used:
 
     * : num num -> num
-    & : <whatever>.list <whatever>.list -> <whatever>.list
+    & : X.list X.list -> X.list
 
 The first means that `*` takes two numbers and returns another number.
 
-The second one is my possibly-too-casual notation for "set intersection takes
-two lists of any type and returns another list of the same type". So it works
-with lists of numbers or lists of strings or lists of genomes, but you can't
-accidentally mix them.
+The second means `&` (set intersection) takes two lists of any type X and
+returns another list of the same type". So it works with lists of numbers or
+lists of strings or lists of genomes, but you can't accidentally mix them.
 
 You can see the types of all variables in your current script at once by typing
 just `:type`. For the last example, it should look like:
