@@ -52,7 +52,7 @@ Types:
 
 | Extension | Meaning |
 | :-------- | :------ |
-| `gbk` | genbank file |
+| `gbk` | genbank |
 | `faa` | FASTA (amino acid) |
 | `fna` | FASTA (nucleic acid) |
 
@@ -131,7 +131,7 @@ Functions:
 | `load_prot_db_each` | `str.list` | `pdb.list` |
 | `makeblastdb_nucl_all` | `fa.list` | `ndb` |
 | `makeblastdb_prot_all` | `faa.list` | `pdb` |
-| `makeblastdb_nucl:` | `fa` | `ndb` |
+| `makeblastdb_nucl` | `fa` | `ndb` |
 | `makeblastdb_prot` | `faa` | `pdb` |
 | `makeblastdb_nucl_each` | `fa.list` | `ndb.list` |
 | `makeblastdb_prot_each` | `faa.list` | `pdb.list` |
@@ -230,7 +230,44 @@ Functions:
 
 ## PsiBLAST module
 
-PsiBLAST (BLAST+) searches using position-specific substitution matrixes.
+Iterated PsiBLAST (BLAST+) searches using position-specific substitution matrixes.
+
+There are a lot of these! Some naming conventions:
+
+* A fn with `train` trains and returns one or more pssms ; one without
+`train` runs a regular blast search and returns hits.
+
+* A fn with `db` takes one or more blast databases directly; one without
+`db` auto-builds the db(s) from one or more fastas.
+
+* A fn with `all` takes a list of fastas and creates one db from it.
+
+* A fn with `each` maps over its last argument. The difference between
+`each` and `all` is that `each` returns a list of results, whereas `all`
+summarizes them into one thing.
+
+* A fn with `pssms` (plural) takes a list of pssm queries and combines
+their hits into one big table.
+
+So for example...
+
+
+```
+psiblast_train_all : num faa faa.list -> pssm
+  auto-builds one blast db from a list of fasta files
+  trains a pssm for the query fasta on it
+  returns the pssm
+```
+
+```
+psiblast_each : num faa faa.list -> bht.list
+  auto-builds one db per subject fasta
+  trains a pssm for the query fasta against each one
+  runs a final psiblast search against each one using the pssm
+  returns a list of hit tables
+```
+
+TODO individual help descriptions for each fn.
 
 Types:
 
@@ -374,6 +411,10 @@ Functions:
 
 Random (but reproducable) sampling of list elements.
 
+WARNING: Because of the way ShortCut caches tempfiles, calling these
+more than once will give the same sublist each time! For different
+sublists, use in combination with the 'repeat' function.
+
 
 Functions:
 
@@ -445,5 +486,117 @@ Functions:
 | `histogram` | `str`, `num.list` | `plot` |
 | `linegraph` | `str`, `num.scores` | `plot` |
 | `scatterplot` | `str`, `num.scores` | `plot` |
+
+
+## OrthoFinder module
+
+Inference of orthologs, orthogroups, the rooted species, gene trees and gene duplcation events tree.
+
+Types:
+
+| Extension | Meaning |
+| :-------- | :------ |
+| `faa` | FASTA (amino acid) |
+| `ofr` | OrthoFinder results |
+
+Functions:
+
+| Name | Inputs | Output |
+| :--- | :----- | :----- |
+| `orthofinder` | `faa.list` | `ofr` |
+
+
+## Diamond module
+
+Accelerated BLAST compatible local sequence aligner..
+
+Types:
+
+| Extension | Meaning |
+| :-------- | :------ |
+| `fna` | FASTA (nucleic acid) |
+| `faa` | FASTA (amino acid) |
+| `dmnd` | DIAMOND database |
+
+Functions:
+
+| Name | Inputs | Output |
+| :--- | :----- | :----- |
+| `diamond_makedb` | `faa` | `dmnd` |
+| `diamond_makedb_all` | `faa.list` | `dmnd` |
+| `diamond_blastp` | `num`, `faa`, `faa` | `bht` |
+| `diamond_blastp_sensitive` | `num`, `faa`, `faa` | `bht` |
+| `diamond_blastp_more_sensitive` | `num`, `faa`, `faa` | `bht` |
+| `diamond_blastp_db` | `num`, `faa`, `dmnd` | `bht` |
+| `diamond_blastp_db_sensitive` | `num`, `faa`, `dmnd` | `bht` |
+| `diamond_blastp_db_more_sensitive` | `num`, `faa`, `dmnd` | `bht` |
+| `diamond_blastx` | `num`, `fna`, `faa` | `bht` |
+| `diamond_blastx_sensitive` | `num`, `fna`, `faa` | `bht` |
+| `diamond_blastx_more_sensitive` | `num`, `fna`, `faa` | `bht` |
+| `diamond_blastx_db` | `num`, `fna`, `dmnd` | `bht` |
+| `diamond_blastx_db_sensitive` | `num`, `fna`, `dmnd` | `bht` |
+| `diamond_blastx_db_more_sensitive` | `num`, `fna`, `dmnd` | `bht` |
+
+
+## MMSeqs module
+
+Many-against-many sequence searching: ultra fast and sensitive search and clustering suite..
+
+Types:
+
+| Extension | Meaning |
+| :-------- | :------ |
+| `faa` | FASTA (amino acid) |
+| `fna` | FASTA (nucleic acid) |
+| `bht` | tab-separated table of blast hits (outfmt 6) |
+| `mms` | MMSeqs2 sequence database |
+
+Functions:
+
+| Name | Inputs | Output |
+| :--- | :----- | :----- |
+| `mmseqs_createdb_all` | `fa.list` | `mms` |
+| `mmseqs_createdb` | `fa` | `mms` |
+| `mmseqs_search_db` | `fa`, `mms` | `bht` |
+| `mmseqs_search` | `fa`, `fa` | `bht` |
+
+
+## SonicParanoid module
+
+Very fast, accurate, and easy orthology..
+
+Types:
+
+| Extension | Meaning |
+| :-------- | :------ |
+| `faa` | FASTA (amino acid) |
+| `fna` | FASTA (nucleic acid) |
+| `spr` | SonicParanoid results |
+
+Functions:
+
+| Name | Inputs | Output |
+| :--- | :----- | :----- |
+| `sonicparanoid` | `faa.list` | `spr` |
+
+
+## OrthoGroups module
+
+Common interface for working with the results of OrthoFinder, SonicParanoid, etc..
+
+Types:
+
+| Extension | Meaning |
+| :-------- | :------ |
+| `ofr` | OrthoFinder results |
+| `spr` | SonicParanoid results |
+
+Functions:
+
+| Name | Inputs | Output |
+| :--- | :----- | :----- |
+| `orthogroups` | `ofr/spr` | `str.list.list` |
+| `orthogroup_containing` | `ofr`, `str` | `str.list` |
+| `orthogroups_containing` | `ofr`, `str.list` | `str.list.list` |
 
 
