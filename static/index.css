@@ -38,11 +38,14 @@ code, pre, div .highlight {
 }
 #replstdin, #replstdout, #serverload {
 	font-family: monospace;
-	font-style: bold;
 	white-space: pre;
 }
+/* #replstdin, #replstdout {
+	font-style: bold;
+} */
 #replstdout {
 	font-size: 10pt;
+	font-weight: bold;
 	background: #f8f8f8;
 }
 #serverload {

@@ -1,4 +1,6 @@
 #!/usr/bin/env python2
+# vim: set fileencoding=utf-8
+# (the encoding line above is also required by python)
 
 # TODO hardcode data dir? make it a separate nix expression? use string path to repo?
 # TODO draw a better logo with a map? later for the paper
@@ -70,6 +72,10 @@ CONFIG['port'       ] = int(ARGS['-p'])
 # repl sessions, indexed by sid and also username if logged in
 SESSIONS = {}
 
+# prompt arrow, which should match the shortcut code
+# ARROW = "❱❱❱ "
+# ARROW = "-> " # TODO does it need escaping in regexes?
+ARROW = " —▶ "
 
 ###########
 # logging #
@@ -475,7 +481,7 @@ class ShortcutThread(Thread):
         try:
             line = line.strip()
             self.process.stdin.write(line + '\n')
-            self.emitLine('>> ' + line + '\n')
+            self.emitLine(ARROW + line + '\n')
             if '=' in line or line.startswith(':') or line.startswith('#') or len(line) == 0:
                 # repl commands are generally instant, but don't print a newline
                 # so to help it along with auto-reenable
@@ -505,7 +511,7 @@ class ShortcutThread(Thread):
                 break
             if line:
                 self.enableInput() # TODO what about when about to print more lines?
-                line = sub(r'^(>> )*', '', line)
+                # line = sub(r'^(' + ARROW + ')*', '', line)
                 self.emitLine(line)
 
 
