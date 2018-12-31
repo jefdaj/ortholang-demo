@@ -16,6 +16,7 @@ let
     myPython.packages."Pygments"
     myPython.packages."misaka"
     myPython.packages."psutil"
+    myPython.packages."pexpect"
     shortcut
   ];
 

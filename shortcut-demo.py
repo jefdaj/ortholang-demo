@@ -30,6 +30,7 @@ import sys
 reload(sys)
 sys.setdefaultencoding('utf8')
 
+import re
 import logging as LOGGING
 
 from datetime            import datetime
@@ -43,11 +44,11 @@ from jinja2              import ChoiceLoader, FileSystemLoader
 from misaka              import Markdown, HtmlRenderer
 from os                  import setsid, getpgid, killpg, makedirs, symlink
 from os.path             import exists, join, relpath, realpath, dirname, basename, splitext
+from pexpect             import spawn, EOF
 from psutil              import cpu_percent, virtual_memory
 from pygments            import highlight
 from pygments.formatters import HtmlFormatter, ClassNotFound
 from pygments.lexers     import PythonLexer
-from re                  import sub, DOTALL
 from shutil              import rmtree
 from signal              import SIGKILL
 from subprocess          import Popen, PIPE, STDOUT
@@ -80,7 +81,7 @@ SESSIONS = {}
 # prompt arrow, which should match the shortcut code
 # ARROW = "❱❱❱ "
 # ARROW = "-> " # TODO does it need escaping in regexes?
-ARROW = " —▶ "
+ARROW = u' —▶ '
 
 ###########
 # logging #
@@ -263,8 +264,8 @@ def get_image(filename):
 def with_real_paths(sid, line):
     repl = find_session(sid=sid)
     # print "line before: '%s'" % line
-    line = sub('/TMPDIR' , repl.tmpdir , line)
-    line = sub('/WORKDIR', repl.workdir, line)
+    line = re.sub('/TMPDIR' , repl.tmpdir , line)
+    line = re.sub('/WORKDIR', repl.workdir, line)
     # print "line after: '%s'" % line
     return line
 
@@ -293,17 +294,28 @@ def find_session(sid=None, username=None):
     else:
         return SESSIONS[sid]
 
+def interpret_clear_code(sometext):
+    # remove terminal escape sequences like "clear screen" in shortcut
+    # based on https://stackoverflow.com/a/14693789
+    ansi_clear  = re.compile(r'\x1B\[2J')
+    ansi_escape = re.compile(r'\x1B\[[0-?]*[ -/]*[@-~]')
+    if re.match(ansi_clear, sometext):
+        SOCKETIO.emit('replclear')
+    return ansi_escape.sub('', sometext)
+
 @SOCKETIO.on('connect')
 def handle_connect():
     sid = request.sid
     uname = AUTH.username()
     LOGGER.info('client %s connected (account: %s)' % (sid, uname))
-    SOCKETIO.emit('replclear')
+    # SOCKETIO.emit('replclear')
     global SESSIONS
     if not sid in SESSIONS:
         if not uname:
             LOGGER.info('client %s started a guest session' % sid)
+            print 'trying to start thread...'
             SESSIONS[sid] = ShortcutThread(sid, 'guest')
+            print 'success!'
             thread = SESSIONS[sid]
         else:
             if not uname in SESSIONS:
@@ -312,7 +324,7 @@ def handle_connect():
             else:
                 LOGGER.info('%s resuming with new session id %s' % (uname, sid))
                 SESSIONS[uname].sessionid = sid
-                SESSIONS[uname].readLine(':show\n') # TODO does this get called on load too?
+                SESSIONS[uname].readCommand(':show\n') # TODO does this get called on load too?
             thread = SESSIONS[uname]
     if not thread.isAlive():
         thread.start()
@@ -329,7 +341,6 @@ def handle_settab(data):
     thread.currenttab = data['tabName']
     LOGGER.info('set current tab of session %s to %s' % (thread.sessionid, data['tabName']))
     # SOCKETIO.emit('opentab', {'tabName': tab})
-
 
 # TODO why isn't this being called to clean up old guest repls?
 #      maybe have to set a socketio timeout?
@@ -350,7 +361,7 @@ def diconnect(sid, uname):
 
 @SOCKETIO.on('replstdin')
 def handle_replstdin(line):
-    find_session().readLine(line)
+    find_session().readCommand(line)
 
 @SOCKETIO.on('replkill')
 def handle_replkill():
@@ -410,7 +421,7 @@ def handle_reqresult():
 class ShortcutThread(Thread):
     def __init__(self, sessionid, username):
         LOGGER.info('creating session %s' % sessionid)
-        self.delay = 0.01
+        # self.delay = 0.01
         self.sessionid = sessionid
         self.username  = username
         self.currenttab  = 'Intro' # changes when user clicks tabs
@@ -431,25 +442,41 @@ class ShortcutThread(Thread):
         super(ShortcutThread, self).__init__()
 
     def run(self):
+        options = [ARROW, u'Bye for now!'] # , '.*']
         while not self._done.is_set():
             self.spawnRepl()
-            self.emitStdout()
+            while True:
+                index = self.process.expect(options)
+                out = self.process.before + self.process.after
+                out = interpret_clear_code(out) # catches shortcut's "clear screen" command
+                self.emitText(out)
+                # self.emitText(self.process.before.lstrip())
+                # self.emitText(self.process.after)
+                self.enableInput()
+                if index == 1:
+                    break # quit repl
+                    # SOCKETIO.emit('replclear')
+
 
     # TODO currently this is the same as killing the interpreter... handle separately in shortcut?
     def stopEval(self):
-        LOGGER.info('session %s stopping %s evaluation' % (self.sessionid, self.process.pid))
+        # LOGGER.info('session %s stopping %s evaluation' % (self.sessionid, self.process.pid))
+        LOGGER.info('session %s stopping evaluation' % self.sessionid)
+        # self.emitText(u'Resetting demo...\n')
+        # sleep(1)
         self.killRepl()
-        self.emitLine('Resetting demo...\n')
-        self.spawnRepl()
-        self.readLine('\n') # without this the new repl doesn't print anything
+        # self.spawnRepl()
+        self.readCommand('\n') # without this the new repl doesn't print anything
 
     def killRepl(self):
         # see https://stackoverflow.com/a/22582602
-        LOGGER.info('session %s killing interpreter %s' % (self.sessionid, self.process.pid))
+        LOGGER.info('session %s killing interpreter' % self.sessionid)
         try:
-            pgid = getpgid(self.process.pid)
-            killpg(pgid, SIGKILL)
-            self.process.wait()
+            #pgid = getpgid(self.process.pid)
+            #killpg(pgid, SIGKILL)
+            #self.process.wait()
+            # self.process.kill(0)
+            self.process.close(force=True)
         except:
             pass
         finally:
@@ -459,39 +486,44 @@ class ShortcutThread(Thread):
     def spawnRepl(self):
         if self.process is not None:
             self.killRepl()
-        cmd = ['shortcut', '--secure', '--interactive',
-               '--tmpdir', self.tmpdir, '--workdir', self.workdir]
-        self.process = Popen(cmd, stdin=PIPE, stdout=PIPE, stderr=STDOUT, preexec_fn=setsid)
-        LOGGER.info('session %s spawned interpreter %s' % (self.sessionid, self.process.pid))
+        args = ['--secure', '--interactive', '--tmpdir', self.tmpdir, '--workdir', self.workdir]
+        # self.process = Popen(cmd, stdin=PIPE, stdout=PIPE, stderr=STDOUT, preexec_fn=setsid)
+        self.process = spawn('shortcut', args, encoding='utf-8', echo=False)
+        # LOGGER.info('session %s spawned interpreter %s' % (self.sessionid, self.process.pid))
+        LOGGER.info('session %s spawned interpreter' % self.sessionid)
 
-    def emitLine(self, line):
+
+    # TODO emitText -> emitText? readCommand -> readCommand
+
+    def emitText(self, line):
         # hack to show images in the repl
         # TODO also hack it to show them one per line
         # TODO ... and with list brackets?
         old = ".*plot image '(.*?)'.*"
         new = r' <img src="/img\1" style="max-width: 400px;"></img> '
-        line = sub(old, new, line, flags=DOTALL)
+        line = re.sub(old, new, line, flags=re.DOTALL)
 
         if not '<img' in line:
             # rewrites tmpdir and workdir paths for simpler routes
             # see find_real_filename for the rationale + undoing it
             # print "line before: '%s'" % line
-            line = sub(self.workdir, '/WORKDIR', line)
-            line = sub(self.tmpdir , '/TMPDIR' , line)
+            line = re.sub(self.workdir, '/WORKDIR', line)
+            line = re.sub(self.tmpdir , '/TMPDIR' , line)
             # print "line after: '%s'" % line
 
         SOCKETIO.emit('replstdout', line, namespace='/', room=self.sessionid)
 
-    def readLine(self, line):
+    def readCommand(self, line):
         try:
             line = line.strip()
-            self.process.stdin.write(line + '\n')
+            # self.process.stdin.write(line + '\n')
+            self.process.sendline(line)
 
             # TODO emit script name here too like the repl? or remove in favor of repl itself?
-            # self.emitLine(ARROW + line + '\n') # TODO no need to emit the arrow if repl does already
+            # self.emitText(ARROW + line + '\n') # TODO no need to emit the arrow if repl does already
             # TODO ideally, would print the last line queued up from the repl but not carriage return yet
             #      for that, do i need some kind of extra flush command?
-            self.emitLine(line + '\n') # TODO no need to emit the arrow if repl does already
+            self.emitText(line + '\n') # TODO no need to emit the arrow if repl does already
 
             if '=' in line or line.startswith(':') or line.startswith('#') or len(line) == 0:
                 # repl commands are generally instant, but don't print a newline
@@ -505,8 +537,8 @@ class ShortcutThread(Thread):
             if not self._done.is_set():
                 self.stopEval()
                 # sleep(2)
-                # self.readLine(line)
-                # self.readLine(':show\n')
+                # self.readCommand(line)
+                # self.readCommand(':show\n')
 
     def disableInput(self):
         SOCKETIO.emit('replbusy', namespace='/', room=self.sessionid)
@@ -514,18 +546,8 @@ class ShortcutThread(Thread):
     def enableInput(self):
         SOCKETIO.emit('replready', namespace='/', room=self.sessionid)
 
-    def emitStdout(self):
-        while True:
-            sleep(self.delay) # TODO remove? decrease?
-            try:
-                line = self.process.stdout.readline()
-            except:
-                break
-            if line:
-                self.enableInput() # TODO what about when about to print more lines?
-                # line = sub(r'^(' + ARROW + ')*', '', line)
-                self.emitLine(line)
-
+    #def emitStdout(self):
+        # TODO make this into a main interact() method?
 
 ###########
 # twisted #

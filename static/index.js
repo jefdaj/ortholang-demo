@@ -45,7 +45,7 @@ function repl_autorun(lines) {
 	runLines();
 }
 
-function repl_autoload(script) { repl_autorun([':load ' + script, ':show']); }
+function repl_autoload(script) { repl_autorun([':load ' + script]); }
 
 function repl_enable() {
 	document.getElementById('replstdin').disabled = false;

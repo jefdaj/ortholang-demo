@@ -94,15 +94,30 @@ let
 
 
 
+    "Click" = python.mkDerivation {
+      name = "Click-7.0";
+      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/f8/5c/f60e9d8a1e77005f664b76ff8aeaee5bc05d0a91798afd7f53fc998dbc47/Click-7.0.tar.gz"; sha256 = "5b94b49521f6456670fdb30cd82a4eca9412788a93fa6dd6df72c94d5a8ff2d7"; };
+      doCheck = commonDoCheck;
+      buildInputs = commonBuildInputs;
+      propagatedBuildInputs = [ ];
+      meta = with pkgs.stdenv.lib; {
+        homepage = "https://palletsprojects.com/p/click/";
+        license = licenses.bsdOriginal;
+        description = "Composable command line interface toolkit";
+      };
+    };
+
+
+
     "Flask" = python.mkDerivation {
       name = "Flask-1.0.2";
       src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/4b/12/c1fbf4971fda0e4de05565694c9f0c92646223cff53f15b6eb248a310a62/Flask-1.0.2.tar.gz"; sha256 = "2271c0070dbcb5275fad4a82e29f23ab92682dc45f9dfbc22c02ba9b9322ce48"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [
+      self."Click"
       self."Jinja2"
       self."Werkzeug"
-      self."click"
       self."itsdangerous"
     ];
       meta = with pkgs.stdenv.lib; {
@@ -150,8 +165,8 @@ let
 
 
     "Flask-SocketIO" = python.mkDerivation {
-      name = "Flask-SocketIO-3.0.1";
-      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/78/db/4346643cb8396d82d2513837ab959d7cc9e7b6e6268fb355453aabe11375/Flask-SocketIO-3.0.1.tar.gz"; sha256 = "034c36bad808f93efd5b0aeafd740dc314b0a848f17e9ec6c387c74b3f22dfe7"; };
+      name = "Flask-SocketIO-3.1.2";
+      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/75/40/cebb026ee79212e64d62a787d729c08f050f1b09f903a9d92f861d0e5f88/Flask-SocketIO-3.1.2.tar.gz"; sha256 = "26fbb693f934ebb1c53a0944f11c761ed54897ca7a5b673ce98961072d0694c1"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [
@@ -204,15 +219,15 @@ let
 
 
     "MarkupSafe" = python.mkDerivation {
-      name = "MarkupSafe-1.0";
-      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/4d/de/32d741db316d8fdb7680822dd37001ef7a448255de9699ab4bfcbdf4172b/MarkupSafe-1.0.tar.gz"; sha256 = "a6be69091dac236ea9c6bc7d012beab42010fa914c459791d627dad4910eb665"; };
+      name = "MarkupSafe-1.1.0";
+      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/ac/7e/1b4c2e05809a4414ebce0892fe1e32c14ace86ca7d50c70f00979ca9b3a3/MarkupSafe-1.1.0.tar.gz"; sha256 = "4e97332c9ce444b0c2c38dd22ddc61c743eb208d916e4265a2a3b575bdccb1d3"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [ ];
       meta = with pkgs.stdenv.lib; {
-        homepage = "http://github.com/pallets/markupsafe";
+        homepage = "https://www.palletsprojects.com/p/markupsafe/";
         license = licenses.bsdOriginal;
-        description = "Implements a XML/HTML/XHTML Markup safe string for Python";
+        description = "Safely add untrusted strings to HTML/XML markup.";
       };
     };
 
@@ -236,8 +251,8 @@ let
 
 
     "Pygments" = python.mkDerivation {
-      name = "Pygments-2.2.0";
-      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/71/2a/2e4e77803a8bd6408a2903340ac498cb0a2181811af7c9ec92cb70b0308a/Pygments-2.2.0.tar.gz"; sha256 = "dbae1046def0efb574852fab9e90209b23f556367b5a320c0bcb871c77c3e8cc"; };
+      name = "Pygments-2.3.1";
+      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/64/69/413708eaf3a64a6abb8972644e0f20891a55e621c6759e2c3f3891e05d63/Pygments-2.3.1.tar.gz"; sha256 = "5ffada19f6203563680669ee7f53b64dabbeb100eb51b61996085e99c03b284a"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [ ];
@@ -251,8 +266,8 @@ let
 
 
     "Twisted" = python.mkDerivation {
-      name = "Twisted-18.7.0";
-      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/90/50/4c315ce5d119f67189d1819629cae7908ca0b0a6c572980df5cc6942bc22/Twisted-18.7.0.tar.bz2"; sha256 = "95ae985716e8107816d8d0df249d558dbaabb677987cc2ace45272c166b267e4"; };
+      name = "Twisted-18.9.0";
+      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/5d/0e/a72d85a55761c2c3ff1cb968143a2fd5f360220779ed90e0fadf4106d4f2/Twisted-18.9.0.tar.bz2"; sha256 = "294be2c6bf84ae776df2fc98e7af7d6537e1c5e60a46d33c3ce2a197677da395"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [
@@ -290,8 +305,8 @@ let
 
 
     "attrs" = python.mkDerivation {
-      name = "attrs-18.1.0";
-      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/e4/ac/a04671e118b57bee87dabca1e0f2d3bda816b7a551036012d0ca24190e71/attrs-18.1.0.tar.gz"; sha256 = "e0d0eb91441a3b53dab4d9b743eafc1ac44476296a2053b6ca3af0b139faf87b"; };
+      name = "attrs-18.2.0";
+      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/0f/9e/26b1d194aab960063b266170e53c39f73ea0d0d3f5ce23313e0ec8ee9bdf/attrs-18.2.0.tar.gz"; sha256 = "10cbf6e27dbce8c30807caf056c8eb50917e0eaafe86347671b57254006c3e69"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [
@@ -299,7 +314,7 @@ let
       self."zope.interface"
     ];
       meta = with pkgs.stdenv.lib; {
-        homepage = "http://www.attrs.org/";
+        homepage = "https://www.attrs.org/";
         license = licenses.mit;
         description = "Classes Without Boilerplate";
       };
@@ -319,21 +334,6 @@ let
         homepage = "http://cffi.readthedocs.org";
         license = licenses.mit;
         description = "Foreign Function Interface for Python calling C code.";
-      };
-    };
-
-
-
-    "click" = python.mkDerivation {
-      name = "click-6.7";
-      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/95/d9/c3336b6b5711c3ab9d1d3a80f1a3e2afeb9d8c02a7166462f6cc96570897/click-6.7.tar.gz"; sha256 = "f15516df478d5a56180fbf80e68f206010e6d160fc39fa508b65e035fd75130b"; };
-      doCheck = commonDoCheck;
-      buildInputs = commonBuildInputs;
-      propagatedBuildInputs = [ ];
-      meta = with pkgs.stdenv.lib; {
-        homepage = "http://github.com/mitsuhiko/click";
-        license = licenses.bsdOriginal;
-        description = "A simple wrapper around optparse for powerful command line utilities.";
       };
     };
 
@@ -387,8 +387,8 @@ let
 
 
     "idna" = python.mkDerivation {
-      name = "idna-2.7";
-      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/65/c4/80f97e9c9628f3cac9b98bfca0402ede54e0563b56482e3e6e45c43c4935/idna-2.7.tar.gz"; sha256 = "684a38a6f903c1d71d6d5fac066b58d7768af4de2b832e426ec79c30daa94a16"; };
+      name = "idna-2.8";
+      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/ad/13/eb56951b6f7950cadb579ca166e448ba77f9d24efc03edd7e55fa57d04b7/idna-2.8.tar.gz"; sha256 = "c357b3f628cf53ae2c4c05627ecc484553142ca23264e593d327bcde5e9c3407"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [ ];
@@ -407,8 +407,8 @@ let
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [
+      self."Click"
       # self."Twisted"
-      self."click"
     ];
       meta = with pkgs.stdenv.lib; {
         homepage = "https://github.com/twisted/incremental";
@@ -420,23 +420,23 @@ let
 
 
     "itsdangerous" = python.mkDerivation {
-      name = "itsdangerous-0.24";
-      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/dc/b4/a60bcdba945c00f6d608d8975131ab3f25b22f2bcfe1dab221165194b2d4/itsdangerous-0.24.tar.gz"; sha256 = "cbb3fcf8d3e33df861709ecaf89d9e6629cff0a217bc2848f1b41cd30d360519"; };
+      name = "itsdangerous-1.1.0";
+      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/68/1a/f27de07a8a304ad5fa817bbe383d1238ac4396da447fa11ed937039fa04b/itsdangerous-1.1.0.tar.gz"; sha256 = "321b033d07f2a4136d3ec762eac9f16a10ccd60f53c0c91af90217ace7ba1f19"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [ ];
       meta = with pkgs.stdenv.lib; {
-        homepage = "http://github.com/mitsuhiko/itsdangerous";
+        homepage = "https://palletsprojects.com/p/itsdangerous/";
         license = licenses.bsdOriginal;
-        description = "Various helpers to pass trusted data to untrusted environments and back.";
+        description = "Various helpers to pass data to untrusted environments and back.";
       };
     };
 
 
 
     "misaka" = python.mkDerivation {
-      name = "misaka-2.1.0";
-      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/47/c2/ba9c82ae0ec62bcec62d690e715be6ead4457f83000f4ef6e919f77a8e5f/misaka-2.1.0.tar.gz"; sha256 = "87637d90f5f52595d07ed1be93d0576d32632d125694b96b8e4ce55cd4c019fb"; };
+      name = "misaka-2.1.1";
+      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/fa/87/b1020510a00aba1b936477e54180b143df654c565b84936b0b3e85272cf2/misaka-2.1.1.tar.gz"; sha256 = "62f35254550095d899fc2ab8b33e156fc5e674176f074959cbca43cf7912ecd7"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [
@@ -452,23 +452,40 @@ let
 
 
     "observable" = python.mkDerivation {
-      name = "observable-0.3.2";
-      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/cc/88/448d24481afa4861d7b095014aab2ffac120137accdc8f76494fd315f2dc/observable-0.3.2.tar.gz"; sha256 = "1c9fe3e05d3047e900d39f98a514611a29bb81c1aa459c5d7fad669743712d4e"; };
+      name = "observable-1.0.3";
+      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/24/57/013c2610cf93f9ae87e522be17d679bcba0e7cee2cd8da4dc8efddef1138/observable-1.0.3.tar.gz"; sha256 = "97fe8e9d8c2a6185cee3661fa5fba9ce38c7ba388894132940cd6a81633626d9"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [ ];
       meta = with pkgs.stdenv.lib; {
-        homepage = "https://github.com/timofurrer/pyobservable";
-        license = "";
-        description = "event system for python";
+        homepage = "https://github.com/timofurrer/observable";
+        license = licenses.mit;
+        description = "minimalist event system";
+      };
+    };
+
+
+
+    "pexpect" = python.mkDerivation {
+      name = "pexpect-4.6.0";
+      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/89/43/07d07654ee3e25235d8cea4164cdee0ec39d1fda8e9203156ebe403ffda4/pexpect-4.6.0.tar.gz"; sha256 = "2a8e88259839571d1251d278476f3eec5db26deb73a70be5ed5dc5435e418aba"; };
+      doCheck = commonDoCheck;
+      buildInputs = commonBuildInputs;
+      propagatedBuildInputs = [
+      self."ptyprocess"
+    ];
+      meta = with pkgs.stdenv.lib; {
+        homepage = "https://pexpect.readthedocs.io/";
+        license = licenses.isc;
+        description = "Pexpect allows easy control of interactive console applications.";
       };
     };
 
 
 
     "psutil" = python.mkDerivation {
-      name = "psutil-5.4.6";
-      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/51/9e/0f8f5423ce28c9109807024f7bdde776ed0b1161de20b408875de7e030c3/psutil-5.4.6.tar.gz"; sha256 = "686e5a35fe4c0acc25f3466c32e716f2d498aaae7b7edc03e2305b682226bcf6"; };
+      name = "psutil-5.4.8";
+      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/e3/58/0eae6e4466e5abf779d7e2b71fac7fba5f59e00ea36ddb3ed690419ccb0f/psutil-5.4.8.tar.gz"; sha256 = "6e265c8f3da00b015d24b842bfeb111f856b13d24f2c57036582568dc650d6c3"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [ ];
@@ -481,9 +498,24 @@ let
 
 
 
+    "ptyprocess" = python.mkDerivation {
+      name = "ptyprocess-0.6.0";
+      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/7d/2d/e4b8733cf79b7309d84c9081a4ab558c89d8c89da5961bf4ddb050ca1ce0/ptyprocess-0.6.0.tar.gz"; sha256 = "923f299cc5ad920c68f2bc0bc98b75b9f838b93b599941a6b63ddbc2476394c0"; };
+      doCheck = commonDoCheck;
+      buildInputs = commonBuildInputs;
+      propagatedBuildInputs = [ ];
+      meta = with pkgs.stdenv.lib; {
+        homepage = "https://github.com/pexpect/ptyprocess";
+        license = "";
+        description = "Run a subprocess in a pseudo terminal";
+      };
+    };
+
+
+
     "pycparser" = python.mkDerivation {
-      name = "pycparser-2.18";
-      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/8c/2d/aad7f16146f4197a11f8e91fb81df177adcc2073d36a17b1491fd09df6ed/pycparser-2.18.tar.gz"; sha256 = "99a8ca03e29851d96616ad0404b4aad7d9ee16f25c9f9708a11faf2810f7b226"; };
+      name = "pycparser-2.19";
+      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/68/9e/49196946aee219aead1290e00d1e7fdeab8567783e83e1b9ab5585e6206a/pycparser-2.19.tar.gz"; sha256 = "a988718abfad80b6b157acce7bf130a30876d27603738ac39f140993246b25b3"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [ ];
@@ -497,8 +529,8 @@ let
 
 
     "python-engineio" = python.mkDerivation {
-      name = "python-engineio-2.2.0";
-      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/07/09/682c70c33e727aac028fca7216bb0b6efcd276e67118d1df417f778a3af1/python-engineio-2.2.0.tar.gz"; sha256 = "d35c50db73bf372f82975dc87f18f1cbfab7d5bed2dfc2553ae784579502a461"; };
+      name = "python-engineio-3.1.2";
+      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/9e/7f/9589333d15ab14a94e2cc75096e7781bb399a74cb480b38263787c3f3048/python-engineio-3.1.2.tar.gz"; sha256 = "fa4c71ba591f26f7c7fb86180cc7dce803fcfb803e9b4a571ad0a6a580783632"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [
@@ -514,8 +546,8 @@ let
 
 
     "python-socketio" = python.mkDerivation {
-      name = "python-socketio-2.0.0";
-      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/23/28/a446c8d6a32449b933d4ec39572bc26c0f42cc955563b28a03bbb328f452/python-socketio-2.0.0.tar.gz"; sha256 = "bde24ef6132a3c2e1b24e77847b31d331abdf8da8c711f0ef9cee4785000e023"; };
+      name = "python-socketio-3.0.0";
+      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/55/b9/2eef4cdf1feefdd91c31b29e09698d6c56e05f0788ae297555245f530310/python-socketio-3.0.0.tar.gz"; sha256 = "1e60e1f0ea03b75c561437e462d92d0e3f9ab4b8815b10da53bcfd0dc606f017"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [
@@ -532,13 +564,13 @@ let
 
 
     "six" = python.mkDerivation {
-      name = "six-1.11.0";
-      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/16/d8/bc6316cf98419719bd59c91742194c111b6f2e85abac88e496adefaf7afe/six-1.11.0.tar.gz"; sha256 = "70e8a77beed4562e7f14fe23a786b54f6296e34344c23bc42f07b15018ff98e9"; };
+      name = "six-1.12.0";
+      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/dd/bf/4138e7bfb757de47d1f4b6994648ec67a51efe58fa907c1e11e350cddfca/six-1.12.0.tar.gz"; sha256 = "d16a0141ec1a18405cd4ce8b4613101da75da0e9a7aec5bdd4fa804d0e0eba73"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [ ];
       meta = with pkgs.stdenv.lib; {
-        homepage = "http://pypi.python.org/pypi/six/";
+        homepage = "https://github.com/benjaminp/six";
         license = licenses.mit;
         description = "Python 2 and 3 compatibility utilities";
       };
@@ -547,8 +579,8 @@ let
 
 
     "zope.interface" = python.mkDerivation {
-      name = "zope.interface-4.5.0";
-      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/ac/8a/657532df378c2cd2a1fe6b12be3b4097521570769d4852ec02c24bd3594e/zope.interface-4.5.0.tar.gz"; sha256 = "57c38470d9f57e37afb460c399eb254e7193ac7fb8042bd09bdc001981a9c74c"; };
+      name = "zope.interface-4.6.0";
+      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/4e/d0/c9d16bd5b38de44a20c6dc5d5ed80a49626fafcb3db9f9efdc2a19026db6/zope.interface-4.6.0.tar.gz"; sha256 = "1b3d0dcabc7c90b470e59e38a9acaa361be43b3a6ea644c0063951964717f0e5"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [ ];
