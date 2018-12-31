@@ -153,15 +153,13 @@ $(document).ready(function(){
 		$('#serverload').html(txt);
 	});
 
-	// display a line of output sent from the repl
-	// TODO don't add the >> unless it was a line of input (don't send those from server at all?)
-	SOCKET.on('replstdout', function(msg) {
+	appendReplStdoutLine = function(line) {
 		var ro = document.getElementById('replstdout');
-		if(msg.indexOf('<img') != -1){
+		if(line.indexOf('<img') != -1){
 			// hack to display images in the repl
 			var template = document.createElement('template');
-			msg = msg.trim()
-			template.innerHTML = msg;
+			line = line.trim()
+			template.innerHTML = line;
 			var content = template.content.firstChild;
 			ro.appendChild(content);
 			ro.appendChild(document.createElement('br'));
@@ -170,10 +168,23 @@ $(document).ready(function(){
 			// see https://stackoverflow.com/a/10777978
 			$('#replstdout').animate({scrollTop: 100000}, 100);
 		} else {
-			ro.appendChild(document.createTextNode(msg));
+			ro.appendChild(document.createTextNode(line));
 			// don't want to animate all lines though because it locks scrollbar temporarily
 			$('#replstdout').scrollTop(100000);
 		}
+	};
+
+	// display a chunk of output sent from the repl
+	SOCKET.on('replstdout', function(msg) {
+
+		// this seems necessary to map over lines without adding an extra newline at the end
+		var lines = msg.split('\n');
+		lines = lines.map(function(l) { return(l + '\n'); });
+		if (!msg.endsWith('\n')) {
+			lines[lines.length-1] = lines[lines.length-1].slice(0, -1)
+		}
+
+		lines.map(appendReplStdoutLine);
 	});
 
 	// upload scripts

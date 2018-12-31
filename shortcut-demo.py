@@ -495,23 +495,22 @@ class ShortcutThread(Thread):
 
     # TODO emitText -> emitText? readCommand -> readCommand
 
-    def emitText(self, line):
+    def emitText(self, text):
         # hack to show images in the repl
-        # TODO also hack it to show them one per line
-        # TODO ... and with list brackets?
-        old = ".*plot image '(.*?)'.*"
+        # TODO show with list brackets?
+        old = u'\[?plot image \'(.*?)\''
         new = r' <img src="/img\1" style="max-width: 400px;"></img> '
-        line = re.sub(old, new, line, flags=re.DOTALL)
+        text = re.sub(old, new, text, flags=re.DOTALL)
 
-        if not '<img' in line:
+        if not '<img' in text:
             # rewrites tmpdir and workdir paths for simpler routes
             # see find_real_filename for the rationale + undoing it
-            # print "line before: '%s'" % line
-            line = re.sub(self.workdir, '/WORKDIR', line)
-            line = re.sub(self.tmpdir , '/TMPDIR' , line)
-            # print "line after: '%s'" % line
+            # print "text before: '%s'" % text
+            text = re.sub(self.workdir, '/WORKDIR', text)
+            text = re.sub(self.tmpdir , '/TMPDIR' , text)
+            # print "text after: '%s'" % text
 
-        SOCKETIO.emit('replstdout', line, namespace='/', room=self.sessionid)
+        SOCKETIO.emit('replstdout', text, namespace='/', room=self.sessionid)
 
     def readCommand(self, line):
         try:
