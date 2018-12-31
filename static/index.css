@@ -17,6 +17,9 @@ p {
 	width: 49%;
 	height: 99%;
 }
+#left div {
+	text-align: left;
+}
 #right {
 	float: left;
 	width: 50%;
@@ -33,10 +36,11 @@ pre {
 }
 code, pre, div .highlight {
 	font-family: monospace;
+	font-weight: bold;
 	font-size: 10pt;
 	background-color: #f8f8f8;
 }
-#replstdin, #replstdout, #serverload {
+#replstdin, #replstdout, #serverload, #account {
 	font-family: monospace;
 	white-space: pre;
 }
@@ -48,8 +52,8 @@ code, pre, div .highlight {
 	font-weight: bold;
 	background: #f8f8f8;
 }
-#serverload {
-	color: #5d5d60;
+#serverload, #account {
+	/* color: #5d5d60; */
 	font-size: 10pt;
 	background-color: white;
 }

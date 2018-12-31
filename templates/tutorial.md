@@ -30,9 +30,9 @@ TODO: re-record the current demos more tersely and put them in the docs like thi
 Let's start at the beginning.
 This is probably the simplest script you could write:
 
-{{ load_example('variables01.cut') }}
+{{ load_example('variables01.dtr') }}
 
-If you downloaded ShortCut and ran `shortcut --script variables01.cut`, it would print
+If you downloaded Detourrr and ran `detourrr --script variables01.dtr`, it would print
 `"hello world!"`. You can also `Load` it in the demo terminal and type `result`.
 
 You don't have to run a whole script at once though.
@@ -40,9 +40,9 @@ You'll spend most of your time editing it in the interpreter,
 defining and evaluating individual variables.
 Here is a script with several of them.
 
-{{ load_example('variables02.cut') }}
+{{ load_example('variables02.dtr') }}
 
-ShortCut keeps track of dependencies between variables, like this:
+Detourrr keeps track of dependencies between variables, like this:
 
 ![]({{ url_for('static',filename='vars.svg') }})
 
@@ -57,7 +57,7 @@ that becomes the new `result`.
 You can also assign it yourself when the script is done to say what the final result should be.
 
 So, if you type `result` or `var4` here the graph will stay the same and
-ShortCut will print `-1.485`. Then if you type `var2`, the graph will change to:
+Detourrr will print `-1.485`. Then if you type `var2`, the graph will change to:
 
 ![]({{ url_for('static',filename='var2.svg') }})
 
@@ -71,7 +71,7 @@ is left-to-right rather than following order of operations.
 
 A few examples:
 
-{{ load_example('math01.cut') }}
+{{ load_example('math01.dtr') }}
 
 You can enter numbers in decimal or scientific notation. There's only one type
 of number instead of the several different ones like doubles and floats you
@@ -79,7 +79,7 @@ would find in a typical language. Parentheses also work the regular "mathy" way
 to group things together; you'll see a little further down that function
 application doesn't use them.
 
-Notice that ShortCut might remove your parentheses automatically,
+Notice that Detourrr might remove your parentheses automatically,
 but only where it doesn't change the meaning.
 
 
@@ -103,10 +103,10 @@ _Note: actual Venn diagrams coming soon._
 <!-- TODO bug: brackets misplaced in :type of & -->
 
 Before loading files and running BLAST, we need to detour and learn a couple
-things about how ShortCut evaluates code. If you skip this, things will be
+things about how Detourrr evaluates code. If you skip this, things will be
 confusing later!
 
-The first important thing to know is that ShortCut is a typed language. Types
+The first important thing to know is that Detourrr is a typed language. Types
 are the standard technique for preventing a large and very annoying class of
 bugs where the script crashes partway through because you accidentally swapped
 two variables or misread how some function works.  The idea is that your
@@ -114,7 +114,7 @@ program should fail immediately if it's not going to work, because why waste
 time? (Python is famously bad at this)
 
 To catch errors the interpreter tags each thing (variable or expression) with a
-type: "number", "string", "blast hit table", etc. You can ask ShortCut the type
+type: "number", "string", "blast hit table", etc. You can ask Detourrr the type
 of anything with the `:type` command. For example, `:type "my string"` is `str`
 and `:type var4` (from the example above) is `num`.
 
@@ -142,7 +142,7 @@ var4.num = var3 * 5 - var1
 result.num = var4
 ```
 
-The second important thing to know is that in ShortCut, every piece of code you
+The second important thing to know is that in Detourrr, every piece of code you
 evaluate gets written to its own temporary file. That's the reason for the
 weird dot notation above: types are equivalent to file extensions.
 After evaluating `var4` you can look in the temporary directory and find a file
@@ -150,7 +150,7 @@ After evaluating `var4` you can look in the temporary directory and find a file
 you'll get a `.num.list`. You can also make a `.num.list.list` and so on.
 Look at the `:type`s of these:
 
-{{ load_example('types01.cut') }}
+{{ load_example('types01.dtr') }}
 
 This might seem like overkill at first, but becomes important for large-scale
 bookkeeping. Imagine you have a few hundred thousand cryptically named
@@ -194,7 +194,7 @@ The `_each` versions take a list of strings and load a list of files.
 There are also `concat_` functions for types that can be concatenated,
 which is helpful if a genome is distributed as multiple files.
 
-{{ load_example('load01.cut') }}
+{{ load_example('load01.dtr') }}
 
 As you can see if you try it out, evaluating those functions prints the first few lines.
 Lists do the same thing for each element.
@@ -213,7 +213,7 @@ The `_glob` versions are similar to the `_each` ones but take a single string wi
 wildcard pattern describing the files to load.
 These two do the same thing:
 
-{{ load_example('load02.cut') }}
+{{ load_example('load02.dtr') }}
 
 The first one should generally be preferred for clarity though,
 unless you mean to load a list of files that might change.
@@ -222,7 +222,7 @@ unless you mean to load a list of files that might change.
 so you can input your gene IDs or a list of genomes to search.
 Then wrap it in `load_<whatever>_each` to actually load those files if needed:
 
-{{ load_example('load03.cut') }}
+{{ load_example('load03.dtr') }}
 
 
 Here are a bunch of random things loaded properly to play around with:
@@ -243,7 +243,7 @@ Finally, you can convert between formats and concatenate things:
 
 ### NCBI BLAST+
 
-ShortCut provides the most common NCBI BLAST programs, which differ in their
+Detourrr provides the most common NCBI BLAST programs, which differ in their
 subject and query types. See the Reference tab at the top for all the variants.
 
 A couple examples:
@@ -254,9 +254,9 @@ _Note: `:help` for individual functions coming soon._
 
 You can also download the standard NCBI databases. Try this:
 
-{{ load_example('blast02.cut') }}
+{{ load_example('blast02.dtr') }}
 
-{{ load_example('blast01.cut') }}
+{{ load_example('blast01.dtr') }}
 
 The SwissProt DB will take a minute or two to download,
 and then you should see a summary like this:
@@ -272,7 +272,7 @@ You can use it in any function that takes a protein database (`.pdb`).
 
 Reciprocal best hits are the most common method used to find orthologs, but
 they can sometimes be overly conservative, missing true orthologs. For that
-reason, ShortCut also includes CRB-BLAST ([Aubry _et al._ 2014][4]). For each
+reason, Detourrr also includes CRB-BLAST ([Aubry _et al._ 2014][4]). For each
 pair of genomes, it:
 
 1. Does a standard reciprocal BLAST search
@@ -290,7 +290,7 @@ cutoffs.
 
 Example:
 
-{{ load_example('crb.cut') }}
+{{ load_example('crb.dtr') }}
 
 ### PSI-BLAST
 
@@ -304,7 +304,7 @@ wrong ones.
 
 So if you only have one or a few genes to search for the best strategy is to
 look through the results of each iteration on the NCBI site to make sure they
-seem reasonable. Obviously that's not very high-throughput though. ShortCut
+seem reasonable. Obviously that's not very high-throughput though. Detourrr
 can't assess whether the results make sense, but you can use it to tune the
 search settings to pick up known positive control genes while excluding as many
 others as possible. That's the topic of the next section.
@@ -314,7 +314,7 @@ transporters, you might also try a hybrid strategy:
 
 1. pick a few random ones with the `sample` function
 2. confirm those work on the NCBI site
-3. do them all in ShortCut
+3. do them all in Detourrr
 
 
 ### Permute, Repeat, Summarize (PRS)
@@ -322,7 +322,7 @@ transporters, you might also try a hybrid strategy:
 Making a cut involves choices: which genomes to include, whether to trust their
 gene annotations, which BLAST functions to use, which e-value cutoffs to apply
 at each step... How can you be sure the parameters you picked are reasonable?
-ShortCut implements a novel solution made possible by lazy evaluation and
+Detourrr implements a novel solution made possible by lazy evaluation and
 caching: duplicate parts of the program, re-run them starting from alternate
 values, and see how the results change.
 
@@ -339,15 +339,15 @@ the final results in some way, perhaps filtering or plotting them (during step 4
 
 Here is a more practical example that repeats a BLAST search with a list of cutoffs:
 
-{{ load_example('prs02.cut') }}
+{{ load_example('prs02.dtr') }}
 
 ### Plotting
 
-{{ load_example('plot_histogram.cut') }}
+{{ load_example('plot_histogram.dtr') }}
 
-{{ load_example('plot_scatterplot.cut') }}
+{{ load_example('plot_scatterplot.dtr') }}
 
-{{ load_example('plot_linegraph.cut') }}
+{{ load_example('plot_linegraph.dtr') }}
 
 
 ### Break up your code
@@ -355,6 +355,6 @@ Here is a more practical example that repeats a BLAST search with a list of cuto
 You can include code from one script inside another.
 It's pretty simple:
 
-{{ load_example('include.cut') }}
+{{ load_example('include.dtr') }}
 
 Use it to keep the current code clean while you try something new!

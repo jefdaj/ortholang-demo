@@ -1,8 +1,8 @@
-shortcut-demo
+detourrr-demo
 =============
 
-An interactive web demo + tutorial for [ShortCut][1].
-Try the live version at [shortcut.pmb.berkeley.edu](https://shortcut.pmb.berkeley.edu)!
+An interactive web demo + tutorial for [Detourrr][1].
+Try the live version at [detourrr.pmb.berkeley.edu](https://shortcut.pmb.berkeley.edu)!
 
 Install
 -------
@@ -14,16 +14,16 @@ Just add it to your `/etc/nixos/configuration.nix`:
 {
   imports =
     [ ...
-      /home/jefdaj/shortcut-demo/service.nix
+      /home/jefdaj/detourrr-demo/service.nix
     ];
 
   ...
 
-  services.shortcutDemo = {
+  services.detourrrDemo = {
     enable      = true;
     user        = "jefdaj"; # TODO swtich to dedicated user
-    scratchDir  = "/tmp/shortcut-demo";
-    logPath     = "/tmp/shortcut-demo.log";
+    scratchDir  = "/tmp/detourrr-demo";
+    logPath     = "/tmp/detourrr-demo.log";
     dataDir     = "/mnt/data/data";
     commentsDir = "/mnt/data/comments";
     uploadsDir  = "/mnt/data/uploads";
@@ -36,12 +36,12 @@ Just add it to your `/etc/nixos/configuration.nix`:
 ```
 
 You can also run it standalone.
-First, you need `shortcut` on your `PATH`.
+First, you need `detourrr` on your `PATH`.
 
 Then run the server the [Nix][2] way:
 
 ```.bash
-nix-shell requirements.nix --command ./shortcut_demo.py
+nix-shell requirements.nix --command ./detourrr_demo.py
 ```
 
 ... or the regular Debian + Python way:
@@ -52,7 +52,7 @@ sudo apt-get install python-dev
 virtualenv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
-./shortcut_demo.py
+./detourrr_demo.py
 ```
 
 Finally, visit `localhost:5000` in your browser.
@@ -85,5 +85,5 @@ work on eukaryotic genomes)
 
 It will also save user comments in `./comments`.
 
-[1]: https://github.com/jefdaj/shortcut
+[1]: https://github.com/jefdaj/detourrr
 [2]: https://nixos.org/nix

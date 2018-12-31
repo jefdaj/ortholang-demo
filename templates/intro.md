@@ -34,10 +34,10 @@ Everyone wins when your work is easy to update and build on!
 
 ## About this Server
 
-The `shortcut` program is a command-line language interpreter, kind of like
+The `detourrr` program is a command-line language interpreter, kind of like
 `python` or `R` but for cut scripts. On your left is a hacky "terminal" I made
 so you can try it from a web browser. You can do most of the same things in it
-that you could if you [install ShortCut on your computer][1], except:
+that you could if you [install Detourrr on your computer][1], except:
 
 * Some terminal niceties like tab completion of variables + function names are missing
 * Long-running scripts might be killed to keep the demo responsive for others
@@ -50,10 +50,10 @@ No email or signup form is required to make an account! Just [click here][3] and
 If you want to be updated when a new version comes out, leave your email in the comment box.
 
 This "server" is just a regular desktop computer; for anything
-compute-intensive you may want to install ShortCut on your own hardware
+compute-intensive you may want to install Detourrr on your own hardware
 instead. You can also contact Jeff (use the comment box or find my email
 [here][4]) about collaborating, running your search on the [Berkeley
-high-performance compute cluster][2], or installing ShortCut at your institution.
+high-performance compute cluster][2], or installing Detourrr at your institution.
 
 
 ## How to use the docs
@@ -65,14 +65,14 @@ or play with the examples and read the tutorial as needed when they don't do wha
 Either way you'll find two types of interactive code blocks.
 Complete cut scripts with `Load` buttons like this:
 
-{{ load_example('load03.cut') }}
+{{ load_example('load03.dtr') }}
 
 ... and examples of commands you would type in the terminal.
 The `Run` button just types them for you.
 They can include loading scripts, but also anything else you might do live:
 redefine variables, look at depdencies, etc.
 
-{{ run_example([':load examples/load03.cut', 'sample 10 genes_of_interest', ':show']) }}
+{{ run_example([':load examples/load03.dtr', 'sample 10 genes_of_interest', ':show']) }}
 
 
 ## How to use the terminal
@@ -94,7 +94,7 @@ redefine variables, look at depdencies, etc.
 4. Comment box. Tell me if there's something broken, something you want to see or are confused about, or whatever.
 
 
-[1]: https://github.com/jefdaj/shortcut
+[1]: https://github.com/jefdaj/detourrr
 [2]: https://research-it.berkeley.edu/services/high-performance-computing
 [3]: /user
 [4]: http://niyogilab.berkeley.edu/lab-directory

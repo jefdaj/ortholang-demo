@@ -8,11 +8,11 @@
 # TODO should users dir be optional?
 
 '''
-Launch the ShortCut demo server.
+Launch the Detourrr demo server.
 
 Usage:
-  shortcut-demo (-h | --help)
-  shortcut-demo -l LOG -d DATA -c COMMENTS -t TMP -p PORT -a AUTH -s USERS
+  detourrr-demo (-h | --help)
+  detourrr-demo -l LOG -d DATA -c COMMENTS -t TMP -p PORT -a AUTH -s USERS
 
 Options:
   -h, --help   Show this help text
@@ -78,7 +78,7 @@ CONFIG['port'       ] = int(ARGS['-p'])
 # repl sessions, indexed by sid and also username if logged in
 SESSIONS = {}
 
-# prompt arrow, which should match the shortcut code
+# prompt arrow, which should match the detourrr code
 # ARROW = "❱❱❱ "
 # ARROW = "-> " # TODO does it need escaping in regexes?
 ARROW = u' —▶ '
@@ -98,7 +98,7 @@ HANDLER.setFormatter(LOGGING.Formatter('%(asctime)s %(name)s %(levelname)s %(mes
 
 # set up logging for this module
 # note: socketio + engineio loggers are messed with later
-LOGGER = LOGGING.getLogger('shortcut')
+LOGGER = LOGGING.getLogger('detourrr')
 LOGGER.setLevel(LOGGING.INFO)
 LOGGER.addHandler(HANDLER)
 LOGGER.info('starting demo.py')
@@ -147,7 +147,7 @@ LOAD = ServerLoadThread()
 
 class HighlighterRenderer(HtmlRenderer):
     def blockcode(self, text, lang):
-        # cut scripts look decent with python syntax highlighting
+        # dtr scripts look decent with python syntax highlighting
         return highlight(text, PythonLexer(), HtmlFormatter())
 
 MARKDOWN = Markdown(HighlighterRenderer(), extensions=('highlight', 'fenced-code', 'tables'))
@@ -162,7 +162,7 @@ def load_codeblock_names(codeblocks):
 def load_codeblocks():
     # used to render the code examples
     codeblocks = {}
-    for path in glob(join(CONFIG['data_dir'], '*.cut')) + glob(join(CONFIG['users_dir'], '*/*.cut')):
+    for path in glob(join(CONFIG['data_dir'], '*.dtr')) + glob(join(CONFIG['users_dir'], '*/*.dtr')):
         with open(path, 'r') as f:
             txt = '```\n%s\n```\n' % f.read()
             name = basename(path)
@@ -211,7 +211,7 @@ def create_user(username, password):
 def list_user_scripts(username):
     # load_code_blocks() # super hacky but reloads code blocks along with templates
     upath = join(CONFIG['users_dir'], username)
-    paths = [relpath(p, upath) for p in glob(join(upath, '*.cut')) + glob(join(upath, '*/*.cut'))]
+    paths = [relpath(p, upath) for p in glob(join(upath, '*.dtr')) + glob(join(upath, '*/*.dtr'))]
     # paths.sort()
     return paths
 
@@ -249,8 +249,8 @@ def user():
     return render_template('index.html', user=user, codeblocks=blocks, codeblock_names=names)
 
 # Flask doesn't like sending random files from all over for security reasons,
-# so we make these simplified routes where /TMPDIR and /WORKDIR refer to their ShortCut equivalents.
-# Lines from ShortCut get rewritten with regexes to include that (messy I know),
+# so we make these simplified routes where /TMPDIR and /WORKDIR refer to their Detourrr equivalents.
+# Lines from Detourrr get rewritten with regexes to include that (messy I know),
 # and then this function finds the real paths again when we need to fetch a file.
 @FLASK.route('/TMPDIR/<path:filename>')
 def send_tmpfile(filename):
@@ -300,7 +300,7 @@ def find_session(sid=None, username=None):
         return SESSIONS[sid]
 
 def interpret_clear_code(sometext):
-    # remove terminal escape sequences like "clear screen" in shortcut
+    # remove terminal escape sequences like "clear screen" in detourrr
     # based on https://stackoverflow.com/a/14693789
     ansi_clear  = re.compile(r'\x1B\[2J')
     ansi_escape = re.compile(r'\x1B\[[0-?]*[ -/]*[@-~]')
@@ -319,13 +319,13 @@ def handle_connect():
         if not uname:
             LOGGER.info('client %s started a guest session' % sid)
             print 'trying to start thread...'
-            SESSIONS[sid] = ShortcutThread(sid, 'guest')
+            SESSIONS[sid] = DetourrrThread(sid, 'guest')
             print 'success!'
             thread = SESSIONS[sid]
         else:
             if not uname in SESSIONS:
                 LOGGER.info('%s started a new session with id %s' % (uname, sid))
-                SESSIONS[uname] = ShortcutThread(sid, uname)
+                SESSIONS[uname] = DetourrrThread(sid, uname)
             else:
                 LOGGER.info('user %s resuming with new session id %s' % (uname, sid))
                 SESSIONS[uname].sessionid = sid
@@ -380,9 +380,9 @@ def handle_comment(comment):
         f.write(comment.encode('utf-8'))
 
 # TODO put uploads in a separate user folder
-# TODO allow uploads of other file types too, not just .cut
-# TODO detect whether uploaded file was .cut and update menu
-#      (need to avoid incorrectly :loading non-cut files)
+# TODO allow uploads of other file types too, not just .dtr
+# TODO detect whether uploaded file was .dtr and update menu
+#      (need to avoid incorrectly :loading non-dtr files)
 @SOCKETIO.on('upload')
 def handle_upload(data):
     repl = find_session()
@@ -419,10 +419,10 @@ def handle_reqresult():
 
 
 ############
-# shortcut #
+# detourrr #
 ############
 
-class ShortcutThread(Thread):
+class DetourrrThread(Thread):
     def __init__(self, sessionid, username):
         LOGGER.info('creating session %s' % sessionid)
         # self.delay = 0.01
@@ -443,7 +443,7 @@ class ShortcutThread(Thread):
             pass # already exists
         self._done = Event()
         self.process = None
-        super(ShortcutThread, self).__init__()
+        super(DetourrrThread, self).__init__()
 
     def run(self):
         options = [ARROW, u'Bye for now!'] # , '.*']
@@ -452,7 +452,7 @@ class ShortcutThread(Thread):
             while True:
                 index = self.process.expect(options)
                 out = self.process.before + self.process.after
-                out = interpret_clear_code(out) # catches shortcut's "clear screen" command
+                out = interpret_clear_code(out) # catches detourrr's "clear screen" command
                 self.emitText(out)
                 # self.emitText(self.process.before.lstrip())
                 # self.emitText(self.process.after)
@@ -462,7 +462,7 @@ class ShortcutThread(Thread):
                     # SOCKETIO.emit('replclear')
 
 
-    # TODO currently this is the same as killing the interpreter... handle separately in shortcut?
+    # TODO currently this is the same as killing the interpreter... handle separately in detourrr?
     def stopEval(self):
         # LOGGER.info('session %s stopping %s evaluation' % (self.sessionid, self.process.pid))
         LOGGER.info('session %s stopping evaluation' % self.sessionid)
@@ -498,7 +498,7 @@ class ShortcutThread(Thread):
             self.killRepl()
         args = ['--secure', '--interactive', '--tmpdir', self.tmpdir, '--workdir', self.workdir]
         # self.process = Popen(cmd, stdin=PIPE, stdout=PIPE, stderr=STDOUT, preexec_fn=setsid)
-        self.process = spawn('shortcut', args, encoding='utf-8', echo=False, timeout=None)
+        self.process = spawn('detourrr', args, encoding='utf-8', echo=False, timeout=None)
         # LOGGER.info('session %s spawned interpreter %s' % (self.sessionid, self.process.pid))
         LOGGER.info('session %s spawned interpreter' % self.sessionid)
 
