@@ -87,6 +87,10 @@ ARROW = u' —▶ '
 # logging #
 ###########
 
+# this quiets flask-socketio + werkzeug
+# see https://stackoverflow.com/q/49038678
+LOGGING.basicConfig(level=LOGGING.ERROR)
+
 # see https://www.blog.pythonlibrary.org/2012/08/02/python-101-an-intro-to-logging/
 # all modules will use this
 HANDLER = LOGGING.FileHandler(CONFIG['log_path'])
@@ -286,6 +290,7 @@ def find_session(sid=None, username=None):
     if sid is None: # TODO is this part needed?
         sid = request.sid
     uname = AUTH.username()
+    # print SESSIONS
     if uname in SESSIONS:
         if sid in SESSIONS:
             # remove guest repl because we found their logged in one
@@ -322,9 +327,10 @@ def handle_connect():
                 LOGGER.info('%s started a new session with id %s' % (uname, sid))
                 SESSIONS[uname] = ShortcutThread(sid, uname)
             else:
-                LOGGER.info('%s resuming with new session id %s' % (uname, sid))
+                LOGGER.info('user %s resuming with new session id %s' % (uname, sid))
                 SESSIONS[uname].sessionid = sid
-                SESSIONS[uname].readCommand(':show\n') # TODO does this get called on load too?
+                SESSIONS[uname].emitText('Resuming previous session...')
+                SESSIONS[uname].readCommand('')
             thread = SESSIONS[uname]
     if not thread.isAlive():
         thread.start()
@@ -351,13 +357,11 @@ def handle_disconnect():
 
 def diconnect(sid, uname):
     LOGGER.info('client %s disconnected' % sid)
-    global SESSIONS
     if uname == 'guest':
         LOGGER.info('killing guest repl %s (account: %s)' % (sid, uname))
         thread = find_session()
         thread._done.set()
         thread.killRepl()
-        del SESSIONS[sid]
 
 @SOCKETIO.on('replstdin')
 def handle_replstdin(line):
@@ -465,30 +469,36 @@ class ShortcutThread(Thread):
         # self.emitText(u'Resetting demo...\n')
         # sleep(1)
         self.killRepl()
-        # self.spawnRepl()
+        self.spawnRepl()
         self.readCommand('\n') # without this the new repl doesn't print anything
 
     def killRepl(self):
         # see https://stackoverflow.com/a/22582602
+        global SESSIONS
         LOGGER.info('session %s killing interpreter' % self.sessionid)
         try:
             #pgid = getpgid(self.process.pid)
             #killpg(pgid, SIGKILL)
             #self.process.wait()
-            # self.process.kill(0)
+            self.process.kill(0)
             self.process.close(force=True)
-        except:
-            pass
+        #except:
+            #pass
         finally:
+            # print SESSIONS
             if self.username == 'guest':
+                del SESSIONS[self.sessionid]
                 rmtree(self.tmpdir, ignore_errors=True)
+            # else:
+                # print SESSIONS
+                # del SESSIONS[self.username]
 
     def spawnRepl(self):
         if self.process is not None:
             self.killRepl()
         args = ['--secure', '--interactive', '--tmpdir', self.tmpdir, '--workdir', self.workdir]
         # self.process = Popen(cmd, stdin=PIPE, stdout=PIPE, stderr=STDOUT, preexec_fn=setsid)
-        self.process = spawn('shortcut', args, encoding='utf-8', echo=False)
+        self.process = spawn('shortcut', args, encoding='utf-8', echo=False, timeout=None)
         # LOGGER.info('session %s spawned interpreter %s' % (self.sessionid, self.process.pid))
         LOGGER.info('session %s spawned interpreter' % self.sessionid)
 
