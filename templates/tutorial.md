@@ -47,9 +47,9 @@ ShortCut keeps track of dependencies between variables, like this:
 ![]({{ url_for('static',filename='vars.svg') }})
 
 You can evaluate one of them by typing its name.
-Anything it depends on will also get evaluated.
-You can find what a given variable depends on with the `:depends` command,
-and what depends on it with `:rdepends` ("reverse dependencies").
+Anything it depends on ("needs") will also get evaluated.
+You can find what a given variable needs with the `:needs` command,
+and what needs it with `:neededfor`.
 
 `result` always holds the latest result.
 If you type a plain expression like `4 * 4` without assigning it to a variable,
@@ -136,7 +136,7 @@ just `:type`. For the last example, it should look like:
 
 ```python
 var1.num = 1.5
-var2.str = "nothing depends on var2 so far"
+var2.str = "nothing needs var2 so far"
 var3.num = 2.0e-3 * var1
 var4.num = var3 * 5 - var1
 result.num = var4

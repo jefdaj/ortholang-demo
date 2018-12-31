@@ -72,8 +72,7 @@ The `Run` button just types them for you.
 They can include loading scripts, but also anything else you might do live:
 redefine variables, look at depdencies, etc.
 
-{{ run_example([':load examples/load03.cut', ':depends sequences_of_interest',
-'sample 10 genes_of_interest', ':show']) }}
+{{ run_example([':load examples/load03.cut', 'sample 10 genes_of_interest', ':show']) }}
 
 
 ## How to use the terminal
