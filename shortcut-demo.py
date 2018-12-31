@@ -1,6 +1,6 @@
 #!/usr/bin/env python2
+# coding: utf8
 # vim: set fileencoding=utf-8
-# (the encoding line above is also required by python)
 
 # TODO hardcode data dir? make it a separate nix expression? use string path to repo?
 # TODO draw a better logo with a map? later for the paper
@@ -24,6 +24,11 @@ Options:
   -a AUTH      Path to user authentication file
   -s USERS     Path to user data directory
 '''
+
+# see https://stackoverflow.com/a/44951327
+import sys
+reload(sys)
+sys.setdefaultencoding('utf8')
 
 import logging as LOGGING
 
@@ -307,7 +312,7 @@ def handle_connect():
             else:
                 LOGGER.info('%s resuming with new session id %s' % (uname, sid))
                 SESSIONS[uname].sessionid = sid
-                SESSIONS[uname].readLine(':show\n')
+                SESSIONS[uname].readLine(':show\n') # TODO does this get called on load too?
             thread = SESSIONS[uname]
     if not thread.isAlive():
         thread.start()
@@ -436,7 +441,7 @@ class ShortcutThread(Thread):
         self.killRepl()
         self.emitLine('Resetting demo...\n')
         self.spawnRepl()
-        # self.readLine('')
+        self.readLine('\n') # without this the new repl doesn't print anything
 
     def killRepl(self):
         # see https://stackoverflow.com/a/22582602
@@ -481,7 +486,13 @@ class ShortcutThread(Thread):
         try:
             line = line.strip()
             self.process.stdin.write(line + '\n')
-            self.emitLine(ARROW + line + '\n')
+
+            # TODO emit script name here too like the repl? or remove in favor of repl itself?
+            # self.emitLine(ARROW + line + '\n') # TODO no need to emit the arrow if repl does already
+            # TODO ideally, would print the last line queued up from the repl but not carriage return yet
+            #      for that, do i need some kind of extra flush command?
+            self.emitLine(line + '\n') # TODO no need to emit the arrow if repl does already
+
             if '=' in line or line.startswith(':') or line.startswith('#') or len(line) == 0:
                 # repl commands are generally instant, but don't print a newline
                 # so to help it along with auto-reenable
@@ -493,8 +504,9 @@ class ShortcutThread(Thread):
         except IOError:
             if not self._done.is_set():
                 self.stopEval()
-                sleep(2)
-                self.readLine(line)
+                # sleep(2)
+                # self.readLine(line)
+                # self.readLine(':show\n')
 
     def disableInput(self):
         SOCKETIO.emit('replbusy', namespace='/', room=self.sessionid)
