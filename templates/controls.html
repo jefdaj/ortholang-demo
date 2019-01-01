@@ -1,8 +1,8 @@
-<div style="display: inline-block; width: 100%;">
+<div id="controls">
 	<div id="script">
 
 		<!-- TODO group these by top row being autofills and bottom being server actions -->
-		<div style="float: left; width: 50%; text-align: left;">
+		<div id="loadcontrols">
 			<button id="loadbutton">Load script</button>
 			<select id="loadmenu">
 				{% for path in list_user_scripts(user) %}
@@ -16,7 +16,7 @@
 			<input id="upload" type="file" accept="*.dtr" multiple>
 		</div>
 
-		<div style="float: right; width: 45%; text-align: left;">
+		<div id="scriptcontrols">
 			<!-- save/download -->
 			<button id="savebutton">Save script</button>
 			<input id="filename" type="text" name="scriptname" placeholder="your-script-name.dtr">

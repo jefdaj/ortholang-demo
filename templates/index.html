@@ -1,55 +1,33 @@
-	<head>
-		<title>Detourrr Demo Server</title>
-		<meta charset="utf-8"/>
-		<script type="text/javascript" src="{{ url_for('static',filename='jquery.min.js') }}"></script>
-		<script type="text/javascript" src="{{ url_for('static',filename='socket.io.slim.js') }}"></script>
-		<script type="text/javascript" src="{{ url_for('static',filename='index.js') }}"></script>
-		<script type="text/javascript" src="{{ url_for('static',filename='asciinema-player.js') }}"></script>
-		<!-- also nice looking themes: borland, default, emacs, tango, manni -->
-		<link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='tables.css') }}">
-		<link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='pygments-theme.css') }}">
-		<link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='index.css') }}">
-		<link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='asciinema-player.css') }}">
-		<link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='asciinema-theme-github.css') }}">
-	</head>
-	<body>
-		<div id="content" style="height: 100%;">
-			<div id="left" style="text-align: center;">
-				<div style="width: 95%; display: inline-block;">
-					<div> <!-- TODO why another div besides left? -->
-						<div id="logodiv" style="display: inline-flex; align-items: center;">
-							<img id="logo" src="/static/detourrr.png" style="width: 250px;">
-							&nbsp; &nbsp;
-							<div style="text-align: left; width: 100%;">
-								<br/>
-								<br/>
-								<!-- <div id="title">The <b>r</b>apid, <b>r</b>obust, <b>r</b>eproducible<br/>route to your candidate genes</div> -->
-								<!-- <div id="title">Find a <b>r</b>apid, <b>r</b>obust, and <b>r</b>eproducible<br/>path to your candidate genes!</div> -->
-								<!-- <div id="title">Make your candidate gene search<br/><b>r</b>apid, <b>r</b>obust, and <b>r</b>eproducible!</div> -->
-								<div id="title">Find a <b>r</b>apid, <b>r</b>obust, <b>r</b>eproducible<br/>route to your candidate genes!</div>
-								<br/>
-								<br/>
-								<div id="serverload">users:<br/>cpu:</br>memory:</div>
-
-								<div id="account">account: {{ user }}
-								{% if user == 'guest' %}
-									<a id="loginlink" href="/user">Click here</a> to log in.
-								{% endif %}
-							</div>
-							</div>
-							<!-- <img id="skim-the-docs" src="/static/skim-the-docs.png"> -->
-						</div>
-						{% include "repl.html" %}
-						<br/>
-						{% include "controls.html" %}
-						<br/>
-						<br/>
-						{% include "comment.html" %}
-					</div>
+<head>
+				<title>Detourrr Demo Server</title>
+				<meta charset="utf-8"/>
+				<script type="text/javascript" src="{{ url_for('static',filename='jquery.min.js') }}"></script>
+				<script type="text/javascript" src="{{ url_for('static',filename='socket.io.slim.js') }}"></script>
+				<script type="text/javascript" src="{{ url_for('static',filename='index.js') }}"></script>
+				<script type="text/javascript" src="{{ url_for('static',filename='asciinema-player.js') }}"></script>
+				<!-- also nice looking themes: borland, default, emacs, tango, manni -->
+				<link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='tables.css') }}">
+				<link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='pygments-theme.css') }}">
+				<link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='index.css') }}">
+				<link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='asciinema-player.css') }}">
+				<link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='asciinema-theme-github.css') }}">
+</head>
+<body>
+				<div id="content">
+								<div id="left">
+												<div id="leftinner">
+																<div>
+																				{% include "repl.html" %}
+																				<br/>
+																				{% include "controls.html" %}
+																				<br/>
+																				<br/>
+																				{% include "comment.html" %}
+																</div>
+												</div>
+								</div>
+								<div id="right">{% include "docs.html" %}</div>
 				</div>
-			</div>
-			<div id="right">{% include "docs.html" %}</div>
-		</div>
-		</div>
-	</body>
+				</div>
+</body>
 </html>

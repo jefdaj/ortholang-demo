@@ -10,7 +10,19 @@
   {%- endwith -%}
 {%- endmacro -%}
 
+<!-- <img src="/static/detourrr.png" style="width:150px; float:left;"></img> -->
 
+<!--
+<div id="account">account: {{ user }}
+{% if user == 'guest' %}
+<a id="loginlink" href="/user">Click here</a> to log in.
+{% endif %}
+</div>
+-->
+
+## Find a <b>r</b>apid, <b>r</b>obust, <b>r</b>eproducible route to your candidate genes!
+
+<!--
 Phylogenomic cuts are lists of candidate genes whose distribution suggests they
 might be imprortant for a trait of interest. If you know some species whose
 genomes or transcriptomes should contain your genes and some related ones that
@@ -30,17 +42,18 @@ for a website, but not so complex that you need to control every little detail
 in a "real" language like Python or R. It also aims to describe everything you
 did succinctly and reproducibly, in a format suitable for supplemental materials.
 Everyone wins when your work is easy to update and build on!
+-->
 
 
-## About this Server
+## Demo site
 
-The `detourrr` program is a command-line language interpreter, kind of like
-`python` or `R` but for cut scripts. On your left is a hacky "terminal" I made
-so you can try it from a web browser. You can do most of the same things in it
-that you could if you [install Detourrr on your computer][1], except:
+<!-- ![](/static/server.png) -->
 
+The demo terminal on the left is similar to what you will get if you [install Detourrr on your computer][1], except:
+
+* You can't use your own files without uploading and downloading them one at a time
 * Some terminal niceties like tab completion of variables + function names are missing
-* Long-running scripts might be killed to keep the demo responsive for others
+* Long-running scripts might be killed to keep the server responsive for others
 
 You can upload your own genomes and gene lists, save and restore scripts,
 and download results using the buttons under the terminal.
@@ -94,7 +107,7 @@ redefine variables, look at depdencies, etc.
 4. Comment box. Tell me if there's something broken, something you want to see or are confused about, or whatever.
 
 
-[1]: https://github.com/jefdaj/detourrr
+[1]: https://github.com/jefdaj/shortcut
 [2]: https://research-it.berkeley.edu/services/high-performance-computing
 [3]: /user
 [4]: http://niyogilab.berkeley.edu/lab-directory
