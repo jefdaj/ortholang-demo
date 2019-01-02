@@ -1,3 +1,9 @@
+{%- macro load_example(module) -%}
+  {%- with path='tests/' + module + '/example.dtr' -%}
+    {%- include "loadcode.html" -%}
+  {%- endwith -%}
+{%- endmacro -%}
+
 ## Math module
 
 Basic math.
@@ -12,6 +18,9 @@ Functions:
 | `*` | `num`, `num` | `num` |
 | `/` | `num`, `num` | `num` |
 
+Example:
+
+{{ load_example('math') }}
 
 ## Load module
 
@@ -25,6 +34,9 @@ Functions:
 | `load_list` | `str` | `str.list` |
 | `glob_files` | `str` | `str.list` |
 
+Example:
+
+{{ load_example('load') }}
 
 ## Sets module
 
@@ -43,6 +55,9 @@ Functions:
 | `~` | `X.list`, `X.list` | `X.list` |
 | `diff` | `X.list.list` | `X.list` |
 
+Example:
+
+{{ load_example('sets') }}
 
 ## SeqIO module
 
@@ -88,6 +103,9 @@ Functions:
 | `load_gbk_each` | `str.list` | `gbk.list` |
 | `load_gbk_glob` | `str` | `gbk.list` |
 
+Example:
+
+{{ load_example('seqio') }}
 
 ## BiomartR module
 
@@ -109,6 +127,9 @@ Functions:
 | `get_genomes` | `str.list` | `fna.gz.list` |
 | `get_proteomes` | `str.list` | `faa.gz.list` |
 
+Example:
+
+{{ load_example('biomartr') }}
 
 ## BlastDB module
 
@@ -139,6 +160,9 @@ Functions:
 | `blastdblist` | `str` | `str.list` |
 | `singletons` | `X.list` | `X.list.list` |
 
+Example:
+
+{{ load_example('blastdb') }}
 
 ## BLAST+ module
 
@@ -183,6 +207,9 @@ Functions:
 | `concat_bht` | `bht.list` | `bht` |
 | `concat_bht_each` | `bht.list.list` | `bht.list` |
 
+Example:
+
+{{ load_example('blast+') }}
 
 ## BlastHits module
 
@@ -208,6 +235,9 @@ Functions:
 | `best_hits` | `bht` | `bht` |
 | `best_hits_each` | `bht.list` | `bht.list` |
 
+Example:
+
+{{ load_example('blasthits') }}
 
 ## Length module
 
@@ -227,6 +257,9 @@ Functions:
 | `length` | `X.list` | `num` |
 | `length` | `X.list.list` | `num.list` |
 
+Example:
+
+{{ load_example('length') }}
 
 ## PsiBLAST module
 
@@ -305,6 +338,9 @@ Functions:
 | `psiblast_train_pssms` | `num`, `faa.list`, `faa` | `pssm.list` |
 | `psiblast_train_pssms_db` | `num`, `faa.list`, `pdb` | `pssm.list` |
 
+Example:
+
+{{ load_example('psiblast') }}
 
 ## CRB-BLAST module
 
@@ -325,6 +361,9 @@ Functions:
 | `crb_blast` | `fa`, `fa` | `crb` |
 | `crb_blast_each` | `fa`, `fa.list` | `crb.list` |
 
+Example:
+
+{{ load_example('crb-blast') }}
 
 ## HMMER module
 
@@ -350,6 +389,9 @@ Functions:
 | `extract_hmm_targets` | `hht` | `str.list` |
 | `extract_hmm_targets_each` | `hht.list` | `str.list.list` |
 
+Example:
+
+{{ load_example('hmmer') }}
 
 ## BlastRBH module
 
@@ -387,6 +429,9 @@ Functions:
 | `blastp_rbh_each` | `num`, `faa`, `faa.list` | `bht.list` |
 | `tblastx_rbh_each` | `num`, `fna`, `fna.list` | `bht.list` |
 
+Example:
+
+{{ load_example('blastrbh') }}
 
 ## MUSCLE module
 
@@ -406,6 +451,9 @@ Functions:
 | `muscle` | `faa` | `aln` |
 | `muscle_each` | `faa.list` | `aln.list` |
 
+Example:
+
+{{ load_example('muscle') }}
 
 ## Sample module
 
@@ -422,6 +470,9 @@ Functions:
 | :--- | :----- | :----- |
 | `sample` | `num`, `X.list` | `X.list` |
 
+Example:
+
+{{ load_example('sample') }}
 
 ## Permute module
 
@@ -434,6 +485,9 @@ Functions:
 | :--- | :----- | :----- |
 | `leave_each_out` | `X.list` | `X.list.list` |
 
+Example:
+
+{{ load_example('permute') }}
 
 ## Repeat module
 
@@ -447,6 +501,9 @@ Functions:
 | `repeat_each` | `<outputvar>`, `<inputvar>`, `<inputvars>` | `<output>.list` |
 | `repeat` | `<outputvar>`, `<inputvar>`, `num` | `<output>.list` |
 
+Example:
+
+{{ load_example('repeat') }}
 
 ## Summarize module
 
@@ -454,6 +511,9 @@ Collapse a list of results into a single summary.
 
 
 
+Example:
+
+{{ load_example('summarize') }}
 
 ## Scores module
 
@@ -468,6 +528,9 @@ Functions:
 | `extract_scores` | `X.scores` | `num.list` |
 | `extract_scored` | `X.scores` | `X.list` |
 
+Example:
+
+{{ load_example('scores') }}
 
 ## Plots module
 
@@ -487,6 +550,9 @@ Functions:
 | `linegraph` | `str`, `num.scores` | `plot` |
 | `scatterplot` | `str`, `num.scores` | `plot` |
 
+Example:
+
+{{ load_example('plots') }}
 
 ## OrthoFinder module
 
@@ -505,6 +571,9 @@ Functions:
 | :--- | :----- | :----- |
 | `orthofinder` | `faa.list` | `ofr` |
 
+Example:
+
+{{ load_example('orthofinder') }}
 
 ## Diamond module
 
@@ -537,6 +606,9 @@ Functions:
 | `diamond_blastx_db_sensitive` | `num`, `fna`, `dmnd` | `bht` |
 | `diamond_blastx_db_more_sensitive` | `num`, `fna`, `dmnd` | `bht` |
 
+Example:
+
+{{ load_example('diamond') }}
 
 ## MMSeqs module
 
@@ -557,9 +629,12 @@ Functions:
 | :--- | :----- | :----- |
 | `mmseqs_createdb_all` | `fa.list` | `mms` |
 | `mmseqs_createdb` | `fa` | `mms` |
-| `mmseqs_search_db` | `fa`, `mms` | `bht` |
-| `mmseqs_search` | `fa`, `fa` | `bht` |
+| `mmseqs_search_db` | `num`, `fa`, `mms` | `bht` |
+| `mmseqs_search` | `num`, `fa`, `fa` | `bht` |
 
+Example:
+
+{{ load_example('mmseqs') }}
 
 ## SonicParanoid module
 
@@ -579,6 +654,9 @@ Functions:
 | :--- | :----- | :----- |
 | `sonicparanoid` | `faa.list` | `spr` |
 
+Example:
+
+{{ load_example('sonicparanoid') }}
 
 ## OrthoGroups module
 
@@ -599,4 +677,7 @@ Functions:
 | `orthogroup_containing` | `ofr`, `str` | `str.list` |
 | `orthogroups_containing` | `ofr`, `str.list` | `str.list.list` |
 
+Example:
+
+{{ load_example('orthogroups') }}
 
