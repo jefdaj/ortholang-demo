@@ -10,7 +10,6 @@
   {%- endwith -%}
 {%- endmacro -%}
 
-<!-- <img src="/static/detourrr.png" style="width:150px; float:left;"></img> -->
 
 <!--
 <div id="account">account: {{ user }}
@@ -20,7 +19,14 @@
 </div>
 -->
 
-## Find a <b>r</b>apid, <b>r</b>obust, <b>r</b>eproducible route to your candidate genes!
+<div id="intropitch">
+<img src="/static/detourrr.png" style="width:200px;"></img>
+<br/>
+<br/>
+<!-- The <b>r</b>apid, <b>r</b>obust, <b>r</b>eproducible route to your candidate genes! -->
+Spend a few minutes up front to<br/>find a <b>r</b>apid, <b>r</b>obust, <b>r</b>eproducible<br/>
+route to your candidate genes!
+</div>
 
 <!--
 Phylogenomic cuts are lists of candidate genes whose distribution suggests they
@@ -44,8 +50,34 @@ did succinctly and reproducibly, in a format suitable for supplemental materials
 Everyone wins when your work is easy to update and build on!
 -->
 
+Detourrr is a small scripting language for automating your search.
+Start with your genes and genomes, find homologs using a variety of programs (see below),
+and tweak until you're confident in the results.
+Save your final script to reproduce or update with new data later.
 
-## Demo site
+Simplified interfaces to these programs are included so far:
+
+- BLAST+
+- BLAST+ reciprocal best hits
+- DIAMOND
+- HMMER
+- CRB-BLAST
+- Orthofinder
+- SonicParanoid (similar to InParanoid)
+- MMSeqs2 (BLASTP-like and PSIBLAST-like modes)
+
+
+Detourrr runs them more or less as you would on the command line, but automatically manages everything.
+It caches intermediate files, re-running only the commands that change with each variation of your search.
+It can also plot how the results change given different starting lists, positive/negative controls, or search methods.
+If you need to customize the script beyond what `detourrr` does can combine it with something else:
+call your code from `detourrr` or vice versa, or work with the files manually.
+
+Scripting makes it easier for you to compare search methods now,
+and easier for others to build on your work later.
+_Your collaborators will still be grateful if you partially automated it!_
+
+## Demo
 
 <!-- ![](/static/server.png) -->
 
