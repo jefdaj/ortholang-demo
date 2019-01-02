@@ -10,7 +10,6 @@
   {%- endwith -%}
 {%- endmacro -%}
 
-
 <!--
 <div id="account">account: {{ user }}
 {% if user == 'guest' %}
@@ -24,8 +23,8 @@
 <br/>
 <br/>
 <!-- The <b>r</b>apid, <b>r</b>obust, <b>r</b>eproducible route to your candidate genes! -->
-Spend a few minutes up front<br/>
-to find a <b>r</b>apid, <b>r</b>obust, <b>r</b>eproducible<br/>
+Try doing it more than one way.<br/>
+Find a <b>r</b>apid, <b>r</b>obust, and <b>r</b>eproducible<br/>
 route to your candidate genes!
 </div>
 
@@ -51,11 +50,12 @@ did succinctly and reproducibly, in a format suitable for supplemental materials
 Everyone wins when your work is easy to update and build on!
 -->
 
-Detourrr is a small scripting language for automating your search.
-Load your genes and genomes,
+Detourrr is a small scripting language for automating your search for candidate genes.
+Load some genes and genomes,
 find homologs using a variety of programs,
-and tweak until you're confident in the results.
+and tweak + compare until you're confident in the results.
 Save your final script to reproduce or update with new data later.
+
 Simplified interfaces to these programs are included so far:
 
 - [BLAST+][5]
@@ -75,7 +75,7 @@ It can also plot how the results change given different genes or genomes, positi
 
 Scripting makes it easier for you to compare search methods now,
 and easier for others to build on your work later.
-If you need to customize the script beyond what `detourrr` does, combine it with something else:
+If you need to customize the script beyond what `detourrr` can do, combine it with something else:
 call your code from `detourrr`, call `detourrr` from your code, or work with the output files manually.
 _Your collaborators will still be grateful if you partially automated it!_
 
@@ -102,10 +102,9 @@ instead. You can also contact Jeff (use the comment box or find my email
 [here][4]) about collaborating, running your search on the [Berkeley
 high-performance compute cluster][2], or installing Detourrr at your institution.
 
+## Quick Start
 
-## How to use the docs
-
-The fastest way to start is probably to skip back and forth between the examples and tutorial.
+The fastest way to start is probably to skip back and forth between the tutorial and examples.
 Read the tutorial and look for each new concept in the examples,
 or play with the examples and read the tutorial as needed when they don't do what you expect.
 
@@ -121,24 +120,6 @@ redefine variables, look at depdencies, etc.
 
 {{ run_example([':load examples/load03.dtr', 'sample 10 genes_of_interest', ':show']) }}
 
-
-## How to use the terminal
-
-<img src="{{ url_for('static', filename='controls.png') }}" style="width: 80%;"></img>
-
-1. Type text commands in the command line and press enter or click `Run` to run them.
-   While a command is running this will grey out and `Run` will change to `Kill`,
-   which kills the script if you decide it was taking too long.
-
-2. Load an existing script, either one of the examples or something you wrote earlier.
-   You can also upload a script.
-   _Note: you can't upload gene lists or fasta files yet, but I'm working on adding that.
-    Comment if you want it done faster!_
-
-3. Save/download stuff. `Download result` always has the latest result,
-   but `Download script` only has the last version you saved.
-
-4. Comment box. Tell me if there's something broken, something you want to see or are confused about, or whatever.
 
 
 [1]: https://github.com/jefdaj/shortcut

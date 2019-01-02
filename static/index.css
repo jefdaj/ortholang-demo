@@ -80,7 +80,7 @@ code, pre, div .highlight {
 	height: 82%;
 	/* height: {{ '55' if user == 'guest' else '60' }}%; */
 	overflow-y: scroll;
-	margin: 10px;
+	margin: 5px;
 }
 #replstdout p {
 	margin: 0;
