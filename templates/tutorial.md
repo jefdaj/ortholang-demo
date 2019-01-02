@@ -67,8 +67,8 @@ Detourrr keeps track of dependencies between variables, like this:
 
 You can evaluate one of them by typing its name.
 Anything it depends on ("needs") will also get evaluated.
-You can find what a given variable needs with the `:needs` command,
-and what needs it with `:neededfor`.
+You can find what a given variable needs with the `:neededfor` command,
+and what needs it with `:needs`.
 
 `result` always holds the latest result.
 If you type a plain expression like `4 * 4` without assigning it to a variable,
@@ -146,7 +146,7 @@ the type signatures of a couple functions we've already used:
 
 The first means that `*` takes two numbers and returns another number.
 
-The second means `&` (set intersection) takes two lists of any type X and
+The second means "`&` (set intersection) takes two lists of any type X and
 returns another list of the same type". So it works with lists of numbers or
 lists of strings or lists of genomes, but you can't accidentally mix them.
 

@@ -23,8 +23,8 @@
 <br/>
 <br/>
 <!-- The <b>r</b>apid, <b>r</b>obust, <b>r</b>eproducible route to your candidate genes! -->
-Try doing it more than one way.<br/>
-Find a <b>r</b>apid, <b>r</b>obust, and <b>r</b>eproducible<br/>
+Try going more than one way.<br/>
+Find a <b>r</b>apid, <b>r</b>obust, <b>r</b>eproducible<br/>
 route to your candidate genes!
 </div>
 
