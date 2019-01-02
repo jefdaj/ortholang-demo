@@ -12,12 +12,12 @@ Launch the Detourrr demo server.
 
 Usage:
   detourrr-demo (-h | --help)
-  detourrr-demo -l LOG -d DATA -c COMMENTS -t TMP -p PORT -a AUTH -s USERS
+  detourrr-demo -l LOG -e EXAMPLES -c COMMENTS -t TMP -p PORT -a AUTH -s USERS
 
 Options:
   -h, --help   Show this help text
   -l LOG       Path to the log file
-  -d DATA      Path to the data directory
+  -e EXAMPLES  Path to the examples directory
   -c COMMENTS  Path to the user comments directory
   -t TMP       Path to the user tmpdirs
   -p PORT      Port to serve the demo site
@@ -67,13 +67,13 @@ from werkzeug.security   import generate_password_hash, check_password_hash
 
 ARGS = docopt(__doc__)
 CONFIG = {}
-CONFIG['data_dir'   ] = realpath(ARGS['-d'])
-CONFIG['log_path'   ] = realpath(ARGS['-l'])
-CONFIG['comment_dir'] = realpath(ARGS['-c'])
-CONFIG['tmp_dir'    ] = realpath(ARGS['-t'])
-CONFIG['auth_path'  ] = realpath(ARGS['-a'])
-CONFIG['users_dir'  ] = realpath(ARGS['-s'])
-CONFIG['port'       ] = int(ARGS['-p'])
+CONFIG['examples_dir'] = realpath(ARGS['-e'])
+CONFIG['log_path'    ] = realpath(ARGS['-l'])
+CONFIG['comment_dir' ] = realpath(ARGS['-c'])
+CONFIG['tmp_dir'     ] = realpath(ARGS['-t'])
+CONFIG['auth_path'   ] = realpath(ARGS['-a'])
+CONFIG['users_dir'   ] = realpath(ARGS['-s'])
+CONFIG['port'        ] = int(ARGS['-p'])
 
 # repl sessions, indexed by sid and also username if logged in
 SESSIONS = {}
@@ -162,7 +162,7 @@ def load_codeblock_names(codeblocks):
 def load_codeblocks():
     # used to render the code examples
     codeblocks = {}
-    for path in glob(join(CONFIG['data_dir'], '*.dtr')) + glob(join(CONFIG['users_dir'], '*/*.dtr')):
+    for path in glob(join(CONFIG['examples_dir'], '*.dtr')) + glob(join(CONFIG['users_dir'], '*/*.dtr')):
         with open(path, 'r') as f:
             txt = '```\n%s\n```\n' % f.read()
             name = basename(path)
@@ -438,7 +438,7 @@ class DetourrrThread(Thread):
             self.workdir = join(self.tmpdir, 'data')
             makedirs(self.workdir)
         try:
-            symlink(CONFIG['data_dir'], join(self.workdir, 'examples')) # TODO rename data examples?
+            symlink(CONFIG['examples_dir'], join(self.workdir, 'examples')) # TODO rename data examples?
         except OSError:
             pass # already exists
         self._done = Event()
