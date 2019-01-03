@@ -1,12 +1,8 @@
-{%- macro load_example(name) -%}
-  {%- with path=name -%}
-    {%- include "loadcode.html" -%}
-  {%- endwith -%}
-{%- endmacro -%}
+{% import "macros.jinja" as macros with context %}
 
 Now you know everything you need to make an actual, useful cut.
 Like, the kind you could publish!
 
-{{ load_example('green.dtr') }}
+{{ macros.load_example('green.dtr') }}
 
-{{ load_example('green-ids.dtr') }}
+{{ macros.load_example('green-ids.dtr') }}

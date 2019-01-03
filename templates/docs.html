@@ -1,8 +1,4 @@
-{%- macro markdown_doc(basename) -%}
-  {%- filter markdown -%}
-    {%- include basename -%}
-  {%- endfilter -%}
-{%- endmacro -%}
+{% import "macros.jinja" as macros with context %}
 
 <div class="tab">
 	<button id="introbutton"       class="tablinks" onclick="openTab(event, 'Intro')">Intro</button>
@@ -12,9 +8,9 @@
 	<button id="patternsbutton"    class="tablinks" onclick="openTab(event, 'Patterns')">Patterns</button>
 	<button id="collaboratebutton" class="tablinks" onclick="openTab(event, 'Collaborate')">Collaborate</button>
 </div>
-<div id="Intro"     class="tabcontent">{{ markdown_doc("intro.md")     }}</div>
-<div id="Examples"  class="tabcontent">{{ markdown_doc("examples.md")  }}</div>
-<div id="Tutorial"  class="tabcontent">{{ markdown_doc("tutorial.md")  }}</div>
-<div id="Reference" class="tabcontent">{{ markdown_doc("reference.md") }}</div>
-<div id="Patterns"  class="tabcontent">{{ markdown_doc("patterns.md")  }}</div>
-<div id="Collaborate"  class="tabcontent">{{ markdown_doc("collaborate.md")  }}</div>
+<div id="Intro"     class="tabcontent">{{ macros.markdown_doc("intro.md")     }}</div>
+<div id="Examples"  class="tabcontent">{{ macros.markdown_doc("examples.md")  }}</div>
+<div id="Tutorial"  class="tabcontent">{{ macros.markdown_doc("tutorial.md")  }}</div>
+<div id="Reference" class="tabcontent">{{ macros.markdown_doc("reference.md") }}</div>
+<div id="Patterns"  class="tabcontent">{{ macros.markdown_doc("patterns.md")  }}</div>
+<div id="Collaborate" class="tabcontent">{{ macros.user_collab_doc(user)  }}</div>

@@ -1,14 +1,4 @@
-{%- macro asciicast(name) -%}
-  {%- with path=name -%}
-    {%- include "asciicast.html" -%}
-  {%- endwith -%}
-{%- endmacro -%}
-
-{%- macro load_example(name) -%}
-  {%- with path='examples/' + name -%}
-    {%- include "loadcode.html" -%}
-  {%- endwith -%}
-{%- endmacro -%}
+{% import "macros.jinja" as macros with context %}
 
 The best way to use this tutorial is probably to
 load each example and play around with it a bit as you go. That's the fastest
@@ -37,11 +27,25 @@ confusing, that counts as a bug too!
 
 4. Comment box. Tell me if there's something broken, something you want to see or are confused about, or whatever.
 
+## How to use the examples
+
+There are two types of interactive code blocks.
+Complete cut scripts with `Load` buttons like this:
+
+{{ macros.load_example('load03.dtr') }}
+
+... and examples of commands you would type in the terminal.
+The `Run` button just types them for you.
+They can include loading scripts, but also anything else you might do live:
+redefine variables, look at depdencies, etc.
+
+{{ macros.run_example([':load examples/load03', 'sample 10 genes_of_interest', ':show']) }}
+
 ### Test of Asciinema demos
 
 TODO: re-record the current demos more tersely and put them in the docs like this:
 
-{{ asciicast('test.cast') }}
+{{ macros.asciicast('test.cast.dtr') }}
 
 
 ### Result and Other Variables
@@ -49,7 +53,7 @@ TODO: re-record the current demos more tersely and put them in the docs like thi
 Let's start at the beginning.
 This is probably the simplest script you could write:
 
-{{ load_example('variables01.dtr') }}
+{{ macros.load_example('variables01.dtr') }}
 
 If you downloaded Detourrr and ran `detourrr --script variables01.dtr`, it would print
 `"hello world!"`. You can also `Load` it in the demo terminal and type `result`.
@@ -59,7 +63,7 @@ You'll spend most of your time editing it in the interpreter,
 defining and evaluating individual variables.
 Here is a script with several of them.
 
-{{ load_example('variables02.dtr') }}
+{{ macros.load_example('variables02.dtr') }}
 
 Detourrr keeps track of dependencies between variables, like this:
 
@@ -90,7 +94,7 @@ is left-to-right rather than following order of operations.
 
 A few examples:
 
-{{ load_example('math01.dtr') }}
+{{ macros.load_example('math01.dtr') }}
 
 You can enter numbers in decimal or scientific notation. There's only one type
 of number instead of the several different ones like doubles and floats you
@@ -169,7 +173,7 @@ After evaluating `var4` you can look in the temporary directory and find a file
 you'll get a `.num.list`. You can also make a `.num.list.list` and so on.
 Look at the `:type`s of these:
 
-{{ load_example('types01.dtr') }}
+{{ macros.load_example('types01.dtr') }}
 
 This might seem like overkill at first, but becomes important for large-scale
 bookkeeping. Imagine you have a few hundred thousand cryptically named
@@ -213,7 +217,7 @@ The `_each` versions take a list of strings and load a list of files.
 There are also `concat_` functions for types that can be concatenated,
 which is helpful if a genome is distributed as multiple files.
 
-{{ load_example('load01.dtr') }}
+{{ macros.load_example('load01.dtr') }}
 
 As you can see if you try it out, evaluating those functions prints the first few lines.
 Lists do the same thing for each element.
@@ -232,7 +236,7 @@ The `_glob` versions are similar to the `_each` ones but take a single string wi
 wildcard pattern describing the files to load.
 These two do the same thing:
 
-{{ load_example('load02.dtr') }}
+{{ macros.load_example('load02.dtr') }}
 
 The first one should generally be preferred for clarity though,
 unless you mean to load a list of files that might change.
@@ -241,7 +245,7 @@ unless you mean to load a list of files that might change.
 so you can input your gene IDs or a list of genomes to search.
 Then wrap it in `load_<whatever>_each` to actually load those files if needed:
 
-{{ load_example('load03.dtr') }}
+{{ macros.load_example('load03.dtr') }}
 
 
 Here are a bunch of random things loaded properly to play around with:
@@ -273,9 +277,9 @@ _Note: `:help` for individual functions coming soon._
 
 You can also download the standard NCBI databases. Try this:
 
-{{ load_example('blast02.dtr') }}
+{{ macros.load_example('blast02.dtr') }}
 
-{{ load_example('blast01.dtr') }}
+{{ macros.load_example('blast01.dtr') }}
 
 The SwissProt DB will take a minute or two to download,
 and then you should see a summary like this:
@@ -309,7 +313,7 @@ cutoffs.
 
 Example:
 
-{{ load_example('crb.dtr') }}
+{{ macros.load_example('crb.dtr') }}
 
 ### PSI-BLAST
 
@@ -358,15 +362,15 @@ the final results in some way, perhaps filtering or plotting them (during step 4
 
 Here is a more practical example that repeats a BLAST search with a list of cutoffs:
 
-{{ load_example('prs02.dtr') }}
+{{ macros.load_example('prs02.dtr') }}
 
 ### Plotting
 
-{{ load_example('plot_histogram.dtr') }}
+{{ macros.load_example('plot_histogram.dtr') }}
 
-{{ load_example('plot_scatterplot.dtr') }}
+{{ macros.load_example('plot_scatterplot.dtr') }}
 
-{{ load_example('plot_linegraph.dtr') }}
+{{ macros.load_example('plot_linegraph.dtr') }}
 
 
 ### Break up your code
@@ -374,6 +378,6 @@ Here is a more practical example that repeats a BLAST search with a list of cuto
 You can include code from one script inside another.
 It's pretty simple:
 
-{{ load_example('include.dtr') }}
+{{ macros.load_example('include.dtr') }}
 
 Use it to keep the current code clean while you try something new!

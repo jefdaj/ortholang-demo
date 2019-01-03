@@ -1,23 +1,22 @@
-{%- macro load_example(name) -%}
-  {%- with path='examples/' + name -%}
-    {%- include "loadcode.html" -%}
-  {%- endwith -%}
-{%- endmacro -%}
+{% import "macros.jinja" as macros with context %}
 
 Here are some cut scripts. Press the `Load` button to load one in the terminal,
 then type `result` to run it. You can also run intermediate variables or redefine them.
 Try changing some numbers.
 
-{{ load_example('prs02.dtr') }}
+{{ macros.load_example('blast.dtr') }}
 
-Find reciprocal best PSI-BLAST hits between two genomes:
+{{ macros.load_example('prs02.dtr') }}
 
-{{ load_example('psiblast_rbh.dtr') }}
+Find reciprocal best PSI-BLAST hits between two genomes,
+one of which comes as two files:
+
+{{ macros.load_example('psiblast_rbh.dtr') }}
 
 Repeat any series of steps, changing one variable at a time and plotting the results.
 (Trivial steps shown here)
 
-{{ load_example('plot_linegraph.dtr') }}
+{{ macros.load_example('plot_linegraph.dtr') }}
 
 _Note: these mostly use BLAST, but multiple sequence alignments +
 tree building + clustering are in the works too._

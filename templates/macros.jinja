@@ -1,0 +1,29 @@
+{%- macro asciicast(name) -%}
+  {%- with path=name -%}
+    {%- include "asciicast.html" -%}
+  {%- endwith -%}
+{%- endmacro -%}
+
+{%- macro load_example(basename) -%}
+  {%- with path= 'examples/' + basename -%}
+    {%- include "loadexample.html" -%}
+  {%- endwith -%}
+{%- endmacro -%}
+
+{% macro run_example(lines2) %}
+  {%- with lines=lines2 -%}
+    {%- include "runexample.html" -%}
+  {%- endwith -%}
+{% endmacro %}
+
+{%- macro markdown_doc(basename) -%}
+  {%- filter markdown -%}
+    {%- include basename -%}
+  {%- endfilter -%}
+{%- endmacro -%}
+
+{%- macro user_collab_doc(user) -%}
+  {%- filter markdown -%}
+    {%- include [user + '/collaborate.md'] ignore missing -%}
+  {%- endfilter -%}
+{%- endmacro -%}

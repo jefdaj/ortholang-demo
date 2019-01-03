@@ -1,8 +1,4 @@
-{%- macro load_example(name) -%}
-  {%- with path='examples/' + name -%}
-    {%- include "loadcode.html" -%}
-  {%- endwith -%}
-{%- endmacro -%}
+{% import "macros.jinja" as macros with context %}
 
 ## Math module
 
@@ -20,7 +16,7 @@ Functions:
 
 Examples:
 
-{{ load_example('math.dtr') }}
+{{ macros.load_example('math.dtr') }}
 
 ## Load module
 
@@ -36,7 +32,7 @@ Functions:
 
 Examples:
 
-{{ load_example('load.dtr') }}
+{{ macros.load_example('load.dtr') }}
 
 ## Sets module
 
@@ -57,7 +53,7 @@ Functions:
 
 Examples:
 
-{{ load_example('sets.dtr') }}
+{{ macros.load_example('sets.dtr') }}
 
 ## SeqIO module
 
@@ -105,7 +101,7 @@ Functions:
 
 Examples:
 
-{{ load_example('seqio.dtr') }}
+{{ macros.load_example('seqio.dtr') }}
 
 ## BiomartR module
 
@@ -129,7 +125,7 @@ Functions:
 
 Examples:
 
-{{ load_example('biomartr.dtr') }}
+{{ macros.load_example('biomartr.dtr') }}
 
 ## BlastDB module
 
@@ -162,7 +158,7 @@ Functions:
 
 Examples:
 
-{{ load_example('blastdb.dtr') }}
+{{ macros.load_example('blastdb.dtr') }}
 
 ## BLAST+ module
 
@@ -209,7 +205,7 @@ Functions:
 
 Examples:
 
-{{ load_example('blast.dtr') }}
+{{ macros.load_example('blast.dtr') }}
 
 ## BlastHits module
 
@@ -237,7 +233,7 @@ Functions:
 
 Examples:
 
-{{ load_example('blasthits.dtr') }}
+{{ macros.load_example('blasthits.dtr') }}
 
 ## Length module
 
@@ -259,7 +255,7 @@ Functions:
 
 Examples:
 
-{{ load_example('length.dtr') }}
+{{ macros.load_example('length.dtr') }}
 
 ## PsiBLAST module
 
@@ -340,7 +336,7 @@ Functions:
 
 Examples:
 
-{{ load_example('psiblast.dtr') }}
+{{ macros.load_example('psiblast.dtr') }}
 
 ## CRB-BLAST module
 
@@ -363,7 +359,7 @@ Functions:
 
 Examples:
 
-{{ load_example('crb-blast.dtr') }}
+{{ macros.load_example('crbblast.dtr') }}
 
 ## HMMER module
 
@@ -391,7 +387,7 @@ Functions:
 
 Examples:
 
-{{ load_example('hmmer.dtr') }}
+{{ macros.load_example('hmmer.dtr') }}
 
 ## BlastRBH module
 
@@ -431,7 +427,7 @@ Functions:
 
 Examples:
 
-{{ load_example('blastrbh.dtr') }}
+{{ macros.load_example('blastrbh.dtr') }}
 
 ## MUSCLE module
 
@@ -453,7 +449,7 @@ Functions:
 
 Examples:
 
-{{ load_example('muscle.dtr') }}
+{{ macros.load_example('muscle.dtr') }}
 
 ## Sample module
 
@@ -472,7 +468,7 @@ Functions:
 
 Examples:
 
-{{ load_example('sample.dtr') }}
+{{ macros.load_example('sample.dtr') }}
 
 ## Permute module
 
@@ -487,7 +483,7 @@ Functions:
 
 Examples:
 
-{{ load_example('permute.dtr') }}
+{{ macros.load_example('permute.dtr') }}
 
 ## Repeat module
 
@@ -503,7 +499,7 @@ Functions:
 
 Examples:
 
-{{ load_example('repeat.dtr') }}
+{{ macros.load_example('repeat.dtr') }}
 
 ## Summarize module
 
@@ -513,7 +509,7 @@ Collapse a list of results into a single summary.
 
 Examples:
 
-{{ load_example('summarize.dtr') }}
+{{ macros.load_example('summarize.dtr') }}
 
 ## Scores module
 
@@ -530,7 +526,7 @@ Functions:
 
 Examples:
 
-{{ load_example('scores.dtr') }}
+{{ macros.load_example('scores.dtr') }}
 
 ## Plots module
 
@@ -552,7 +548,7 @@ Functions:
 
 Examples:
 
-{{ load_example('plots.dtr') }}
+{{ macros.load_example('plots.dtr') }}
 
 ## OrthoFinder module
 
@@ -573,7 +569,7 @@ Functions:
 
 Examples:
 
-{{ load_example('orthofinder.dtr') }}
+{{ macros.load_example('orthofinder.dtr') }}
 
 ## Diamond module
 
@@ -608,11 +604,11 @@ Functions:
 
 Examples:
 
-{{ load_example('diamond.dtr') }}
+{{ macros.load_example('diamond.dtr') }}
 
 ## MMSeqs module
 
-Many-against-many sequence searching: ultra fast and sensitive search and clustering suite..
+Many-against-many sequence searching: ultra fast and sensitive search and clustering suite.
 
 Types:
 
@@ -634,7 +630,7 @@ Functions:
 
 Examples:
 
-{{ load_example('mmseqs.dtr') }}
+{{ macros.load_example('mmseqs.dtr') }}
 
 ## SonicParanoid module
 
@@ -656,7 +652,7 @@ Functions:
 
 Examples:
 
-{{ load_example('sonicparanoid.dtr') }}
+{{ macros.load_example('sonicparanoid.dtr') }}
 
 ## OrthoGroups module
 
@@ -679,5 +675,5 @@ Functions:
 
 Examples:
 
-{{ load_example('orthogroups.dtr') }}
+{{ macros.load_example('orthogroups.dtr') }}
 
