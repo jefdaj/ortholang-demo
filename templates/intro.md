@@ -2,23 +2,24 @@
 <img src="/static/detourrr.png" style="width:200px;"></img>
 <br/>
 <br/>
-Try going more than one way.<br/>
+<!-- There's more than one way to get there.<br/> -->
+Compare and combine sequence searches.<br/>
 Find a <b>R</b>apid, <b>R</b>obust, <b>R</b>eproducible<br/>
 route to your candidate genes!
 </div>
 
 ## What is it?
 
-Detourrr is a small scripting language for automating your search for candidate genes.
+Detourrr is a small scripting language designed to help you search for candidate genes.
 Load some genes and genomes,
 find homologs using a variety of programs,
 and tweak + compare until you're confident in the results.
 Save your final script to reproduce or update with new data later.
 
-Simplified interfaces to these search methods are included so far:
+Simplified interfaces to these search programs are included so far:
 
 - [BLAST+][5]
-- BLAST+ reciprocal best hits
+- BLAST+ reciprocal best hits (custom)
 - [DIAMOND][6]
 - [HMMER][7]
 - [CRB-BLAST][8]
@@ -27,7 +28,7 @@ Simplified interfaces to these search methods are included so far:
 - [MMSeqs2][11]
 
 Each one comes with a few basic functions to get you going with minimum fuss.
-See the Examples tab for a quick idea of what the code looks like,
+See the Examples tab for an idea of what the code looks like,
 or the Reference tab for a complete list of functions in each module.
 
 Detourrr runs them more or less as you would on the command line, but automatically manages everything.
