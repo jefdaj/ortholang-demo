@@ -27,3 +27,13 @@
     {%- include [user + '/collaborate.md'] ignore missing -%}
   {%- endfilter -%}
 {%- endmacro -%}
+
+{%- macro load_rrr(name) -%}
+  {%- filter markdown -%}
+    {%- with path=name -%}
+      {%- include "loadexample.html" -%}
+    {%- endwith -%}
+  {%- endfilter -%}
+{%- endmacro -%}
+
+

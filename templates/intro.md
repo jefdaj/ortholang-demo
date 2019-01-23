@@ -3,9 +3,10 @@
 <br/>
 <br/>
 <!-- There's more than one way to get there.<br/> -->
-Compare and combine sequence searches.<br/>
-Find a <b>R</b>apid, <b>R</b>obust, <b>R</b>eproducible<br/>
-route to your candidate genes!
+<!-- Compare and combine sequence searches.<br/> -->
+Try more than one sequence search workflow.<br/>
+Find a <b>R</b>apid, <b>R</b>obust, <b>R</b>eproducible route<br/>
+to your candidate genes!
 </div>
 
 ## What is it?

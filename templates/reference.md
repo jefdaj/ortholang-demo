@@ -16,7 +16,7 @@ Functions:
 
 Examples:
 
-{{ macros.load_example('math.dtr') }}
+{{ macros.load_example('math.rrr') }}
 
 ## Load module
 
@@ -32,7 +32,7 @@ Functions:
 
 Examples:
 
-{{ macros.load_example('load.dtr') }}
+{{ macros.load_example('load.rrr') }}
 
 ## Sets module
 
@@ -53,7 +53,7 @@ Functions:
 
 Examples:
 
-{{ macros.load_example('sets.dtr') }}
+{{ macros.load_example('sets.rrr') }}
 
 ## SeqIO module
 
@@ -101,7 +101,7 @@ Functions:
 
 Examples:
 
-{{ macros.load_example('seqio.dtr') }}
+{{ macros.load_example('seqio.rrr') }}
 
 ## BiomartR module
 
@@ -125,7 +125,7 @@ Functions:
 
 Examples:
 
-{{ macros.load_example('biomartr.dtr') }}
+{{ macros.load_example('biomartr.rrr') }}
 
 ## BlastDB module
 
@@ -158,7 +158,7 @@ Functions:
 
 Examples:
 
-{{ macros.load_example('blastdb.dtr') }}
+{{ macros.load_example('blastdb.rrr') }}
 
 ## BLAST+ module
 
@@ -205,7 +205,7 @@ Functions:
 
 Examples:
 
-{{ macros.load_example('blast.dtr') }}
+{{ macros.load_example('blast.rrr') }}
 
 ## BlastHits module
 
@@ -233,7 +233,7 @@ Functions:
 
 Examples:
 
-{{ macros.load_example('blasthits.dtr') }}
+{{ macros.load_example('blasthits.rrr') }}
 
 ## Length module
 
@@ -255,7 +255,7 @@ Functions:
 
 Examples:
 
-{{ macros.load_example('length.dtr') }}
+{{ macros.load_example('length.rrr') }}
 
 ## PsiBLAST module
 
@@ -336,7 +336,7 @@ Functions:
 
 Examples:
 
-{{ macros.load_example('psiblast.dtr') }}
+{{ macros.load_example('psiblast.rrr') }}
 
 ## CRB-BLAST module
 
@@ -359,7 +359,7 @@ Functions:
 
 Examples:
 
-{{ macros.load_example('crbblast.dtr') }}
+{{ macros.load_example('crbblast.rrr') }}
 
 ## HMMER module
 
@@ -387,7 +387,7 @@ Functions:
 
 Examples:
 
-{{ macros.load_example('hmmer.dtr') }}
+{{ macros.load_example('hmmer.rrr') }}
 
 ## BlastRBH module
 
@@ -427,7 +427,7 @@ Functions:
 
 Examples:
 
-{{ macros.load_example('blastrbh.dtr') }}
+{{ macros.load_example('blastrbh.rrr') }}
 
 ## MUSCLE module
 
@@ -449,7 +449,7 @@ Functions:
 
 Examples:
 
-{{ macros.load_example('muscle.dtr') }}
+{{ macros.load_example('muscle.rrr') }}
 
 ## Sample module
 
@@ -468,7 +468,7 @@ Functions:
 
 Examples:
 
-{{ macros.load_example('sample.dtr') }}
+{{ macros.load_example('sample.rrr') }}
 
 ## Permute module
 
@@ -483,7 +483,7 @@ Functions:
 
 Examples:
 
-{{ macros.load_example('permute.dtr') }}
+{{ macros.load_example('permute.rrr') }}
 
 ## Repeat module
 
@@ -499,7 +499,7 @@ Functions:
 
 Examples:
 
-{{ macros.load_example('repeat.dtr') }}
+{{ macros.load_example('repeat.rrr') }}
 
 ## Summarize module
 
@@ -509,7 +509,7 @@ Collapse a list of results into a single summary.
 
 Examples:
 
-{{ macros.load_example('summarize.dtr') }}
+{{ macros.load_example('summarize.rrr') }}
 
 ## Scores module
 
@@ -526,7 +526,7 @@ Functions:
 
 Examples:
 
-{{ macros.load_example('scores.dtr') }}
+{{ macros.load_example('scores.rrr') }}
 
 ## Plots module
 
@@ -548,7 +548,7 @@ Functions:
 
 Examples:
 
-{{ macros.load_example('plots.dtr') }}
+{{ macros.load_example('plots.rrr') }}
 
 ## OrthoFinder module
 
@@ -569,7 +569,7 @@ Functions:
 
 Examples:
 
-{{ macros.load_example('orthofinder.dtr') }}
+{{ macros.load_example('orthofinder.rrr') }}
 
 ## Diamond module
 
@@ -604,7 +604,7 @@ Functions:
 
 Examples:
 
-{{ macros.load_example('diamond.dtr') }}
+{{ macros.load_example('diamond.rrr') }}
 
 ## MMSeqs module
 
@@ -630,7 +630,7 @@ Functions:
 
 Examples:
 
-{{ macros.load_example('mmseqs.dtr') }}
+{{ macros.load_example('mmseqs.rrr') }}
 
 ## SonicParanoid module
 
@@ -652,7 +652,7 @@ Functions:
 
 Examples:
 
-{{ macros.load_example('sonicparanoid.dtr') }}
+{{ macros.load_example('sonicparanoid.rrr') }}
 
 ## OrthoGroups module
 
@@ -675,5 +675,5 @@ Functions:
 
 Examples:
 
-{{ macros.load_example('orthogroups.dtr') }}
+{{ macros.load_example('orthogroups.rrr') }}
 

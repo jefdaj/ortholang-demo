@@ -162,7 +162,7 @@ def load_codeblock_names(codeblocks):
 def load_codeblocks():
     # used to render the code examples
     codeblocks = {}
-    for path in glob(join(CONFIG['examples_dir'], '*.dtr')) + glob(join(CONFIG['users_dir'], '*/*.dtr')):
+    for path in glob(join(CONFIG['examples_dir'], '*.rrr')) + glob(join(CONFIG['users_dir'], '*/*.rrr')):
         with open(path, 'r') as f:
             txt = '```\n%s\n```\n' % f.read()
             name = basename(path)
@@ -211,7 +211,7 @@ def create_user(username, password):
 def list_user_scripts(username):
     # load_code_blocks() # super hacky but reloads code blocks along with templates
     upath = join(CONFIG['users_dir'], username)
-    paths = [relpath(p, upath) for p in glob(join(upath, '*.dtr')) + glob(join(upath, '*/*.dtr'))]
+    paths = [relpath(p, upath) for p in glob(join(upath, '*.rrr')) + glob(join(upath, '*/*.rrr'))]
     # paths.sort()
     return paths
 
