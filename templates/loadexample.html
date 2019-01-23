@@ -1,6 +1,6 @@
 <div class="highlight" style="text-align: left; width: 90%;">
-	<form id="{{ codeblocks[basename]['id'] }}" style="float: right;">
+	<form id="{{ codeblocks[path]['id'] }}" style="float: right;">
 		<input type="button" onclick="repl_autorun([':load {{ path }}'])" name="submit" value="Load">
 	</form>
-	{{ codeblocks[basename]['content'] | safe }}
+	{{ codeblocks[path]['content'] | safe }}
 </div>

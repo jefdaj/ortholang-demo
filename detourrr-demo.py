@@ -152,21 +152,27 @@ class HighlighterRenderer(HtmlRenderer):
 
 MARKDOWN = Markdown(HighlighterRenderer(), extensions=('highlight', 'fenced-code', 'tables'))
 
-def load_codeblock_names(codeblocks):
-    # for the load script menu
-    # TODO use paths instead of basenames
-    names = [basename(k) for k in codeblocks.keys()]
-    names.sort()
-    return names
+# def load_codeblock_userpaths(codeblocks):
+#     # for the load script menu
+#     # TODO use paths instead of basenames
+#     # print codeblocks
+#     names = [basename(k) for k in codeblocks.keys()]
+#     names.sort()
+#     #print 'names:', names
+#     return names
 
 def load_codeblocks():
     # used to render the code examples
     codeblocks = {}
-    for path in glob(join(CONFIG['examples_dir'], '*.rrr')) + glob(join(CONFIG['users_dir'], '*/*.rrr')):
+    # for path in glob(join(CONFIG['examples_dir'], '*.rrr')) + glob(join(CONFIG['users_dir'], '*/*.rrr')):
+    for path in glob(join(CONFIG['users_dir'], '*/*.rrr')) + glob(join(CONFIG['users_dir'], '*/*/*.rrr')):
         with open(path, 'r') as f:
             txt = '```\n%s\n```\n' % f.read()
-            name = basename(path)
-        codeblocks[name] = {'id': name.replace('.', '_'), 'path': path, 'content': MARKDOWN(txt)}
+            # name = basename(path)
+            userpath = relpath(path, CONFIG['users_dir'])
+        codeblocks[userpath] = {'id': userpath.replace('.', '_').replace('/', '_'), 'path': userpath, 'content': MARKDOWN(txt)}
+    # print codeblocks
+    # print codeblocks.keys()
     return codeblocks
 
 
@@ -236,7 +242,7 @@ Misaka(FLASK, tables=True, fenced_code=True, highlight=True)
 @FLASK.route('/')
 def guest():
     # TODO put main site back once it's a little more ready
-    # return render_template('index.html', user='guest', codeblocks=CODEBLOCKS, codeblock_names=CODEBLOCK_NAMES)
+    # return render_template('index.html', user='guest', codeblocks=CODEBLOCKS, codeblock_userpaths=CODEBLOCK_NAMES)
     return render_template('construction.html')
 
 # ... but a second entry point helps with authenticated content
@@ -245,8 +251,8 @@ def guest():
 def user():
     user = AUTH.username()
     blocks = load_codeblocks()
-    names = load_codeblock_names(blocks)
-    return render_template('index.html', user=user, codeblocks=blocks, codeblock_names=names)
+    # userpaths = load_codeblock_userpaths(blocks)
+    return render_template('index.html', user=user, codeblocks=blocks, codeblock_userpaths=blocks.keys())
 
 # Flask doesn't like sending random files from all over for security reasons,
 # so we make these simplified routes where /TMPDIR and /WORKDIR refer to their Detourrr equivalents.

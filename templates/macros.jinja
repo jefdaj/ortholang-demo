@@ -4,8 +4,8 @@
   {%- endwith -%}
 {%- endmacro -%}
 
-{%- macro load_example(basename) -%}
-  {%- with path= 'examples/' + basename -%}
+{%- macro load_example(user, basename) -%}
+  {%- with path=user + '/examples/' + basename -%}
     {%- include "loadexample.html" -%}
   {%- endwith -%}
 {%- endmacro -%}
@@ -28,9 +28,9 @@
   {%- endfilter -%}
 {%- endmacro -%}
 
-{%- macro load_rrr(name) -%}
+{%- macro load_rrr(user, path) -%}
   {%- filter markdown -%}
-    {%- with path=name -%}
+    {%- with path=user + '/' + path -%}
       {%- include "loadexample.html" -%}
     {%- endwith -%}
   {%- endfilter -%}
