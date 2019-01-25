@@ -45,10 +45,7 @@ function repl_autorun(lines) {
 	runLines();
 }
 
-function repl_autoload(path) {
-	var userpath = path.substring(path.indexOf('/') + 1); 
-	repl_autorun([':load ' + userpath]);
-}
+function repl_autoload(script) { repl_autorun([':load ' + script]); }
 
 function repl_enable() {
 	document.getElementById('replstdin').disabled = false;
