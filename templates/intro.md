@@ -57,7 +57,6 @@ or play with the examples and read the tutorial as needed when they don't do wha
 -->
 
 [1]: https://github.com/jefdaj/shortcut
-[3]: /user
 [5]: https://blast.ncbi.nlm.nih.gov/Blast.cgi?CMD=Web&PAGE_TYPE=BlastDocs&DOC_TYPE=Download
 [6]: https://github.com/bbuchfink/diamond
 [7]: http://hmmer.org/
