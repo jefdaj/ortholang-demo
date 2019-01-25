@@ -170,10 +170,12 @@ def load_codeblocks():
             txt = '```\n%s\n```\n' % f.read()
             # name = basename(path)
             userpath = relpath(path, CONFIG['users_dir'])
+            ruserpath = '/'.join(userpath.split('/')[1:])
+        # print 'ruserpath:', ruserpath
         codeblocks[userpath] = \
             { 'id'     : userpath.replace('.', '_').replace('/', '_')
             , 'path'   : userpath
-            , 'relpath': relpath(userpath, dirname(userpath))
+            , 'relpath': ruserpath
             , 'content': MARKDOWN(txt)
             }
     # print codeblocks

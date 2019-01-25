@@ -16,7 +16,7 @@ Functions:
 
 Examples:
 
-{{ macros.load_example(user, 'math.rrr') }}
+{{ macros.load_rrr(user, 'examples/math.rrr') }}
 
 ## Load module
 
@@ -32,7 +32,7 @@ Functions:
 
 Examples:
 
-{{ macros.load_example(user, 'load.rrr') }}
+{{ macros.load_rrr(user, 'examples/load.rrr') }}
 
 ## Sets module
 
@@ -53,7 +53,7 @@ Functions:
 
 Examples:
 
-{{ macros.load_example(user, 'sets.rrr') }}
+{{ macros.load_rrr(user, 'examples/sets.rrr') }}
 
 ## SeqIO module
 
@@ -101,7 +101,7 @@ Functions:
 
 Examples:
 
-{{ macros.load_example(user, 'seqio.rrr') }}
+{{ macros.load_rrr(user, 'examples/seqio.rrr') }}
 
 ## BiomartR module
 
@@ -125,7 +125,7 @@ Functions:
 
 Examples:
 
-{{ macros.load_example(user, 'biomartr.rrr') }}
+{{ macros.load_rrr(user, 'examples/biomartr.rrr') }}
 
 ## BlastDB module
 
@@ -158,7 +158,7 @@ Functions:
 
 Examples:
 
-{{ macros.load_example(user, 'blastdb.rrr') }}
+{{ macros.load_rrr(user, 'examples/blastdb.rrr') }}
 
 ## BLAST+ module
 
@@ -205,7 +205,7 @@ Functions:
 
 Examples:
 
-{{ macros.load_example(user, 'blast.rrr') }}
+{{ macros.load_rrr(user, 'examples/blast.rrr') }}
 
 ## BlastHits module
 
@@ -233,7 +233,7 @@ Functions:
 
 Examples:
 
-{{ macros.load_example(user, 'blasthits.rrr') }}
+{{ macros.load_rrr(user, 'examples/blasthits.rrr') }}
 
 ## Length module
 
@@ -255,7 +255,7 @@ Functions:
 
 Examples:
 
-{{ macros.load_example(user, 'length.rrr') }}
+{{ macros.load_rrr(user, 'examples/length.rrr') }}
 
 ## PsiBLAST module
 
@@ -336,7 +336,7 @@ Functions:
 
 Examples:
 
-{{ macros.load_example(user, 'psiblast.rrr') }}
+{{ macros.load_rrr(user, 'examples/psiblast.rrr') }}
 
 ## CRB-BLAST module
 
@@ -359,7 +359,7 @@ Functions:
 
 Examples:
 
-{{ macros.load_example(user, 'crbblast.rrr') }}
+{{ macros.load_rrr(user, 'examples/crbblast.rrr') }}
 
 ## HMMER module
 
@@ -387,7 +387,7 @@ Functions:
 
 Examples:
 
-{{ macros.load_example(user, 'hmmer.rrr') }}
+{{ macros.load_rrr(user, 'examples/hmmer.rrr') }}
 
 ## BlastRBH module
 
@@ -427,7 +427,7 @@ Functions:
 
 Examples:
 
-{{ macros.load_example(user, 'blastrbh.rrr') }}
+{{ macros.load_rrr(user, 'examples/blastrbh.rrr') }}
 
 ## MUSCLE module
 
@@ -449,7 +449,7 @@ Functions:
 
 Examples:
 
-{{ macros.load_example(user, 'muscle.rrr') }}
+{{ macros.load_rrr(user, 'examples/muscle.rrr') }}
 
 ## Sample module
 
@@ -468,7 +468,7 @@ Functions:
 
 Examples:
 
-{{ macros.load_example(user, 'sample.rrr') }}
+{{ macros.load_rrr(user, 'examples/sample.rrr') }}
 
 ## Permute module
 
@@ -483,7 +483,7 @@ Functions:
 
 Examples:
 
-{{ macros.load_example(user, 'permute.rrr') }}
+{{ macros.load_rrr(user, 'examples/permute.rrr') }}
 
 ## Repeat module
 
@@ -499,7 +499,7 @@ Functions:
 
 Examples:
 
-{{ macros.load_example(user, 'repeat.rrr') }}
+{{ macros.load_rrr(user, 'examples/repeat.rrr') }}
 
 ## Summarize module
 
@@ -509,7 +509,7 @@ Collapse a list of results into a single summary.
 
 Examples:
 
-{{ macros.load_example(user, 'summarize.rrr') }}
+{{ macros.load_rrr(user, 'examples/summarize.rrr') }}
 
 ## Scores module
 
@@ -526,7 +526,7 @@ Functions:
 
 Examples:
 
-{{ macros.load_example(user, 'scores.rrr') }}
+{{ macros.load_rrr(user, 'examples/scores.rrr') }}
 
 ## Plots module
 
@@ -548,7 +548,7 @@ Functions:
 
 Examples:
 
-{{ macros.load_example(user, 'plots.rrr') }}
+{{ macros.load_rrr(user, 'examples/plots.rrr') }}
 
 ## OrthoFinder module
 
@@ -569,7 +569,7 @@ Functions:
 
 Examples:
 
-{{ macros.load_example(user, 'orthofinder.rrr') }}
+{{ macros.load_rrr(user, 'examples/orthofinder.rrr') }}
 
 ## Diamond module
 
@@ -604,7 +604,7 @@ Functions:
 
 Examples:
 
-{{ macros.load_example(user, 'diamond.rrr') }}
+{{ macros.load_rrr(user, 'examples/diamond.rrr') }}
 
 ## MMSeqs module
 
@@ -630,7 +630,7 @@ Functions:
 
 Examples:
 
-{{ macros.load_example(user, 'mmseqs.rrr') }}
+{{ macros.load_rrr(user, 'examples/mmseqs.rrr') }}
 
 ## SonicParanoid module
 
@@ -652,7 +652,7 @@ Functions:
 
 Examples:
 
-{{ macros.load_example(user, 'sonicparanoid.rrr') }}
+{{ macros.load_rrr(user, 'examples/sonicparanoid.rrr') }}
 
 ## OrthoGroups module
 
@@ -675,5 +675,5 @@ Functions:
 
 Examples:
 
-{{ macros.load_example(user, 'orthogroups.rrr') }}
+{{ macros.load_rrr(user, 'examples/orthogroups.rrr') }}
 

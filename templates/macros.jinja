@@ -4,12 +4,6 @@
   {%- endwith -%}
 {%- endmacro -%}
 
-{%- macro load_example(user, basename) -%}
-  {%- with path=user + '/examples/' + basename -%}
-    {%- include "loadexample.html" -%}
-  {%- endwith -%}
-{%- endmacro -%}
-
 {% macro run_example(lines2) %}
   {%- with lines=lines2 -%}
     {%- include "runexample.html" -%}
