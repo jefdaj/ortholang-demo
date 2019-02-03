@@ -4,11 +4,12 @@ detourrr-demo
 An interactive web demo + tutorial for [Detourrr][1].
 Try the live version at [detourrr.pmb.berkeley.edu](https://shortcut.pmb.berkeley.edu)!
 
-Install
--------
+Install as a NixOS service
+--------------------------
 
-The easiest way is as a NixOS service.
-Just add it to your `/etc/nixos/configuration.nix`:
+This is the easiest way to set it up, but requires NixOS.
+Probably a good choice if you're making a dedicated server.
+Just add something like this to your `/etc/nixos/configuration.nix`:
 
 ```.nix
 {
@@ -21,10 +22,10 @@ Just add it to your `/etc/nixos/configuration.nix`:
 
   services.detourrrDemo = {
     enable      = true;
-    user        = "jefdaj"; # TODO swtich to dedicated user
+    user        = "jefdaj";
     scratchDir  = "/tmp/detourrr-demo";
     logPath     = "/tmp/detourrr-demo.log";
-    dataDir     = "/mnt/data/data";
+    examplesDir = "/mnt/data/examples";
     commentsDir = "/mnt/data/comments";
     uploadsDir  = "/mnt/data/uploads";
     port        = 45772;
@@ -35,13 +36,25 @@ Just add it to your `/etc/nixos/configuration.nix`:
 }
 ```
 
-You can also run it standalone.
-First, you need `detourrr` on your `PATH`.
+Install using Nix on another distro
+-----------------------------------
+
+You can also run it on another linux distro, or probably Mac OSX.
+First, nix-build `detourrr` and add it to your `PATH`.
+Note that you still need Nix for this.
 
 Then run the server the [Nix][2] way:
 
 ```.bash
-nix-shell requirements.nix --command ./detourrr_demo.py
+nix-shell requirements.nix --command \
+  ./detourrr-demo.py \
+    -l /tmp/detourrr-demo.log \
+    -e examples \
+    -c comments \
+    -t /tmp/detourrr-demo \
+    -p 80 \
+    -s /mnt/data/detourrr-users' \
+    -a /mnt/data/detourrr-users/passwords.txt
 ```
 
 ... or the regular Debian + Python way:
@@ -52,7 +65,14 @@ sudo apt-get install python-dev
 virtualenv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
-./detourrr_demo.py
+./detourrr-demo.py \
+  -l /tmp/detourrr-demo.log \
+  -e examples \
+  -c comments \
+  -t /tmp/detourrr-demo \
+  -p 80 \
+  -s /mnt/data/detourrr-users' \
+  -a /mnt/data/detourrr-users/passwords.txt
 ```
 
 Finally, visit `localhost:5000` in your browser.

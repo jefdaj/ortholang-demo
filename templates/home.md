@@ -4,7 +4,9 @@
 <br/>
 <!-- There's more than one way to get there.<br/> -->
 <!-- Compare and combine sequence searches.<br/> -->
-Try more than one workflow.<br/>
+<!-- Try more than one workflow.<br/> -->
+<!-- Combine and compare sequence searches.<br/> -->
+Combine and compare workflows.<br/>
 Find a <b>R</b>apid, <b>R</b>obust, <b>R</b>eproducible<br/>
 route to your candidate genes!
 </div>
@@ -19,7 +21,7 @@ find homologs using a variety of programs,
 and tweak + compare until you're confident in the results.
 Save your final script to reproduce or update with new data later.
 
-Simplified interfaces to these search programs are included so far:
+Simplified interfaces to these sequence search programs are included so far:
 
 - [BLAST+][5]
 - BLAST+ reciprocal best hits (custom)
@@ -30,18 +32,15 @@ Simplified interfaces to these search programs are included so far:
 - [SonicParanoid][10]
 - [MMSeqs2][11]
 
-Each one comes with a few basic functions to get you going with minimum fuss.
-See the Examples tab for an idea of what the code looks like,
-or the Reference tab for a complete list of functions in each module.
-
-If you need to customize the script beyond what Detourrr can do,
-combine it with other programs or manually inspect the output files.
-_Your collaborators will still be grateful that you partially automated it!_
-
 Detourrr runs them more or less as you would on the command line, but automatically manages everything.
 It caches intermediate files and shares them between programs when possible,
 re-running only the commands that change with each variation of your search.
-It can also plot how the results change given different genes or genomes, positive or negative control lists, or search methods.
+It can also plot how the results change given different genes or genomes, positive or negative control lists,
+or search methods.
+
+<!-- And if you need to customize the script beyond what Detourrr can do,
+combine it with other programs or manually inspect the output files.
+_Your collaborators will still be grateful that you partially automated it!_ -->
 
 <!--
 Scripting makes it easier for you to compare search methods now,
