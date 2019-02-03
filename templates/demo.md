@@ -1,6 +1,6 @@
 {% import "macros.jinja" as macros with context %}
 
-The demo on the right is similar to what you will get if you [install Detourrr][1], except:
+The terminal on the right is similar to what you will get if you [install Detourrr][1], except:
 
 * You have to upload and download your files one at a time
 * Long-running scripts might be killed to keep the server responsive for others
@@ -13,7 +13,7 @@ and download results using the buttons under the terminal.
 
 Making an account is optional, but scripts saved as `guest` are public and others might edit them.
 Also guest terminal sessions are destroyed when you leave the page, whereas named ones resume later.
-No email or signup form is required to make an account! Just [click here][3] and make up a username + password.
+No email or signup form is required to make an account! Just [click here][3] and make up a username + password to log in.
 If you want to be updated when a new version comes out, leave your email in the comment box.
 
 This "server" is an old desktop computer; for anything
@@ -22,13 +22,13 @@ instead! You can also contact Jeff (use the comment box or find my email
 [here][4]) about collaborating, running your search on the [Berkeley
 high-performance compute cluster][2], or installing Detourrr at your institution.
 
-<br/>
-
 <!--
 Here are some cut scripts. Press the `Load` button to load one in the terminal,
 then type `result` to run it. You can also run intermediate variables or redefine them.
 Try changing some numbers.
 -->
+
+Here are some example scripts. See the Tutorial and Reference tabs for details.
 
 {{ macros.load_rrr(user, 'examples/blast.rrr') }}
 

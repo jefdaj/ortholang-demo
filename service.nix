@@ -47,7 +47,7 @@ in {
       };
 
       # TODO does this actually work?
-      dataDir = mkOption {
+      examplesDir = mkOption {
         default = "/mnt/data/data";
         type = with types; uniq string;
         description = ''
@@ -101,7 +101,7 @@ in {
         ExecStart = ''
           ${pkgs2.detourrr-demo}/bin/detourrr-demo \
             -l ${cfg.logPath} \
-            -d ${cfg.dataDir} \
+            -e ${cfg.examplesDir} \
             -c ${cfg.commentsDir} \
             -t ${cfg.tmpDir} \
             -p ${toString cfg.port} \

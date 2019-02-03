@@ -1,15 +1,15 @@
 {% import "macros.jinja" as macros with context %}
 
 <div class="tab">
-	<button id="introbutton"       class="tablinks" onclick="openTab(event, 'Intro')">Intro</button>
-	<button id="examplesbutton"    class="tablinks" onclick="openTab(event, 'Examples')">Examples</button>
+	<button id="homebutton"       class="tablinks" onclick="openTab(event, 'Home')">Detourrr</button>
+	<button id="demobutton"        class="tablinks" onclick="openTab(event, 'Demo')">Demo</button>
 	<button id="tutorialbutton"    class="tablinks" onclick="openTab(event, 'Tutorial')">Tutorial</button>
 	<button id="referencebutton"   class="tablinks" onclick="openTab(event, 'Reference')">Reference</button>
 	<button id="patternsbutton"    class="tablinks" onclick="openTab(event, 'Patterns')">Patterns</button>
 	<button id="collaboratebutton" class="tablinks" onclick="openTab(event, 'Collaborate')">Collaborate</button>
 </div>
-<div id="Intro"     class="tabcontent">{{ macros.markdown_doc("intro.md")     }}</div>
-<div id="Examples"  class="tabcontent">{{ macros.markdown_doc("examples.md")  }}</div>
+<div id="Home"     class="tabcontent">{{ macros.markdown_doc("home.md")     }}</div>
+<div id="Demo"  class="tabcontent">{{ macros.markdown_doc("demo.md")  }}</div>
 <div id="Tutorial"  class="tabcontent">{{ macros.markdown_doc("tutorial.md")  }}</div>
 <div id="Reference" class="tabcontent">{{ macros.markdown_doc("reference.md") }}</div>
 <div id="Patterns"  class="tabcontent">{{ macros.markdown_doc("patterns.md")  }}</div>

@@ -442,7 +442,7 @@ class DetourrrThread(Thread):
         # self.delay = 0.01
         self.sessionid = sessionid
         self.username  = username
-        self.currenttab  = 'Intro' # changes when user clicks tabs
+        self.currenttab  = 'Home' # changes when user clicks tabs
         user_dir = join(CONFIG['users_dir'], self.username)
         if exists(user_dir):
             self.workdir = user_dir
