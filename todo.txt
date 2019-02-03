@@ -1,0 +1,4 @@
+parse errors not showing up on site; it just silently fails
+expand/fix repl sizing on different screens
+fix shortcut terminal width to match?
+simplify ggplot plots to look figure like
