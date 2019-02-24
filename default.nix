@@ -1,11 +1,11 @@
-with import ../detourrr/nixpkgs;
+with import ../shortcut/nixpkgs;
 
-# TODO need to add python + detourrr dependencies to the package
-# TODO take detourrr, global package set as arguments
-# TODO or make detourrr a submodule?
+# TODO need to add python + shortcut dependencies to the package
+# TODO take shortcut, global package set as arguments
+# TODO or make shortcut a submodule?
 
 let
-  detourrr = import ../detourrr;
+  shortcut = import ../shortcut;
   myPython = import ./requirements.nix { inherit pkgs; };
   runDepends = [
     myPython.interpreter
@@ -17,13 +17,13 @@ let
     myPython.packages."misaka"
     myPython.packages."psutil"
     myPython.packages."pexpect"
-    detourrr
+    shortcut
   ];
 
 in stdenv.mkDerivation rec {
   src = ./.;
   version = "0.1";
-  name = "detourrr-demo-${version}";
+  name = "shortcut-demo-${version}";
   inherit runDepends;
   buildInputs = [ makeWrapper ] ++ runDepends;
   builder = writeScript "builder.sh" ''
@@ -32,8 +32,8 @@ in stdenv.mkDerivation rec {
     mkdir -p $out/src
     cp -R $src/templates $src/static $out/src
     mkdir -p $out/bin
-    dest="$out/bin/detourrr-demo"
-    install -m755 $src/detourrr-demo.py $dest
+    dest="$out/bin/shortcut-demo"
+    install -m755 $src/shortcut-demo.py $dest
     wrapProgram $dest --prefix PATH : "${pkgs.lib.makeBinPath runDepends}"
   '';
 }

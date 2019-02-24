@@ -5,20 +5,20 @@ with lib;
 # TODO don't kill all python processes when stopping
 
 let
-  cfg = config.services.detourrrDemo;
+  cfg = config.services.shortcutDemo;
   pkgs2 = pkgs // {
-    detourrr = import /home/jefdaj/detourrr;
-    "detourrr-demo" = import /home/jefdaj/detourrr-demo;
+    shortcut = import /home/jefdaj/shortcut;
+    "shortcut-demo" = import /home/jefdaj/shortcut-demo;
   };
 
 in {
   options = {
-    services.detourrrDemo = {
+    services.shortcutDemo = {
       enable = mkOption {
         default = false;
         type = with types; bool;
         description = ''
-          Enable the Detourrr demo server
+          Enable the ShortCut demo server
         '';
       };
 
@@ -31,7 +31,7 @@ in {
       };
 
       authPath = mkOption {
-        default = "/tmp/detourrr-users.txt"; # TODO where should this go by default?
+        default = "/tmp/shortcut-users.txt"; # TODO where should this go by default?
         type = with types; uniq string;
         description = ''
           Path to the auth file (tab-separated usernames and passwords)
@@ -39,7 +39,7 @@ in {
       };
 
       logPath = mkOption {
-        default = "/tmp/detourrr-demo.log";
+        default = "/tmp/shortcut-demo.log";
         type = with types; uniq string;
         description = ''
           Where to write the server log.
@@ -64,7 +64,7 @@ in {
       };
 
       tmpDir = mkOption {
-        default = "/tmp/detourrr-demo";
+        default = "/tmp/shortcut-demo";
         type = with types; uniq string;
         description = ''
           Where to save user tmpfiles. Ideally in RAM or at least on an SSD.
@@ -91,15 +91,15 @@ in {
   };
 
   config = mkIf cfg.enable {
-    systemd.services."detourrr-demo" = {
+    systemd.services."shortcut-demo" = {
       wantedBy = [ "multi-user.target" ];
       after = [ "network.target" ];
-      description = "Detourrr demo server";
+      description = "ShortCut demo server";
       serviceConfig = {
         Type = "simple";
         User = "${cfg.user}";
         ExecStart = ''
-          ${pkgs2.detourrr-demo}/bin/detourrr-demo \
+          ${pkgs2.shortcut-demo}/bin/shortcut-demo \
             -l ${cfg.logPath} \
             -e ${cfg.examplesDir} \
             -c ${cfg.commentsDir} \
@@ -113,6 +113,6 @@ in {
       };
     };
 
-    environment.systemPackages = [ pkgs2.detourrr pkgs2.procps ];
+    environment.systemPackages = [ pkgs2.shortcut pkgs2.procps ];
   };
 }

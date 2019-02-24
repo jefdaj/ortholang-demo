@@ -1,13 +1,15 @@
 <div id="intropitch">
-<img src="/static/detourrr.png" style="width:200px;"></img>
+<img src="/static/shortcut.png" style="width:200px;"></img>
 <br/>
 <br/>
 <!-- There's more than one way to get there.<br/> -->
 <!-- Compare and combine sequence searches.<br/> -->
 <!-- Try more than one workflow.<br/> -->
 <!-- Combine and compare sequence searches.<br/> -->
-Combine and compare workflows.<br/>
-Find a <b>R</b>apid, <b>R</b>obust, <b>R</b>eproducible<br/>
+<!-- Quickly try altnernative workflows.<br/> -->
+Compare and combine searches.<br/>
+<!-- Find a <b>R</b>apid, <b>R</b>obust, <b>R</b>eproducible<br/> -->
+Find a rapid, robust, reproducible<br/>
 route to your candidate genes!
 </div>
 
@@ -15,7 +17,7 @@ route to your candidate genes!
 ## What is it?
 -->
 
-Detourrr is a small scripting language designed to help you search for candidate genes.
+ShortCut is a small scripting language designed to help you search for candidate genes.
 Load some genes and genomes,
 find homologs using a variety of programs,
 and tweak + compare until you're confident in the results.
@@ -23,7 +25,7 @@ Save your final script to reproduce or update with new data later.
 
 Simplified interfaces to these sequence search programs are included so far:
 
-- [BLAST+][5]
+- [BLAST+][5] with [Psiblast-EXB][12]
 - BLAST+ reciprocal best hits (custom)
 - [DIAMOND][6]
 - [HMMER][7]
@@ -32,21 +34,21 @@ Simplified interfaces to these sequence search programs are included so far:
 - [SonicParanoid][10]
 - [MMSeqs2][11]
 
-Detourrr runs them more or less as you would on the command line, but automatically manages everything.
+ShortCut runs them more or less as you would on the command line, but automatically manages everything.
 It caches intermediate files and shares them between programs when possible,
 re-running only the commands that change with each variation of your search.
 It can also plot how the results change given different genes or genomes, positive or negative control lists,
 or search methods.
 
-<!-- And if you need to customize the script beyond what Detourrr can do,
+<!-- And if you need to customize the script beyond what ShortCut can do,
 combine it with other programs or manually inspect the output files.
 _Your collaborators will still be grateful that you partially automated it!_ -->
 
 <!--
 Scripting makes it easier for you to compare search methods now,
 and easier for others to build on your work later.
-If you need to customize the script beyond what `detourrr` can do, combine it with something else:
-call your code from `detourrr`, call `detourrr` from your code, or work with the output files manually.
+If you need to customize the script beyond what `shortcut` can do, combine it with something else:
+call your code from `shortcut`, call `shortcut` from your code, or work with the output files manually.
 
 ## Quick Start
 
@@ -63,3 +65,4 @@ or play with the examples and read the tutorial as needed when they don't do wha
 [9]: https://github.com/davidemms/OrthoFinder
 [10]: http://iwasakilab.bs.s.u-tokyo.ac.jp/sonicparanoid/
 [11]: https://github.com/soedinglab/MMseqs2
+[12]: https://github.com/kyungtaekLIM/PSI-BLASTexB

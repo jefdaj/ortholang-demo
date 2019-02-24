@@ -22,7 +22,7 @@
   {%- endfilter -%}
 {%- endmacro -%}
 
-{%- macro load_rrr(user, path) -%}
+{%- macro load_cut(user, path) -%}
   {%- filter markdown -%}
     {%- with path=user + '/' + path -%}
       {%- include "loadexample.html" -%}

@@ -1,6 +1,6 @@
 {% import "macros.jinja" as macros with context %}
 
-The terminal on the right is similar to what you will get if you [install Detourrr][1], except:
+The terminal on the right is similar to what you will get if you [install ShortCut][1], except:
 
 * You have to upload and download your files one at a time
 * Long-running scripts might be killed to keep the server responsive for others
@@ -17,10 +17,10 @@ No email or signup form is required to make an account! Just [click here][3] and
 If you want to be updated when a new version comes out, leave your email in the comment box.
 
 This "server" is an old desktop computer; for anything
-compute-intensive you probably want to install Detourrr on your own hardware
+compute-intensive you probably want to install ShortCut on your own hardware
 instead! You can also contact Jeff (use the comment box or find my email
 [here][4]) about collaborating, running your search on the [Berkeley
-high-performance compute cluster][2], or installing Detourrr at your institution.
+high-performance compute cluster][2], or installing ShortCut at your institution.
 
 <!--
 Here are some cut scripts. Press the `Load` button to load one in the terminal,
@@ -30,19 +30,19 @@ Try changing some numbers.
 
 Here are some example scripts. See the Tutorial and Reference tabs for details.
 
-{{ macros.load_rrr(user, 'examples/blast.rrr') }}
+{{ macros.load_cut(user, 'examples/blast.cut') }}
 
-{{ macros.load_rrr(user, 'examples/prs02.rrr') }}
+{{ macros.load_cut(user, 'examples/prs02.cut') }}
 
 Find reciprocal best PSI-BLAST hits between two genomes,
 one of which comes as two files:
 
-{{ macros.load_rrr(user, 'examples/psiblast_rbh.rrr') }}
+{{ macros.load_cut(user, 'examples/psiblast_rbh.cut') }}
 
 Repeat any series of steps, changing one variable at a time and plotting the results.
 (Trivial steps shown here)
 
-{{ macros.load_rrr(user, 'examples/plot_linegraph.rrr') }}
+{{ macros.load_cut(user, 'examples/plot_linegraph.cut') }}
 
 _Note: these mostly use BLAST, but multiple sequence alignments +
 tree building + clustering are in the works too._

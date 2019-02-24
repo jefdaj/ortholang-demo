@@ -8,11 +8,11 @@
 # TODO should users dir be optional?
 
 '''
-Launch the Detourrr demo server.
+Launch the ShortCut demo server.
 
 Usage:
-  detourrr-demo (-h | --help)
-  detourrr-demo -l LOG -e EXAMPLES -c COMMENTS -t TMP -p PORT -a AUTH -s USERS
+  shortcut-demo (-h | --help)
+  shortcut-demo -l LOG -e EXAMPLES -c COMMENTS -t TMP -p PORT -a AUTH -s USERS
 
 Options:
   -h, --help   Show this help text
@@ -78,7 +78,7 @@ CONFIG['port'        ] = int(ARGS['-p'])
 # repl sessions, indexed by sid and also username if logged in
 SESSIONS = {}
 
-# prompt arrow, which should match the detourrr code
+# prompt arrow, which should match the shortcut code
 # ARROW = "❱❱❱ "
 # ARROW = "-> " # TODO does it need escaping in regexes?
 ARROW = u' —▶ '
@@ -98,7 +98,7 @@ HANDLER.setFormatter(LOGGING.Formatter('%(asctime)s %(name)s %(levelname)s %(mes
 
 # set up logging for this module
 # note: socketio + engineio loggers are messed with later
-LOGGER = LOGGING.getLogger('detourrr')
+LOGGER = LOGGING.getLogger('shortcut')
 LOGGER.setLevel(LOGGING.INFO)
 LOGGER.addHandler(HANDLER)
 LOGGER.info('starting demo.py')
@@ -164,8 +164,8 @@ MARKDOWN = Markdown(HighlighterRenderer(), extensions=('highlight', 'fenced-code
 def load_codeblocks():
     # used to render the code examples
     codeblocks = {}
-    # for path in glob(join(CONFIG['examples_dir'], '*.rrr')) + glob(join(CONFIG['users_dir'], '*/*.rrr')):
-    for path in glob(join(CONFIG['users_dir'], '*/*.rrr')) + glob(join(CONFIG['users_dir'], '*/*/*.rrr')):
+    # for path in glob(join(CONFIG['examples_dir'], '*.cut')) + glob(join(CONFIG['users_dir'], '*/*.cut')):
+    for path in glob(join(CONFIG['users_dir'], '*/*.cut')) + glob(join(CONFIG['users_dir'], '*/*/*.cut')):
         with open(path, 'r') as f:
             txt = '```\n%s\n```\n' % f.read()
             # name = basename(path)
@@ -224,7 +224,7 @@ def create_user(username, password):
 def list_user_scripts(username):
     # load_code_blocks() # super hacky but reloads code blocks along with templates
     upath = join(CONFIG['users_dir'], username)
-    paths = [relpath(p, upath) for p in glob(join(upath, '*.rrr')) + glob(join(upath, '*/*.rrr'))]
+    paths = [relpath(p, upath) for p in glob(join(upath, '*.cut')) + glob(join(upath, '*/*.cut'))]
     # paths.sort()
     return paths
 
@@ -262,8 +262,8 @@ def user():
     return render_template('index.html', user=user, codeblocks=blocks, codeblock_userpaths=blocks.keys())
 
 # Flask doesn't like sending random files from all over for security reasons,
-# so we make these simplified routes where /TMPDIR and /WORKDIR refer to their Detourrr equivalents.
-# Lines from Detourrr get rewritten with regexes to include that (messy I know),
+# so we make these simplified routes where /TMPDIR and /WORKDIR refer to their ShortCut equivalents.
+# Lines from ShortCut get rewritten with regexes to include that (messy I know),
 # and then this function finds the real paths again when we need to fetch a file.
 @FLASK.route('/TMPDIR/<path:filename>')
 def send_tmpfile(filename):
@@ -313,7 +313,7 @@ def find_session(sid=None, username=None):
         return SESSIONS[sid]
 
 def interpret_clear_code(sometext):
-    # remove terminal escape sequences like "clear screen" in detourrr
+    # remove terminal escape sequences like "clear screen" in shortcut
     # based on https://stackoverflow.com/a/14693789
     ansi_clear  = re.compile(r'\x1B\[2J')
     ansi_escape = re.compile(r'\x1B\[[0-?]*[ -/]*[@-~]')
@@ -332,13 +332,13 @@ def handle_connect():
         if not uname:
             LOGGER.info('client %s started a guest session' % sid)
             print 'trying to start thread...'
-            SESSIONS[sid] = DetourrrThread(sid, 'guest')
+            SESSIONS[sid] = ShortCutThread(sid, 'guest')
             print 'success!'
             thread = SESSIONS[sid]
         else:
             if not uname in SESSIONS:
                 LOGGER.info('%s started a new session with id %s' % (uname, sid))
-                SESSIONS[uname] = DetourrrThread(sid, uname)
+                SESSIONS[uname] = ShortCutThread(sid, uname)
             else:
                 LOGGER.info('user %s resuming with new session id %s' % (uname, sid))
                 SESSIONS[uname].sessionid = sid
@@ -433,10 +433,10 @@ def handle_reqresult():
 
 
 ############
-# detourrr #
+# shortcut #
 ############
 
-class DetourrrThread(Thread):
+class ShortCutThread(Thread):
     def __init__(self, sessionid, username):
         LOGGER.info('creating session %s' % sessionid)
         # self.delay = 0.01
@@ -457,7 +457,7 @@ class DetourrrThread(Thread):
             pass # already exists
         self._done = Event()
         self.process = None
-        super(DetourrrThread, self).__init__()
+        super(ShortCutThread, self).__init__()
 
     def run(self):
         options = [ARROW, u'Bye for now!'] # , '.*']
@@ -466,7 +466,7 @@ class DetourrrThread(Thread):
             while True:
                 index = self.process.expect(options)
                 out = self.process.before + self.process.after
-                out = interpret_clear_code(out) # catches detourrr's "clear screen" command
+                out = interpret_clear_code(out) # catches shortcut's "clear screen" command
                 self.emitText(out)
                 # self.emitText(self.process.before.lstrip())
                 # self.emitText(self.process.after)
@@ -476,7 +476,7 @@ class DetourrrThread(Thread):
                     # SOCKETIO.emit('replclear')
 
 
-    # TODO currently this is the same as killing the interpreter... handle separately in detourrr?
+    # TODO currently this is the same as killing the interpreter... handle separately in shortcut?
     def stopEval(self):
         # LOGGER.info('session %s stopping %s evaluation' % (self.sessionid, self.process.pid))
         LOGGER.info('session %s stopping evaluation' % self.sessionid)
@@ -512,7 +512,7 @@ class DetourrrThread(Thread):
             self.killRepl()
         args = ['--secure', '--interactive', '--tmpdir', self.tmpdir, '--workdir', self.workdir]
         # self.process = Popen(cmd, stdin=PIPE, stdout=PIPE, stderr=STDOUT, preexec_fn=setsid)
-        self.process = spawn('detourrr', args, encoding='utf-8', echo=False, timeout=None)
+        self.process = spawn('shortcut', args, encoding='utf-8', echo=False, timeout=None)
         # LOGGER.info('session %s spawned interpreter %s' % (self.sessionid, self.process.pid))
         LOGGER.info('session %s spawned interpreter' % self.sessionid)
 

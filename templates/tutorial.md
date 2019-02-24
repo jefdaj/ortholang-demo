@@ -32,7 +32,7 @@ confusing, that counts as a bug too!
 There are two types of interactive code blocks.
 Complete cut scripts with `Load` buttons like this:
 
-{{ macros.load_rrr(user, 'examples/load03.rrr') }}
+{{ macros.load_cut(user, 'examples/load03.cut') }}
 
 ... and examples of commands you would type in the terminal.
 The `Run` button just types them for you.
@@ -45,7 +45,7 @@ redefine variables, look at depdencies, etc.
 
 TODO: re-record the current demos more tersely and put them in the docs like this:
 
-{{ macros.asciicast('test.cast.rrr') }}
+{{ macros.asciicast('test.cast.cut') }}
 
 
 ### Result and Other Variables
@@ -53,9 +53,9 @@ TODO: re-record the current demos more tersely and put them in the docs like thi
 Let's start at the beginning.
 This is probably the simplest script you could write:
 
-{{ macros.load_rrr(user, 'examples/variables01.rrr') }}
+{{ macros.load_cut(user, 'examples/variables01.cut') }}
 
-If you downloaded Detourrr and ran `detourrr --script variables01.rrr`, it would print
+If you downloaded ShortCut and ran `shortcut --script variables01.cut`, it would print
 `"hello world!"`. You can also `Load` it in the demo terminal and type `result`.
 
 You don't have to run a whole script at once though.
@@ -63,9 +63,9 @@ You'll spend most of your time editing it in the interpreter,
 defining and evaluating individual variables.
 Here is a script with several of them.
 
-{{ macros.load_rrr(user, 'examples/variables02.rrr') }}
+{{ macros.load_cut(user, 'examples/variables02.cut') }}
 
-Detourrr keeps track of dependencies between variables, like this:
+ShortCut keeps track of dependencies between variables, like this:
 
 ![]({{ url_for('static',filename='vars.svg') }})
 
@@ -80,7 +80,7 @@ that becomes the new `result`.
 You can also assign it yourself when the script is done to say what the final result should be.
 
 So, if you type `result` or `var4` here the graph will stay the same and
-Detourrr will print `-1.485`. Then if you type `var2`, the graph will change to:
+ShortCut will print `-1.485`. Then if you type `var2`, the graph will change to:
 
 ![]({{ url_for('static',filename='var2.svg') }})
 
@@ -94,7 +94,7 @@ is left-to-right rather than following order of operations.
 
 A few examples:
 
-{{ macros.load_rrr(user, 'examples/math01.rrr') }}
+{{ macros.load_cut(user, 'examples/math01.cut') }}
 
 You can enter numbers in decimal or scientific notation. There's only one type
 of number instead of the several different ones like doubles and floats you
@@ -102,7 +102,7 @@ would find in a typical language. Parentheses also work the regular "mathy" way
 to group things together; you'll see a little further down that function
 application doesn't use them.
 
-Notice that Detourrr might remove your parentheses automatically,
+Notice that ShortCut might remove your parentheses automatically,
 but only where it doesn't change the meaning.
 
 
@@ -126,10 +126,10 @@ _Note: actual Venn diagrams coming soon._
 <!-- TODO bug: brackets misplaced in :type of & -->
 
 Before loading files and running BLAST, we need to detour and learn a couple
-things about how Detourrr evaluates code. If you skip this, things will be
+things about how ShortCut evaluates code. If you skip this, things will be
 confusing later!
 
-The first important thing to know is that Detourrr is a typed language. Types
+The first important thing to know is that ShortCut is a typed language. Types
 are the standard technique for preventing a large and very annoying class of
 bugs where the script crashes partway through because you accidentally swapped
 two variables or misread how some function works.  The idea is that your
@@ -137,7 +137,7 @@ program should fail immediately if it's not going to work, because why waste
 time? (Python is famously bad at this)
 
 To catch errors the interpreter tags each thing (variable or expression) with a
-type: "number", "string", "blast hit table", etc. You can ask Detourrr the type
+type: "number", "string", "blast hit table", etc. You can ask ShortCut the type
 of anything with the `:type` command. For example, `:type "my string"` is `str`
 and `:type var4` (from the example above) is `num`.
 
@@ -165,7 +165,7 @@ var4.num = var3 * 5 - var1
 result.num = var4
 ```
 
-The second important thing to know is that in Detourrr, every piece of code you
+The second important thing to know is that in ShortCut, every piece of code you
 evaluate gets written to its own temporary file. That's the reason for the
 weird dot notation above: types are equivalent to file extensions.
 After evaluating `var4` you can look in the temporary directory and find a file
@@ -173,7 +173,7 @@ After evaluating `var4` you can look in the temporary directory and find a file
 you'll get a `.num.list`. You can also make a `.num.list.list` and so on.
 Look at the `:type`s of these:
 
-{{ macros.load_rrr(user, 'examples/types01.rrr') }}
+{{ macros.load_cut(user, 'examples/types01.cut') }}
 
 This might seem like overkill at first, but becomes important for large-scale
 bookkeeping. Imagine you have a few hundred thousand cryptically named
@@ -217,7 +217,7 @@ The `_each` versions take a list of strings and load a list of files.
 There are also `concat_` functions for types that can be concatenated,
 which is helpful if a genome is distributed as multiple files.
 
-{{ macros.load_rrr(user, 'examples/load01.rrr') }}
+{{ macros.load_cut(user, 'examples/load01.cut') }}
 
 As you can see if you try it out, evaluating those functions prints the first few lines.
 Lists do the same thing for each element.
@@ -236,7 +236,7 @@ The `_glob` versions are similar to the `_each` ones but take a single string wi
 wildcard pattern describing the files to load.
 These two do the same thing:
 
-{{ macros.load_rrr(user, 'examples/load02.rrr') }}
+{{ macros.load_cut(user, 'examples/load02.cut') }}
 
 The first one should generally be preferred for clarity though,
 unless you mean to load a list of files that might change.
@@ -245,7 +245,7 @@ unless you mean to load a list of files that might change.
 so you can input your gene IDs or a list of genomes to search.
 Then wrap it in `load_<whatever>_each` to actually load those files if needed:
 
-{{ macros.load_rrr(user, 'examples/load03.rrr') }}
+{{ macros.load_cut(user, 'examples/load03.cut') }}
 
 
 Here are a bunch of random things loaded properly to play around with:
@@ -266,7 +266,7 @@ Finally, you can convert between formats and concatenate things:
 
 ### NCBI BLAST+
 
-Detourrr provides the most common NCBI BLAST programs, which differ in their
+ShortCut provides the most common NCBI BLAST programs, which differ in their
 subject and query types. See the Reference tab at the top for all the variants.
 
 A couple examples:
@@ -277,9 +277,9 @@ _Note: `:help` for individual functions coming soon._
 
 You can also download the standard NCBI databases. Try this:
 
-{{ macros.load_rrr(user, 'examples/blast02.rrr') }}
+{{ macros.load_cut(user, 'examples/blast02.cut') }}
 
-{{ macros.load_rrr(user, 'examples/blast01.rrr') }}
+{{ macros.load_cut(user, 'examples/blast01.cut') }}
 
 The SwissProt DB will take a minute or two to download,
 and then you should see a summary like this:
@@ -295,7 +295,7 @@ You can use it in any function that takes a protein database (`.pdb`).
 
 Reciprocal best hits are the most common method used to find orthologs, but
 they can sometimes be overly conservative, missing true orthologs. For that
-reason, Detourrr also includes CRB-BLAST ([Aubry _et al._ 2014][4]). For each
+reason, ShortCut also includes CRB-BLAST ([Aubry _et al._ 2014][4]). For each
 pair of genomes, it:
 
 1. Does a standard reciprocal BLAST search
@@ -313,7 +313,7 @@ cutoffs.
 
 Example:
 
-{{ macros.load_rrr(user, 'examples/crb.rrr') }}
+{{ macros.load_cut(user, 'examples/crb.cut') }}
 
 ### PSI-BLAST
 
@@ -327,7 +327,7 @@ wrong ones.
 
 So if you only have one or a few genes to search for the best strategy is to
 look through the results of each iteration on the NCBI site to make sure they
-seem reasonable. Obviously that's not very high-throughput though. Detourrr
+seem reasonable. Obviously that's not very high-throughput though. ShortCut
 can't assess whether the results make sense, but you can use it to tune the
 search settings to pick up known positive control genes while excluding as many
 others as possible. That's the topic of the next section.
@@ -337,7 +337,7 @@ transporters, you might also try a hybrid strategy:
 
 1. pick a few random ones with the `sample` function
 2. confirm those work on the NCBI site
-3. do them all in Detourrr
+3. do them all in ShortCut
 
 
 ### Permute, Repeat, Summarize (PRS)
@@ -345,7 +345,7 @@ transporters, you might also try a hybrid strategy:
 Making a cut involves choices: which genomes to include, whether to trust their
 gene annotations, which BLAST functions to use, which e-value cutoffs to apply
 at each step... How can you be sure the parameters you picked are reasonable?
-Detourrr implements a novel solution made possible by lazy evaluation and
+ShortCut implements a novel solution made possible by lazy evaluation and
 caching: duplicate parts of the program, re-run them starting from alternate
 values, and see how the results change.
 
@@ -362,15 +362,15 @@ the final results in some way, perhaps filtering or plotting them (during step 4
 
 Here is a more practical example that repeats a BLAST search with a list of cutoffs:
 
-{{ macros.load_rrr(user, 'examples/prs02.rrr') }}
+{{ macros.load_cut(user, 'examples/prs02.cut') }}
 
 ### Plotting
 
-{{ macros.load_rrr(user, 'examples/plot_histogram.rrr') }}
+{{ macros.load_cut(user, 'examples/plot_histogram.cut') }}
 
-{{ macros.load_rrr(user, 'examples/plot_scatterplot.rrr') }}
+{{ macros.load_cut(user, 'examples/plot_scatterplot.cut') }}
 
-{{ macros.load_rrr(user, 'examples/plot_linegraph.rrr') }}
+{{ macros.load_cut(user, 'examples/plot_linegraph.cut') }}
 
 
 ### Break up your code
@@ -378,6 +378,6 @@ Here is a more practical example that repeats a BLAST search with a list of cuto
 You can include code from one script inside another.
 It's pretty simple:
 
-{{ macros.load_rrr(user, 'examples/include.rrr') }}
+{{ macros.load_cut(user, 'examples/include.cut') }}
 
 Use it to keep the current code clean while you try something new!

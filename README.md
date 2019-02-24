@@ -1,8 +1,8 @@
-detourrr-demo
+shortcut-demo
 =============
 
-An interactive web demo + tutorial for [Detourrr][1].
-Try the live version at [detourrr.pmb.berkeley.edu](https://shortcut.pmb.berkeley.edu)!
+An interactive web demo + tutorial for [ShortCut][1].
+Try the live version at [shortcut.pmb.berkeley.edu](https://shortcut.pmb.berkeley.edu)!
 
 Install as a NixOS service
 --------------------------
@@ -15,16 +15,16 @@ Just add something like this to your `/etc/nixos/configuration.nix`:
 {
   imports =
     [ ...
-      /home/jefdaj/detourrr-demo/service.nix
+      /home/jefdaj/shortcut-demo/service.nix
     ];
 
   ...
 
-  services.detourrrDemo = {
+  services.shortcutDemo = {
     enable      = true;
     user        = "jefdaj";
-    scratchDir  = "/tmp/detourrr-demo";
-    logPath     = "/tmp/detourrr-demo.log";
+    scratchDir  = "/tmp/shortcut-demo";
+    logPath     = "/tmp/shortcut-demo.log";
     examplesDir = "/mnt/data/examples";
     commentsDir = "/mnt/data/comments";
     uploadsDir  = "/mnt/data/uploads";
@@ -40,21 +40,21 @@ Install using Nix on another distro
 -----------------------------------
 
 You can also run it on another linux distro, or probably Mac OSX.
-First, nix-build `detourrr` and add it to your `PATH`.
+First, nix-build `shortcut` and add it to your `PATH`.
 Note that you still need Nix for this.
 
 Then run the server the [Nix][2] way:
 
 ```.bash
 nix-shell requirements.nix --command \
-  ./detourrr-demo.py \
-    -l /tmp/detourrr-demo.log \
+  ./shortcut-demo.py \
+    -l /tmp/shortcut-demo.log \
     -e examples \
     -c comments \
-    -t /tmp/detourrr-demo \
+    -t /tmp/shortcut-demo \
     -p 80 \
-    -s /mnt/data/detourrr-users' \
-    -a /mnt/data/detourrr-users/passwords.txt
+    -s /mnt/data/shortcut-users' \
+    -a /mnt/data/shortcut-users/passwords.txt
 ```
 
 ... or the regular Debian + Python way:
@@ -65,14 +65,14 @@ sudo apt-get install python-dev
 virtualenv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
-./detourrr-demo.py \
-  -l /tmp/detourrr-demo.log \
+./shortcut-demo.py \
+  -l /tmp/shortcut-demo.log \
   -e examples \
   -c comments \
-  -t /tmp/detourrr-demo \
+  -t /tmp/shortcut-demo \
   -p 80 \
-  -s /mnt/data/detourrr-users' \
-  -a /mnt/data/detourrr-users/passwords.txt
+  -s /mnt/data/shortcut-users' \
+  -a /mnt/data/shortcut-users/passwords.txt
 ```
 
 Finally, visit `localhost:5000` in your browser.
@@ -105,5 +105,5 @@ work on eukaryotic genomes)
 
 It will also save user comments in `./comments`.
 
-[1]: https://github.com/jefdaj/detourrr
+[1]: https://github.com/jefdaj/shortcut
 [2]: https://nixos.org/nix
