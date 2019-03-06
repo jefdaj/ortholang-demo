@@ -1,12 +1,11 @@
 # load a genome in genbank format and convert to fasta (amino acid)
 my_species = gbk_to_fna (load_gbk "examples/Synechocystis-PCC-6803-uid159873.gbk")
 
-# download the NCBI nr (nonredundant) database
-# WARNING: 30gb+ download!
-ncbi_nr_db = blastdbget "nr"
+# download the SwissProt datbase
+swissprot = blastdbget "swissprot"
 
-# BLAST your genes against nr
-blast_hits = tblastx_db 1e-20 my_species ncbi_nr_db
+# BLAST your genes against it
+blast_hits = tblastx_db 1e-20 my_species swissprot
 
 # get a list of genes that have good hits (evalue <= 1e-20)
 genes_with_hits = extract_queries blast_hits
