@@ -79,6 +79,15 @@ in {
         '';
       };
 
+      # TODO option to disable this
+      shareDir = mkOption {
+        default = "/mnt/data/tmpfiles";
+        type = with types; uniq string;
+        description = ''
+          Where to save shared tmpfiles. Probably on your big data drive.
+        '';
+      };
+
       port = mkOption {
         default = 80;
         type = with types; int;
@@ -106,7 +115,8 @@ in {
             -t ${cfg.tmpDir} \
             -p ${toString cfg.port} \
             -a ${cfg.authPath} \
-            -s ${cfg.usersDir}
+            -u ${cfg.usersDir} \
+            -s ${cfg.shareDir}
         '';
         # TODO get more specific than python?
         ExecStop = "${pkgs2.procps}/bin/pkill -9 python";

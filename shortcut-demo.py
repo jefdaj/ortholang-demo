@@ -6,13 +6,14 @@
 # TODO draw a better logo with a map? later for the paper
 # TODO thank that guy for the random numbers example that fixed the bug
 # TODO should users dir be optional?
+# TODO remove user tmpdirs and only use one big one if it's stable enough
 
 '''
 Launch the ShortCut demo server.
 
 Usage:
   shortcut-demo (-h | --help)
-  shortcut-demo -l LOG -e EXAMPLES -c COMMENTS -t TMP -p PORT -a AUTH -s USERS
+  shortcut-demo -l LOG -e EXAMPLES -c COMMENTS -t TMP -p PORT -a AUTH -u USERS -s SHARE
 
 Options:
   -h, --help   Show this help text
@@ -22,7 +23,8 @@ Options:
   -t TMP       Path to the user tmpdirs
   -p PORT      Port to serve the demo site
   -a AUTH      Path to user authentication file
-  -s USERS     Path to user data directory
+  -u USERS     Path to user data directory
+  -s SHARE     Path to the shared shake cache directory
 '''
 
 # see https://stackoverflow.com/a/44951327
@@ -72,7 +74,8 @@ CONFIG['log_path'    ] = realpath(ARGS['-l'])
 CONFIG['comment_dir' ] = realpath(ARGS['-c'])
 CONFIG['tmp_dir'     ] = realpath(ARGS['-t'])
 CONFIG['auth_path'   ] = realpath(ARGS['-a'])
-CONFIG['users_dir'   ] = realpath(ARGS['-s'])
+CONFIG['users_dir'   ] = realpath(ARGS['-u'])
+CONFIG['share_dir'   ] = realpath(ARGS['-s'])
 CONFIG['port'        ] = int(ARGS['-p'])
 
 # repl sessions, indexed by sid and also username if logged in
@@ -444,12 +447,13 @@ class ShortCutThread(Thread):
         self.username  = username
         self.currenttab  = 'Home' # changes when user clicks tabs
         user_dir = join(CONFIG['users_dir'], self.username)
+        self.sharedir = CONFIG['share_dir']
         if exists(user_dir):
             self.workdir = user_dir
             self.tmpdir  = join(self.workdir, 'tmpdir')
         else:
-            self.tmpdir  = join(CONFIG['tmp_dir'], sessionid)
-            self.workdir = join(self.tmpdir, 'data')
+            self.tmpdir   = join(CONFIG['tmp_dir'], sessionid)
+            self.workdir  = join(self.tmpdir, 'data')
             makedirs(self.workdir)
         try:
             symlink(CONFIG['examples_dir'], join(self.workdir, 'examples')) # TODO rename data examples?
@@ -510,7 +514,7 @@ class ShortCutThread(Thread):
     def spawnRepl(self):
         if self.process is not None:
             self.killRepl()
-        args = ['--secure', '--interactive', '--tmpdir', self.tmpdir, '--workdir', self.workdir]
+        args = ['--secure', '--interactive', '--tmpdir', self.tmpdir, '--workdir', self.workdir, '--share', self.sharedir]
         # self.process = Popen(cmd, stdin=PIPE, stdout=PIPE, stderr=STDOUT, preexec_fn=setsid)
         self.process = spawn('shortcut', args, encoding='utf-8', echo=False, timeout=None)
         # LOGGER.info('session %s spawned interpreter %s' % (self.sessionid, self.process.pid))
