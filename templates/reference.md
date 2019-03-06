@@ -1,5 +1,36 @@
 {% import "macros.jinja" as macros with context %}
 
+## Replace module
+
+Replace variables in the script to see how the results change.
+
+
+Functions:
+
+| Name | Inputs | Output |
+| :--- | :----- | :----- |
+| `replace` | `<outputvar>`, `<vartoreplace>`, `<exprtoreplacewith>` | `<newoutput>` |
+| `replace_each` | `<outputvar>`, `<inputvar>`, `<inputvars>` | `<output>.list` |
+
+Examples:
+
+{{ macros.load_cut(user, 'examples/replace.cut') }}
+
+## Repeat module
+
+Repeatdly re-calculate variables using different random salts.
+
+
+Functions:
+
+| Name | Inputs | Output |
+| :--- | :----- | :----- |
+| `repeat` | `<outputvar>`, `<inputvar>`, `num` | `<output>.list` |
+
+Examples:
+
+{{ macros.load_cut(user, 'examples/repeat.cut') }}
+
 ## Math module
 
 Basic math.
@@ -61,11 +92,12 @@ Sequence file manipulations using BioPython's SeqIO.
 
 Types:
 
-| Extension | Meaning |
+| Type      | Meaning |
 | :-------- | :------ |
 | `gbk` | genbank |
 | `faa` | FASTA (amino acid) |
 | `fna` | FASTA (nucleic acid) |
+| `<fa>` | FASTA (nucleic OR amino acid) |
 
 Functions:
 
@@ -75,7 +107,7 @@ Functions:
 | `gbk_to_faa_each` | `gbk.list` | `faa.list` |
 | `gbk_to_fna` | `gbk` | `fna` |
 | `gbk_to_fna_each` | `gbk.list` | `fna.list` |
-| `extract_seqs` | `fa` | `str.list` |
+| `extract_seqs` | `fa`, `str.list` | `fa` |
 | `extract_seqs_each` | `fa.list` | `str.list.list` |
 | `extract_ids` | `fa` | `str.list` |
 | `extract_ids_each` | `fa.list` | `str.list.list` |
@@ -109,7 +141,7 @@ Search + download genomes and proteomes from Biomart.
 
 Types:
 
-| Extension | Meaning |
+| Type      | Meaning |
 | :-------- | :------ |
 | `search` | intermediate table describing biomartr searches |
 | `fna.gz` | gzipped fasta nucleic acid acid (gene list or genome) |
@@ -133,7 +165,7 @@ Create, load, and download BLAST databases.
 
 Types:
 
-| Extension | Meaning |
+| Type      | Meaning |
 | :-------- | :------ |
 | `ndb` | BLAST nucleotide database |
 | `pdb` | BLAST protein database |
@@ -152,7 +184,8 @@ Functions:
 | `makeblastdb_prot` | `faa` | `pdb` |
 | `makeblastdb_nucl_each` | `fa.list` | `ndb.list` |
 | `makeblastdb_prot_each` | `faa.list` | `pdb.list` |
-| `blastdbget` | `str` | `ndb` |
+| `blastdbget_nucl` | `str` | `ndb` |
+| `blastdbget_prot` | `str` | `pdb` |
 | `blastdblist` | `str` | `str.list` |
 | `singletons` | `X.list` | `X.list.list` |
 
@@ -166,7 +199,7 @@ Standard NCBI BLAST+ functions.
 
 Types:
 
-| Extension | Meaning |
+| Type      | Meaning |
 | :-------- | :------ |
 | `ndb` | BLAST nucleotide database |
 | `pdb` | BLAST protein database |
@@ -213,49 +246,52 @@ Work with BLAST hit tables.
 
 Types:
 
-| Extension | Meaning |
+| Type      | Meaning |
 | :-------- | :------ |
 | `bht` | tab-separated table of blast hits (outfmt 6) |
 | `crb` | tab-separated table of conditional reciprocal blast best hits |
+| `<hittable>` | files in  |
 
 Functions:
 
 | Name | Inputs | Output |
 | :--- | :----- | :----- |
-| `extract_queries` | `<crb/bht>` | `str.list` |
-| `extract_queries_each` | `<crb/bht>.list` | `str.list.list` |
-| `extract_targets` | `<crb/bht>` | `str.list` |
-| `extract_targets_each` | `<crb/bht>.list` | `str.list.list` |
-| `filter_evalue` | `num`, `bht` | `bht` |
-| `filter_evalue_each` | `num`, `bht.list` | `bht.list` |
-| `best_hits` | `bht` | `bht` |
-| `best_hits_each` | `bht.list` | `bht.list` |
+| `extract_queries` | `<hittable>` | `str.list` |
+| `extract_queries_each` | `<hittable>.list` | `str.list.list` |
+| `extract_targets` | `<hittable>` | `str.list` |
+| `extract_targets_each` | `<hittable>.list` | `str.list.list` |
+| `filter_evalue` | `num`, `<hittable>` | `bht` |
+| `filter_evalue_each` | `num`, `<hittable>.list` | `<hittable>.list` |
+| `best_hits` | `<hittable>` | `<hittable>` |
+| `best_hits_each` | `<hittable>.list` | `<hittable>.list` |
 
 Examples:
 
 {{ macros.load_cut(user, 'examples/blasthits.cut') }}
 
-## Length module
+## ListLike module
 
-Get the lengths of lists and tables without printing them.
+Operations on files that can be treated like lists.
 
 Types:
 
-| Extension | Meaning |
+| Type      | Meaning |
 | :-------- | :------ |
 | `bht` | tab-separated table of blast hits (outfmt 6) |
 | `crb` | tab-separated table of conditional reciprocal blast best hits |
+| `mms` | MMSeqs2 sequence database |
+| `<listlike>` | files that can be treated like lists |
 
 Functions:
 
 | Name | Inputs | Output |
 | :--- | :----- | :----- |
-| `length` | `X.list` | `num` |
-| `length` | `X.list.list` | `num.list` |
+| `length` | `<listlike>` | `num` |
+| `length_each` | `<listlike>.list` | `num.list` |
 
 Examples:
 
-{{ macros.load_cut(user, 'examples/length.cut') }}
+{{ macros.load_cut(user, 'examples/listlike.cut') }}
 
 ## PsiBLAST module
 
@@ -300,7 +336,7 @@ TODO individual help descriptions for each fn.
 
 Types:
 
-| Extension | Meaning |
+| Type      | Meaning |
 | :-------- | :------ |
 | `faa` | FASTA (amino acid) |
 | `pdb` | BLAST protein database |
@@ -344,18 +380,19 @@ Conditional reciprocal BLAST best hits (Aubry et al. 2014).
 
 Types:
 
-| Extension | Meaning |
+| Type      | Meaning |
 | :-------- | :------ |
 | `fna` | FASTA (nucleic acid) |
 | `faa` | FASTA (amino acid) |
+| `<fa>` | FASTA (nucleic OR amino acid) |
 | `crb` | tab-separated table of conditional reciprocal blast best hits |
 
 Functions:
 
 | Name | Inputs | Output |
 | :--- | :----- | :----- |
-| `crb_blast` | `fa`, `fa` | `crb` |
-| `crb_blast_each` | `fa`, `fa.list` | `crb.list` |
+| `crb_blast` | `fna`, `<fa>` | `crb` |
+| `crb_blast_each` | `fna`, `<fa>.list` | `crb.list` |
 
 Examples:
 
@@ -367,7 +404,7 @@ Search sequences with hidden Markov models.
 
 Types:
 
-| Extension | Meaning |
+| Type      | Meaning |
 | :-------- | :------ |
 | `faa` | FASTA (amino acid) |
 | `aln` | multiple sequence alignment |
@@ -395,7 +432,7 @@ Reciprocal BLAST+ best hits.
 
 Types:
 
-| Extension | Meaning |
+| Type      | Meaning |
 | :-------- | :------ |
 | `faa` | FASTA (amino acid) |
 | `ndb` | BLAST nucleotide database |
@@ -435,7 +472,7 @@ Align sequences with MUSCLE.
 
 Types:
 
-| Extension | Meaning |
+| Type      | Meaning |
 | :-------- | :------ |
 | `faa` | FASTA (amino acid) |
 | `aln` | multiple sequence alignment |
@@ -485,22 +522,6 @@ Examples:
 
 {{ macros.load_cut(user, 'examples/permute.cut') }}
 
-## Repeat module
-
-Repeatdly re-calculate variables using different random seeds.
-
-
-Functions:
-
-| Name | Inputs | Output |
-| :--- | :----- | :----- |
-| `repeat_each` | `<outputvar>`, `<inputvar>`, `<inputvars>` | `<output>.list` |
-| `repeat` | `<outputvar>`, `<inputvar>`, `num` | `<output>.list` |
-
-Examples:
-
-{{ macros.load_cut(user, 'examples/repeat.cut') }}
-
 ## Summarize module
 
 Collapse a list of results into a single summary.
@@ -534,7 +555,7 @@ Generate half-decent plots.
 
 Types:
 
-| Extension | Meaning |
+| Type      | Meaning |
 | :-------- | :------ |
 | `png` | png image of a plot |
 
@@ -556,7 +577,7 @@ Inference of orthologs, orthogroups, the rooted species, gene trees and gene dup
 
 Types:
 
-| Extension | Meaning |
+| Type      | Meaning |
 | :-------- | :------ |
 | `faa` | FASTA (amino acid) |
 | `ofr` | OrthoFinder results |
@@ -577,7 +598,7 @@ Accelerated BLAST compatible local sequence aligner..
 
 Types:
 
-| Extension | Meaning |
+| Type      | Meaning |
 | :-------- | :------ |
 | `fna` | FASTA (nucleic acid) |
 | `faa` | FASTA (amino acid) |
@@ -612,7 +633,7 @@ Many-against-many sequence searching: ultra fast and sensitive search and cluste
 
 Types:
 
-| Extension | Meaning |
+| Type      | Meaning |
 | :-------- | :------ |
 | `faa` | FASTA (amino acid) |
 | `fna` | FASTA (nucleic acid) |
@@ -638,7 +659,7 @@ Very fast, accurate, and easy orthology..
 
 Types:
 
-| Extension | Meaning |
+| Type      | Meaning |
 | :-------- | :------ |
 | `faa` | FASTA (amino acid) |
 | `fna` | FASTA (nucleic acid) |
@@ -660,16 +681,15 @@ Common interface for working with the results of OrthoFinder, SonicParanoid, etc
 
 Types:
 
-| Extension | Meaning |
+| Type      | Meaning |
 | :-------- | :------ |
-| `ofr` | OrthoFinder results |
-| `spr` | SonicParanoid results |
+| `<og>` | orthogroups (orthofinder or sonicparanoid results) |
 
 Functions:
 
 | Name | Inputs | Output |
 | :--- | :----- | :----- |
-| `orthogroups` | `ofr/spr` | `str.list.list` |
+| `orthogroups` | `og` | `str.list.list` |
 | `orthogroup_containing` | `ofr`, `str` | `str.list` |
 | `orthogroups_containing` | `ofr`, `str.list` | `str.list.list` |
 
