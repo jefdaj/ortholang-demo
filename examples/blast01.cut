@@ -2,6 +2,6 @@
 human_dbs = blastdblist "human"
 
 # download the SwissProt database
-swissprot = blastdbget "swissprot"
+swissprot = blastdbget_prot "swissprot"
 
 result = human_dbs
