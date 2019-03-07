@@ -258,8 +258,10 @@ def guest():
 def user():
     user = AUTH.username()
     blocks = load_codeblocks()
+    # examples = {k:v for k,v in blocks.iteritems() if 'examples/' in k}
+    examples = sorted(k for k in blocks.keys() if 'examples/' in k)
     # userpaths = load_codeblock_userpaths(blocks)
-    return render_template('index.html', user=user, codeblocks=blocks, codeblock_userpaths=blocks.keys())
+    return render_template('index.html', user=user, codeblocks=blocks, examples=examples, codeblock_userpaths=blocks.keys())
 
 # Flask doesn't like sending random files from all over for security reasons,
 # so we make these simplified routes where /TMPDIR and /WORKDIR refer to their ShortCut equivalents.

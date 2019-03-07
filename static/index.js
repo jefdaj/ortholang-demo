@@ -111,6 +111,8 @@ function download_file(name, text) {
 	delete link;
 }
 
+// TODO try to base the search filter on this: http://jsfiddle.net/reyjose/40u0var6/
+
 $(document).ready(function(){
 
 	// TODO would explicit disconnect help?

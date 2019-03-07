@@ -1,6 +1,10 @@
-<div class="highlight" style="text-align: left; width: 90%;">
-	<form id="{{ codeblocks[path]['id'] }}" style="float: right;">
-		<input type="button" onclick="repl_autorun([':load {{ codeblocks[path]['relpath'] }}'])" name="submit" value="Load">
+<!-- TODO rename load_cut? -->
+<div class="highlight">
+	<form id="{{ codeblocks[path]['id'] }}">
+		<div class="examplebar">
+			{{ codeblocks[path]['relpath'] }}
+			<input type="button" onclick="repl_autorun([':load {{ codeblocks[path]['relpath'] }}'])" name="submit" value="Load" style="float: right;">
+		</div>
 	</form>
 	{{ codeblocks[path]['content'] | safe }}
 </div>

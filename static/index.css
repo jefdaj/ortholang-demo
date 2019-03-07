@@ -54,8 +54,22 @@ pre {
 	font-size: 10pt;
 	overflow: hidden;
 }
+.highlight {
+	text-align: left;
+	width: 90%;
+	display: inline-block;
+}
+.examplebar {
+	background-color: #ffffff;
+	border-bottom: 1px solid black;
+	padding-left: 10px;
+	padding-bottom: 3px;
+	color: #868686;
+	font-size: 11pt;
+}
 code, pre, div .highlight {
 	background-color: #f8f8f8;
+	margin: 5px;
 }
 #replbackground {
 	background: no-repeat url('/static/shortcut-background.png') 50% / 88%;
@@ -138,6 +152,7 @@ code, pre, div .highlight {
 	display: none;
 	border-top: none;
 	height: 100%; /* TODO padding instead? */
+	padding: 10px;
 	overflow-y: scroll;
 	border: 1px solid #ccc;
 }
@@ -160,7 +175,7 @@ code, pre, div .highlight {
 #loadcontrols {
  float: left;
  width: 50%;
- text-align: left;
+ 166ggkjkjkjkjjtext-align: left;
 }
 #scriptcontrols {
 	float: right;
@@ -174,4 +189,8 @@ code, pre, div .highlight {
 	margin-top: 10px;
 	display: block;
 	text-align: center
+}
+#examplesearch {
+	width: 40%;
+`
 }
