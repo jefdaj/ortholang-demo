@@ -130,7 +130,7 @@ class ServerLoadThread(Thread):
         cpu = round(cpu_percent())
         mem = round(virtual_memory().percent)
         nfo = {'users': n_sessions, 'cpu': cpu, 'memory': mem}
-        LOGGER.info('emitting serverload: %s' % nfo)
+        LOGGER.debug('emitting serverload: %s' % nfo)
         SOCKETIO.emit('serverload', nfo, namespace='/')
 
 # this is started later because it needs SOCKETIO
@@ -292,7 +292,7 @@ def with_real_paths(sid, line):
 # socketio #
 ############
 
-SOCKETIO = SocketIO(FLASK, manage_session=False, logger=True, engineio_logger=True)
+SOCKETIO = SocketIO(FLASK, manage_session=False, logger=LOGGER, engineio_logger=True)
 LOAD.start()
 
 # swap other modules' log handlers for mine
@@ -444,7 +444,7 @@ def check_shortcut_version():
     proc = spawn('shortcut', ['--version'], encoding='utf-8', timeout=None)
     try:
         proc.expect(version_expected, timeout=10)
-    except EOF:
+    except:
         msg = '"shortcut --version" failed. Check your PATH and version.'
         msg += ' It should be: ' + str(version_expected)
         LOGGER.error(msg)
@@ -529,6 +529,7 @@ class ShortCutThread(Thread):
         args = ['--secure', '--interactive', '--tmpdir', self.tmpdir, '--workdir', self.workdir]
         # self.process = Popen(cmd, stdin=PIPE, stdout=PIPE, stderr=STDOUT, preexec_fn=setsid)
         self.process = spawn('shortcut', args, encoding='utf-8', echo=False, timeout=None)
+        self.process.expect(u'Welcome to the ShortCut interpreter!', timeout=10)
         # LOGGER.info('session %s spawned interpreter %s' % (self.sessionid, self.process.pid))
         LOGGER.info('session %s spawned interpreter' % self.sessionid)
 
@@ -597,5 +598,8 @@ class ShortCutThread(Thread):
 
 RESOURCE = WSGIResource(REACTOR, REACTOR.getThreadPool(), FLASK)
 SITE = Site(RESOURCE)
+# TODO write a function to clean up all threads in SESSIONS on shutdown
+# REACTOR.addSystemEventTrigger('before', 'shutdown', cleanup_sessions)
 REACTOR.listenTCP(CONFIG['port'], SITE)
+# TODO which signal handlers?
 REACTOR.run(installSignalHandlers=True)
