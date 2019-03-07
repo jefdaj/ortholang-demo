@@ -1,8 +1,14 @@
 {% import "macros.jinja" as macros with context %}
 
-<input id="modulesearch" placeholder="Search the module documentation" id="box" type="text"/>
+This is an auto-generated reference of every currently available
+function as of ShortCut 0.8.2.0, grouped by module.
 
 If you don't find what you're looking for, leave Jeff a comment about it! (bottom right)
+
+<!-- TODO generate this in sections like the tutorial -->
+
+<input id="modulesearch" placeholder="Search the module documentation" id="box" type="text"/>
+
 <br/>
 <div class="moduleblock">
 <h3>Replace module</h3>
