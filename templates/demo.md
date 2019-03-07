@@ -31,9 +31,7 @@ high-performance compute cluster][2], or installing ShortCut at your institution
    which kills the script if you decide it was taking too long.
 
 2. Load an existing script, either one of the examples or something you wrote earlier.
-   You can also upload a script.
-   _Note: you can't upload gene lists or fasta files yet, but I'm working on adding that.
-    Comment if you want it done faster!_
+   You can also upload a script along with any files it requires.
 
 3. Save/download stuff. `Download result` always has the latest result,
    but `Download script` only has the last version you saved.
