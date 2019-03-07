@@ -1,6 +1,6 @@
-<div class="highlight codeblock" style="text-align: left; width: 90%;">
-				<form style="clear:both;">
-								<input type="button" onclick="repl_autorun({{ lines | safe }})" name="submit" value="Run" style="float:right;">
-								<pre>{{ lines | join('\n') | safe }}</pre>
+<div class="highlight codeblock runblock">
+				<pre>{{ lines | join('\n') | safe }}</pre>
+				<form class="runbuttonform">
+								<input class="runbutton" type="button" onclick="repl_autorun({{ lines | safe }})" name="submit" value="Run">
 				</form>
 </div>

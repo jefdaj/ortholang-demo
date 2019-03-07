@@ -292,7 +292,8 @@ def with_real_paths(sid, line):
 # socketio #
 ############
 
-SOCKETIO = SocketIO(FLASK, manage_session=False, logger=LOGGER, engineio_logger=True)
+# can set logger=LOGGER to add socketio debugging to output
+SOCKETIO = SocketIO(FLASK, manage_session=False, logger=False, engineio_logger=True)
 LOAD.start()
 
 # swap other modules' log handlers for mine
@@ -529,7 +530,6 @@ class ShortCutThread(Thread):
         args = ['--secure', '--interactive', '--tmpdir', self.tmpdir, '--workdir', self.workdir]
         # self.process = Popen(cmd, stdin=PIPE, stdout=PIPE, stderr=STDOUT, preexec_fn=setsid)
         self.process = spawn('shortcut', args, encoding='utf-8', echo=False, timeout=None)
-        self.process.expect(u'Welcome to the ShortCut interpreter!', timeout=10)
         # LOGGER.info('session %s spawned interpreter %s' % (self.sessionid, self.process.pid))
         LOGGER.info('session %s spawned interpreter' % self.sessionid)
 

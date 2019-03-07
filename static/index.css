@@ -193,3 +193,17 @@ code, pre, div .highlight {
 #examplesearch, #modulesearch {
 	width: 40%;
 }
+
+.runbuttonform {
+	float:right;
+	padding: 5px;
+}
+
+.runblock {
+ display: inline-flex;
+ width: 90%;
+}
+
+.asciinema-player-wrapper {
+	text-align: left;
+}
