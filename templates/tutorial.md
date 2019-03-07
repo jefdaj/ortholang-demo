@@ -9,44 +9,6 @@ confusing, that counts as a bug too!
 
 
 
-## How to use the terminal
-
-<img src="{{ url_for('static', filename='controls.png') }}" style="width: 80%;"></img>
-
-1. Type text commands in the command line and press enter or click `Run` to run them.
-   While a command is running this will grey out and `Run` will change to `Kill`,
-   which kills the script if you decide it was taking too long.
-
-2. Load an existing script, either one of the examples or something you wrote earlier.
-   You can also upload a script.
-   _Note: you can't upload gene lists or fasta files yet, but I'm working on adding that.
-    Comment if you want it done faster!_
-
-3. Save/download stuff. `Download result` always has the latest result,
-   but `Download script` only has the last version you saved.
-
-4. Comment box. Tell me if there's something broken, something you want to see or are confused about, or whatever.
-
-## How to use the examples
-
-There are two types of interactive code blocks.
-Complete cut scripts with `Load` buttons like this:
-
-{{ macros.load_cut(user, 'examples/load03.cut') }}
-
-... and examples of commands you would type in the terminal.
-The `Run` button just types them for you.
-They can include loading scripts, but also anything else you might do live:
-redefine variables, look at depdencies, etc.
-
-{{ macros.run_example([':load examples/load03', 'sample 10 genes_of_interest', ':show']) }}
-
-### Test of Asciinema demos
-
-TODO: re-record the current demos more tersely and put them in the docs like this:
-
-{{ macros.asciicast('test.cast.cut') }}
-
 
 ### Result and Other Variables
 

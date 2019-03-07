@@ -4,8 +4,10 @@
 
 If you don't find what you're looking for, leave Jeff a comment about it! (bottom right)
 
+<div id="examples">
 {% for path in examples %}
   {%- filter markdown -%}
 	{%- include "loadexample.html" -%}
   {%- endfilter -%}
 {% endfor %}
+</div>

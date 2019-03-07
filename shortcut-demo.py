@@ -259,7 +259,7 @@ def user():
     user = AUTH.username()
     blocks = load_codeblocks()
     # examples = {k:v for k,v in blocks.iteritems() if 'examples/' in k}
-    examples = sorted(k for k in blocks.keys() if 'examples/' in k)
+    examples = sorted(set(k for k in blocks.keys() if user + '/examples/' in k))
     # userpaths = load_codeblock_userpaths(blocks)
     return render_template('index.html', user=user, codeblocks=blocks, examples=examples, codeblock_userpaths=blocks.keys())
 

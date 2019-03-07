@@ -111,8 +111,6 @@ function download_file(name, text) {
 	delete link;
 }
 
-// TODO try to base the search filter on this: http://jsfiddle.net/reyjose/40u0var6/
-
 $(document).ready(function(){
 
 	// TODO would explicit disconnect help?
@@ -271,6 +269,19 @@ $(document).ready(function(){
 	SOCKET.on('opentab', function(data) {
 		openTabByName(data['tabName']);
 	});
+
+	// based on: http://jsfiddle.net/reyjose/40u0var6/
+	$('#examplesearch').keyup(function(){
+		var valThis = $(this).val().toLowerCase();
+		if(valThis == ""){
+			$('#examples > .codeblock').show();
+		} else {
+			$('#examples > .codeblock').each(function(){
+				var text = $(this).text().toLowerCase();
+				(text.indexOf(valThis) >= 0) ? $(this).show() : $(this).hide();
+			});
+		};
+	 });
 
 	// TODO start on the collaborator tab if the user has a custom one?
 	// document.getElementById('Collaborate').style.display = "block";
