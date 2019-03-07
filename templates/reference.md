@@ -1,6 +1,11 @@
 {% import "macros.jinja" as macros with context %}
 
-## Replace module
+<input id="modulesearch" placeholder="Search the module documentation" id="box" type="text"/>
+
+If you don't find what you're looking for, leave Jeff a comment about it! (bottom right)
+<br/>
+<div class="moduleblock">
+<h3>Replace module</h3>
 
 Replace variables in the script to see how the results change.
 
@@ -12,11 +17,11 @@ Functions:
 | `replace` | `<outputvar>`, `<vartoreplace>`, `<exprtoreplacewith>` | `<newoutput>` |
 | `replace_each` | `<outputvar>`, `<inputvar>`, `<inputvars>` | `<output>.list` |
 
-Examples:
-
+<br/>
 {{ macros.load_cut(user, 'examples/replace.cut') }}
-
-## Repeat module
+</div>
+<div class="moduleblock">
+<h3>Repeat module</h3>
 
 Repeatdly re-calculate variables using different random salts.
 
@@ -27,11 +32,11 @@ Functions:
 | :--- | :----- | :----- |
 | `repeat` | `<outputvar>`, `<inputvar>`, `num` | `<output>.list` |
 
-Examples:
-
+<br/>
 {{ macros.load_cut(user, 'examples/repeat.cut') }}
-
-## Math module
+</div>
+<div class="moduleblock">
+<h3>Math module</h3>
 
 Basic math.
 
@@ -45,11 +50,11 @@ Functions:
 | `*` | `num`, `num` | `num` |
 | `/` | `num`, `num` | `num` |
 
-Examples:
-
+<br/>
 {{ macros.load_cut(user, 'examples/math.cut') }}
-
-## Load module
+</div>
+<div class="moduleblock">
+<h3>Load module</h3>
 
 Load generic lists.
 
@@ -61,11 +66,11 @@ Functions:
 | `load_list` | `str` | `str.list` |
 | `glob_files` | `str` | `str.list` |
 
-Examples:
-
+<br/>
 {{ macros.load_cut(user, 'examples/load.cut') }}
-
-## Sets module
+</div>
+<div class="moduleblock">
+<h3>Sets module</h3>
 
 Set operations for use with lists.
 
@@ -82,22 +87,21 @@ Functions:
 | `~` | `X.list`, `X.list` | `X.list` |
 | `diff` | `X.list.list` | `X.list` |
 
-Examples:
-
+<br/>
 {{ macros.load_cut(user, 'examples/sets.cut') }}
-
-## SeqIO module
+</div>
+<div class="moduleblock">
+<h3>SeqIO module</h3>
 
 Sequence file manipulations using BioPython's SeqIO.
 
 Types:
 
-| Type      | Meaning |
+| Extension | Meaning |
 | :-------- | :------ |
 | `gbk` | genbank |
 | `faa` | FASTA (amino acid) |
 | `fna` | FASTA (nucleic acid) |
-| `<fa>` | FASTA (nucleic OR amino acid) |
 
 Functions:
 
@@ -131,17 +135,17 @@ Functions:
 | `load_gbk_each` | `str.list` | `gbk.list` |
 | `load_gbk_glob` | `str` | `gbk.list` |
 
-Examples:
-
+<br/>
 {{ macros.load_cut(user, 'examples/seqio.cut') }}
-
-## BiomartR module
+</div>
+<div class="moduleblock">
+<h3>BiomartR module</h3>
 
 Search + download genomes and proteomes from Biomart.
 
 Types:
 
-| Type      | Meaning |
+| Extension | Meaning |
 | :-------- | :------ |
 | `search` | intermediate table describing biomartr searches |
 | `fna.gz` | gzipped fasta nucleic acid acid (gene list or genome) |
@@ -155,17 +159,17 @@ Functions:
 | `get_genomes` | `str.list` | `fna.gz.list` |
 | `get_proteomes` | `str.list` | `faa.gz.list` |
 
-Examples:
-
+<br/>
 {{ macros.load_cut(user, 'examples/biomartr.cut') }}
-
-## BlastDB module
+</div>
+<div class="moduleblock">
+<h3>BlastDB module</h3>
 
 Create, load, and download BLAST databases.
 
 Types:
 
-| Type      | Meaning |
+| Extension | Meaning |
 | :-------- | :------ |
 | `ndb` | BLAST nucleotide database |
 | `pdb` | BLAST protein database |
@@ -184,22 +188,21 @@ Functions:
 | `makeblastdb_prot` | `faa` | `pdb` |
 | `makeblastdb_nucl_each` | `fa.list` | `ndb.list` |
 | `makeblastdb_prot_each` | `faa.list` | `pdb.list` |
-| `blastdbget_nucl` | `str` | `ndb` |
-| `blastdbget_prot` | `str` | `pdb` |
+| `blastdbget` | `str` | `ndb` |
 | `blastdblist` | `str` | `str.list` |
 | `singletons` | `X.list` | `X.list.list` |
 
-Examples:
-
+<br/>
 {{ macros.load_cut(user, 'examples/blastdb.cut') }}
-
-## BLAST+ module
+</div>
+<div class="moduleblock">
+<h3>BLAST+ module</h3>
 
 Standard NCBI BLAST+ functions.
 
 Types:
 
-| Type      | Meaning |
+| Extension | Meaning |
 | :-------- | :------ |
 | `ndb` | BLAST nucleotide database |
 | `pdb` | BLAST protein database |
@@ -236,64 +239,62 @@ Functions:
 | `concat_bht` | `bht.list` | `bht` |
 | `concat_bht_each` | `bht.list.list` | `bht.list` |
 
-Examples:
-
+<br/>
 {{ macros.load_cut(user, 'examples/blast.cut') }}
-
-## BlastHits module
+</div>
+<div class="moduleblock">
+<h3>BlastHits module</h3>
 
 Work with BLAST hit tables.
 
 Types:
 
-| Type      | Meaning |
+| Extension | Meaning |
 | :-------- | :------ |
 | `bht` | tab-separated table of blast hits (outfmt 6) |
 | `crb` | tab-separated table of conditional reciprocal blast best hits |
-| `<hittable>` | files in  |
 
 Functions:
 
 | Name | Inputs | Output |
 | :--- | :----- | :----- |
-| `extract_queries` | `<hittable>` | `str.list` |
-| `extract_queries_each` | `<hittable>.list` | `str.list.list` |
-| `extract_targets` | `<hittable>` | `str.list` |
-| `extract_targets_each` | `<hittable>.list` | `str.list.list` |
-| `filter_evalue` | `num`, `<hittable>` | `bht` |
-| `filter_evalue_each` | `num`, `<hittable>.list` | `<hittable>.list` |
-| `best_hits` | `<hittable>` | `<hittable>` |
-| `best_hits_each` | `<hittable>.list` | `<hittable>.list` |
+| `extract_queries` | `<crb/bht>` | `str.list` |
+| `extract_queries_each` | `<crb/bht>.list` | `str.list.list` |
+| `extract_targets` | `<crb/bht>` | `str.list` |
+| `extract_targets_each` | `<crb/bht>.list` | `str.list.list` |
+| `filter_evalue` | `num`, `bht` | `bht` |
+| `filter_evalue_each` | `num`, `bht.list` | `bht.list` |
+| `best_hits` | `bht` | `bht` |
+| `best_hits_each` | `bht.list` | `bht.list` |
 
-Examples:
-
+<br/>
 {{ macros.load_cut(user, 'examples/blasthits.cut') }}
+</div>
+<div class="moduleblock">
+<h3>Length module</h3>
 
-## ListLike module
-
-Operations on files that can be treated like lists.
+Get the lengths of lists and tables without printing them.
 
 Types:
 
-| Type      | Meaning |
+| Extension | Meaning |
 | :-------- | :------ |
 | `bht` | tab-separated table of blast hits (outfmt 6) |
 | `crb` | tab-separated table of conditional reciprocal blast best hits |
 | `mms` | MMSeqs2 sequence database |
-| `<listlike>` | files that can be treated like lists |
 
 Functions:
 
 | Name | Inputs | Output |
 | :--- | :----- | :----- |
-| `length` | `<listlike>` | `num` |
-| `length_each` | `<listlike>.list` | `num.list` |
+| `length` | `X.list` | `num` |
+| `length` | `X.list.list` | `num.list` |
 
-Examples:
-
-{{ macros.load_cut(user, 'examples/listlike.cut') }}
-
-## PsiBLAST module
+<br/>
+{{ macros.load_cut(user, 'examples/length.cut') }}
+</div>
+<div class="moduleblock">
+<h3>PsiBLAST module</h3>
 
 Iterated PsiBLAST (BLAST+) searches using position-specific substitution matrixes.
 
@@ -336,7 +337,7 @@ TODO individual help descriptions for each fn.
 
 Types:
 
-| Type      | Meaning |
+| Extension | Meaning |
 | :-------- | :------ |
 | `faa` | FASTA (amino acid) |
 | `pdb` | BLAST protein database |
@@ -370,41 +371,40 @@ Functions:
 | `psiblast_train_pssms` | `num`, `faa.list`, `faa` | `pssm.list` |
 | `psiblast_train_pssms_db` | `num`, `faa.list`, `pdb` | `pssm.list` |
 
-Examples:
-
+<br/>
 {{ macros.load_cut(user, 'examples/psiblast.cut') }}
-
-## CRB-BLAST module
+</div>
+<div class="moduleblock">
+<h3>CRB-BLAST module</h3>
 
 Conditional reciprocal BLAST best hits (Aubry et al. 2014).
 
 Types:
 
-| Type      | Meaning |
+| Extension | Meaning |
 | :-------- | :------ |
 | `fna` | FASTA (nucleic acid) |
 | `faa` | FASTA (amino acid) |
-| `<fa>` | FASTA (nucleic OR amino acid) |
 | `crb` | tab-separated table of conditional reciprocal blast best hits |
 
 Functions:
 
 | Name | Inputs | Output |
 | :--- | :----- | :----- |
-| `crb_blast` | `fna`, `<fa>` | `crb` |
-| `crb_blast_each` | `fna`, `<fa>.list` | `crb.list` |
+| `crb_blast` | `fa`, `fa` | `crb` |
+| `crb_blast_each` | `fa`, `fa.list` | `crb.list` |
 
-Examples:
-
+<br/>
 {{ macros.load_cut(user, 'examples/crbblast.cut') }}
-
-## HMMER module
+</div>
+<div class="moduleblock">
+<h3>HMMER module</h3>
 
 Search sequences with hidden Markov models.
 
 Types:
 
-| Type      | Meaning |
+| Extension | Meaning |
 | :-------- | :------ |
 | `faa` | FASTA (amino acid) |
 | `aln` | multiple sequence alignment |
@@ -422,17 +422,17 @@ Functions:
 | `extract_hmm_targets` | `hht` | `str.list` |
 | `extract_hmm_targets_each` | `hht.list` | `str.list.list` |
 
-Examples:
-
+<br/>
 {{ macros.load_cut(user, 'examples/hmmer.cut') }}
-
-## BlastRBH module
+</div>
+<div class="moduleblock">
+<h3>BlastRBH module</h3>
 
 Reciprocal BLAST+ best hits.
 
 Types:
 
-| Type      | Meaning |
+| Extension | Meaning |
 | :-------- | :------ |
 | `faa` | FASTA (amino acid) |
 | `ndb` | BLAST nucleotide database |
@@ -462,17 +462,17 @@ Functions:
 | `blastp_rbh_each` | `num`, `faa`, `faa.list` | `bht.list` |
 | `tblastx_rbh_each` | `num`, `fna`, `fna.list` | `bht.list` |
 
-Examples:
-
+<br/>
 {{ macros.load_cut(user, 'examples/blastrbh.cut') }}
-
-## MUSCLE module
+</div>
+<div class="moduleblock">
+<h3>MUSCLE module</h3>
 
 Align sequences with MUSCLE.
 
 Types:
 
-| Type      | Meaning |
+| Extension | Meaning |
 | :-------- | :------ |
 | `faa` | FASTA (amino acid) |
 | `aln` | multiple sequence alignment |
@@ -484,11 +484,11 @@ Functions:
 | `muscle` | `faa` | `aln` |
 | `muscle_each` | `faa.list` | `aln.list` |
 
-Examples:
-
+<br/>
 {{ macros.load_cut(user, 'examples/muscle.cut') }}
-
-## Sample module
+</div>
+<div class="moduleblock">
+<h3>Sample module</h3>
 
 Random (but reproducable) sampling of list elements.
 
@@ -503,11 +503,11 @@ Functions:
 | :--- | :----- | :----- |
 | `sample` | `num`, `X.list` | `X.list` |
 
-Examples:
-
+<br/>
 {{ macros.load_cut(user, 'examples/sample.cut') }}
-
-## Permute module
+</div>
+<div class="moduleblock">
+<h3>Permute module</h3>
 
 Generate random permutations of lists.
 
@@ -518,21 +518,21 @@ Functions:
 | :--- | :----- | :----- |
 | `leave_each_out` | `X.list` | `X.list.list` |
 
-Examples:
-
+<br/>
 {{ macros.load_cut(user, 'examples/permute.cut') }}
-
-## Summarize module
+</div>
+<div class="moduleblock">
+<h3>Summarize module</h3>
 
 Collapse a list of results into a single summary.
 
 
 
-Examples:
-
+<br/>
 {{ macros.load_cut(user, 'examples/summarize.cut') }}
-
-## Scores module
+</div>
+<div class="moduleblock">
+<h3>Scores module</h3>
 
 Score repeated variables for plotting.
 
@@ -545,17 +545,17 @@ Functions:
 | `extract_scores` | `X.scores` | `num.list` |
 | `extract_scored` | `X.scores` | `X.list` |
 
-Examples:
-
+<br/>
 {{ macros.load_cut(user, 'examples/scores.cut') }}
-
-## Plots module
+</div>
+<div class="moduleblock">
+<h3>Plots module</h3>
 
 Generate half-decent plots.
 
 Types:
 
-| Type      | Meaning |
+| Extension | Meaning |
 | :-------- | :------ |
 | `png` | png image of a plot |
 
@@ -567,17 +567,17 @@ Functions:
 | `linegraph` | `str`, `num.scores` | `plot` |
 | `scatterplot` | `str`, `num.scores` | `plot` |
 
-Examples:
-
+<br/>
 {{ macros.load_cut(user, 'examples/plots.cut') }}
-
-## OrthoFinder module
+</div>
+<div class="moduleblock">
+<h3>OrthoFinder module</h3>
 
 Inference of orthologs, orthogroups, the rooted species, gene trees and gene duplcation events tree.
 
 Types:
 
-| Type      | Meaning |
+| Extension | Meaning |
 | :-------- | :------ |
 | `faa` | FASTA (amino acid) |
 | `ofr` | OrthoFinder results |
@@ -588,17 +588,17 @@ Functions:
 | :--- | :----- | :----- |
 | `orthofinder` | `faa.list` | `ofr` |
 
-Examples:
-
+<br/>
 {{ macros.load_cut(user, 'examples/orthofinder.cut') }}
-
-## Diamond module
+</div>
+<div class="moduleblock">
+<h3>Diamond module</h3>
 
 Accelerated BLAST compatible local sequence aligner..
 
 Types:
 
-| Type      | Meaning |
+| Extension | Meaning |
 | :-------- | :------ |
 | `fna` | FASTA (nucleic acid) |
 | `faa` | FASTA (amino acid) |
@@ -623,17 +623,17 @@ Functions:
 | `diamond_blastx_db_sensitive` | `num`, `fna`, `dmnd` | `bht` |
 | `diamond_blastx_db_more_sensitive` | `num`, `fna`, `dmnd` | `bht` |
 
-Examples:
-
+<br/>
 {{ macros.load_cut(user, 'examples/diamond.cut') }}
-
-## MMSeqs module
+</div>
+<div class="moduleblock">
+<h3>MMSeqs module</h3>
 
 Many-against-many sequence searching: ultra fast and sensitive search and clustering suite.
 
 Types:
 
-| Type      | Meaning |
+| Extension | Meaning |
 | :-------- | :------ |
 | `faa` | FASTA (amino acid) |
 | `fna` | FASTA (nucleic acid) |
@@ -649,17 +649,17 @@ Functions:
 | `mmseqs_search_db` | `num`, `fa`, `mms` | `bht` |
 | `mmseqs_search` | `num`, `fa`, `fa` | `bht` |
 
-Examples:
-
+<br/>
 {{ macros.load_cut(user, 'examples/mmseqs.cut') }}
-
-## SonicParanoid module
+</div>
+<div class="moduleblock">
+<h3>SonicParanoid module</h3>
 
 Very fast, accurate, and easy orthology..
 
 Types:
 
-| Type      | Meaning |
+| Extension | Meaning |
 | :-------- | :------ |
 | `faa` | FASTA (amino acid) |
 | `fna` | FASTA (nucleic acid) |
@@ -671,29 +671,29 @@ Functions:
 | :--- | :----- | :----- |
 | `sonicparanoid` | `faa.list` | `spr` |
 
-Examples:
-
+<br/>
 {{ macros.load_cut(user, 'examples/sonicparanoid.cut') }}
-
-## OrthoGroups module
+</div>
+<div class="moduleblock">
+<h3>OrthoGroups module</h3>
 
 Common interface for working with the results of OrthoFinder, SonicParanoid, etc..
 
 Types:
 
-| Type      | Meaning |
+| Extension | Meaning |
 | :-------- | :------ |
-| `<og>` | orthogroups (orthofinder or sonicparanoid results) |
+| `ofr` | OrthoFinder results |
+| `spr` | SonicParanoid results |
 
 Functions:
 
 | Name | Inputs | Output |
 | :--- | :----- | :----- |
-| `orthogroups` | `og` | `str.list.list` |
+| `orthogroups` | `ofr/spr` | `str.list.list` |
 | `orthogroup_containing` | `ofr`, `str` | `str.list` |
 | `orthogroups_containing` | `ofr`, `str.list` | `str.list.list` |
 
-Examples:
-
+<br/>
 {{ macros.load_cut(user, 'examples/orthogroups.cut') }}
-
+</div>

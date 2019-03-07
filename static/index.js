@@ -282,6 +282,17 @@ $(document).ready(function(){
 			});
 		};
 	 });
+	$('#modulesearch').keyup(function(){
+		var valThis = $(this).val().toLowerCase();
+		if(valThis == ""){
+			$('.moduleblock').show();
+		} else {
+			$('.moduleblock').each(function(){
+				var text = $(this).text().toLowerCase();
+				(text.indexOf(valThis) >= 0) ? $(this).show() : $(this).hide();
+			});
+		};
+	 });
 
 	// TODO start on the collaborator tab if the user has a custom one?
 	// document.getElementById('Collaborate').style.display = "block";
