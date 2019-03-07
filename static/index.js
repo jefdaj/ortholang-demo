@@ -111,6 +111,23 @@ function download_file(name, text) {
 	delete link;
 }
 
+// hide examples or module reference blocks that don't match the current filter
+// based on: http://jsfiddle.net/reyjose/40u0var6/
+function filter_searchable(box_id, element_selector){
+	var valThis = $(box_id).val().toLowerCase();
+	if(valThis == ""){
+		$(element_selector).show();
+	} else {
+		$(element_selector).each(function(){
+				var text = $(this).text().toLowerCase();
+				(text.indexOf(valThis) >= 0) ? $(this).show() : $(this).hide();
+				});
+	};
+}
+
+function filter_examples() { filter_searchable('#examplesearch', '#examples > .codeblock') }
+function filter_modules()  { filter_searchable('#modulesearch', '.moduleblock') }
+
 $(document).ready(function(){
 
 	// TODO would explicit disconnect help?
@@ -270,29 +287,10 @@ $(document).ready(function(){
 		openTabByName(data['tabName']);
 	});
 
-	// based on: http://jsfiddle.net/reyjose/40u0var6/
-	$('#examplesearch').keyup(function(){
-		var valThis = $(this).val().toLowerCase();
-		if(valThis == ""){
-			$('#examples > .codeblock').show();
-		} else {
-			$('#examples > .codeblock').each(function(){
-				var text = $(this).text().toLowerCase();
-				(text.indexOf(valThis) >= 0) ? $(this).show() : $(this).hide();
-			});
-		};
-	 });
-	$('#modulesearch').keyup(function(){
-		var valThis = $(this).val().toLowerCase();
-		if(valThis == ""){
-			$('.moduleblock').show();
-		} else {
-			$('.moduleblock').each(function(){
-				var text = $(this).text().toLowerCase();
-				(text.indexOf(valThis) >= 0) ? $(this).show() : $(this).hide();
-			});
-		};
-	 });
+	filter_examples()
+	filter_modules()
+	$('#examplesearch').keyup(filter_examples);
+	$('#modulesearch').keyup(filter_modules);
 
 	// TODO start on the collaborator tab if the user has a custom one?
 	// document.getElementById('Collaborate').style.display = "block";
