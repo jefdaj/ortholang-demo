@@ -2,6 +2,8 @@
 
 The demo on the right is similar to the command line interface you will get if you [install ShortCut][1], except:
 
+<img src="/static/server.png" style="float:right; width:150px;"></img>
+
 * You have to upload and download your files one at a time
 * Long-running scripts might be killed to keep the server responsive for others
 * Some terminal niceties like tab completion of variables + function names are missing
@@ -9,20 +11,21 @@ The demo on the right is similar to the command line interface you will get if y
 You can upload your own genomes and gene lists, save and restore scripts,
 and download results using the buttons under the terminal.
 
-<img src="/static/server.png" style="float:right; width:150px;"></img>
-
-Making an account is optional, but scripts saved as `guest` are public and others might edit them.
-Also guest terminal sessions are destroyed when you leave the page, whereas named ones resume later.
-No email or signup form is required to make an account! Just [click here][3] and make up a username + password to log in.
-If you want to be updated when a new version comes out, leave your email in the comment box.
-
 This "server" is an old desktop computer; for anything
 compute-intensive you probably want to install ShortCut on your own hardware
 instead! You can also contact Jeff (use the comment box or find my email
 [here][4]) about collaborating, running your search on the [Berkeley
 high-performance compute cluster][2], or installing ShortCut at your institution.
 
-## How to use the demo
+## User accounts
+
+Making an account is totally optional, but scripts saved as `guest` are public and others might edit them.
+Also guest terminal sessions are destroyed when you leave the page, whereas named ones resume later.
+No email or signup form is required to make an account. Just [click here][3] and make up a username + password to log in.
+If you want to be updated when a new version comes out, leave your email in the comment box.
+Another nice feature of having an account is multiple people can edit the same script together "Google Docs-style".
+
+## Terminal
 
 <img src="{{ url_for('static', filename='controls.png') }}" style="width: 80%;"></img>
 
@@ -38,7 +41,7 @@ high-performance compute cluster][2], or installing ShortCut at your institution
 
 4. Comment box. Tell me if there's something broken, something you want to see or are confused about, or whatever.
 
-## How to use the examples
+## Examples
 
 There are two types of interactive code blocks.
 Complete cut scripts with `Load` buttons like this:
@@ -52,11 +55,11 @@ redefine variables, look at depdencies, etc.
 
 {{ macros.run_example([':load examples/load03.cut', 'sample 10 genes_of_interest', ':show']) }}
 
-### Test of Asciinema demos
+There are also some pre-recorded demos. They tend to be for longer, more
+complicated or compute-intensive things and involve using ShortCut in its
+native Linux terminal environment rather than on the website.
 
-TODO: re-record the current demos more tersely and put them in the docs like this:
-
-{{ macros.asciicast('test.cast.cut') }}
+{{ macros.asciicast('test.cast') }}
 
 
 [1]: https://github.com/jefdaj/shortcut

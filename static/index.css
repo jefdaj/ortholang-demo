@@ -203,3 +203,7 @@ code, pre, div .highlight {
  display: inline-flex;
  width: 90%;
 }
+
+.asciinema-player-wrapper {
+	text-align: left;
+}
