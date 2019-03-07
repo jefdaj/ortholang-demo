@@ -50,7 +50,7 @@ The `Run` button just types them for you.
 They can include loading scripts, but also anything else you might do live:
 redefine variables, look at depdencies, etc.
 
-{{ macros.run_example([':load examples/load03', 'sample 10 genes_of_interest', ':show']) }}
+{{ macros.run_example([':load examples/load03.cut', 'sample 10 genes_of_interest', ':show']) }}
 
 ### Test of Asciinema demos
 
