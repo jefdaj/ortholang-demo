@@ -333,9 +333,9 @@ def handle_connect():
     if not sid in SESSIONS:
         if not uname:
             LOGGER.info('client %s started a guest session' % sid)
-            print 'trying to start thread...'
+            # print 'trying to start thread...'
             SESSIONS[sid] = ShortCutThread(sid, 'guest')
-            print 'success!'
+            # print 'success!'
             thread = SESSIONS[sid]
         else:
             if not uname in SESSIONS:
@@ -347,7 +347,7 @@ def handle_connect():
                 SESSIONS[uname].readCommand('# Resuming previous session...')
                 SESSIONS[uname].readCommand(':show')
             thread = SESSIONS[uname]
-    print 'thread alive? %s' % thread.isAlive()
+    # print 'thread alive? %s' % thread.isAlive()
     if not thread.isAlive():
         thread.start()
 
@@ -437,6 +437,20 @@ def handle_reqresult():
 ############
 # shortcut #
 ############
+
+def check_shortcut_version():
+    LOGGER.info('checking output of "shortcut --version"')
+    version_expected = u'ShortCut 0.8.2.0'
+    proc = spawn('shortcut', ['--version'], encoding='utf-8', timeout=None)
+    try:
+        proc.expect(version_expected, timeout=10)
+    except EOF:
+        msg = '"shortcut --version" failed. Check your PATH and version.'
+        msg += ' It should be: ' + str(version_expected)
+        LOGGER.error(msg)
+        raise SystemExit(1)
+
+check_shortcut_version()
 
 class ShortCutThread(Thread):
     def __init__(self, sessionid, username):
