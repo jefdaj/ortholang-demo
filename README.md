@@ -52,7 +52,7 @@ nix-shell requirements.nix --command \
     -e examples \
     -c comments \
     -t /tmp/shortcut-demo \
-    -p 80 \
+    -p 5000 \
     -s /mnt/data/shortcut-users' \
     -a /mnt/data/shortcut-users/passwords.txt
 ```
@@ -70,7 +70,7 @@ pip install -r requirements.txt
   -e examples \
   -c comments \
   -t /tmp/shortcut-demo \
-  -p 80 \
+  -p 5000 \
   -s /mnt/data/shortcut-users' \
   -a /mnt/data/shortcut-users/passwords.txt
 ```
@@ -91,19 +91,16 @@ but the fastest way to access it from elsewhere on the local network is:
 
 ```.bash
 sudo sysctl -w net.ipv4.conf.all.route_localnet=1
-sudo iptables -t nat -I PREROUTING -p tcp --dport 8080 -j DNAT --to 127.0.0.1:5000
+sudo iptables -t nat -I PREROUTING -p tcp --dport 5000 -j DNAT --to 127.0.0.1:80
 ```
 
-Replace `8080` with whatever port you want.
+Replace `5000` with whatever port you want.
 
 Files
 -----
 
 The server will put tmpfiles in `./tmpdirs`. Consider linking that to `/tmp` or
-a ramdisk if IO becomes an issue. (It shouldn't, unless your users upload and
-work on eukaryotic genomes)
-
-It will also save user comments in `./comments`.
+a ramdisk if IO becomes an issue. It will also save user comments in `./comments`.
 
 [1]: https://github.com/jefdaj/shortcut
 [2]: https://nixos.org/nix
