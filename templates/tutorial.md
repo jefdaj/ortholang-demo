@@ -9,8 +9,8 @@ confusing, that counts as a bug too!
 
 <input id="tutorialsearch" placeholder="Search the tutorial" id="box" type="text"/>
 
-If you know what you want to learn about you can use the search to narrow it down,
-but it's probably less confusing to go through everything in order first.
+If you know what you want to learn about you can use the search to narrow it down by topic,
+but it's probably less confusing to go through at least the first few sections in order.
 
 <div id="tutorial">
 {% for path in sections | sort() %}

@@ -2,7 +2,7 @@
 
 Reciprocal best hits are the most common method used to find orthologs, but
 they can sometimes be overly conservative, missing true orthologs. For that
-reason, ShortCut also includes CRB-BLAST ([Aubry _et al._ 2014][4]). For each
+reason, ShortCut also includes CRB-BLAST ([Aubry _et al._ 2014][1]). For each
 pair of genomes, it:
 
 1. Does a standard reciprocal BLAST search
@@ -21,3 +21,5 @@ cutoffs.
 Example:
 
 {{ macros.load_cut(user, 'examples/crb.cut') }}
+
+[1]: https://journals.plos.org/plosgenetics/article?id=10.1371/journal.pgen.1004365

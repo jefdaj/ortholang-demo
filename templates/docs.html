@@ -6,7 +6,6 @@
 	<button id="examplesbutton"    class="tablinks" onclick="openTab(event, 'Examples')">Examples</button>
 	<button id="tutorialbutton"    class="tablinks" onclick="openTab(event, 'Tutorial')">Tutorial</button>
 	<button id="referencebutton"   class="tablinks" onclick="openTab(event, 'Reference')">Reference</button>
-	<button id="patternsbutton"    class="tablinks" onclick="openTab(event, 'Patterns')">Patterns</button>
 	<button id="collaboratebutton" class="tablinks" onclick="openTab(event, 'Collaborate')">Collaborate</button>
 </div>
 <div id="Home"        class="tabcontent">{{ macros.markdown_doc("home.md")      }}</div>
@@ -14,5 +13,4 @@
 <div id="Tutorial"    class="tabcontent">{{ macros.markdown_doc("tutorial.md")  }}</div>
 <div id="Examples"    class="tabcontent">{{ macros.markdown_doc("examples.md")  }}</div>
 <div id="Reference"   class="tabcontent">{{ macros.markdown_doc("reference.md") }}</div>
-<div id="Patterns"    class="tabcontent">{{ macros.markdown_doc("patterns.md")  }}</div>
 <div id="Collaborate" class="tabcontent">{{ macros.user_collab_doc(user)        }}</div>
