@@ -83,6 +83,11 @@ SESSIONS = {}
 # ARROW = "-> " # TODO does it need escaping in regexes?
 ARROW = u' —▶ '
 
+SRCDIR = join(dirname(dirname(__file__))) # when testing in nix-shell
+if exists(join(SRCDIR, 'src')): # when in the final package
+  SRCDIR = join(SRCDIR, 'src')
+
+
 ###########
 # logging #
 ###########
@@ -182,6 +187,19 @@ def load_codeblocks():
     # print codeblocks.keys()
     return codeblocks
 
+def load_tutorial_sections():
+    # used to render the tutorial sections
+    sections = {}
+    for path in glob(join(SRCDIR, 'templates', 'tutorial_*.md')):
+        name = basename(path)
+        with open(path, 'r') as f:
+            txt = '```\n%s\n```\n' % f.read()
+            sections[name] = \
+                { 'name': basename(name)
+                , 'content': MARKDOWN(txt)
+                }
+    return sections
+
 
 ##################
 # authentication #
@@ -228,10 +246,6 @@ def list_user_scripts(username):
     # paths.sort()
     return paths
 
-SRCDIR = join(dirname(dirname(__file__))) # when testing in nix-shell
-if exists(join(SRCDIR, 'src')): # when in the final package
-  SRCDIR = join(SRCDIR, 'src')
-
 FLASK = Flask(__name__, template_folder=join(SRCDIR,'templates'), static_folder=join(SRCDIR, 'static'))
 FLASK.config['TEMPLATES_AUTO_RELOAD'] = True
 FLASK.jinja_env.globals.update(list_user_scripts=list_user_scripts)
@@ -258,10 +272,15 @@ def guest():
 def user():
     user = AUTH.username()
     blocks = load_codeblocks()
-    # examples = {k:v for k,v in blocks.iteritems() if 'examples/' in k}
     examples = sorted(set(k for k in blocks.keys() if user + '/examples/' in k))
+    sections = load_tutorial_sections()
     # userpaths = load_codeblock_userpaths(blocks)
-    return render_template('index.html', user=user, codeblocks=blocks, examples=examples, codeblock_userpaths=blocks.keys())
+    return render_template('index.html',
+                           user=user,
+                           codeblocks=blocks,
+                           examples=examples,
+                           sections=sections,
+                           codeblock_userpaths=blocks.keys())
 
 # Flask doesn't like sending random files from all over for security reasons,
 # so we make these simplified routes where /TMPDIR and /WORKDIR refer to their ShortCut equivalents.

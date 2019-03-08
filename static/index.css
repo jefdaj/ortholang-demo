@@ -190,7 +190,7 @@ code, pre, div .highlight {
 	display: block;
 	text-align: center
 }
-#examplesearch, #modulesearch {
+#tutorialsearch, #examplesearch, #modulesearch {
 	width: 40%;
 }
 
@@ -206,4 +206,12 @@ code, pre, div .highlight {
 
 .asciinema-player-wrapper {
 	text-align: left;
+}
+
+.centeredimg {
+	padding: 30px;
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+	overflow: auto;
 }

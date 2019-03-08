@@ -1,8 +1,14 @@
 {% import "macros.jinja" as macros with context %}
 
+This is an auto-generated reference of every available module as of ShortCut
+0.8.2.0, along with short examples of their use. If you don't find something
+applicable to your use case, try the Examples tab. If it isn't there either,
+leave a comment about it! (bottom right)
+
+<!-- TODO generate this in sections like the tutorial -->
+
 <input id="modulesearch" placeholder="Search the module documentation" id="box" type="text"/>
 
-If you don't find what you're looking for, leave Jeff a comment about it! (bottom right)
 <br/>
 <div class="moduleblock">
 <h3>Replace module</h3>

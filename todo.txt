@@ -1,3 +1,6 @@
+loading a new script should also kill the currently running one
+:help should show a list of possible completions if nothing matches exactly (ie "diamond" -> diamond_*)
+should allow multiple results in an untyped list, and you could zip them up as a download!
 parse errors not showing up on site; it just silently fails
 expand/fix repl sizing on different screens
 fix shortcut terminal width to match?

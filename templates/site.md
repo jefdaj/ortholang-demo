@@ -1,31 +1,36 @@
 {% import "macros.jinja" as macros with context %}
 
-The demo on the right is similar to the command line interface you will get if you [install ShortCut][1], except:
+<div style="float: right;">
+  <img class="centeredimg" src="/static/server.png"></img>
+</div>
 
-<img src="/static/server.png" style="float:right; width:150px;"></img>
+This website is intended primarily as a demo. It's run from a standard desktop
+computer, and is updated and/or restarted frequently during development.
+For anything compute-intensive you probably want to [install ShortCut][1] on your
+own hardware instead.
 
-* You have to upload and download your files one at a time
-* Long-running scripts might be killed to keep the server responsive for others
-* Some terminal niceties like tab completion of variables + function names are missing
+Most searches can be done on a laptop, but you can also contact Jeff (use the
+comment box or find my email [here][4]) about collaborating, running your
+search on the [Berkeley high-performance compute cluster][2], or installing
+ShortCut at your institution.
 
-You can upload your own genomes and gene lists, save and restore scripts,
-and download results using the buttons under the terminal.
+The terminal on the right is similar to the standard command line interface you
+will get if you install ShortCut on your computer, except:
 
-This "server" is an old desktop computer; for anything
-compute-intensive you probably want to install ShortCut on your own hardware
-instead! You can also contact Jeff (use the comment box or find my email
-[here][4]) about collaborating, running your search on the [Berkeley
-high-performance compute cluster][2], or installing ShortCut at your institution.
+* Long-running scripts might be killed to keep the server responsive
+* Terminal niceties like tab completion of variables are missing
+* Uploading and downloading files + scripts is a little awkward
 
 ## User accounts
 
 Making an account is totally optional, but scripts saved as `guest` are public and others might edit them.
 Also guest terminal sessions are destroyed when you leave the page, whereas named ones resume later.
 No email or signup form is required to make an account. Just [click here][3] and make up a username + password to log in.
-If you want to be updated when a new version comes out, leave your email in the comment box.
-Another nice feature of having an account is multiple people can edit the same script together "Google Docs-style".
+Another nice feature of having an account is multiple people can use it to edit the same script together "Google Docs-style".
 
-## Terminal
+If you want to be notified about updates, leave your email in the comment box (no account required).
+
+## Controls
 
 <img src="{{ url_for('static', filename='controls.png') }}" style="width: 80%;"></img>
 
@@ -39,7 +44,8 @@ Another nice feature of having an account is multiple people can edit the same s
 3. Save/download stuff. `Download result` always has the latest result,
    but `Download script` only has the last version you saved.
 
-4. Comment box. Tell me if there's something broken, something you want to see or are confused about, or whatever.
+4. Comment box. Tell Jeff if there's something broken, something you want to see or are confused about,
+   or anything else.
 
 ## Examples
 
@@ -48,7 +54,7 @@ Complete cut scripts with `Load` buttons like this:
 
 {{ macros.load_cut(user, 'examples/load03.cut') }}
 
-... and examples of commands you would type in the terminal.
+... and examples of other commands you would type in the terminal.
 The `Run` button just types them for you.
 They can include loading scripts, but also anything else you might do live:
 redefine variables, look at depdencies, etc.
