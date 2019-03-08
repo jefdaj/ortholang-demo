@@ -28,7 +28,7 @@ and `include` them inside each other to build up larger cuts.
 {% endif %}
 
 <div id="userscripts">
-{% for path in userscripts %}
+{% for path in userscripts | sort() %}
   {%- filter markdown -%}
 	{%- include "loadexample.html" -%}
   {%- endfilter -%}

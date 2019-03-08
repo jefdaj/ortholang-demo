@@ -10,7 +10,7 @@ if you aren't comfortable putting up pre-publication work.
 <input id="examplesearch" placeholder="Search the examples" id="box" type="text"/>
 
 <div id="examples">
-{% for path in examples %}
+{% for path in examples | sort() %}
   {%- filter markdown -%}
 	{%- include "loadexample.html" -%}
   {%- endfilter -%}
