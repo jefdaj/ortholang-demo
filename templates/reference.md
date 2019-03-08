@@ -1,9 +1,9 @@
 {% import "macros.jinja" as macros with context %}
 
-This is an auto-generated reference of every currently available
-function as of ShortCut 0.8.2.0, grouped by module.
-
-If you don't find what you're looking for, leave Jeff a comment about it! (bottom right)
+This is an auto-generated reference of every available module as of ShortCut
+0.8.2.0, along with short examples of their use. If you don't find an example
+applicable to your use case, try the Examples tab. If it isn't there either,
+leave a comment about it! (bottom right)
 
 <!-- TODO generate this in sections like the tutorial -->
 

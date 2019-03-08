@@ -44,7 +44,8 @@ If you want to be notified about updates, leave your email in the comment box (n
 3. Save/download stuff. `Download result` always has the latest result,
    but `Download script` only has the last version you saved.
 
-4. Comment box. Tell me if there's something broken, something you want to see or are confused about, or whatever.
+4. Comment box. Tell Jeff if there's something broken, something you want to see or are confused about,
+   or anything else.
 
 ## Examples
 
