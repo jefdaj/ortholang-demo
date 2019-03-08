@@ -1,7 +1,7 @@
 {% import "macros.jinja" as macros with context %}
 
 This is an auto-generated reference of every available module as of ShortCut
-0.8.2.0, along with short examples of their use. If you don't find an example
+0.8.2.0, along with short examples of their use. If you don't find something
 applicable to your use case, try the Examples tab. If it isn't there either,
 leave a comment about it! (bottom right)
 
