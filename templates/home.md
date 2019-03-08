@@ -1,3 +1,7 @@
+## WARNING: Site still under construction!
+
+## Check it out if you want, but some things will be broken.
+
 <div id="intropitch">
 <img src="/static/shortcut.png" style="width:200px;"></img>
 <br/>
