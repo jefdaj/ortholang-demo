@@ -42,7 +42,7 @@ from flask_httpauth      import HTTPBasicAuth
 from glob                import glob
 from jinja2              import ChoiceLoader, FileSystemLoader
 from misaka              import Markdown, HtmlRenderer
-from os                  import setsid, getpgid, killpg, makedirs, symlink
+from os                  import setsid, getpgid, killpg, makedirs, symlink, readlink
 from os.path             import exists, join, relpath, realpath, dirname, basename, splitext
 from pexpect             import spawn, EOF
 from psutil              import cpu_percent, virtual_memory
@@ -227,6 +227,16 @@ def verify_pw(username, password):
 
 def create_user(username, password):
     # note this assumes the username isn't taken!
+    linksrc  = readlink( join(CONFIG['users_dir'], username, 'examples') )
+    userpath = join(CONFIG['users_dir'], username)
+    try:
+        makedirs(userpath)
+    except OSError:
+        pass
+    try:
+        symlink(linksrc, join(userpath, 'examples'))
+    except OSError:
+        pass
     pwhash = generate_password_hash(password)
     LOGGER.info("creating user '%s' with password hash '%s'" % (username, pwhash))
     global AUTH_USERS
