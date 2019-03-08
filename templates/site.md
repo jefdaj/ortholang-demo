@@ -21,14 +21,8 @@ will get if you install ShortCut on your computer, except:
 * Terminal niceties like tab completion of variables are missing
 * Uploading and downloading files + scripts is a little awkward
 
-## User accounts
-
-Making an account is totally optional, but scripts saved as `guest` are public and others might edit them.
-Also guest terminal sessions are destroyed when you leave the page, whereas named ones resume later.
-No email or signup form is required to make an account. Just [click here][3] and make up a username + password to log in.
-Another nice feature of having an account is multiple people can use it to edit the same script together "Google Docs-style".
-
-If you want to be notified about updates, leave your email in the comment box (no account required).
+Read and write scripts written by other guest users on the `guest` tab, or make an account to save your own privately.
+No email or personal info is required.
 
 ## Controls
 

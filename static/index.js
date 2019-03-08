@@ -132,7 +132,10 @@ function filter_userscripts() { filter_searchable('#userscriptsearch', '#userscr
 
 function login() {
 	window.location.href = '/user';
-	$('#usertabbutton').click();
+	// supposedly this makes it wait for the page to load first
+	$(function () {
+		$('#usertabbutton').click();
+	});
 }
 
 // Submits an invalid authentication header, causing the user to be 'logged out'
