@@ -2,3 +2,11 @@ parse errors not showing up on site; it just silently fails
 expand/fix repl sizing on different screens
 fix shortcut terminal width to match?
 simplify ggplot plots to look figure like
+rename Collaborate page to "My Scripts" (or username would be better) and make it a collection of that user's scripts (incl guest)!
+  can still write in the comments, and people won't think it's creepy the same way :D
+  then all you really need is a log in/out button above the user scripts page to make it nice
+    will need to figure out how to do the proper http logout hack
+    and try highlighting the user tab a different color?
+    wait no, move it to the far right so it's spacially separated and the logout button goes in the standard spot
+  add a quick explanation + filter box like the other pages
+    move user account info from site -> the guest user page

@@ -20,6 +20,7 @@ maga_best_mbov = best_hits maga_mbov
 
 # You can also keep only the reciprocal best hits (those where each gene is the
 # other's top hit), but you have to do the reverse search too first
+# TODO move this to BlastRBH.cut
 maga_mbov_rev = blastp 1e-10 mbov maga
 maga_mbov_rbh = reciprocal_best maga_mbov maga_mbov_rev
 
