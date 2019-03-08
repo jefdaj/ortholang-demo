@@ -8,7 +8,7 @@ These scripts are written by other anonymous users.
 Then, consider signing up for an account! You'll get:
 
 * A private version of this page for just your scripts
-* Terminal sessions that persist when you leave the site
+* Terminal sessions that persist when you leave the page
 * "Google Docs-style" collaborative editing by logging in from multiple computers
 
 No email or signup form is required. Just click the button in the upper right and make up a username + password.
