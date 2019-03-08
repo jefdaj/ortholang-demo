@@ -7,9 +7,12 @@
 This website is intended primarily as a demo. It's run from a standard desktop
 computer, and is updated and/or restarted frequently during development.
 For anything compute-intensive you probably want to [install ShortCut][1] on your
-own hardware instead! You can also contact Jeff (use the comment box or find my
-email [here][4]) about collaborating, running your search on the [Berkeley high-performance compute cluster][2],
-or installing ShortCut at your institution.
+own hardware instead.
+
+Most searches can be done on a laptop, but you can also contact Jeff (use the
+comment box or find my email [here][4]) about collaborating, running your
+search on the [Berkeley high-performance compute cluster][2], or installing
+ShortCut at your institution.
 
 The terminal on the right is similar to the standard command line interface you
 will get if you install ShortCut on your computer, except:
@@ -23,7 +26,7 @@ will get if you install ShortCut on your computer, except:
 Making an account is totally optional, but scripts saved as `guest` are public and others might edit them.
 Also guest terminal sessions are destroyed when you leave the page, whereas named ones resume later.
 No email or signup form is required to make an account. Just [click here][3] and make up a username + password to log in.
-Another nice feature of having an account is multiple people can edit the same script together "Google Docs-style".
+Another nice feature of having an account is multiple people can use it to edit the same script together "Google Docs-style".
 
 If you want to be notified about updates, leave your email in the comment box (no account required).
 

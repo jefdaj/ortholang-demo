@@ -1,3 +1,4 @@
+loading a new script should also kill the currently running one
 parse errors not showing up on site; it just silently fails
 expand/fix repl sizing on different screens
 fix shortcut terminal width to match?
