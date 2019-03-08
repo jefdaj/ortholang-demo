@@ -259,18 +259,18 @@ FLASK.jinja_loader = ChoiceLoader([FLASK.jinja_loader, FileSystemLoader(CONFIG['
 FLASK.config['SECRET_KEY'] = 'so-secret!'
 Misaka(FLASK, tables=True, fenced_code=True, highlight=True)
 
-# this is a single-page app so only the one route
+# this is a single-page app, but has separate routes for guest and authenticated users
+# this goes to the guest version
 @FLASK.route('/')
 def guest():
-    # TODO put main site back once it's a little more ready
-    # return render_template('index.html', user='guest', codeblocks=CODEBLOCKS, codeblock_userpaths=CODEBLOCK_NAMES)
-    return render_template('construction.html')
+    return index('guest')
 
-# ... but a second entry point helps with authenticated content
 @FLASK.route('/user')
 @AUTH.login_required
 def user():
-    user = AUTH.username()
+    return index(AUTH.username())
+
+def index(user='guest'):
     blocks = load_codeblocks()
     examples    = set(k for k in blocks.keys() if user + '/examples/' in k)
     userscripts = set(k for k in blocks.keys() if k.startswith(user) and not 'examples/' in k)

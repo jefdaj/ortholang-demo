@@ -12,7 +12,7 @@ Then, consider signing up for an account! You'll get:
 * "Google Docs-style" collaborative editing by logging in from multiple computers
 
 No email or signup form is required. Just click the button in the upper right and make up a username + password.
-If you do want to be notified of updates, leave your email in the comment box.
+If you want to be notified of updates, leave your email in the comment box.
 
 <input id="userscriptsearch" placeholder="Search guest scripts" id="box" type="text"/>
 

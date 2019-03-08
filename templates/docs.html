@@ -9,11 +9,25 @@
 	<div id="usercontrols" style="float:right; padding-right: 10px;">
 		<button id="usertabbutton" class="tablinks" onclick="openTab(event, 'UserTab')">{{ user }}</button>
 		<!-- TODO figure out a better method to clear HTTP auth -->
+
+{% if user == 'guest' %}
+
+		<button id="loginbutton">
+						<img src="/static/user-icon.png" height="22"></img>
+						<br/>
+						Sign in
+		</button>
+
+{% else %}
+
 		<button id="logoutbutton">
 						<img src="/static/user-icon.png" height="22"></img>
 						<br/>
 						Sign out
 		</button>
+
+{% endif %}
+
 	</div>
 </div>
 

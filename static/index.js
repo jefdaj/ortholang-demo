@@ -130,6 +130,11 @@ function filter_tutorial()    { filter_searchable('#tutorialsearch', '#tutorial 
 function filter_modules()     { filter_searchable('#modulesearch', '.moduleblock') };
 function filter_userscripts() { filter_searchable('#userscriptsearch', '#userscripts > .codeblock') };
 
+function login() {
+	window.location.href = '/user';
+	$('#usertabbutton').click();
+}
+
 // Submits an invalid authentication header, causing the user to be 'logged out'
 // based on: https://stackoverflow.com/a/30308402
 function logout() {
@@ -321,6 +326,7 @@ $(document).ready(function(){
 	$('#modulesearch').keyup(filter_modules);
 	$('#userscriptsearch').keyup(filter_userscripts);
 
+	$('#loginbutton').on('click', login);
 	$('#logoutbutton').on('click', logout);
 
 	// TODO start on the collaborator tab if the user has a custom one?
