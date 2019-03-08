@@ -13,3 +13,6 @@ rename Collaborate page to "My Scripts" (or username would be better) and make i
     wait no, move it to the far right so it's spacially separated and the logout button goes in the standard spot
   add a quick explanation + filter box like the other pages
     move user account info from site -> the guest user page
+
+new user login needs:
+  dir created with examples symlink
