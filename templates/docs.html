@@ -6,7 +6,14 @@
 	<button id="tutorialbutton"  class="tablinks" onclick="openTab(event, 'Tutorial')">Tutorial</button>
 	<button id="examplesbutton"  class="tablinks" onclick="openTab(event, 'Examples')">Examples</button>
 	<button id="referencebutton" class="tablinks" onclick="openTab(event, 'Reference')">Reference</button>
-	<button id="usertabbutton"   class="tablinks" onclick="openTab(event, 'UserTab')">{{ user }}</button>
+	<div id="usercontrols" style="float:right; padding-right: 10px;">
+		<button id="usertabbutton" class="tablinks" onclick="openTab(event, 'UserTab')">{{ user }}</button>
+		<button id="loginbutton">
+						<img src="/static/user-icon.png" height="22"></img>
+						<br/>
+						Sign out
+		</button>
+	</div>
 </div>
 
 <div id="Home"      class="tabcontent">{{ macros.markdown_doc("home.md"     ) }}</div>

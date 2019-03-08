@@ -129,12 +129,41 @@ code, pre, div .highlight {
 /* Style the buttons inside the tab */
 .tab button {
 	background-color: inherit;
-	float: left;
 	border: none;
 	outline: none;
 	cursor: pointer;
 	padding: 14px 16px;
+}
+
+.tablinks {
+	float: left;
 	font-size: 14pt;
+}
+
+#usercontrols {
+	float: center;
+	display: flex;
+}
+
+#loginbutton {
+	background-color: #f1f1f1;
+	max-width:100%;
+	max-height:100%;
+	padding: 0px;
+	padding-left: 8px;
+}
+
+#loginbutton:hover {
+	background-color: #f1f1f1;
+}
+
+#loginbutton {
+	font-size: 8pt;
+}
+
+#loginicon {
+	max-width:100%;
+	max-height:100%;
 }
 
 /* Change background color of buttons on hover */
