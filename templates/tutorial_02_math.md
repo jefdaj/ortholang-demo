@@ -1,7 +1,8 @@
 ### Math
 
-Math is pretty simple. It works like you would expect, except that everything
-is left-to-right rather than following order of operations.
+Math is pretty simple (at least in ShortCut!). It works as you would expect,
+except that everything is left-to-right rather than following order of
+operations.
 
 A few examples:
 
