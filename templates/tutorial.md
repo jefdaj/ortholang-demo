@@ -1,13 +1,15 @@
 {% import "macros.jinja" as macros with context %}
 
-If you know what you want to learn about you can use the search to narrow it down by topic,
-but it's probably less confusing to go through at least the first few sections in order.
+This is a fairly long and complete tutorial. If you read all of it and try the
+examples you should be able to go from zero to reproducible phylogenmic cuts!
+If that gets too long or boring you can also just read the first few sections, then
+search for the specific functions you're interested in using here and on the
+Examples tab.
 
-It also helps to load each example and play around with it a bit as you go.
-That's the fastest way to learn, and also the fastest way for me to get bug
-reports! Just type them in the box on the lower right. Something short like "I
-did this and expected this, but this happened instead" is fine. If the tutorial
-is confusing, that counts as a bug too.
+Don't forget to leave Jeff a quick bug report if something is broken! Just type
+them in the box on the lower right. Something short like "I did this and
+expected this, but this happened instead" is fine. If the tutorial is
+confusing, that counts as a bug too.
 
 <input id="tutorialsearch" placeholder="Search the tutorial" id="box" type="text"/>
 
