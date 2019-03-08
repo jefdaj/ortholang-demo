@@ -272,7 +272,8 @@ def guest():
 def user():
     user = AUTH.username()
     blocks = load_codeblocks()
-    examples = sorted(set(k for k in blocks.keys() if user + '/examples/' in k))
+    examples    = set(k for k in blocks.keys() if user + '/examples/' in k)
+    userscripts = set(k for k in blocks.keys() if k.startswith(user) and not 'examples/' in k)
     sections = load_tutorial_sections()
     # userpaths = load_codeblock_userpaths(blocks)
     return render_template('index.html',
@@ -280,6 +281,7 @@ def user():
                            codeblocks=blocks,
                            examples=examples,
                            sections=sections,
+                           userscripts=userscripts,
                            codeblock_userpaths=blocks.keys())
 
 # Flask doesn't like sending random files from all over for security reasons,

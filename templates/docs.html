@@ -1,17 +1,17 @@
 {% import "macros.jinja" as macros with context %}
 
 <div class="tab">
-	<button id="homebutton"        class="tablinks" onclick="openTab(event, 'Home')">ShortCut</button>
-	<button id="sitebutton"        class="tablinks" onclick="openTab(event, 'Site')">Site</button>
-	<button id="tutorialbutton"    class="tablinks" onclick="openTab(event, 'Tutorial')">Tutorial</button>
-	<button id="examplesbutton"    class="tablinks" onclick="openTab(event, 'Examples')">Examples</button>
-	<button id="referencebutton"   class="tablinks" onclick="openTab(event, 'Reference')">Reference</button>
-	<button id="collaboratebutton" class="tablinks" onclick="openTab(event, 'Collaborate')">Collaborate</button>
+	<button id="homebutton"      class="tablinks" onclick="openTab(event, 'Home')">ShortCut</button>
+	<button id="sitebutton"      class="tablinks" onclick="openTab(event, 'Site')">Site</button>
+	<button id="tutorialbutton"  class="tablinks" onclick="openTab(event, 'Tutorial')">Tutorial</button>
+	<button id="examplesbutton"  class="tablinks" onclick="openTab(event, 'Examples')">Examples</button>
+	<button id="referencebutton" class="tablinks" onclick="openTab(event, 'Reference')">Reference</button>
+	<button id="usertabbutton"   class="tablinks" onclick="openTab(event, 'UserTab')">{{ user }}</button>
 </div>
 
-<div id="Home"        class="tabcontent">{{ macros.markdown_doc("home.md")      }}</div>
-<div id="Site"        class="tabcontent">{{ macros.markdown_doc("site.md")      }}</div>
-<div id="Tutorial"    class="tabcontent">{{ macros.markdown_doc("tutorial.md")  }}</div>
-<div id="Examples"    class="tabcontent">{{ macros.markdown_doc("examples.md")  }}</div>
-<div id="Reference"   class="tabcontent">{{ macros.markdown_doc("reference.md") }}</div>
-<div id="Collaborate" class="tabcontent">{{ macros.user_collab_doc(user)        }}</div>
+<div id="Home"      class="tabcontent">{{ macros.markdown_doc("home.md"     ) }}</div>
+<div id="Site"      class="tabcontent">{{ macros.markdown_doc("site.md"     ) }}</div>
+<div id="Tutorial"  class="tabcontent">{{ macros.markdown_doc("tutorial.md" ) }}</div>
+<div id="Examples"  class="tabcontent">{{ macros.markdown_doc("examples.md" ) }}</div>
+<div id="Reference" class="tabcontent">{{ macros.markdown_doc("reference.md") }}</div>
+<div id="UserTab"   class="tabcontent">{{ macros.markdown_doc("usertab.md"  ) }}</div>

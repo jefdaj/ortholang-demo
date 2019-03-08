@@ -175,7 +175,7 @@ code, pre, div .highlight {
 #loadcontrols {
  float: left;
  width: 50%;
- 166ggkjkjkjkjjtext-align: left;
+ text-align: left;
 }
 #scriptcontrols {
 	float: right;
@@ -190,7 +190,7 @@ code, pre, div .highlight {
 	display: block;
 	text-align: center
 }
-#tutorialsearch, #examplesearch, #modulesearch {
+#tutorialsearch, #examplesearch, #modulesearch, #userscriptsearch {
 	width: 40%;
 }
 

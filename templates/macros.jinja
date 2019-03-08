@@ -16,12 +16,6 @@
   {%- endfilter -%}
 {%- endmacro -%}
 
-{%- macro user_collab_doc(user) -%}
-  {%- filter markdown -%}
-    {%- include [user + '/collaborate.md'] ignore missing -%}
-  {%- endfilter -%}
-{%- endmacro -%}
-
 {%- macro load_cut(user, path) -%}
   {%- filter markdown -%}
     {%- with path=user + '/' + path -%}
