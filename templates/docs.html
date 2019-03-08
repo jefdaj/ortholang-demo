@@ -8,11 +8,12 @@
 	<button id="referencebutton" class="tablinks" onclick="openTab(event, 'Reference')">Reference</button>
 	<div id="usercontrols" style="float:right; padding-right: 10px;">
 		<button id="usertabbutton" class="tablinks" onclick="openTab(event, 'UserTab')">{{ user }}</button>
-		<button id="loginbutton">
+		<!-- TODO figure out a better method to clear HTTP auth -->
+		<a id="loginbutton" href="http://guest@shortcut.pmb.berkeley.edu">
 						<img src="/static/user-icon.png" height="22"></img>
 						<br/>
 						Sign out
-		</button>
+		</a>
 	</div>
 </div>
 
