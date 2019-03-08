@@ -141,11 +141,10 @@ code, pre, div .highlight {
 }
 
 #usercontrols {
-	float: center;
 	display: flex;
 }
 
-#loginbutton {
+#logoutbutton {
 	background-color: #f1f1f1;
 	max-width:100%;
 	max-height:100%;
@@ -153,11 +152,11 @@ code, pre, div .highlight {
 	padding-left: 8px;
 }
 
-#loginbutton:hover {
+#logoutbutton:hover {
 	background-color: #f1f1f1;
 }
 
-#loginbutton {
+#logoutbutton {
 	font-size: 8pt;
 }
 

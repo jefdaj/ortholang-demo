@@ -130,6 +130,29 @@ function filter_tutorial()    { filter_searchable('#tutorialsearch', '#tutorial 
 function filter_modules()     { filter_searchable('#modulesearch', '.moduleblock') };
 function filter_userscripts() { filter_searchable('#userscriptsearch', '#userscripts > .codeblock') };
 
+// Submits an invalid authentication header, causing the user to be 'logged out'
+// based on: https://stackoverflow.com/a/30308402
+function logout() {
+	$.ajax({
+		type: "GET",
+		url: "/user",
+		dataType: 'json',
+		async: true,
+		username: "guest",
+		password: "logmeout",
+		data: '{ "hack to clear http auth" }'
+	})
+	//In our case, we WANT to get access denied, so a success would be a failure.
+	.done(function(){
+		alert('Error!')
+	})
+	//Likewise, a failure *usually* means we succeeded.
+	//set window.location to redirect the user to wherever you want them to go
+	.fail(function(){
+		window.location = "/";
+	});
+}
+
 $(document).ready(function(){
 
 	// TODO would explicit disconnect help?
@@ -297,6 +320,8 @@ $(document).ready(function(){
 	$('#tutorialsearch').keyup(filter_tutorial);
 	$('#modulesearch').keyup(filter_modules);
 	$('#userscriptsearch').keyup(filter_userscripts);
+
+	$('#logoutbutton').on('click', logout);
 
 	// TODO start on the collaborator tab if the user has a custom one?
 	// document.getElementById('Collaborate').style.display = "block";
