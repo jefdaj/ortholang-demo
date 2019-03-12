@@ -1,7 +1,3 @@
-## WARNING: Site still under construction!
-
-## Check it out if you want, but some things will be broken.
-
 <div id="intropitch">
 <img src="/static/shortcut.png" style="width:200px;"></img>
 <br/>
@@ -17,9 +13,13 @@ Find a rapid, robust, reproducible<br/>
 route to your candidate genes!
 </div>
 
-<!--
-## What is it?
--->
+<br/>
+<div id="devwarning">
+<b>WARNING: Site under active development.
+<br/>
+Expect parts of it to be unfinished or broken.</b>
+<br/>
+</div>
 
 ShortCut is a small scripting language designed to help you search for candidate genes.
 Load some genes and genomes,

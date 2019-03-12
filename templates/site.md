@@ -22,13 +22,12 @@ will get if you install ShortCut on your computer, except:
 * Uploading and downloading files + scripts is a little awkward
 
 Read and write scripts written by other guest users on the `guest` tab, or make an account to save your own privately.
-No email or personal info is required.
 
 ## Controls
 
 <img src="{{ url_for('static', filename='controls.png') }}" style="width: 80%;"></img>
 
-1. Type text commands in the command line and press enter or click `Run` to run them.
+1. Type commands in the command line and press enter or click `Run` to run them.
    While a command is running this will grey out and `Run` will change to `Kill`,
    which kills the script if you decide it was taking too long.
 
@@ -53,7 +52,7 @@ The `Run` button just types them for you.
 They can include loading scripts, but also anything else you might do live:
 redefine variables, look at depdencies, etc.
 
-{{ macros.run_example([':load examples/load03.cut', 'sample 10 genes_of_interest', ':show']) }}
+{{ macros.run_example([':load examples/load03.cut', 'sample 10 genes_of_interest', ':type']) }}
 
 There are also some pre-recorded demos. They tend to be for longer, more
 complicated or compute-intensive things and involve using ShortCut in its

@@ -211,6 +211,10 @@ code, pre, div .highlight {
 	text-align: left;
 }
 
+#devwarning {
+	text-align: center
+}
+
 #intropitch {
 	width: 400px;
 	margin: 0 auto;
