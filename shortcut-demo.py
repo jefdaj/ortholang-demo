@@ -472,7 +472,7 @@ def handle_reqresult():
 
 def check_shortcut_version():
     LOGGER.info('checking output of "shortcut --version"')
-    version_expected = u'ShortCut 0.8.3.0'
+    version_expected = u'ShortCut 0.8.4.4'
     proc = spawn('shortcut', ['--version'], encoding='utf-8', timeout=None)
     try:
         proc.expect(version_expected, timeout=10)
