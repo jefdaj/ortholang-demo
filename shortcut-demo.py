@@ -472,7 +472,7 @@ def handle_reqresult():
 
 def check_shortcut_version():
     LOGGER.info('checking output of "shortcut --version"')
-    version_expected = u'ShortCut 0.8.2.0'
+    version_expected = u'ShortCut 0.8.3.0'
     proc = spawn('shortcut', ['--version'], encoding='utf-8', timeout=None)
     try:
         proc.expect(version_expected, timeout=10)
@@ -544,8 +544,8 @@ class ShortCutThread(Thread):
             #self.process.wait()
             self.process.kill(0)
             self.process.close(force=True)
-        #except:
-            #pass
+        except:
+            LOGGER.error('FAILED TO KILL REPL')
         finally:
             # print SESSIONS
             if self.username == 'guest':

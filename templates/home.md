@@ -17,7 +17,9 @@ route to your candidate genes!
 <div id="devwarning">
 <b>WARNING: Site under active development.
 <br/>
-Expect parts of it to be unfinished or broken.</b>
+Expect parts of it to be unfinished or broken.
+<br/>
+You may need to zoom out to fix the layout.</b>
 <br/>
 </div>
 

@@ -1,4 +1,6 @@
-immediately remove guest REPLs when they disconnect
+fix the "new result auto-running" bug
+make sure all errors are visible in the web repl
+have clients ping the server periodically so their guest repls can be removed on disconnect
 allow result to be a list, and allow the list to be untyped
 add a thing to the website that zips up an archive of the result list
 loading a new script should also kill the currently running one
@@ -9,13 +11,5 @@ expand/fix repl sizing on different screens
 fix shortcut terminal width to match?
 simplify ggplot plots to look figure like
 rename Collaborate page to "My Scripts" (or username would be better) and make it a collection of that user's scripts (incl guest)!
-  can still write in the comments, and people won't think it's creepy the same way :D
-  then all you really need is a log in/out button above the user scripts page to make it nice
-    will need to figure out how to do the proper http logout hack
-    and try highlighting the user tab a different color?
-    wait no, move it to the far right so it's spacially separated and the logout button goes in the standard spot
-  add a quick explanation + filter box like the other pages
-    move user account info from site -> the guest user page
-
-new user login needs:
-  dir created with examples symlink
+try highlighting the user tab a different color?
+new user login needs dir created with examples symlink
