@@ -15,7 +15,7 @@ route to your candidate genes!
 
 <br/>
 <div id="devwarning">
-<b>WARNING: Site under active development.
+<b>WARNING: Demo under active development.
 <br/>
 Expect parts of it to be unfinished or broken.
 <br/>
@@ -28,6 +28,8 @@ Load some genes and genomes,
 find homologs using a variety of programs,
 and tweak + compare until you're confident in the results.
 Save your final script to reproduce or update with new data later.
+
+[Install it from Github][1] or try the demo terminal on the right.
 
 Simplified interfaces to these sequence search programs are included so far:
 
