@@ -3,24 +3,13 @@
 <br/>
 <br/>
 <!-- There's more than one way to get there.<br/> -->
-<!-- Compare and combine sequence searches.<br/> -->
-<!-- Try more than one workflow.<br/> -->
+
 <!-- Combine and compare sequence searches.<br/> -->
 <!-- Quickly try altnernative workflows.<br/> -->
-Compare and combine searches.<br/>
+<!-- Compare and combine searches.<br/> -->
 <!-- Find a <b>R</b>apid, <b>R</b>obust, <b>R</b>eproducible<br/> -->
 Find a rapid, robust, reproducible<br/>
 route to your candidate genes!
-</div>
-
-<br/>
-<div id="devwarning">
-<b>WARNING: Demo under active development.
-<br/>
-Expect parts of it to be unfinished or broken.
-<br/>
-You may need to zoom out to fix the layout.</b>
-<br/>
 </div>
 
 ShortCut is a small scripting language designed to help you search for candidate genes.

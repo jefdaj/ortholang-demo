@@ -1,15 +1,15 @@
 {% import "macros.jinja" as macros with context %}
 
 This is an auto-generated reference of every available module as of ShortCut
-0.8.2.0, along with short examples of their use. If you don't find something
+0.8.4.7, along with short examples of their use. If you don't find something
 applicable to your use case, try the Examples tab. If it isn't there either,
 leave a comment about it! (bottom right)
 
-<!-- TODO generate this in sections like the tutorial -->
-
 <input id="modulesearch" placeholder="Search the module documentation" id="box" type="text"/>
 
+If you don't find what you're looking for, leave Jeff a comment about it! (bottom right)
 <br/>
+
 <div class="moduleblock">
 <h3>Replace module</h3>
 
@@ -103,11 +103,12 @@ Sequence file manipulations using BioPython's SeqIO.
 
 Types:
 
-| Extension | Meaning |
+| Type      | Meaning |
 | :-------- | :------ |
 | `gbk` | genbank |
 | `faa` | FASTA (amino acid) |
 | `fna` | FASTA (nucleic acid) |
+| `fa` | FASTA (nucleic OR amino acid) |
 
 Functions:
 
@@ -151,7 +152,7 @@ Search + download genomes and proteomes from Biomart.
 
 Types:
 
-| Extension | Meaning |
+| Type      | Meaning |
 | :-------- | :------ |
 | `search` | intermediate table describing biomartr searches |
 | `fna.gz` | gzipped fasta nucleic acid acid (gene list or genome) |
@@ -175,7 +176,7 @@ Create, load, and download BLAST databases.
 
 Types:
 
-| Extension | Meaning |
+| Type      | Meaning |
 | :-------- | :------ |
 | `ndb` | BLAST nucleotide database |
 | `pdb` | BLAST protein database |
@@ -194,7 +195,8 @@ Functions:
 | `makeblastdb_prot` | `faa` | `pdb` |
 | `makeblastdb_nucl_each` | `fa.list` | `ndb.list` |
 | `makeblastdb_prot_each` | `faa.list` | `pdb.list` |
-| `blastdbget` | `str` | `ndb` |
+| `blastdbget_nucl` | `str` | `ndb` |
+| `blastdbget_prot` | `str` | `pdb` |
 | `blastdblist` | `str` | `str.list` |
 | `singletons` | `X.list` | `X.list.list` |
 
@@ -208,7 +210,7 @@ Standard NCBI BLAST+ functions.
 
 Types:
 
-| Extension | Meaning |
+| Type      | Meaning |
 | :-------- | :------ |
 | `ndb` | BLAST nucleotide database |
 | `pdb` | BLAST protein database |
@@ -255,49 +257,51 @@ Work with BLAST hit tables.
 
 Types:
 
-| Extension | Meaning |
+| Type      | Meaning |
 | :-------- | :------ |
 | `bht` | tab-separated table of blast hits (outfmt 6) |
 | `crb` | tab-separated table of conditional reciprocal blast best hits |
+| `hittable` | files in  |
 
 Functions:
 
 | Name | Inputs | Output |
 | :--- | :----- | :----- |
-| `extract_queries` | `<crb/bht>` | `str.list` |
-| `extract_queries_each` | `<crb/bht>.list` | `str.list.list` |
-| `extract_targets` | `<crb/bht>` | `str.list` |
-| `extract_targets_each` | `<crb/bht>.list` | `str.list.list` |
-| `filter_evalue` | `num`, `bht` | `bht` |
-| `filter_evalue_each` | `num`, `bht.list` | `bht.list` |
-| `best_hits` | `bht` | `bht` |
-| `best_hits_each` | `bht.list` | `bht.list` |
+| `extract_queries` | `hittable` | `str.list` |
+| `extract_queries_each` | `hittable.list` | `str.list.list` |
+| `extract_targets` | `hittable` | `str.list` |
+| `extract_targets_each` | `hittable.list` | `str.list.list` |
+| `filter_evalue` | `num`, `hittable` | `bht` |
+| `filter_evalue_each` | `num`, `hittable.list` | `bht.list` |
+| `best_hits` | `hittable` | `bht` |
+| `best_hits_each` | `hittable.list` | `bht.list` |
 
 <br/>
 {{ macros.load_cut(user, 'examples/blasthits.cut') }}
 </div>
 <div class="moduleblock">
-<h3>Length module</h3>
+<h3>ListLike module</h3>
 
-Get the lengths of lists and tables without printing them.
+Operations on files that can be treated like lists.
 
 Types:
 
-| Extension | Meaning |
+| Type      | Meaning |
 | :-------- | :------ |
 | `bht` | tab-separated table of blast hits (outfmt 6) |
 | `crb` | tab-separated table of conditional reciprocal blast best hits |
 | `mms` | MMSeqs2 sequence database |
+| `listlike` | files that can be treated like lists |
 
 Functions:
 
 | Name | Inputs | Output |
 | :--- | :----- | :----- |
-| `length` | `X.list` | `num` |
-| `length` | `X.list.list` | `num.list` |
+| `length` | `listlike` | `num` |
+| `length_each` | `listlike.list` | `num.list` |
 
 <br/>
-{{ macros.load_cut(user, 'examples/length.cut') }}
+{{ macros.load_cut(user, 'examples/listlike.cut') }}
 </div>
 <div class="moduleblock">
 <h3>PsiBLAST module</h3>
@@ -343,7 +347,7 @@ TODO individual help descriptions for each fn.
 
 Types:
 
-| Extension | Meaning |
+| Type      | Meaning |
 | :-------- | :------ |
 | `faa` | FASTA (amino acid) |
 | `pdb` | BLAST protein database |
@@ -387,18 +391,19 @@ Conditional reciprocal BLAST best hits (Aubry et al. 2014).
 
 Types:
 
-| Extension | Meaning |
+| Type      | Meaning |
 | :-------- | :------ |
 | `fna` | FASTA (nucleic acid) |
 | `faa` | FASTA (amino acid) |
+| `fa` | FASTA (nucleic OR amino acid) |
 | `crb` | tab-separated table of conditional reciprocal blast best hits |
 
 Functions:
 
 | Name | Inputs | Output |
 | :--- | :----- | :----- |
-| `crb_blast` | `fa`, `fa` | `crb` |
-| `crb_blast_each` | `fa`, `fa.list` | `crb.list` |
+| `crb_blast` | `fna`, `fa` | `crb` |
+| `crb_blast_each` | `fna`, `fa.list` | `crb.list` |
 
 <br/>
 {{ macros.load_cut(user, 'examples/crbblast.cut') }}
@@ -410,7 +415,7 @@ Search sequences with hidden Markov models.
 
 Types:
 
-| Extension | Meaning |
+| Type      | Meaning |
 | :-------- | :------ |
 | `faa` | FASTA (amino acid) |
 | `aln` | multiple sequence alignment |
@@ -438,7 +443,7 @@ Reciprocal BLAST+ best hits.
 
 Types:
 
-| Extension | Meaning |
+| Type      | Meaning |
 | :-------- | :------ |
 | `faa` | FASTA (amino acid) |
 | `ndb` | BLAST nucleotide database |
@@ -478,7 +483,7 @@ Align sequences with MUSCLE.
 
 Types:
 
-| Extension | Meaning |
+| Type      | Meaning |
 | :-------- | :------ |
 | `faa` | FASTA (amino acid) |
 | `aln` | multiple sequence alignment |
@@ -561,17 +566,17 @@ Generate half-decent plots.
 
 Types:
 
-| Extension | Meaning |
+| Type      | Meaning |
 | :-------- | :------ |
-| `png` | png image of a plot |
+| `png` | plot image |
 
 Functions:
 
 | Name | Inputs | Output |
 | :--- | :----- | :----- |
-| `histogram` | `str`, `num.list` | `plot` |
-| `linegraph` | `str`, `num.scores` | `plot` |
-| `scatterplot` | `str`, `num.scores` | `plot` |
+| `histogram` | `str`, `num.list` | `png` |
+| `linegraph` | `str`, `num.scores` | `png` |
+| `scatterplot` | `str`, `num.scores` | `png` |
 
 <br/>
 {{ macros.load_cut(user, 'examples/plots.cut') }}
@@ -583,7 +588,7 @@ Inference of orthologs, orthogroups, the rooted species, gene trees and gene dup
 
 Types:
 
-| Extension | Meaning |
+| Type      | Meaning |
 | :-------- | :------ |
 | `faa` | FASTA (amino acid) |
 | `ofr` | OrthoFinder results |
@@ -604,7 +609,7 @@ Accelerated BLAST compatible local sequence aligner..
 
 Types:
 
-| Extension | Meaning |
+| Type      | Meaning |
 | :-------- | :------ |
 | `fna` | FASTA (nucleic acid) |
 | `faa` | FASTA (amino acid) |
@@ -639,7 +644,7 @@ Many-against-many sequence searching: ultra fast and sensitive search and cluste
 
 Types:
 
-| Extension | Meaning |
+| Type      | Meaning |
 | :-------- | :------ |
 | `faa` | FASTA (amino acid) |
 | `fna` | FASTA (nucleic acid) |
@@ -665,7 +670,7 @@ Very fast, accurate, and easy orthology..
 
 Types:
 
-| Extension | Meaning |
+| Type      | Meaning |
 | :-------- | :------ |
 | `faa` | FASTA (amino acid) |
 | `fna` | FASTA (nucleic acid) |
@@ -687,8 +692,9 @@ Common interface for working with the results of OrthoFinder, SonicParanoid, etc
 
 Types:
 
-| Extension | Meaning |
+| Type      | Meaning |
 | :-------- | :------ |
+| `og` | orthogroups (orthofinder or sonicparanoid results) |
 | `ofr` | OrthoFinder results |
 | `spr` | SonicParanoid results |
 
@@ -696,10 +702,76 @@ Functions:
 
 | Name | Inputs | Output |
 | :--- | :----- | :----- |
-| `orthogroups` | `ofr/spr` | `str.list.list` |
-| `orthogroup_containing` | `ofr`, `str` | `str.list` |
-| `orthogroups_containing` | `ofr`, `str.list` | `str.list.list` |
+| `orthogroups` | `og` | `str.list.list` |
+| `orthogroup_containing` | `og`, `str` | `str.list` |
+| `orthogroups_containing` | `og`, `str.list` | `str.list.list` |
+| `ortholog_in_any` | `spr`, `faa.list` | `str.list.list` |
+| `ortholog_in_all` | `spr`, `faa.list` | `str.list.list` |
+| `ortholog_in_min` | `num`, `spr`, `faa.list` | `str.list.list` |
+| `ortholog_in_max` | `num`, `spr`, `faa.list` | `str.list.list` |
+| `ortholog_in_any_str` | `str.list.list`, `str.list.list` | `str.list.list` |
+| `ortholog_in_all_str` | `str.list.list`, `str.list.list` | `str.list.list` |
+| `ortholog_in_min_str` | `num`, `str.list.list`, `str.list.list` | `str.list.list` |
+| `ortholog_in_max_str` | `num`, `str.list.list`, `str.list.list` | `str.list.list` |
 
 <br/>
 {{ macros.load_cut(user, 'examples/orthogroups.cut') }}
+</div>
+<div class="moduleblock">
+<h3>Busco module</h3>
+
+Benchmarking Universal Single-Copy Orthologs.
+
+Types:
+
+| Type      | Meaning |
+| :-------- | :------ |
+| `blh` | BUSCO lineage HMMs |
+| `bsr` | BUSCO results |
+| `bst` | BUSCO scores table |
+| `faa` | FASTA (amino acid) |
+
+Functions:
+
+| Name | Inputs | Output |
+| :--- | :----- | :----- |
+| `load_lineage` | `str` | `blh` |
+| `busco_list_lineages` | `str` | `str.list` |
+| `busco_fetch_lineage` | `str` | `blh` |
+| `busco_proteins` | `blh`, `faa` | `bsr` |
+| `busco_proteins_each` | `blh`, `faa.list` | `bsr.list` |
+| `busco_transcriptome` | `blh`, `fna` | `bsr` |
+| `busco_transcriptome_each` | `blh`, `fna.list` | `bsr.list` |
+| `busco_percent_complete` | `bsr` | `num` |
+| `busco_percent_complete_each` | `bsr.list` | `num.list` |
+| `busco_scores_table` | `bsr.list` | `bst` |
+| `busco_filter_completeness` | `num`, `bst`, `faa.list` | `faa.list` |
+| `concat_bst` | `bst.list` | `bst` |
+
+<br/>
+{{ macros.load_cut(user, 'examples/busco.cut') }}
+</div>
+<div class="moduleblock">
+<h3>Range module</h3>
+
+Generate ranges of numbers.
+
+Types:
+
+| Type      | Meaning |
+| :-------- | :------ |
+| `num` | number in scientific notation |
+
+Functions:
+
+| Name | Inputs | Output |
+| :--- | :----- | :----- |
+| `range_add` | `num`, `num`, `num` | `num.list` |
+| `range_exponent` | `num`, `num`, `num`, `num` | `num.list` |
+| `range_integers` | `num`, `num` | `num.list` |
+| `range_length` | `num`, `num`, `num` | `num.list` |
+| `range_multiply` | `num`, `num`, `num` | `num.list` |
+
+<br/>
+{{ macros.load_cut(user, 'examples/range.cut') }}
 </div>

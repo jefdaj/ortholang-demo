@@ -1,3 +1,10 @@
+update reference.md to work again
+send repl commands to server and back before showing, so collaborative editing can work
+when the paper nears completion, add some greencut(2) examples
+update the guest page to be less pushy
+get https working?
+pre-download all the blastdbget databases
+pre-run all-vs-all blasts on phytozome genomes once ready
 fix the "new result auto-running" bug
 make sure all errors are visible in the web repl
 have clients ping the server periodically so their guest repls can be removed on disconnect
@@ -10,6 +17,5 @@ parse errors not showing up on site; it just silently fails
 expand/fix repl sizing on different screens
 fix shortcut terminal width to match?
 simplify ggplot plots to look figure like
-rename Collaborate page to "My Scripts" (or username would be better) and make it a collection of that user's scripts (incl guest)!
 try highlighting the user tab a different color?
 new user login needs dir created with examples symlink

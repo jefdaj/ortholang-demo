@@ -1,10 +1,20 @@
-with import ../shortcut/nixpkgs;
+# with import ../shortcut/nixpkgs;
 
 # TODO need to add python + shortcut dependencies to the package
 # TODO take shortcut, global package set as arguments
 # TODO or make shortcut a submodule?
 
 let
+  # fetch my pinned nixpkgs for reproducibility.
+  # use this instead to try to build it with your system's current nixpkgs:
+  # pkgs = import <nixpkgs> {};
+  # to update the the sha256sum, use nix-prefetch-url --unpack
+  # (see https://github.com/NixOS/nix/issues/1381#issuecomment-300755992)
+  pkgs = import (fetchTarball {
+    url = "https://github.com/jefdaj/nixpkgs/archive/2019-03-20_nixpkgs-shortcut.tar.gz";
+    sha256 = "1lj3paw9z0n8v1dk8nxmnd7i0z209746cyz19vsadkswd87x7ipm";
+  }) {};
+
   shortcut = import ../shortcut;
   myPython = import ./requirements.nix { inherit pkgs; };
   runDepends = [
@@ -20,15 +30,15 @@ let
     shortcut
   ];
 
-in stdenv.mkDerivation rec {
+in pkgs.stdenv.mkDerivation rec {
   src = ./.;
   version = "0.1";
   name = "shortcut-demo-${version}";
   inherit runDepends;
-  buildInputs = [ makeWrapper ] ++ runDepends;
-  builder = writeScript "builder.sh" ''
+  buildInputs = [ pkgs.makeWrapper ] ++ runDepends;
+  builder = pkgs.writeScript "builder.sh" ''
     #!/usr/bin/env bash
-    source ${stdenv}/setup
+    source ${pkgs.stdenv}/setup
     mkdir -p $out/src
     cp -R $src/templates $src/static $out/src
     mkdir -p $out/bin

@@ -104,7 +104,7 @@ HANDLER.setFormatter(LOGGING.Formatter('%(asctime)s %(name)s %(levelname)s %(mes
 # set up logging for this module
 # note: socketio + engineio loggers are messed with later
 LOGGER = LOGGING.getLogger('shortcut')
-LOGGER.setLevel(LOGGING.INFO)
+LOGGER.setLevel(LOGGING.DEBUG)
 LOGGER.addHandler(HANDLER)
 LOGGER.info('starting demo.py')
 
@@ -118,6 +118,7 @@ def timestamp():
 
 class ServerLoadThread(Thread):
     def __init__(self):
+        LOGGER.debug('init ServerLoadThread')
         self.delay = 5
         super(ServerLoadThread, self).__init__()
         self.daemon = True
@@ -472,7 +473,7 @@ def handle_reqresult():
 
 def check_shortcut_version():
     LOGGER.info('checking output of "shortcut --version"')
-    version_expected = u'ShortCut 0.8.4.4'
+    version_expected = u'ShortCut 0.8.4.11'
     proc = spawn('shortcut', ['--version'], encoding='utf-8', timeout=None)
     try:
         proc.expect(version_expected, timeout=10)
@@ -482,10 +483,11 @@ def check_shortcut_version():
         LOGGER.error(msg)
         raise SystemExit(1)
 
-check_shortcut_version()
+# check_shortcut_version()
 
 class ShortCutThread(Thread):
     def __init__(self, sessionid, username):
+        LOGGER.debug('init ShortCutThread')
         LOGGER.info('creating session %s' % sessionid)
         # self.delay = 0.01
         self.sessionid = sessionid
@@ -631,6 +633,8 @@ RESOURCE = WSGIResource(REACTOR, REACTOR.getThreadPool(), FLASK)
 SITE = Site(RESOURCE)
 # TODO write a function to clean up all threads in SESSIONS on shutdown
 # REACTOR.addSystemEventTrigger('before', 'shutdown', cleanup_sessions)
+LOGGER.debug('creating main twisted reactor on port %s' % CONFIG['port'])
 REACTOR.listenTCP(CONFIG['port'], SITE)
 # TODO which signal handlers?
+LOGGER.debug('running reactor')
 REACTOR.run(installSignalHandlers=True)

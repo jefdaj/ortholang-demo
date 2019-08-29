@@ -7,8 +7,9 @@ with lib;
 let
   cfg = config.services.shortcutDemo;
   pkgs2 = pkgs // {
-    shortcut = import /home/jefdaj/shortcut;
-    "shortcut-demo" = import /home/jefdaj/shortcut-demo;
+    # adjust these to your system:
+    shortcut = import ../shortcut;
+    "shortcut-demo" = import ./default.nix;
   };
 
 in {
