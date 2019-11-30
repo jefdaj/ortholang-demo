@@ -15,7 +15,7 @@ let
     sha256 = "1lj3paw9z0n8v1dk8nxmnd7i0z209746cyz19vsadkswd87x7ipm";
   }) {};
 
-  shortcut = import ../shortcut;
+  shortcut = import ./shortcut;
   myPython = import ./requirements.nix { inherit pkgs; };
   runDepends = [
     myPython.interpreter
