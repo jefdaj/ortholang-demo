@@ -1,0 +1,3 @@
+[submodule "shortcut"]
+	path = shortcut
+	url = git@github.com:jefdaj/shortcut.git

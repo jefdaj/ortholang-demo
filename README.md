@@ -102,5 +102,16 @@ Files
 The server will put tmpfiles in `./tmpdirs`. Consider linking that to `/tmp` or
 a ramdisk if IO becomes an issue. It will also save user comments in `./comments`.
 
+Updating the docs
+-----------------
+
+This part is a little awkward. It uses the `shortcut` submodule to generate `templates/reference.md`
+and check the example scripts. Do something like:
+
+``` .bash
+git submodule update --init --recursive
+nix-shell docs.nix --command 'stack build && stack exec docs'
+```
+
 [1]: https://github.com/jefdaj/shortcut
 [2]: https://nixos.org/nix
