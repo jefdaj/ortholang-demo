@@ -1,4 +1,5 @@
 update reference.md to work again
+have clients ping the server periodically so their guest repls can be removed on disconnect
 send repl commands to server and back before showing, so collaborative editing can work
 when the paper nears completion, add some greencut(2) examples
 update the guest page to be less pushy
@@ -7,7 +8,6 @@ pre-download all the blastdbget databases
 pre-run all-vs-all blasts on phytozome genomes once ready
 fix the "new result auto-running" bug
 make sure all errors are visible in the web repl
-have clients ping the server periodically so their guest repls can be removed on disconnect
 allow result to be a list, and allow the list to be untyped
 add a thing to the website that zips up an archive of the result list
 loading a new script should also kill the currently running one

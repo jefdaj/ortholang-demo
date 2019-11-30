@@ -2,7 +2,7 @@
 
 Besides regular math, you might want to do set operations. They also apply left
 to right and can be grouped with parentheses. They're very useful for comparing
-lists of genes and genomes. With these 3 you can describe the equivalent of any
+lists of genes and genomes. With these you can describe the equivalent of any
 Venn diagram:
 
 <img src="{{ url_for('static',filename='venn-sets.png') }}" width="300">

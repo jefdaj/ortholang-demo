@@ -1,6 +1,6 @@
 ### Loading and Working with Sequence Files
 
-OK, so how does that relate to loading sequences and running BLAST?
+OK, so how does that relate to running BLAST?
 When you load a file you need to use the right type of load function.
 Here are the current options:
 

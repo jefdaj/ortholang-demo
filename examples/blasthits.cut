@@ -16,6 +16,8 @@ maga_mbov_stringent = filter_evalue 1e-50 maga_mbov
 
 # The first file passed to BLAST is called the query and the second is the subject.
 # You can keep only the best hit in the target file per query gene
+
+# TODO bug running bash somewhere in here...
 maga_best_mbov = best_hits maga_mbov
 
 # You can also keep only the reciprocal best hits (those where each gene is the

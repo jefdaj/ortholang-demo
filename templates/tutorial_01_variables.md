@@ -5,6 +5,8 @@ This is probably the simplest script you could write:
 
 {{ macros.load_cut(user, 'examples/variables01.cut') }}
 
+<!-- TODO include example scripts in the main repo? either that or rewrite this: -->
+<!-- idea: :help <varname> should expand to help on its type -->
 If you downloaded ShortCut and ran `shortcut --script variables01.cut`, it would print
 `"hello world!"`. You can also `Load` it in the demo terminal and type `result`.
 

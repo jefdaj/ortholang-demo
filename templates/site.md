@@ -34,8 +34,8 @@ Read and write scripts written by other guest users on the `guest` tab, or make 
 2. Load an existing script, either one of the examples or something you wrote earlier.
    You can also upload a script along with any files it requires.
 
-3. Save/download stuff. `Download result` always has the latest result,
-   but `Download script` only has the last version you saved.
+3. Save/download stuff. `Download result` has the latest result you evaluated,
+   and `Download script` has the last version of the script you saved.
 
 4. Comment box. Tell Jeff if there's something broken, something you want to see or are confused about,
    or anything else.
