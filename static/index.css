@@ -71,19 +71,29 @@ code, pre, div .highlight {
 	background-color: #f8f8f8;
 	margin: 5px;
 }
+#replbox {
+	border-style: solid;
+	border-width: 1px;
+	position: relative;
+}
 #replbackground {
 	background: #faeee1 no-repeat url('/static/shortcut-background.png') 50% / 88%;
 
 	/* Add the blur effect */
-	/* filter: blur(4px); */
-	/* -webkit-filter: blur(4px); */
+	filter: blur(3px);
+	-webkit-filter: blur(3px);
 
- 	border-style: solid;
-	border-width: 1px;
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	top: 0px;
+	left: 0px;
 }
 #replstdin, #replstdout, #serverload, #account {
 	font-family: monospace;
 	white-space: pre;
+	position: relative;
+	z-index: 10;
 }
 /* #replstdin, #replstdout {
 	font-style: bold;
@@ -92,6 +102,8 @@ code, pre, div .highlight {
 	width: 90%;
 	background: transparent;
 	height: 30;
+	position: relative;
+	z-index: 10;
 }
 #replstdout {
 	font-size: 10pt;
@@ -100,6 +112,8 @@ code, pre, div .highlight {
 	/* height: {{ '55' if user == 'guest' else '60' }}%; */
 	overflow-y: scroll;
 	margin: 5px;
+	position: relative;
+	z-index: 10;
 }
 #replstdout p {
 	margin: 0;
@@ -107,10 +121,15 @@ code, pre, div .highlight {
 #serverload, #account {
 	/* color: #5d5d60; */
 	font-size: 10pt;
-	background-color: white;
+	position: relative;
+	z-index: 9;
+}
+#inputbox {
+	position: relative;
+	z-index: 10;
 }
 #serverload {
-	color: #E6E6E6;
+	color: #CACACA;
 	font-size: 14pt;
 	font-weight: bold;
 	background: transparent;
