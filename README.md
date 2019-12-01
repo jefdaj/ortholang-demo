@@ -113,5 +113,51 @@ git submodule update --init --recursive
 nix-shell docs.nix --command 'stack build && stack exec docs'
 ```
 
+TODOs
+-----
+
+layout:
+
+- [ ] try highlighting the user tab a different color
+- [ ] expand/fix repl sizing on different screens
+- [ ] fix shortcut terminal width to match screen?
+- [ ] mobile version that only shows the docs half + a warning about that?
+
+docs:
+
+- [ ] update reference.md to work again
+- [ ] inputs, outputs -> collapsed into type
+- [ ] update the guest page to be less pushy
+- [ ] add a macro to type :help <fnname>, and use it to make all the functions into links
+
+repl:
+
+- [ ] have clients ping the server periodically so their guest repls can be removed on disconnect
+- [ ] send repl commands to server and back before showing, so collaborative editing can work
+- [ ] make sure all errors are visible in the web repl
+  - [ ] parse errors not showing up on site; it just silently fails
+- [ ] loading a new script should also kill the currently running one
+- [ ] should clicking a function name kill the currently running one too? yeah
+- [ ] separate signal for the progress bar updates, which should be displayed in the command bar
+- [ ] blur the background properly (separate css element for it i guess)
+- [ ] try making the background subtle orange too
+
+files:
+
+- [ ] pre-download all the blastdbget databases
+- [ ] pre-run all the example scripts and use a shared shake cache (see shortcut todo)
+- [ ] new user login needs dir created with examples symlink (done?)
+- [ ] zip untyped result lists before downloading (make those first)
+
+shortcut:
+
+- [ ] add shared shake cache for multi-user setups (mainly the demo)
+- [ ] allow result to be a list, and allow the list to be untyped
+- [ ] :help should show a list of possible fuzzy matches + completions if nothing matches exactly
+- [ ] should allow multiple results in an untyped list
+- [ ] zip function that takes an untyped list and creates a zip
+- [ ] result var should also be able to be a raw untyped list
+
+
 [1]: https://github.com/jefdaj/shortcut
 [2]: https://nixos.org/nix
