@@ -347,13 +347,14 @@ def find_session(sid=None, username=None):
     else:
         return SESSIONS[sid]
 
-def interpret_clear_code(sometext):
+def interpret_clear_code(sessionids, sometext):
     # remove terminal escape sequences like "clear screen" in shortcut
     # based on https://stackoverflow.com/a/14693789
     ansi_clear  = re.compile(r'\x1B\[2J')
     ansi_escape = re.compile(r'\x1B\[[0-?]*[ -/]*[@-~]')
     if re.match(ansi_clear, sometext):
-        SOCKETIO.emit('replclear')
+        for sid in sessionids:
+            SOCKETIO.emit('replclear', namespace='/', room=sid)
     return ansi_escape.sub('', sometext)
 
 @SOCKETIO.on('connect')
@@ -516,7 +517,7 @@ class ShortCutThread(Thread):
             while True:
                 index = self.process.expect(options)
                 out = self.process.before + self.process.after
-                out = interpret_clear_code(out) # catches shortcut's "clear screen" command
+                out = interpret_clear_code(self.sessionids, out) # catches shortcut's "clear screen" command
                 self.emitText(out)
                 # self.emitText(self.process.before.lstrip())
                 # self.emitText(self.process.after)
