@@ -72,8 +72,7 @@ code, pre, div .highlight {
 	margin: 5px;
 }
 #replbackground {
-	/* background-color: #f8f8f8; */
-	background: no-repeat url('/static/shortcut-background.png') 50% / 88%;
+	background: #faeee1 no-repeat url('/static/shortcut-background.png') 50% / 88%;
 
 	/* Add the blur effect */
 	/* filter: blur(4px); */
