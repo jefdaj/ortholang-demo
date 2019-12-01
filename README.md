@@ -125,7 +125,8 @@ layout:
 
 docs:
 
-- [ ] update reference.md to work again
+- [x] fix first table in reference.md
+- [ ] update reference.md to match current shortcut
 - [ ] inputs, outputs -> collapsed into type
 - [ ] update the guest page to be less pushy
 - [ ] add a macro to type :help <fnname>, and use it to make all the functions into links
