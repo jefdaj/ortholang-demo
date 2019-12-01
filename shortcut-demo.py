@@ -376,7 +376,7 @@ def handle_connect():
                 SESSIONS[uname] = ShortCutThread(sid, uname)
             else:
                 LOGGER.info('user %s resuming with new session id %s' % (uname, sid))
-                SESSIONS[uname].sessionid = sid
+                SESSIONS[uname].sessionids.append(sid)
                 SESSIONS[uname].readCommand('# Resuming previous session...')
                 SESSIONS[uname].readCommand(':show')
             thread = SESSIONS[uname]
@@ -394,7 +394,7 @@ def handle_refresh():
 def handle_settab(data):
     thread = find_session()
     thread.currenttab = data['tabName']
-    LOGGER.info('set current tab of session %s to %s' % (thread.sessionid, data['tabName']))
+    LOGGER.info('set current tab of session %s to %s' % (thread.sessionids, data['tabName']))
     # SOCKETIO.emit('opentab', {'tabName': tab})
 
 # TODO why isn't this being called to clean up old guest repls?
@@ -490,7 +490,7 @@ class ShortCutThread(Thread):
         LOGGER.debug('init ShortCutThread')
         LOGGER.info('creating session %s' % sessionid)
         # self.delay = 0.01
-        self.sessionid = sessionid
+        self.sessionids = [sessionid]
         self.username  = username
         self.currenttab  = 'Home' # changes when user clicks tabs
         user_dir = join(CONFIG['users_dir'], self.username)
@@ -529,7 +529,7 @@ class ShortCutThread(Thread):
     # TODO currently this is the same as killing the interpreter... handle separately in shortcut?
     def stopEval(self):
         # LOGGER.info('session %s stopping %s evaluation' % (self.sessionid, self.process.pid))
-        LOGGER.info('session %s stopping evaluation' % self.sessionid)
+        LOGGER.info('session %s stopping evaluation' % self.sessionids)
         # self.emitText(u'Resetting demo...\n')
         # sleep(1)
         self.killRepl()
@@ -539,7 +539,7 @@ class ShortCutThread(Thread):
     def killRepl(self):
         # see https://stackoverflow.com/a/22582602
         global SESSIONS
-        LOGGER.info('session %s killing interpreter' % self.sessionid)
+        LOGGER.info('session %s killing interpreter' % self.sessionids)
         try:
             #pgid = getpgid(self.process.pid)
             #killpg(pgid, SIGKILL)
@@ -551,7 +551,7 @@ class ShortCutThread(Thread):
         finally:
             # print SESSIONS
             if self.username == 'guest':
-                del SESSIONS[self.sessionid]
+                del SESSIONS[self.sessionids[0]]
                 rmtree(self.tmpdir, ignore_errors=True)
             # else:
                 # print SESSIONS
@@ -564,7 +564,7 @@ class ShortCutThread(Thread):
         # self.process = Popen(cmd, stdin=PIPE, stdout=PIPE, stderr=STDOUT, preexec_fn=setsid)
         self.process = spawn('shortcut', args, encoding='utf-8', echo=False, timeout=None)
         # LOGGER.info('session %s spawned interpreter %s' % (self.sessionid, self.process.pid))
-        LOGGER.info('session %s spawned interpreter' % self.sessionid)
+        LOGGER.info('session %s spawned interpreter' % self.sessionids)
 
 
     # TODO emitText -> emitText? readCommand -> readCommand
@@ -584,7 +584,8 @@ class ShortCutThread(Thread):
             text = re.sub(self.tmpdir , '/TMPDIR' , text)
             # print "text after: '%s'" % text
 
-        SOCKETIO.emit('replstdout', text, namespace='/', room=self.sessionid)
+        for sid in self.sessionids:
+            SOCKETIO.emit('replstdout', text, namespace='/', room=sid)
 
     def readCommand(self, line):
         try:
@@ -614,10 +615,12 @@ class ShortCutThread(Thread):
                 # self.readCommand(':show\n')
 
     def disableInput(self):
-        SOCKETIO.emit('replbusy', namespace='/', room=self.sessionid)
+        for sid in self.sessionids:
+            SOCKETIO.emit('replbusy', namespace='/', room=sid)
 
     def enableInput(self):
-        SOCKETIO.emit('replready', namespace='/', room=self.sessionid)
+        for sid in self.sessionids:
+            SOCKETIO.emit('replready', namespace='/', room=sid)
 
     #def emitStdout(self):
         # TODO make this into a main interact() method?
