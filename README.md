@@ -125,14 +125,16 @@ layout:
 
 docs:
 
+- [x] update the guest page to be less pushy
 - [x] fix first table in reference.md
 - [ ] update reference.md to match current shortcut
 - [ ] inputs, outputs -> collapsed into type
-- [ ] update the guest page to be less pushy
 - [ ] add a macro to type :help <fnname>, and use it to make all the functions into links
 
 repl:
 
+- [x] blur the background properly (separate css element for it i guess)
+- [x] try making the background orange too
 - [ ] have clients ping the server periodically so their guest repls can be removed on disconnect
 - [ ] send repl commands to server and back before showing, so collaborative editing can work
 - [ ] make sure all errors are visible in the web repl
@@ -140,8 +142,6 @@ repl:
 - [ ] loading a new script should also kill the currently running one
 - [ ] should clicking a function name kill the currently running one too? yeah
 - [ ] separate signal for the progress bar updates, which should be displayed in the command bar
-- [ ] blur the background properly (separate css element for it i guess)
-- [ ] try making the background subtle orange too
 
 files:
 
@@ -152,6 +152,7 @@ files:
 
 shortcut:
 
+- [ ] :type should include the thing and a colon before the type
 - [ ] add shared shake cache for multi-user setups (mainly the demo)
 - [ ] allow result to be a list, and allow the list to be untyped
 - [ ] :help should show a list of possible fuzzy matches + completions if nothing matches exactly
