@@ -1,22 +1,18 @@
-with import ./shortcut/nixpkgs;
-
-# TODO need to add python + shortcut dependencies to the package
-# TODO take shortcut, global package set as arguments
-# TODO or make shortcut a submodule?
-
 let
-  # fetch my pinned nixpkgs for reproducibility.
+  # fetch my pinned nixpkgs for reproducibility
+  # (shortcut-linux, dervived from nixpkgs-channels/nixos-19.09)
+  pkgs = let inherit (import <nixpkgs> {}) stdenv fetchFromGitHub; in import (fetchFromGitHub {
+    owner  = "jefdaj";
+    repo   = "nixpkgs";
+    rev    = "89520e692736b1e7fc3926bbd52c4e1faaa16eb9";
+    sha256 = "1vv5ydpckhsck5bm45hvlvbvn2nlxv2mpnqb82943p7vkwk87shy";
+  }) {};
   # use this instead to try to build it with your system's current nixpkgs:
   # pkgs = import <nixpkgs> {};
-  # to update the the sha256sum, use nix-prefetch-url --unpack
-  # (see https://github.com/NixOS/nix/issues/1381#issuecomment-300755992)
-  pkgs = import (fetchTarball {
-    url = "https://github.com/jefdaj/nixpkgs/archive/2019-03-20_nixpkgs-shortcut.tar.gz";
-    sha256 = "1lj3paw9z0n8v1dk8nxmnd7i0z209746cyz19vsadkswd87x7ipm";
-  }) {};
 
   shortcut = import ./shortcut;
   myPython = import ./requirements.nix { inherit pkgs; };
+
   runDepends = [
     myPython.interpreter
     myPython.packages."Flask"

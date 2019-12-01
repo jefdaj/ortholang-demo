@@ -8,3 +8,5 @@ docopt
 psutil
 pygments
 pexpect
+m2r
+setuptools-scm
