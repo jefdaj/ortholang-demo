@@ -152,6 +152,7 @@ files:
 
 shortcut:
 
+- [ ] check that no seqid hashes are slipping through to the user-facing output
 - [ ] :type should include the thing and a colon before the type
 - [ ] add shared shake cache for multi-user setups (mainly the demo)
 - [ ] allow result to be a list, and allow the list to be untyped
