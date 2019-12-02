@@ -17,10 +17,12 @@ No other info is required, and nothing is stored about users except their passwo
 
 {% else %}
 
-Scripts you saved in your user folder show up here after refreshing the page.
-
+Hi {{ user }}! This is your page.
+Scripts you save will show up here after a refresh.
 You can `Load` and edit them same as in the tutorial,
 and `include` them inside each other to build up larger cuts.
+Your session will persist when you leave,
+and you can sign in from multiple computers for collaborative editing.
 
 <input id="userscriptsearch" placeholder="Search your scripts" id="box" type="text"/>
 
