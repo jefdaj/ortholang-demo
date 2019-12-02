@@ -135,8 +135,8 @@ repl:
 
 - [x] blur the background properly (separate css element for it i guess)
 - [x] try making the background orange too
-- [ ] have clients ping the server periodically so their guest repls can be removed on disconnect
-- [ ] send repl commands to server and back before showing, so collaborative editing can work
+- [x] have clients ping the server periodically so their guest repls can be removed on disconnect
+- [x] send repl commands to server and back before showing, so collaborative editing can work
 - [ ] make sure all errors are visible in the web repl
   - [ ] parse errors not showing up on site; it just silently fails
 - [ ] loading a new script should also kill the currently running one
@@ -152,7 +152,8 @@ files:
 
 shortcut:
 
-- [ ] check that no seqid hashes are slipping through to the user-facing output
+- [ ] bug: show when script is empty causes a crash
+- [x] check that no seqid hashes are slipping through to the user-facing output
 - [ ] :type should include the thing and a colon before the type
 - [ ] add shared shake cache for multi-user setups (mainly the demo)
 - [ ] allow result to be a list, and allow the list to be untyped
