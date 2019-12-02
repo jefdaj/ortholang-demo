@@ -130,7 +130,8 @@ class ServerLoadThread(Thread):
             sleep(self.delay)
 
     def emitInfo(self):
-        n_sessions = len(SESSIONS)
+        # counts multiple users connecting under the same account too
+        n_sessions = sum(len(u.sessionids) for u in SESSIONS.values())
         if n_sessions == 0:
             return
         cpu = round(cpu_percent())
@@ -339,7 +340,7 @@ def find_session(sid=None, username=None):
         sid = request.sid
     uname = AUTH.username()
     # print SESSIONS
-    if uname in SESSIONS:
+    if uname and uname in SESSIONS:
         if sid in SESSIONS:
             # remove guest repl because we found their logged in one
             disconnect(sid, 'guest')
@@ -377,7 +378,7 @@ def handle_connect():
                 SESSIONS[uname] = ShortCutThread(sid, uname)
             else:
                 LOGGER.info('user %s resuming with new session id %s' % (uname, sid))
-                SESSIONS[uname].sessionids.append(sid)
+                SESSIONS[uname].sessionids.add(sid)
                 # SESSIONS[uname].readCommand('# Resuming previous session...')
                 SESSIONS[uname].readCommand(':show')
             thread = SESSIONS[uname]
@@ -412,6 +413,10 @@ def diconnect(sid, uname):
         thread = find_session()
         thread._done.set()
         thread.killRepl()
+        # SESSIONS['guest'].sessionids.remove(sid)
+        del SESSIONS[sid]
+    else:
+        SESSIONS[uname].sessionids.remove(sid)
 
 @SOCKETIO.on('replstdin')
 def handle_replstdin(line):
@@ -491,7 +496,7 @@ class ShortCutThread(Thread):
         LOGGER.debug('init ShortCutThread')
         LOGGER.info('creating session %s' % sessionid)
         # self.delay = 0.01
-        self.sessionids = [sessionid]
+        self.sessionids = set([sessionid])
         self.username  = username
         self.currenttab  = 'Home' # changes when user clicks tabs
         user_dir = join(CONFIG['users_dir'], self.username)
@@ -552,7 +557,8 @@ class ShortCutThread(Thread):
         finally:
             # print SESSIONS
             if self.username == 'guest':
-                del SESSIONS[self.sessionids[0]]
+                for sid in self.sessionids: # should only ever be one
+                    del SESSIONS[sid]
                 rmtree(self.tmpdir, ignore_errors=True)
             # else:
                 # print SESSIONS
