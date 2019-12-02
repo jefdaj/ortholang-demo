@@ -325,7 +325,7 @@ def with_real_paths(sid, line):
 ############
 
 # can set logger=LOGGER to add socketio debugging to output
-SOCKETIO = SocketIO(FLASK, manage_session=False, logger=False, engineio_logger=True)
+SOCKETIO = SocketIO(FLASK, manage_session=False, logger=True, engineio_logger=True)
 LOAD.start()
 
 # swap other modules' log handlers for mine
@@ -407,7 +407,7 @@ def handle_disconnect():
 
 def diconnect(sid, uname):
     LOGGER.info('client %s disconnected' % sid)
-    if uname == 'guest':
+    if not uname or uname == 'guest':
         LOGGER.info('killing guest repl %s (account: %s)' % (sid, uname))
         thread = find_session()
         thread._done.set()
