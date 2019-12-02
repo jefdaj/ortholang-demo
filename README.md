@@ -161,6 +161,7 @@ shortcut:
 - [ ] should allow multiple results in an untyped list
 - [ ] zip function that takes an untyped list and creates a zip
 - [ ] result var should also be able to be a raw untyped list
+- [ ] readable error when calling a fn with wrong types
 
 
 [1]: https://github.com/jefdaj/shortcut
