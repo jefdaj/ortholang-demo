@@ -77,17 +77,18 @@ code, pre, div .highlight {
 	position: relative;
 }
 #replbackground {
-	background: #faeee1 no-repeat url('/static/shortcut-background.png') 50% / 88%;
+	background: #fff9f3 no-repeat url('/static/shortcut-background.png') 50% / 88%;
 
 	/* Add the blur effect */
-	filter: blur(3px);
-	-webkit-filter: blur(3px);
+	filter: blur(4px);
+	-webkit-filter: blur(4px);
 
-	width: 100%;
-	height: 100%;
+	/* fill container, keeping the blur inside */
+	width:  calc(100% - 8px);
+	height: calc(100% - 8px);
 	position: absolute;
-	top: 0px;
-	left: 0px;
+	top: 4px;
+	left: 4px;
 }
 #replstdin, #replstdout, #serverload, #account {
 	font-family: monospace;
