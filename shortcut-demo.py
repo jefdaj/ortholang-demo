@@ -378,7 +378,7 @@ def handle_connect():
             else:
                 LOGGER.info('user %s resuming with new session id %s' % (uname, sid))
                 SESSIONS[uname].sessionids.append(sid)
-                SESSIONS[uname].readCommand('# Resuming previous session...')
+                # SESSIONS[uname].readCommand('# Resuming previous session...')
                 SESSIONS[uname].readCommand(':show')
             thread = SESSIONS[uname]
     # print 'thread alive? %s' % thread.isAlive()
