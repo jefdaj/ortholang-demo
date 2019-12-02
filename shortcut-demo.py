@@ -561,7 +561,7 @@ class ShortCutThread(Thread):
     def spawnRepl(self):
         if self.process is not None:
             self.killRepl()
-        args = ['--secure', '--interactive', '--tmpdir', self.tmpdir, '--workdir', self.workdir]
+        args = ['--secure', '--noprogress', '--interactive', '--tmpdir', self.tmpdir, '--workdir', self.workdir]
         # self.process = Popen(cmd, stdin=PIPE, stdout=PIPE, stderr=STDOUT, preexec_fn=setsid)
         self.process = spawn('shortcut', args, encoding='utf-8', echo=False, timeout=None)
         # LOGGER.info('session %s spawned interpreter %s' % (self.sessionid, self.process.pid))
