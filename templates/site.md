@@ -18,12 +18,13 @@ The terminal on the right is similar to the standard command line interface you
 will get if you install ShortCut on your computer, except:
 
 * Long-running scripts might be killed to keep the server responsive
-* Terminal niceties like tab completion of variables are missing
+* Terminal niceties like tab completion and progress bars are missing
 * Uploading and downloading files + scripts is a little awkward
 
-Read and write scripts written by other guest users on the `guest` tab, or make an account to save your own privately.
+Edit scripts written by other guest users on the `guest` tab,
+or make an account to save your own privately.
 
-## Controls
+## Terminal Controls
 
 <img src="{{ url_for('static', filename='controls.png') }}" style="width: 80%;"></img>
 
@@ -40,7 +41,7 @@ Read and write scripts written by other guest users on the `guest` tab, or make 
 4. Comment box. Tell Jeff if there's something broken, something you want to see or are confused about,
    or anything else.
 
-## Examples
+## Example Code
 
 There are two types of interactive code blocks.
 Complete cut scripts with `Load` buttons like this:

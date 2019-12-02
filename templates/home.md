@@ -1,15 +1,12 @@
 <div id="intropitch">
 <img src="/static/shortcut.png" style="width:300px;"></img>
-<br/>
-<br/>
 <!-- There's more than one way to get there.<br/> -->
-
 <!-- Combine and compare sequence searches.<br/> -->
 <!-- Quickly try altnernative workflows.<br/> -->
 <!-- Compare and combine searches.<br/> -->
 <!-- Find a <b>R</b>apid, <b>R</b>obust, <b>R</b>eproducible<br/> -->
-Find a rapid, robust, reproducible<br/>
-route to your candidate genes!
+<!-- Find a rapid, robust, reproducible<br/>
+route to your candidate genes! -->
 </div>
 
 <br/>
