@@ -12,7 +12,7 @@ Launch the ShortCut demo server.
 
 Usage:
   shortcut-demo (-h | --help)
-  shortcut-demo -l LOG -e EXAMPLES -c COMMENTS -t TMP -p PORT -a AUTH -s USERS
+  shortcut-demo -l LOG -e EXAMPLES -c COMMENTS -t TMP -p PORT -a AUTH -u USERS -s SHARED
 
 Options:
   -h, --help   Show this help text
@@ -22,7 +22,8 @@ Options:
   -t TMP       Path to the user tmpdirs
   -p PORT      Port to serve the demo site
   -a AUTH      Path to user authentication file
-  -s USERS     Path to user data directory
+  -u USERS     Path to user data directory
+  -s SHARED    Path to shared tmpfile directory
 '''
 
 # see https://stackoverflow.com/a/44951327
@@ -72,7 +73,8 @@ CONFIG['log_path'    ] = realpath(ARGS['-l'])
 CONFIG['comment_dir' ] = realpath(ARGS['-c'])
 CONFIG['tmp_dir'     ] = realpath(ARGS['-t'])
 CONFIG['auth_path'   ] = realpath(ARGS['-a'])
-CONFIG['users_dir'   ] = realpath(ARGS['-s'])
+CONFIG['users_dir'   ] = realpath(ARGS['-u'])
+CONFIG['shared_dir'  ] = realpath(ARGS['-s'])
 CONFIG['port'        ] = int(ARGS['-p'])
 
 # repl sessions, indexed by sid and also username if logged in
@@ -320,6 +322,17 @@ def with_real_paths(sid, line):
     line = re.sub('/WORKDIR', repl.workdir, line)
     # print "line after: '%s'" % line
     return line
+
+# TODO add a path component for the api version?
+@FLASK.route('/SHARED/<path:filename>')
+def send_shared(filename):
+    msg = 'shared file not found: %s' % filename
+    filename = re.sub('/SHARED', CONFIG['shared_dir'], filename)
+    if not exists(filename):
+        LOGGER.info(msg)
+        return msg, 404
+    LOGGER.info('sending shared file: %s' % filename)
+    return send_from_directory(dirname(filename), basename(filename))
 
 ############
 # socketio #

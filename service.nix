@@ -80,6 +80,15 @@ in {
         '';
       };
 
+      # TODO make an entirely different program for this?
+      sharedDir = mkOption {
+        default = "/mnt/data/shared";
+        type = with types; uniq string;
+        description = ''
+          Where to serve cached tmpfiles on the web from.
+        '';
+      };
+
       port = mkOption {
         default = 80;
         type = with types; int;
@@ -107,7 +116,8 @@ in {
             -t ${cfg.tmpDir} \
             -p ${toString cfg.port} \
             -a ${cfg.authPath} \
-            -s ${cfg.usersDir}
+            -u ${cfg.usersDir} \
+            -s ${cfg.sharedDir}
         '';
         # TODO get more specific than python?
         ExecStop = "${pkgs2.procps}/bin/pkill -9 python";
