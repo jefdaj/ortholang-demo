@@ -53,8 +53,9 @@ nix-shell requirements.nix --command \
     -c comments \
     -t /tmp/shortcut-demo \
     -p 5000 \
-    -s /mnt/data/shortcut-users' \
-    -a /mnt/data/shortcut-users/passwords.txt
+    -u /mnt/data/shortcut-users \
+    -a /mnt/data/shortcut-users/passwords.txt \
+    -s /mnt/data/shortcut-shared
 ```
 
 ... or the regular Debian + Python way:
@@ -71,8 +72,9 @@ pip install -r requirements.txt
   -c comments \
   -t /tmp/shortcut-demo \
   -p 5000 \
-  -s /mnt/data/shortcut-users' \
-  -a /mnt/data/shortcut-users/passwords.txt
+  -u /mnt/data/shortcut-users \
+  -a /mnt/data/shortcut-users/passwords.txt \
+  -s /mnt/data/shortcut-shared
 ```
 
 Finally, visit `localhost:5000` in your browser.
@@ -130,6 +132,7 @@ docs:
 - [ ] update reference.md to match current shortcut
 - [ ] inputs, outputs -> collapsed into type
 - [ ] add a macro to type :help <fnname>, and use it to make all the functions into links
+- [ ] tutorial index at the top
 
 repl:
 

@@ -324,11 +324,11 @@ def with_real_paths(sid, line):
     return line
 
 # TODO add a path component for the api version?
-@FLASK.route('/SHARED/<path:filename>')
+@FLASK.route('/shared/<path:filename>')
 def send_shared(filename):
-    msg = 'shared file not found: %s' % filename
-    filename = re.sub('/SHARED', CONFIG['shared_dir'], filename)
+    filename = join(CONFIG['shared_dir'], filename)
     if not exists(filename):
+        msg = 'shared file not found: %s' % filename
         LOGGER.info(msg)
         return msg, 404
     LOGGER.info('sending shared file: %s' % filename)
@@ -580,7 +580,7 @@ class ShortCutThread(Thread):
     def spawnRepl(self):
         if self.process is not None:
             self.killRepl()
-        args = ['--secure', '--noprogress', '--interactive', '--tmpdir', self.tmpdir, '--workdir', self.workdir]
+        args = ['--secure', '--noprogress', '--interactive', '--tmpdir', self.tmpdir, '--workdir', self.workdir, '--shared', CONFIG['shared_dir']]
         # self.process = Popen(cmd, stdin=PIPE, stdout=PIPE, stderr=STDOUT, preexec_fn=setsid)
         self.process = spawn('shortcut', args, encoding='utf-8', echo=False, timeout=None)
         # LOGGER.info('session %s spawned interpreter %s' % (self.sessionid, self.process.pid))
