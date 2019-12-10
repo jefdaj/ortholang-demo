@@ -65,8 +65,8 @@ function repl_write(filename) {
 		$('#filename').focus();
 	} else {
 		repl_autorun([':write ' + filename]);
+	  add_script_to_load_menu(filename)
 	}
-	add_script_to_load_menu(filename)
 }
 
 function add_script_to_load_menu(filename) {
