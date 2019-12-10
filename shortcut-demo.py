@@ -141,6 +141,7 @@ class ServerLoadThread(Thread):
         nfo = {'users': n_sessions, 'cpu': cpu, 'memory': mem}
         LOGGER.debug('emitting serverload: %s' % nfo)
         SOCKETIO.emit('serverload', nfo, namespace='/')
+        LOGGER.debug('SESSIONS: %s' % SESSIONS.keys())
 
 # this is started later because it needs SOCKETIO
 # TODO why does it count an extra user when you clear the http auth?
@@ -231,7 +232,7 @@ def verify_pw(username, password):
 
 def create_user(username, password):
     # note this assumes the username isn't taken!
-    linksrc  = readlink( join(CONFIG['users_dir'], username, 'examples') )
+    linksrc  = readlink( join(CONFIG['users_dir'], 'guest', 'examples') )
     userpath = join(CONFIG['users_dir'], username)
     try:
         makedirs(userpath)
@@ -427,7 +428,10 @@ def diconnect(sid, uname):
         thread._done.set()
         thread.killRepl()
         # SESSIONS['guest'].sessionids.remove(sid)
-        del SESSIONS[sid]
+        try:
+            del SESSIONS[sid]
+        except KeyError:
+            pass
     else:
         SESSIONS[uname].sessionids.remove(sid)
 
@@ -492,7 +496,7 @@ def handle_reqresult():
 
 def check_shortcut_version():
     LOGGER.info('checking output of "shortcut --version"')
-    version_expected = u'ShortCut 0.8.4.11'
+    version_expected = u'ShortCut 0.9.2'
     proc = spawn('shortcut', ['--version'], encoding='utf-8', timeout=None)
     try:
         proc.expect(version_expected, timeout=10)
@@ -502,7 +506,7 @@ def check_shortcut_version():
         LOGGER.error(msg)
         raise SystemExit(1)
 
-# check_shortcut_version()
+check_shortcut_version()
 
 class ShortCutThread(Thread):
     def __init__(self, sessionid, username):
@@ -522,7 +526,8 @@ class ShortCutThread(Thread):
             makedirs(self.workdir)
         try:
             symlink(CONFIG['examples_dir'], join(self.workdir, 'examples')) # TODO rename data examples?
-        except OSError:
+        except OSError as e:
+            LOGGER.warning('Exception: %s' % e)
             pass # already exists
         self._done = Event()
         self.process = None
@@ -531,18 +536,22 @@ class ShortCutThread(Thread):
     def run(self):
         options = [ARROW, u'Bye for now!'] # , '.*']
         while not self._done.is_set():
-            self.spawnRepl()
-            while True:
-                index = self.process.expect(options)
-                out = self.process.before + self.process.after
-                out = interpret_clear_code(self.sessionids, out) # catches shortcut's "clear screen" command
-                self.emitText(out)
-                # self.emitText(self.process.before.lstrip())
-                # self.emitText(self.process.after)
-                self.enableInput()
-                if index == 1:
-                    break # quit repl
-                    # SOCKETIO.emit('replclear')
+            try:
+                self.spawnRepl()
+                while True:
+                    index = self.process.expect(options)
+                    out = self.process.before + self.process.after
+                    out = interpret_clear_code(self.sessionids, out) # catches shortcut's "clear screen" command
+                    self.emitText(out)
+                    # self.emitText(self.process.before.lstrip())
+                    # self.emitText(self.process.after)
+                    self.enableInput()
+                    if index == 1:
+                        break # quit repl
+                        # SOCKETIO.emit('replclear')
+            except Exception as e:
+                LOGGER.warning('Exception in %s (%s): %s' % (self, self.sessionids, e))
+                continue
 
 
     # TODO currently this is the same as killing the interpreter... handle separately in shortcut?
@@ -571,7 +580,10 @@ class ShortCutThread(Thread):
             # print SESSIONS
             if self.username == 'guest':
                 for sid in self.sessionids: # should only ever be one
-                    del SESSIONS[sid]
+                    try:
+                        del SESSIONS[sid]
+                    except KeyError:
+                        pass
                 rmtree(self.tmpdir, ignore_errors=True)
             # else:
                 # print SESSIONS
