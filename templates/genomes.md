@@ -25,7 +25,7 @@ Note that anything you upload as `guest` will be available to other guest users.
   <th>Common name</th>
   <th>Type</th>
 </tr>
-{% for g in genomes %}
+{% for g in genomes | sort(attribute='organism') %}
 <tr class="genomeblock">
 	<td><a href="#" onclick="javascript:repl_autorun(['{{g.loadfn | escape}}'])">{{g.loadfn}}</a></td>
 	<td><a href="{{g.url}}" target="_blank">{{g.organism}}</a></td>
