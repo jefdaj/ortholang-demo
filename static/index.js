@@ -111,17 +111,27 @@ function download_file(name, text) {
 	delete link;
 }
 
+function filters_match(filters, element_text) {
+	var words = filters.split(' ');
+	for (var w=0; w < words.length; w++) {
+				if (element_text.indexOf(words[w]) == -1) {
+								return false;
+				}
+	}
+	return true;
+}
+
 // hide examples or module reference blocks that don't match the current filter
 // based on: http://jsfiddle.net/reyjose/40u0var6/
 function filter_searchable(box_id, element_selector){
-	var valThis = $(box_id).val().toLowerCase();
-	if(valThis == ""){
+	var filters = $(box_id).val().toLowerCase();
+	if(filters == ""){
 		$(element_selector).show();
 	} else {
 		$(element_selector).each(function(){
 				var text = $(this).text().toLowerCase();
-				(text.indexOf(valThis) >= 0) ? $(this).show() : $(this).hide();
-				});
+				filters_match(filters, text) ? $(this).show() : $(this).hide();
+		});
 	};
 }
 
