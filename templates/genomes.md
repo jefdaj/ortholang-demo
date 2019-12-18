@@ -1,8 +1,8 @@
 {% import "macros.jinja" as macros with context %}
 
-You can use any FASTA or GenBank file with ShortCut, but a few standard ones are also pre-downloaded on the demo server for convenience.
-
+You can use any FASTA or GenBank file with ShortCut, but this page lists the standard ones pre-downloaded on the demo server for convenience.
 Clicking the load links below will type the corresponding `load_` function in the interpreter for you.
+
 If there are many files for your species, try adding keywords: "brachy 460", "papaya faa", "araport11 protein primary", etc.
 
 To assign variables, type the variable name first. For example: "arabidopsis =". Then click the `load` button to auto-fill the rest of the line.
