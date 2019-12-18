@@ -139,7 +139,7 @@ function filter_searchable(box_id, element_selector){
 	};
 }
 
-function filter_examples()    { filter_searchable('#examplesearch', '#examples > .codeblock') };
+function filter_scripts()    { filter_searchable('#scriptsearch', '#scripts > .codeblock') };
 function filter_tutorial()    { filter_searchable('#tutorialsearch', '#tutorial > .tutorialsection') };
 function filter_modules()     { filter_searchable('#modulesearch', '.moduleblock') };
 function filter_genomes()     { filter_searchable('#genomesearch', '.genomeblock') };
@@ -335,12 +335,12 @@ $(document).ready(function(){
 		openTabByName(data['tabName']);
 	});
 
-	filter_examples();
+	filter_scripts();
 	filter_tutorial();
 	filter_modules();
 	filter_genomes();
 	filter_userscripts();
-	$('#examplesearch').keyup(filter_examples);
+	$('#scriptsearch').keyup(filter_scripts);
 	$('#tutorialsearch').keyup(filter_tutorial);
 	$('#modulesearch').keyup(filter_modules);
 	$('#genomesearch').keyup(filter_genomes);

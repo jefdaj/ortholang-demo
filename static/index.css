@@ -247,7 +247,7 @@ code, pre, div .highlight {
 	display: block;
 	text-align: center
 }
-#tutorialsearch, #examplesearch, #modulesearch, #userscriptsearch {
+#tutorialsearch, #scriptsearch, #modulesearch, #userscriptsearch {
 	width: 40%;
 }
 
