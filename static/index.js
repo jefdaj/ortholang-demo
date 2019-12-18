@@ -24,10 +24,14 @@ function repl_clear() {
 	}
 }
 
-function repl_autorun(lines) {
+function repl_autorun(lines, clear_first=true) {
 	// clear terminal when loading a new script
 	if (lines[0].startsWith(':l')) {
 		setTimeout(repl_clear, 1000)
+	}
+	// awkward, but necessary for assigning genome table entries to variables:
+	if (!clear_first) {
+	  lines[0] = $('#replstdin').val() + lines[0];
 	}
 	// use timeouts + recursion to create a loop with delay each iteration
 	// see https://stackoverflow.com/a/3583740
@@ -111,23 +115,34 @@ function download_file(name, text) {
 	delete link;
 }
 
+function filters_match(filters, element_text) {
+	var words = filters.split(' ');
+	for (var w=0; w < words.length; w++) {
+				if (element_text.indexOf(words[w]) == -1) {
+								return false;
+				}
+	}
+	return true;
+}
+
 // hide examples or module reference blocks that don't match the current filter
 // based on: http://jsfiddle.net/reyjose/40u0var6/
 function filter_searchable(box_id, element_selector){
-	var valThis = $(box_id).val().toLowerCase();
-	if(valThis == ""){
+	var filters = $(box_id).val().toLowerCase();
+	if(filters == ""){
 		$(element_selector).show();
 	} else {
 		$(element_selector).each(function(){
 				var text = $(this).text().toLowerCase();
-				(text.indexOf(valThis) >= 0) ? $(this).show() : $(this).hide();
-				});
+				filters_match(filters, text) ? $(this).show() : $(this).hide();
+		});
 	};
 }
 
 function filter_examples()    { filter_searchable('#examplesearch', '#examples > .codeblock') };
 function filter_tutorial()    { filter_searchable('#tutorialsearch', '#tutorial > .tutorialsection') };
 function filter_modules()     { filter_searchable('#modulesearch', '.moduleblock') };
+function filter_genomes()     { filter_searchable('#genomesearch', '.genomeblock') };
 function filter_userscripts() { filter_searchable('#userscriptsearch', '#userscripts > .codeblock') };
 
 function login() {
@@ -323,10 +338,12 @@ $(document).ready(function(){
 	filter_examples();
 	filter_tutorial();
 	filter_modules();
+	filter_genomes();
 	filter_userscripts();
 	$('#examplesearch').keyup(filter_examples);
 	$('#tutorialsearch').keyup(filter_tutorial);
 	$('#modulesearch').keyup(filter_modules);
+	$('#genomesearch').keyup(filter_genomes);
 	$('#userscriptsearch').keyup(filter_userscripts);
 
 	$('#loginbutton').on('click', login);
