@@ -5,7 +5,8 @@
 	<button id="sitebutton"      class="tablinks" onclick="openTab(event, 'Site')">Site</button>
 	<button id="tutorialbutton"  class="tablinks" onclick="openTab(event, 'Tutorial')">Tutorial</button>
 	<button id="examplesbutton"  class="tablinks" onclick="openTab(event, 'Examples')">Examples</button>
-	<button id="referencebutton" class="tablinks" onclick="openTab(event, 'Reference')">Reference</button>
+	<button id="functionsbutton" class="tablinks" onclick="openTab(event, 'Functions')">Functions</button>
+	<button id="genomesbutton" class="tablinks" onclick="openTab(event, 'Genomes')">Genomes</button>
 	<div id="usercontrols" style="float:right; padding-right: 10px;">
 		<button id="usertabbutton" class="tablinks" onclick="openTab(event, 'UserTab')">{{ user }}</button>
 		<!-- TODO figure out a better method to clear HTTP auth -->
@@ -35,5 +36,6 @@
 <div id="Site"      class="tabcontent">{{ macros.markdown_doc("site.md"     ) }}</div>
 <div id="Tutorial"  class="tabcontent">{{ macros.markdown_doc("tutorial.md" ) }}</div>
 <div id="Examples"  class="tabcontent">{{ macros.markdown_doc("examples.md" ) }}</div>
-<div id="Reference" class="tabcontent">{{ macros.markdown_doc("reference.md") }}</div>
+<div id="Functions" class="tabcontent">{{ macros.markdown_doc("functions.md") }}</div>
+<div id="Genomes"   class="tabcontent">{{ macros.markdown_doc("genomes.md"  ) }}</div>
 <div id="UserTab"   class="tabcontent">{{ macros.markdown_doc("usertab.md"  ) }}</div>

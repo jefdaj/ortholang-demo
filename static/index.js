@@ -128,6 +128,7 @@ function filter_searchable(box_id, element_selector){
 function filter_examples()    { filter_searchable('#examplesearch', '#examples > .codeblock') };
 function filter_tutorial()    { filter_searchable('#tutorialsearch', '#tutorial > .tutorialsection') };
 function filter_modules()     { filter_searchable('#modulesearch', '.moduleblock') };
+function filter_genomes()     { filter_searchable('#genomesearch', '.genomeblock') };
 function filter_userscripts() { filter_searchable('#userscriptsearch', '#userscripts > .codeblock') };
 
 function login() {
@@ -323,10 +324,12 @@ $(document).ready(function(){
 	filter_examples();
 	filter_tutorial();
 	filter_modules();
+	filter_genomes();
 	filter_userscripts();
 	$('#examplesearch').keyup(filter_examples);
 	$('#tutorialsearch').keyup(filter_tutorial);
 	$('#modulesearch').keyup(filter_modules);
+	$('#genomesearch').keyup(filter_genomes);
 	$('#userscriptsearch').keyup(filter_userscripts);
 
 	$('#loginbutton').on('click', login);

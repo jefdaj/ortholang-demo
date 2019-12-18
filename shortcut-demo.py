@@ -32,6 +32,7 @@ reload(sys)
 sys.setdefaultencoding('utf8')
 
 import re
+import json
 import logging as LOGGING
 
 from datetime            import datetime
@@ -141,7 +142,7 @@ class ServerLoadThread(Thread):
         nfo = {'users': n_sessions, 'cpu': cpu, 'memory': mem}
         LOGGER.debug('emitting serverload: %s' % nfo)
         SOCKETIO.emit('serverload', nfo, namespace='/')
-        LOGGER.debug('SESSIONS: %s' % SESSIONS.keys())
+        LOGGER.debug('sessions: %s' % SESSIONS.keys())
 
 # this is started later because it needs SOCKETIO
 # TODO why does it count an extra user when you clear the http auth?
@@ -204,6 +205,12 @@ def load_tutorial_sections():
                 , 'content': MARKDOWN(txt)
                 }
     return sections
+
+def load_genomes():
+    # used to render the pre-loaded example genomes
+    with open('templates/genomes.json', 'r') as f:
+        genomes = json.load(f)
+    return genomes
 
 
 ##################
@@ -290,6 +297,7 @@ def index(user='guest'):
     examples    = set(k for k in blocks.keys() if user + '/examples/' in k)
     userscripts = set(k for k in blocks.keys() if k.startswith(user) and not 'examples/' in k)
     sections = load_tutorial_sections()
+    genomes = load_genomes()
     # userpaths = load_codeblock_userpaths(blocks)
     return render_template('index.html',
                            user=user,
@@ -297,6 +305,7 @@ def index(user='guest'):
                            examples=examples,
                            sections=sections,
                            userscripts=userscripts,
+                           genomes=genomes,
                            codeblock_userpaths=blocks.keys())
 
 # Flask doesn't like sending random files from all over for security reasons,
