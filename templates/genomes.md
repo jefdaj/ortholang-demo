@@ -1,6 +1,6 @@
 {% import "macros.jinja" as macros with context %}
 
-You can load any FASTA or GenBank file in ShortCut, but a few standard ones are also pre-downloaded on the demo server for convenience.
+You can use any FASTA or GenBank file with ShortCut, but a few standard ones are also pre-downloaded on the demo server for convenience.
 
 Clicking the load links below will type the corresponding `load_` function in the interpreter for you.
 
@@ -19,19 +19,19 @@ Note that anything you upload as `guest` will be available to other guest users.
 
 <table id="genomes">
 <tr>
+  <th>Command</th>
   <th>Organism</th>
   <!-- <th>Source</th> -->
   <th>Common name</th>
   <th>Type</th>
-  <th>Load command</th>
 </tr>
 {% for g in genomes %}
 <tr class="genomeblock">
+	<td><a href="#" onclick="javascript:repl_autorun(['{{g.loadfn | escape}}'])">{{g.loadfn}}</a></td>
 	<td><a href="{{g.url}}" target="_blank">{{g.organism}}</a></td>
 	<!-- <td>{{g.source}}</td> -->
-	<td>{{g.common}}</td>
+	<td>{{g.commonname}}</td>
 	<td>{{g.type}}</td>
-	<td><a href="#" onclick="javascript:repl_autorun(['{{g.loadfn | escape}}'])">{{g.loadfn}}</a></td>
 </tr>
 {% endfor %}
 </table>
