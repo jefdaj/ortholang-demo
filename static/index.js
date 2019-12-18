@@ -24,10 +24,14 @@ function repl_clear() {
 	}
 }
 
-function repl_autorun(lines) {
+function repl_autorun(lines, clear_first=true) {
 	// clear terminal when loading a new script
 	if (lines[0].startsWith(':l')) {
 		setTimeout(repl_clear, 1000)
+	}
+	// awkward, but necessary for assigning genome table entries to variables:
+	if (!clear_first) {
+	  lines[0] = $('#replstdin').val() + lines[0];
 	}
 	// use timeouts + recursion to create a loop with delay each iteration
 	// see https://stackoverflow.com/a/3583740
