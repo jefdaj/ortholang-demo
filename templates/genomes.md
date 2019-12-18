@@ -10,8 +10,7 @@ To assign variables, type the variable name first. For example: "arabidopsis =".
 Once you get the hang of it you can load your own files too:
 
 1. Use the `Upload files` button to send them to the server
-2. Check that they showed up in your user folder with `glob_files "*"`
-3. Type the appropriate `load_` function call
+2. Type the appropriate `load_` function call
 
 Note that anything you upload as `guest` will be available to other guest users.
 
