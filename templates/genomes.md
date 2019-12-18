@@ -19,11 +19,10 @@ Note that anything you upload as `guest` will be available to other guest users.
 
 <table id="genomes">
 <tr>
-  <th>Command</th>
+  <th>Load command</th>
   <th>Organism</th>
   <!-- <th>Source</th> -->
   <th>Common name</th>
-  <th>Type</th>
 </tr>
 {% for g in genomes | sort(attribute='organism') %}
 <tr class="genomeblock">
@@ -31,7 +30,6 @@ Note that anything you upload as `guest` will be available to other guest users.
 	<td><a href="{{g.url}}" target="_blank">{{g.organism}}</a></td>
 	<!-- <td>{{g.source}}</td> -->
 	<td>{{g.commonname}}</td>
-	<td>{{g.type}}</td>
 </tr>
 {% endfor %}
 </table>
