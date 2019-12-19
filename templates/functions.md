@@ -1,8 +1,11 @@
 {% import "macros.jinja" as macros with context %}
 
-<input id="modulesearch" placeholder="Search the module documentation" id="box" type="text"/>
+This page is a complete listing of available functions in ShortCut v0.9.1. The search box only filters by module. So for example if you search for "mmseqs", you'll get the MMSeqs module but also BlastHits and ListLike, because they can use MMSeqs results.
 
-If you don't find what you're looking for, leave Jeff a comment about it! (bottom right)
+Each module has (or will have soon!) an example script making use of all its functions.
+If you don't find what you're looking for, leave Jeff a comment about it.
+
+<input id="modulesearch" placeholder="Search the module documentation" id="box" type="text"/>
 <br/>
 
 <!-- TODO Why does one extra moduleblock with div + empty line have to go here? -->
