@@ -25,7 +25,7 @@ Just add something like this to your `/etc/nixos/configuration.nix`:
     user        = "jefdaj";
     scratchDir  = "/tmp/shortcut-demo";
     logPath     = "/tmp/shortcut-demo.log";
-    examplesDir = "/mnt/data/examples";
+    examplesDir = "/mnt/data/shortcut/examples";
     commentsDir = "/mnt/data/comments";
     uploadsDir  = "/mnt/data/uploads";
     port        = 45772;
@@ -49,7 +49,7 @@ Then run the server the [Nix][2] way:
 nix-shell requirements.nix --command \
   ./shortcut-demo.py \
     -l /tmp/shortcut-demo.log \
-    -e examples \
+    -e shortcut/examples \
     -c comments \
     -t /tmp/shortcut-demo \
     -p 5000 \
@@ -68,7 +68,7 @@ source .venv/bin/activate
 pip install -r requirements.txt
 ./shortcut-demo.py \
   -l /tmp/shortcut-demo.log \
-  -e examples \
+  -e shortcut/examples \
   -c comments \
   -t /tmp/shortcut-demo \
   -p 5000 \
