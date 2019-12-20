@@ -7,9 +7,9 @@ Or if you figure it out yourself, consider adding your script to the collection!
 Jeff can anonymize it by switching out the genes and genomes involved
 if you aren't comfortable putting up pre-publication work.
 
-<input id="examplesearch" placeholder="Search the examples" id="box" type="text"/>
+<input id="scriptsearch" placeholder="Search scripts" id="box" type="text"/>
 
-<div id="examples">
+<div id="scripts">
 {% for path in examples | sort() %}
   {%- filter markdown -%}
 	{%- include "loadexample.html" -%}

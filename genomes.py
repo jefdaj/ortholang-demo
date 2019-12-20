@@ -83,6 +83,7 @@ if __name__ == '__main__':
             j['url'] = guess_url(d)
             j['pre-release'] = 'early_release' in j['path']
             j['relpath'] = '/'.join(j['path'].split('/')[3:])
+            j['basename'] = basename(j['relpath'])
             j['loadfn'] = load_fn(j['relpath'], j['type'])
             # if 'Hannu' in d:
               # print j

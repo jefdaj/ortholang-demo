@@ -128,22 +128,24 @@ function filters_match(filters, element_text) {
 // hide examples or module reference blocks that don't match the current filter
 // based on: http://jsfiddle.net/reyjose/40u0var6/
 function filter_searchable(box_id, element_selector){
-	var filters = $(box_id).val().toLowerCase();
+	var filters = document.getElementById(box_id).value.toLowerCase();
+	console.log(filters);
 	if(filters == ""){
 		$(element_selector).show();
 	} else {
 		$(element_selector).each(function(){
 				var text = $(this).text().toLowerCase();
+				console.log(text);
 				filters_match(filters, text) ? $(this).show() : $(this).hide();
 		});
 	};
 }
 
-function filter_scripts()    { filter_searchable('#scriptsearch', '#scripts > .codeblock') };
-function filter_tutorial()    { filter_searchable('#tutorialsearch', '#tutorial > .tutorialsection') };
-function filter_modules()     { filter_searchable('#modulesearch', '.moduleblock') };
-function filter_genomes()     { filter_searchable('#genomesearch', '.genomeblock') };
-function filter_userscripts() { filter_searchable('#userscriptsearch', '#userscripts > .codeblock') };
+function filter_tutorial()    { filter_searchable('tutorialsearch'  , '#tutorial > .tutorialsection') };
+function filter_genomes()     { filter_searchable('genomesearch'    , '.genomeblock'                ) };
+function filter_modules()     { filter_searchable('modulesearch'    , '#modules > .moduleblock'     ) };
+function filter_scripts()     { filter_searchable('scriptsearch'    , '#scripts > .codeblock'       ) };
+function filter_userscripts() { filter_searchable('userscriptsearch', '#userscripts > .codeblock'   ) };
 
 function login() {
 	window.location.href = '/user';
@@ -176,7 +178,8 @@ function logout() {
 	});
 }
 
-$(document).ready(function(){
+// TODO update to the new method
+$(function(){
 
 	// TODO would explicit disconnect help?
 	SOCKET = io.connect('http://' + document.domain + ':' + location.port);
@@ -335,15 +338,16 @@ $(document).ready(function(){
 		openTabByName(data['tabName']);
 	});
 
-	filter_scripts();
 	filter_tutorial();
-	filter_modules();
 	filter_genomes();
+	filter_modules();
+	filter_scripts();
 	filter_userscripts();
-	$('#scriptsearch').keyup(filter_scripts);
-	$('#tutorialsearch').keyup(filter_tutorial);
-	$('#modulesearch').keyup(filter_modules);
-	$('#genomesearch').keyup(filter_genomes);
+
+	$('#tutorialsearch'  ).keyup(filter_tutorial   );
+	$('#genomesearch'    ).keyup(filter_genomes    );
+	$('#modulesearch'    ).keyup(filter_modules    );
+	$('#scriptsearch'    ).keyup(filter_scripts    );
 	$('#userscriptsearch').keyup(filter_userscripts);
 
 	$('#loginbutton').on('click', login);

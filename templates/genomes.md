@@ -18,14 +18,16 @@ Note that anything you upload as `guest` will be available to other guest users.
 
 <table id="genomes">
 <tr>
-  <th>Load command</th>
+  <th>File</th>
+  <th>Type</th>
   <th>Organism</th>
   <!-- <th>Source</th> -->
   <th>Common name</th>
 </tr>
 {% for g in genomes | sort(attribute='organism') %}
 <tr class="genomeblock">
-	<td><a href="#" onclick="repl_autorun([' {{g.loadfn | escape}}'], clear_first=false)">{{g.loadfn}}</a></td>
+	<td><a href="#" onclick="repl_autorun([' {{g.loadfn | escape}}'], clear_first=false)">{{g.basename}}</a></td>
+	<td>{{g.type}}</td>
 	<td><a href="{{g.url}}" target="_blank">{{g.organism}}</a></td>
 	<!-- <td>{{g.source}}</td> -->
 	<td>{{g.commonname}}</td>
