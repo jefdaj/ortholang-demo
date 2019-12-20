@@ -20,6 +20,6 @@ cutoffs.
 
 Example:
 
-{{ macros.load_cut(user, 'examples/crb.cut') }}
+{{ macros.load_cut(user, 'examples/scripts/crb.cut') }}
 
 [1]: https://journals.plos.org/plosgenetics/article?id=10.1371/journal.pgen.1004365
