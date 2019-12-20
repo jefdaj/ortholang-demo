@@ -20,4 +20,4 @@ the final results in some way, perhaps filtering or plotting them (during step 4
 
 Here is a more practical example that repeats a BLAST search with a list of cutoffs:
 
-{{ macros.load_cut(user, 'examples/prs02.cut') }}
+{{ macros.load_cut(user, 'examples/cut-scripts/prs02.cut') }}

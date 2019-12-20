@@ -3,7 +3,7 @@
 Let's start at the beginning.
 This is probably the simplest script you could write:
 
-{{ macros.load_cut(user, 'examples/variables01.cut') }}
+{{ macros.load_cut(user, 'examples/cut-scripts/variables01.cut') }}
 
 <!-- TODO include example scripts in the main repo? either that or rewrite this: -->
 <!-- idea: :help <varname> should expand to help on its type -->
@@ -15,7 +15,7 @@ You'll spend most of your time editing it in the interpreter,
 defining and evaluating individual variables.
 Here is a script with several of them.
 
-{{ macros.load_cut(user, 'examples/variables02.cut') }}
+{{ macros.load_cut(user, 'examples/cut-scripts/variables02.cut') }}
 
 ShortCut keeps track of dependencies between variables, like this:
 
