@@ -11,9 +11,9 @@ _Note: `:help` for individual functions coming soon._
 
 You can also download the standard NCBI databases. Try this:
 
-{{ macros.load_cut(user, 'examples/scripts/blast02.cut') }}
+{{ macros.load_cut(user, 'examples/cut-scripts/blast02.cut') }}
 
-{{ macros.load_cut(user, 'examples/scripts/blast01.cut') }}
+{{ macros.load_cut(user, 'examples/cut-scripts/blast01.cut') }}
 
 The SwissProt DB will take a minute or two to download,
 and then you should see a summary like this:

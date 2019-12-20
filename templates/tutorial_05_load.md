@@ -33,7 +33,7 @@ The `_each` versions take a list of strings and load a list of files.
 There are also `concat_` functions for types that can be concatenated,
 which is helpful if a genome is distributed as multiple files.
 
-{{ macros.load_cut(user, 'examples/scripts/load01.cut') }}
+{{ macros.load_cut(user, 'examples/cut-scripts/load01.cut') }}
 
 As you can see if you try it out, evaluating those functions prints the first few lines.
 Lists do the same thing for each element.
@@ -52,7 +52,7 @@ The `_glob` versions are similar to the `_each` ones but take a single string wi
 wildcard pattern describing the files to load.
 These two do the same thing:
 
-{{ macros.load_cut(user, 'examples/scripts/load02.cut') }}
+{{ macros.load_cut(user, 'examples/cut-scripts/load02.cut') }}
 
 The first one should generally be preferred for clarity though,
 unless you mean to load a list of files that might change.
@@ -61,7 +61,7 @@ unless you mean to load a list of files that might change.
 so you can input your gene IDs or a list of genomes to search.
 Then wrap it in `load_<whatever>_each` to actually load those files if needed:
 
-{{ macros.load_cut(user, 'examples/scripts/load03.cut') }}
+{{ macros.load_cut(user, 'examples/cut-scripts/load03.cut') }}
 
 
 Here are a bunch of random things loaded properly to play around with:
