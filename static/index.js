@@ -265,9 +265,9 @@ $(function(){
 			r.onloadend = function(e) {
 				var n = e.target.fileName;
 				SOCKET.emit('upload', {fileName: n, fileData: e.target.result});
-				// if the file is a cut script, add it to the load menu
+				// if the file is an ol script, add it to the load menu
     			var ext = n.substring(n.lastIndexOf('.') + 1);
-				if (ext == 'cut') {
+				if (ext == 'ol') {
 					add_script_to_load_menu(n);
 				}
 			};

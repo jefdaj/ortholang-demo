@@ -4,7 +4,7 @@
 		<!-- TODO group these by top row being autofills and bottom being server actions -->
 		<div id="loadcontrols">
 			<button id="loadbutton">Load script</button>
-			<select id="loadmenu">
+			<select id="loadmenu" style="max-width: 320px;">
 				{% for path in list_user_scripts(user) %}
 				<option value="{{ path }}">{{ path }}</option>
 				{% endfor %}
