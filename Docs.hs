@@ -68,7 +68,7 @@ header =
  ]
 
 loadExample :: CutModule -> [String]
-loadExample m = ["{{ macros.load_cut(user, 'examples/" ++ name ++ ".ol') }}"]
+loadExample m = ["{{ macros.load_script(user, 'examples/" ++ name ++ ".ol') }}"]
   where
     name = filter isAlphaNum $ map toLower $ mName m
 
