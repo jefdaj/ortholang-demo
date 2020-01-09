@@ -1,7 +1,7 @@
 .asciinema-theme-github .asciinema-terminal {
 	color: #000;                    /* default text color */
-	background-color: #f8f8f8;         /* terminal background color */
-	border-color: #f8f8f8;
+	background-color: #fbfbfb;         /* terminal background color */
+	border-color: #fbfbfb;
 }
 .asciinema-theme-github .fg-bg {    /* inverse for default text color */
 	color: #272822;
