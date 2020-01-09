@@ -44,8 +44,8 @@ from flask_httpauth      import HTTPBasicAuth
 from glob                import glob
 from jinja2              import ChoiceLoader, FileSystemLoader
 from misaka              import Markdown, HtmlRenderer
-from os                  import setsid, getpgid, killpg, makedirs, symlink, readlink
-from os.path             import exists, join, relpath, realpath, dirname, basename, splitext
+from os                  import setsid, getpgid, killpg, makedirs, symlink, readlink, listdir
+from os.path             import exists, join, relpath, realpath, dirname, basename, splitext, islink
 from pexpect             import spawn, EOF
 from psutil              import cpu_percent, virtual_memory
 from pygments            import highlight
@@ -239,16 +239,19 @@ def verify_pw(username, password):
 
 def create_user(username, password):
     # note this assumes the username isn't taken!
-    linksrc  = readlink( join(CONFIG['users_dir'], 'guest', 'examples') )
-    userpath = join(CONFIG['users_dir'], username)
-    try:
-        makedirs(userpath)
-    except OSError:
-        pass
-    try:
-        symlink(linksrc, join(userpath, 'examples'))
-    except OSError:
-        pass
+    guestdir = join(CONFIG['users_dir'], 'guest')
+    linkpaths = [s for s in [join(guestdir, p) for p in listdir(guestdir)] if islink(s)]
+    for linkpath in linkpaths:
+        linksrc  = readlink(linkpath)
+        userpath = join(CONFIG['users_dir'], username)
+        try:
+            makedirs(userpath)
+        except OSError:
+            pass
+        try:
+            symlink(linksrc, join(userpath, basename(linkpath)))
+        except OSError:
+            pass
     pwhash = generate_password_hash(password)
     LOGGER.info("creating user '%s' with password hash '%s'" % (username, pwhash))
     global AUTH_USERS
