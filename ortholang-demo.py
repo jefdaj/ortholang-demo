@@ -72,8 +72,25 @@ ARGS = docopt(__doc__)
 
 # note: this is the only option that doesn't result in running the server
 
+def prefetch_blastdbget(shared_dir):
+    db_dir = join(shared_dir, 'cache/blastdbget')
+    print 'prefetching BLAST DBs to %s...' % db_dir
+    output = str(spawn('blastdbget', [db_dir], encoding='utf-8', timeout=None).read())
+    dbs = [l for l in output.split('\r\n')]
+    dbs = [d for d in dbs if len(d) > 0 and not 'INFO' in d and not 'Usage:' in d]
+    dbs.sort()
+    print 'all dbs: %s' % dbs
+    too_big = ['nr', 'nt', 'env_nr', 'env_nt', 'refseq_protein', 'refseq_genomic']
+    dbs = [d for d in dbs if not d in too_big]
+    print 'dbs to update: %s' % dbs
+    for db in dbs:
+        print 'prefetching %s BLAST database from NCBI...' % db
+        proc = spawn('blastdbget', ['-d', db, db_dir], encoding='utf-8', timeout=None)
+        proc.logfile_read = sys.stdout
+        proc.expect(u'Process complete.', timeout=None)
+
 def prefetch(shared_dir):
-    print 'prefetching to %s...' % shared_dir
+    prefetch_blastdbget(shared_dir)
 
 if '--prefetch' in ARGS:
     prefetch(ARGS['-s'])
