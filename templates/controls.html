@@ -3,8 +3,8 @@
 
 		<!-- TODO group these by top row being autofills and bottom being server actions -->
 		<div id="loadcontrols">
-			<button id="loadbutton">Load script</button>
-			<select id="loadmenu" style="max-width: 320px;">
+			<button id="loadbutton">Load</button>
+			<select id="loadmenu">
 				{% for path in list_user_scripts(user) %}
 				<option value="{{ path }}">{{ path }}</option>
 				{% endfor %}
@@ -18,12 +18,14 @@
 
 		<div id="scriptcontrols">
 			<!-- save/download -->
-			<button id="savebutton">Save script</button>
+			<button id="savebutton">Save</button>
 			<input id="filename" type="text" name="scriptname" placeholder="your-script-name.ol">
 			<br/>
 			<br/>
+			<div id="dlcontrols">
 			<input id="dlscript" type="submit" value="Download script">
 			<input id="dlresult" type="submit" value="Download result">
+			</div>
 		</div>
 
 	</div>

@@ -3,13 +3,13 @@
 <h2>OrthoLang: re-usable ortholog search scripts.</h2>
 </div>
 
-<div id="devwarning">
+<!-- <div id="devwarning">
 <b>WARNING: Demo under construction.
 <br/>
 You may need to zoom out to fix the layout.</b>
 <br/>
 </div>
-<br/>
+<br/> -->
 
 OrthoLang is a small scripting language designed to help you search for candidate genes.
 Load some genes and genomes,
