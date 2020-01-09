@@ -142,7 +142,7 @@ function filter_searchable(box_id, element_selector){
 }
 
 function filter_tutorial()    { filter_searchable('tutorialsearch'  , '#tutorial > .tutorialsection') };
-function filter_genomes()     { filter_searchable('genomesearch'    , '.genomeblock'                ) };
+function filter_data()        { filter_searchable('datasearch'      , '.datablock'                  ) };
 function filter_modules()     { filter_searchable('modulesearch'    , '.moduleblock'                ) };
 function filter_scripts()     { filter_searchable('scriptsearch'    , '#scripts > .codeblock'       ) };
 function filter_userscripts() { filter_searchable('userscriptsearch', '#userscripts > .codeblock'   ) };
@@ -339,13 +339,13 @@ $(function(){
 	});
 
 	filter_tutorial();
-	filter_genomes();
+	filter_data();
 	filter_modules();
 	filter_scripts();
 	filter_userscripts();
 
 	$('#tutorialsearch'  ).keyup(filter_tutorial   );
-	$('#genomesearch'    ).keyup(filter_genomes    );
+	$('#datasearch'      ).keyup(filter_data       );
 	$('#modulesearch'    ).keyup(filter_modules    );
 	$('#scriptsearch'    ).keyup(filter_scripts    );
 	$('#userscriptsearch').keyup(filter_userscripts);

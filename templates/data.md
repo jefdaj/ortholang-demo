@@ -14,9 +14,9 @@ Once you get the hang of it you can load your own files too:
 
 Note that anything you upload as `guest` will be available to other guest users.
 
-<input id="genomesearch" placeholder="Search demo genomes" id="box" type="text"/>
+<input id="datasearch" placeholder="Search demo data" id="box" type="text"/>
 
-<table id="genomes">
+<table id="datatable">
 <tr>
   <th>Organism</th>
   <!-- <th>Source</th> -->
