@@ -1,15 +1,8 @@
-<div id="intropitch">
-<img src="/static/ortholang.png" style="width:300px;"></img>
-<!-- There's more than one way to get there.<br/> -->
-<!-- Combine and compare sequence searches.<br/> -->
-<!-- Quickly try altnernative workflows.<br/> -->
-<!-- Compare and combine searches.<br/> -->
-<!-- Find a <b>R</b>apid, <b>R</b>obust, <b>R</b>eproducible<br/> -->
-<!-- Find a rapid, robust, reproducible<br/>
-route to your candidate genes! -->
+<div id="intropitch" style="width:80%;">
+<img src="/static/ortholang.svg" style="width:350px;"></img>
+<h2>OrthoLang: re-usable ortholog search scripts.</h2>
 </div>
 
-<br/>
 <div id="devwarning">
 <b>WARNING: Demo under construction.
 <br/>
