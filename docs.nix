@@ -1,9 +1,9 @@
-with import ./shortcut/nixpkgs;
+with import ./ortholang/nixpkgs;
 
 let
-  shortcut = import ./shortcut/default.nix;
+  ortholang = import ./ortholang/default.nix;
 
-in haskell.lib.overrideCabal shortcut (drv: {
+in haskell.lib.overrideCabal ortholang (drv: {
   buildDepends = drv.buildDepends ++ [stack];
   shellHook = ''
     ${drv.shellHook or ""}

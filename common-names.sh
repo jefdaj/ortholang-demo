@@ -10,7 +10,7 @@ cd /mnt/data/PhytozomeV12
 
 # i downloaded the portal pages with a firefox plugin since they require javascript
 # this moves them to their proper organism folders
-for f in /home/jefdaj/shortcut-demo/portals/*.html; do
+for f in /home/jefdaj/ortholang-demo/portals/*.html; do
   a=$(grep_alias "$f")
   # cp "$f" "${a}/portal.html" || echo "no dir: $a"
   d=early_release/$(ls early_release | grep $a)

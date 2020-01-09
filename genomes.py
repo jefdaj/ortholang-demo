@@ -88,5 +88,5 @@ if __name__ == '__main__':
             # if 'Hannu' in d:
               # print j
             js.append(j)
-    with open('/home/jefdaj/shortcut-demo/templates/genomes.json', 'w') as f:
+    with open('/home/jefdaj/ortholang-demo/templates/genomes.json', 'w') as f:
         f.write(json.dumps(js, indent=2))

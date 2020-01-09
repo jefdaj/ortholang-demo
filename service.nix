@@ -5,16 +5,16 @@ with lib;
 # TODO don't kill all python processes when stopping
 
 let
-  cfg = config.services.shortcutDemo;
+  cfg = config.services.ortholangDemo;
   pkgs2 = pkgs // {
     # adjust these to your system:
-    shortcut = import ./shortcut;
-    "shortcut-demo" = import ./default.nix;
+    ortholang = import ./ortholang;
+    "ortholang-demo" = import ./default.nix;
   };
 
 in {
   options = {
-    services.shortcutDemo = {
+    services.ortholangDemo = {
       enable = mkOption {
         default = false;
         type = with types; bool;
@@ -32,7 +32,7 @@ in {
       };
 
       authPath = mkOption {
-        default = "/tmp/shortcut-users.txt"; # TODO where should this go by default?
+        default = "/tmp/ortholang-users.txt"; # TODO where should this go by default?
         type = with types; uniq string;
         description = ''
           Path to the auth file (tab-separated usernames and passwords)
@@ -40,7 +40,7 @@ in {
       };
 
       logPath = mkOption {
-        default = "/tmp/shortcut-demo.log";
+        default = "/tmp/ortholang-demo.log";
         type = with types; uniq string;
         description = ''
           Where to write the server log.
@@ -65,7 +65,7 @@ in {
       };
 
       tmpDir = mkOption {
-        default = "/tmp/shortcut-demo";
+        default = "/tmp/ortholang-demo";
         type = with types; uniq string;
         description = ''
           Where to save user tmpfiles. Ideally in RAM or at least on an SSD.
@@ -101,7 +101,7 @@ in {
   };
 
   config = mkIf cfg.enable {
-    systemd.services."shortcut-demo" = {
+    systemd.services."ortholang-demo" = {
       wantedBy = [ "multi-user.target" ];
       after = [ "network.target" ];
       description = "OrthoLang demo server";
@@ -109,7 +109,7 @@ in {
         Type = "simple";
         User = "${cfg.user}";
         ExecStart = ''
-          ${pkgs2.shortcut-demo}/bin/shortcut-demo \
+          ${pkgs2.ortholang-demo}/bin/ortholang-demo \
             -l ${cfg.logPath} \
             -e ${cfg.examplesDir} \
             -c ${cfg.commentsDir} \
@@ -124,6 +124,6 @@ in {
       };
     };
 
-    environment.systemPackages = [ pkgs2.shortcut pkgs2.procps ];
+    environment.systemPackages = [ pkgs2.ortholang pkgs2.procps ];
   };
 }

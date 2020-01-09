@@ -7,8 +7,8 @@ nix:
 extra-package-dbs: []
 packages:
 - .
-- shortcut
-- shortcut/logging
+- ortholang
+- ortholang/logging
 
 # it works best if this matches the haskell.compiler.ghcXXX version in default.nix
 system-ghc: true

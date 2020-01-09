@@ -11,8 +11,8 @@
 Launch the OrthoLang demo server.
 
 Usage:
-  shortcut-demo (-h | --help)
-  shortcut-demo -l LOG -e EXAMPLES -c COMMENTS -t TMP -p PORT -a AUTH -u USERS -s SHARED
+  ortholang-demo (-h | --help)
+  ortholang-demo -l LOG -e EXAMPLES -c COMMENTS -t TMP -p PORT -a AUTH -u USERS -s SHARED
 
 Options:
   -h, --help   Show this help text
@@ -81,7 +81,7 @@ CONFIG['port'        ] = int(ARGS['-p'])
 # repl sessions, indexed by sid and also username if logged in
 SESSIONS = {}
 
-# prompt arrow, which should match the shortcut code
+# prompt arrow, which should match the ortholang code
 # ARROW = "❱❱❱ "
 # ARROW = "-> " # TODO does it need escaping in regexes?
 ARROW = u' —▶ '
@@ -106,7 +106,7 @@ HANDLER.setFormatter(LOGGING.Formatter('%(asctime)s %(name)s %(levelname)s %(mes
 
 # set up logging for this module
 # note: socketio + engineio loggers are messed with later
-LOGGER = LOGGING.getLogger('shortcut')
+LOGGER = LOGGING.getLogger('ortholang')
 LOGGER.setLevel(LOGGING.DEBUG)
 LOGGER.addHandler(HANDLER)
 LOGGER.info('starting demo.py')
@@ -379,7 +379,7 @@ def find_session(sid=None, username=None):
         return SESSIONS[sid]
 
 def interpret_clear_code(sessionids, sometext):
-    # remove terminal escape sequences like "clear screen" in shortcut
+    # remove terminal escape sequences like "clear screen" in ortholang
     # based on https://stackoverflow.com/a/14693789
     ansi_clear  = re.compile(r'\x1B\[2J')
     ansi_escape = re.compile(r'\x1B\[[0-?]*[ -/]*[@-~]')
@@ -507,22 +507,22 @@ def handle_reqresult():
 
 
 ############
-# shortcut #
+# ortholang #
 ############
 
-def check_shortcut_version():
-    LOGGER.info('checking output of "shortcut --version"')
+def check_ortholang_version():
+    LOGGER.info('checking output of "ortholang --version"')
     version_expected = u'OrthoLang 0.9.2'
-    proc = spawn('shortcut', ['--version'], encoding='utf-8', timeout=None)
+    proc = spawn('ortholang', ['--version'], encoding='utf-8', timeout=None)
     try:
         proc.expect(version_expected, timeout=10)
     except:
-        msg = '"shortcut --version" failed. Check your PATH and version.'
+        msg = '"ortholang --version" failed. Check your PATH and version.'
         msg += ' It should be: ' + str(version_expected)
         LOGGER.error(msg)
         raise SystemExit(1)
 
-check_shortcut_version()
+check_ortholang_version()
 
 class OrthoLangThread(Thread):
     def __init__(self, sessionid, username):
@@ -557,7 +557,7 @@ class OrthoLangThread(Thread):
                 while True:
                     index = self.process.expect(options)
                     out = self.process.before + self.process.after
-                    out = interpret_clear_code(self.sessionids, out) # catches shortcut's "clear screen" command
+                    out = interpret_clear_code(self.sessionids, out) # catches ortholang's "clear screen" command
                     self.emitText(out)
                     # self.emitText(self.process.before.lstrip())
                     # self.emitText(self.process.after)
@@ -570,7 +570,7 @@ class OrthoLangThread(Thread):
                 continue
 
 
-    # TODO currently this is the same as killing the interpreter... handle separately in shortcut?
+    # TODO currently this is the same as killing the interpreter... handle separately in ortholang?
     def stopEval(self):
         # LOGGER.info('session %s stopping %s evaluation' % (self.sessionid, self.process.pid))
         LOGGER.info('session %s stopping evaluation' % self.sessionids)
@@ -610,7 +610,7 @@ class OrthoLangThread(Thread):
             self.killRepl()
         args = ['--secure', '--noprogress', '--interactive', '--tmpdir', self.tmpdir, '--workdir', self.workdir, '--shared', CONFIG['shared_dir']]
         # self.process = Popen(cmd, stdin=PIPE, stdout=PIPE, stderr=STDOUT, preexec_fn=setsid)
-        self.process = spawn('shortcut', args, encoding='utf-8', echo=False, timeout=None)
+        self.process = spawn('ortholang', args, encoding='utf-8', echo=False, timeout=None)
         # LOGGER.info('session %s spawned interpreter %s' % (self.sessionid, self.process.pid))
         LOGGER.info('session %s spawned interpreter' % self.sessionids)
 

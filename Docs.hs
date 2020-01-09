@@ -2,7 +2,7 @@ module Main where
 
 {- This isn't meant for end users. It's just an easy way to keep
  - the module reference on the website in sync with the actual code.
- - Run shortcut --reference to generate an updated templates/reference.md
+ - Run ortholang --reference to generate an updated templates/reference.md
  -
  - TODO put in a separate binary?
  -}
@@ -115,7 +115,7 @@ writePlaceholder docsDir name = do
     putStrLn path
     writeFile path $ "doc for " ++ name ++ " not written yet"
 
--- TODO take one argument like: shortcut-docs ~/shortcut-demo/templates/reference.md
+-- TODO take one argument like: ortholang-docs ~/ortholang-demo/templates/reference.md
 main :: IO ()
 main = do
   writeDocPlaceholders modules
