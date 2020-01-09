@@ -3,7 +3,7 @@
 # Using the website
 
 <div style="float: right;">
-  <img class="centeredimg" src="/static/server.png"></img>
+  <img class="centeredimg" src="/static/server.png" style="width:150px;"></img>
 </div>
 
 This website is intended primarily as a demo. It's run from a standard desktop
