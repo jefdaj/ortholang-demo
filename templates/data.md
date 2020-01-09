@@ -1,11 +1,16 @@
 {% import "macros.jinja" as macros with context %}
 
-You can use any FASTA or GenBank file with OrthoLang, but this page lists the standard ones pre-loaded on the demo server.
-Clicking the load links below will type the corresponding `load_` function in the interpreter for you.
+This page lists some standard data files pre-downloaded on the demo server:
 
-If there are many files for your species, try adding keywords: "brachy 460", "papaya faa", "araport11 protein primary", etc.
+* BLAST databases from NCBI
+* Genomes and proteomes from Phytozome
 
-To assign variables, type the variable name first. For example: "arabidopsis =". Then click the `load` button to auto-fill the rest of the line.
+Clicking a filename below will type the corresponding `load_` function in the interpreter for you.
+
+Type keywords to filter the table: "papaya faa", "refseq", "araport11 protein primary", etc.
+
+To assign variables, type the variable name first.
+For example: "arabidopsis =". Then click the `load` button to auto-fill the rest of the line.
 
 Once you get the hang of it you can load your own files too:
 
@@ -14,7 +19,7 @@ Once you get the hang of it you can load your own files too:
 
 Note that anything you upload as `guest` will be available to other guest users.
 
-<input id="datasearch" placeholder="Search demo data" id="box" type="text"/>
+<input id="datasearch" placeholder="Filter demo files" id="box" type="text"/>
 
 <table id="datatable">
 <tr>

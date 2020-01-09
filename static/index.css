@@ -3,9 +3,12 @@
 	/* border: 1px solid red; */
 }
 
+p, li {
+	font-size: 10pt;
+}
+
 p {
 	font-family: Arial;
-	font-size: 10pt;
 	width: 95%;
 }
 html, body {
