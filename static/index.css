@@ -78,17 +78,11 @@ code, pre, div .highlight {
 }
 #replbackground {
 	background: #fbfbfb no-repeat url('/static/ortholang-blur20.png') 50% / 98%;
-
-	/* Add the blur effect */
-	filter: blur(4px);
-	-webkit-filter: blur(4px);
-
-	/* fill container, keeping the blur inside */
-	width:  calc(100% - 8px);
-	height: calc(100% - 8px);
+	width:  100%;
+	height: 100%;
 	position: absolute;
-	top: 4px;
-	left: 4px;
+	top: 0px;
+	left: 0px;
 }
 #replstdin, #replstdout, #serverload, #account {
 	font-family: monospace;
