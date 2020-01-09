@@ -8,7 +8,7 @@
 # TODO should users dir be optional?
 
 '''
-Launch the ShortCut demo server.
+Launch the OrthoLang demo server.
 
 Usage:
   shortcut-demo (-h | --help)
@@ -316,8 +316,8 @@ def index(user='guest'):
                            codeblock_userpaths=blocks.keys())
 
 # Flask doesn't like sending random files from all over for security reasons,
-# so we make these simplified routes where /TMPDIR and /WORKDIR refer to their ShortCut equivalents.
-# Lines from ShortCut get rewritten with regexes to include that (messy I know),
+# so we make these simplified routes where /TMPDIR and /WORKDIR refer to their OrthoLang equivalents.
+# Lines from OrthoLang get rewritten with regexes to include that (messy I know),
 # and then this function finds the real paths again when we need to fetch a file.
 @FLASK.route('/TMPDIR/<path:filename>')
 def send_tmpfile(filename):
@@ -399,13 +399,13 @@ def handle_connect():
         if not uname:
             LOGGER.info('client %s started a guest session' % sid)
             # print 'trying to start thread...'
-            SESSIONS[sid] = ShortCutThread(sid, 'guest')
+            SESSIONS[sid] = OrthoLangThread(sid, 'guest')
             # print 'success!'
             thread = SESSIONS[sid]
         else:
             if not uname in SESSIONS:
                 LOGGER.info('%s started a new session with id %s' % (uname, sid))
-                SESSIONS[uname] = ShortCutThread(sid, uname)
+                SESSIONS[uname] = OrthoLangThread(sid, uname)
             else:
                 LOGGER.info('user %s resuming with new session id %s' % (uname, sid))
                 SESSIONS[uname].sessionids.add(sid)
@@ -512,7 +512,7 @@ def handle_reqresult():
 
 def check_shortcut_version():
     LOGGER.info('checking output of "shortcut --version"')
-    version_expected = u'ShortCut 0.9.2'
+    version_expected = u'OrthoLang 0.9.2'
     proc = spawn('shortcut', ['--version'], encoding='utf-8', timeout=None)
     try:
         proc.expect(version_expected, timeout=10)
@@ -524,9 +524,9 @@ def check_shortcut_version():
 
 check_shortcut_version()
 
-class ShortCutThread(Thread):
+class OrthoLangThread(Thread):
     def __init__(self, sessionid, username):
-        LOGGER.debug('init ShortCutThread')
+        LOGGER.debug('init OrthoLangThread')
         LOGGER.info('creating session %s' % sessionid)
         # self.delay = 0.01
         self.sessionids = set([sessionid])
@@ -547,7 +547,7 @@ class ShortCutThread(Thread):
             pass # already exists
         self._done = Event()
         self.process = None
-        super(ShortCutThread, self).__init__()
+        super(OrthoLangThread, self).__init__()
 
     def run(self):
         options = [ARROW, u'Bye for now!'] # , '.*']

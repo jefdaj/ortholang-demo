@@ -7,15 +7,15 @@ module Main where
  - TODO put in a separate binary?
  -}
 
-import ShortCut.Core.Types
+import OrthoLang.Core.Types
 
 import Data.List.Split  (splitOn)
 import Data.List.Utils  (join)
-import ShortCut.Modules (modules)
+import OrthoLang.Modules (modules)
 import Data.Char        (toLower, isAlphaNum)
 import Data.List (nub)
 import System.FilePath ((</>), (<.>))
-import Paths_ShortCut             (getDataFileName)
+import Paths_OrthoLang             (getDataFileName)
 import Control.Monad (when)
 import System.Directory (doesFileExist)
 

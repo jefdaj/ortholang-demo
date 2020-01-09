@@ -1,7 +1,7 @@
 shortcut-demo
 =============
 
-An interactive web demo + tutorial for [ShortCut][1].
+An interactive web demo + tutorial for [OrthoLang][1].
 Try the live version at [shortcut.pmb.berkeley.edu](https://shortcut.pmb.berkeley.edu)!
 
 Install as a NixOS service

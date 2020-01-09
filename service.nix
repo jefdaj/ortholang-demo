@@ -19,7 +19,7 @@ in {
         default = false;
         type = with types; bool;
         description = ''
-          Enable the ShortCut demo server
+          Enable the OrthoLang demo server
         '';
       };
 
@@ -104,7 +104,7 @@ in {
     systemd.services."shortcut-demo" = {
       wantedBy = [ "multi-user.target" ];
       after = [ "network.target" ];
-      description = "ShortCut demo server";
+      description = "OrthoLang demo server";
       serviceConfig = {
         Type = "simple";
         User = "${cfg.user}";
