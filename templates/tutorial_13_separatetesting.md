@@ -9,17 +9,17 @@ For example this might be a good layout:
 
 ```
 greencut/
-├── unoptimized.cut
-├── optimize-search-cutoff.cut
-└── optimize-green-genomes.cut
+├── unoptimized.ol
+├── optimize-search-cutoff.ol
+└── optimize-green-genomes.ol
 ```
 
-Most code is in `unoptimized.cut`, with each thing you want to optimize assigned to a variable:
+Most code is in `unoptimized.ol`, with each thing you want to optimize assigned to a variable:
 it should have `search_cutoff` and `green_genomes` along with anything you want to use in scoring like `n_hits`.
 Then when you want to optimize one of them you do it in a new file like this:
 
 ```
-include "unoptimized.cut"
+include "unoptimized.ol"
 n_hits_by_search_cutoff = score_repeats n_hits search_cutoff [1e-2, 1e-5, 1e-10, 1e-20, 1e-50]
 result = linegraph "n hits by search cutoff" n_hits_by_search_cutoff
 ```

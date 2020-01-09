@@ -19,7 +19,7 @@ data-files:         ortholang/data/*.fa,
                     ortholang/tests/check/*.sh,
                     ortholang/tests/versions/*.txt,
                     ortholang/tests/repl/*.txt,
-                    ortholang/tests/scripts/*.cut,
+                    ortholang/tests/scripts/*.ol,
                     ortholang/tests/stdout/*.txt,
                     ortholang/tests/tmpfiles/*.txt,
                     ortholang/wrapper-scripts/*.sh

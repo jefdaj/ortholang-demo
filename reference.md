@@ -19,7 +19,7 @@ Functions:
 | `replace_each` | `<outputvar>`, `<inputvar>`, `<inputvars>` | `<output>.list` |
 
 <br/>
-{{ macros.load_cut(user, 'examples/replace.cut') }}
+{{ macros.load_cut(user, 'examples/replace.ol') }}
 </div>
 <div class="moduleblock">
 <h3>Repeat module</h3>
@@ -34,7 +34,7 @@ Functions:
 | `repeat` | `<outputvar>`, `<inputvar>`, `num` | `<output>.list` |
 
 <br/>
-{{ macros.load_cut(user, 'examples/repeat.cut') }}
+{{ macros.load_cut(user, 'examples/repeat.ol') }}
 </div>
 <div class="moduleblock">
 <h3>Math module</h3>
@@ -52,7 +52,7 @@ Functions:
 | `/` | `num`, `num` | `num` |
 
 <br/>
-{{ macros.load_cut(user, 'examples/math.cut') }}
+{{ macros.load_cut(user, 'examples/math.ol') }}
 </div>
 <div class="moduleblock">
 <h3>Load module</h3>
@@ -68,7 +68,7 @@ Functions:
 | `glob_files` | `str` | `str.list` |
 
 <br/>
-{{ macros.load_cut(user, 'examples/load.cut') }}
+{{ macros.load_cut(user, 'examples/load.ol') }}
 </div>
 <div class="moduleblock">
 <h3>Sets module</h3>
@@ -89,7 +89,7 @@ Functions:
 | `diff` | `X.list.list` | `X.list` |
 
 <br/>
-{{ macros.load_cut(user, 'examples/sets.cut') }}
+{{ macros.load_cut(user, 'examples/sets.ol') }}
 </div>
 <div class="moduleblock">
 <h3>SeqIO module</h3>
@@ -138,7 +138,7 @@ Functions:
 | `load_gbk_glob` | `str` | `gbk.list` |
 
 <br/>
-{{ macros.load_cut(user, 'examples/seqio.cut') }}
+{{ macros.load_cut(user, 'examples/seqio.ol') }}
 </div>
 <div class="moduleblock">
 <h3>BiomartR module</h3>
@@ -162,7 +162,7 @@ Functions:
 | `get_proteomes` | `str.list` | `faa.gz.list` |
 
 <br/>
-{{ macros.load_cut(user, 'examples/biomartr.cut') }}
+{{ macros.load_cut(user, 'examples/biomartr.ol') }}
 </div>
 <div class="moduleblock">
 <h3>BlastDB module</h3>
@@ -196,7 +196,7 @@ Functions:
 | `singletons` | `X.list` | `X.list.list` |
 
 <br/>
-{{ macros.load_cut(user, 'examples/blastdb.cut') }}
+{{ macros.load_cut(user, 'examples/blastdb.ol') }}
 </div>
 <div class="moduleblock">
 <h3>BLAST+ module</h3>
@@ -243,7 +243,7 @@ Functions:
 | `concat_bht_each` | `bht.list.list` | `bht.list` |
 
 <br/>
-{{ macros.load_cut(user, 'examples/blast.cut') }}
+{{ macros.load_cut(user, 'examples/blast.ol') }}
 </div>
 <div class="moduleblock">
 <h3>BlastHits module</h3>
@@ -276,7 +276,7 @@ Functions:
 | `best_hits_each` | `hittable.list` | `bht.list` |
 
 <br/>
-{{ macros.load_cut(user, 'examples/blasthits.cut') }}
+{{ macros.load_cut(user, 'examples/blasthits.ol') }}
 </div>
 <div class="moduleblock">
 <h3>ListLike module</h3>
@@ -300,7 +300,7 @@ Functions:
 | `length_each` | `listlike.list` | `num.list` |
 
 <br/>
-{{ macros.load_cut(user, 'examples/listlike.cut') }}
+{{ macros.load_cut(user, 'examples/listlike.ol') }}
 </div>
 <div class="moduleblock">
 <h3>PsiBLAST module</h3>
@@ -381,7 +381,7 @@ Functions:
 | `psiblast_train_pssms_db` | `num`, `faa.list`, `pdb` | `pssm.list` |
 
 <br/>
-{{ macros.load_cut(user, 'examples/psiblast.cut') }}
+{{ macros.load_cut(user, 'examples/psiblast.ol') }}
 </div>
 <div class="moduleblock">
 <h3>CRB-BLAST module</h3>
@@ -405,7 +405,7 @@ Functions:
 | `crb_blast_each` | `fna`, `fa.list` | `crb.list` |
 
 <br/>
-{{ macros.load_cut(user, 'examples/crbblast.cut') }}
+{{ macros.load_cut(user, 'examples/crbblast.ol') }}
 </div>
 <div class="moduleblock">
 <h3>HMMER module</h3>
@@ -433,7 +433,7 @@ Functions:
 | `extract_hmm_targets_each` | `hht.list` | `str.list.list` |
 
 <br/>
-{{ macros.load_cut(user, 'examples/hmmer.cut') }}
+{{ macros.load_cut(user, 'examples/hmmer.ol') }}
 </div>
 <div class="moduleblock">
 <h3>BlastRBH module</h3>
@@ -473,7 +473,7 @@ Functions:
 | `tblastx_rbh_each` | `num`, `fna`, `fna.list` | `bht.list` |
 
 <br/>
-{{ macros.load_cut(user, 'examples/blastrbh.cut') }}
+{{ macros.load_cut(user, 'examples/blastrbh.ol') }}
 </div>
 <div class="moduleblock">
 <h3>MUSCLE module</h3>
@@ -495,7 +495,7 @@ Functions:
 | `muscle_each` | `faa.list` | `aln.list` |
 
 <br/>
-{{ macros.load_cut(user, 'examples/muscle.cut') }}
+{{ macros.load_cut(user, 'examples/muscle.ol') }}
 </div>
 <div class="moduleblock">
 <h3>Sample module</h3>
@@ -514,7 +514,7 @@ Functions:
 | `sample` | `num`, `X.list` | `X.list` |
 
 <br/>
-{{ macros.load_cut(user, 'examples/sample.cut') }}
+{{ macros.load_cut(user, 'examples/sample.ol') }}
 </div>
 <div class="moduleblock">
 <h3>Permute module</h3>
@@ -529,7 +529,7 @@ Functions:
 | `leave_each_out` | `X.list` | `X.list.list` |
 
 <br/>
-{{ macros.load_cut(user, 'examples/permute.cut') }}
+{{ macros.load_cut(user, 'examples/permute.ol') }}
 </div>
 <div class="moduleblock">
 <h3>Summarize module</h3>
@@ -539,7 +539,7 @@ Collapse a list of results into a single summary.
 
 
 <br/>
-{{ macros.load_cut(user, 'examples/summarize.cut') }}
+{{ macros.load_cut(user, 'examples/summarize.ol') }}
 </div>
 <div class="moduleblock">
 <h3>Scores module</h3>
@@ -556,7 +556,7 @@ Functions:
 | `extract_scored` | `X.scores` | `X.list` |
 
 <br/>
-{{ macros.load_cut(user, 'examples/scores.cut') }}
+{{ macros.load_cut(user, 'examples/scores.ol') }}
 </div>
 <div class="moduleblock">
 <h3>Plots module</h3>
@@ -579,7 +579,7 @@ Functions:
 | `venndiagram` | `X.list.list` | `png` |
 
 <br/>
-{{ macros.load_cut(user, 'examples/plots.cut') }}
+{{ macros.load_cut(user, 'examples/plots.ol') }}
 </div>
 <div class="moduleblock">
 <h3>OrthoFinder module</h3>
@@ -600,7 +600,7 @@ Functions:
 | `orthofinder` | `faa.list` | `ofr` |
 
 <br/>
-{{ macros.load_cut(user, 'examples/orthofinder.cut') }}
+{{ macros.load_cut(user, 'examples/orthofinder.ol') }}
 </div>
 <div class="moduleblock">
 <h3>Diamond module</h3>
@@ -666,7 +666,7 @@ Functions:
 | `diamond_blastx_db_more_sensitive_each` | `num`, `fna`, `dmnd.list` | `bht.list` |
 
 <br/>
-{{ macros.load_cut(user, 'examples/diamond.cut') }}
+{{ macros.load_cut(user, 'examples/diamond.ol') }}
 </div>
 <div class="moduleblock">
 <h3>MMSeqs module</h3>
@@ -692,7 +692,7 @@ Functions:
 | `mmseqs_search` | `num`, `fa`, `fa` | `bht` |
 
 <br/>
-{{ macros.load_cut(user, 'examples/mmseqs.cut') }}
+{{ macros.load_cut(user, 'examples/mmseqs.ol') }}
 </div>
 <div class="moduleblock">
 <h3>SonicParanoid module</h3>
@@ -714,7 +714,7 @@ Functions:
 | `sonicparanoid` | `faa.list` | `spr` |
 
 <br/>
-{{ macros.load_cut(user, 'examples/sonicparanoid.cut') }}
+{{ macros.load_cut(user, 'examples/sonicparanoid.ol') }}
 </div>
 <div class="moduleblock">
 <h3>OrthoGroups module</h3>
@@ -747,7 +747,7 @@ Functions:
 | `ortholog_in_max_str` | `num`, `str.list.list`, `str.list.list` | `str.list.list` |
 
 <br/>
-{{ macros.load_cut(user, 'examples/orthogroups.cut') }}
+{{ macros.load_cut(user, 'examples/orthogroups.ol') }}
 </div>
 <div class="moduleblock">
 <h3>Busco module</h3>
@@ -781,7 +781,7 @@ Functions:
 | `concat_bst` | `bst.list` | `bst` |
 
 <br/>
-{{ macros.load_cut(user, 'examples/busco.cut') }}
+{{ macros.load_cut(user, 'examples/busco.ol') }}
 </div>
 <div class="moduleblock">
 <h3>Range module</h3>
@@ -805,7 +805,7 @@ Functions:
 | `range_multiply` | `num`, `num`, `num` | `num.list` |
 
 <br/>
-{{ macros.load_cut(user, 'examples/range.cut') }}
+{{ macros.load_cut(user, 'examples/range.ol') }}
 </div>
 <div class="moduleblock">
 <h3>SetsTable module</h3>
@@ -825,7 +825,7 @@ Functions:
 | `sets_table` | `lit.list.list` | `tsv` |
 
 <br/>
-{{ macros.load_cut(user, 'examples/setstable.cut') }}
+{{ macros.load_cut(user, 'examples/setstable.ol') }}
 </div>
 <div class="moduleblock">
 <h3>All-Vs-All module</h3>
@@ -840,7 +840,7 @@ Types:
 
 
 <br/>
-{{ macros.load_cut(user, 'examples/allvsall.cut') }}
+{{ macros.load_cut(user, 'examples/allvsall.ol') }}
 </div>
 <div class="moduleblock">
 <h3>GreenCut module</h3>
@@ -860,5 +860,5 @@ Functions:
 | `greencut2_families` | `bht`, `bht` | `gcr` |
 
 <br/>
-{{ macros.load_cut(user, 'examples/greencut.cut') }}
+{{ macros.load_cut(user, 'examples/greencut.ol') }}
 </div>
