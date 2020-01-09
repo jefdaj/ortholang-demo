@@ -204,7 +204,7 @@ $(function(){
 
 	// TODO replinput should be:
 	//        disabled right after you run something?
-	//        re-enabled after shortcut prints something, even a line break
+	//        re-enabled after ortholang prints something, even a line break
 	//        ... except not while it's still printing continuous lines
 	SOCKET.on('replbusy', function(msg) {
 		repl_disable();
@@ -324,7 +324,7 @@ $(function(){
 	// TODO any need to confirm exit now that named sessions resume?
 	// window.onbeforeunload = confirmExit;
 	// function confirmExit(){
-		// alert("Leave the page? ShortCut demo will be reset.");
+		// alert("Leave the page? OrthoLang demo will be reset.");
 		// return false;
 	// }
 

@@ -77,7 +77,7 @@ code, pre, div .highlight {
 	position: relative;
 }
 #replbackground {
-	background: #fff9f3 no-repeat url('/static/shortcut-background.png') 50% / 88%;
+	background: #fff9f3 no-repeat url('/static/ortholang-background.png') 50% / 88%;
 
 	/* Add the blur effect */
 	filter: blur(4px);

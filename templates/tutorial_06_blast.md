@@ -1,6 +1,6 @@
 ### NCBI BLAST+
 
-ShortCut provides the most common NCBI BLAST programs, which differ in their
+OrthoLang provides the most common NCBI BLAST programs, which differ in their
 subject and query types. See the Reference tab at the top for all the variants.
 
 A couple examples:

@@ -1,5 +1,5 @@
 {"version": 2, "width": 130, "height": 40, "timestamp": 1532643411, "env": {"SHELL": "/run/current-system/sw/bin/bash", "TERM": "screen"}}
-[0.019607, "o", "jefdaj@shortcut:~/shortcut-demo/static$ "]
+[0.019607, "o", "jefdaj@ortholang:~/ortholang-demo/static$ "]
 [1.970811, "o", "#"]
 [2.081297, "o", " "]
 [2.188149, "o", "t"]
@@ -16,7 +16,7 @@
 [3.560985, "o", "t"]
 [3.921219, "o", "!"]
 [4.658139, "o", "\r\n"]
-[4.658207, "o", "jefdaj@shortcut:~/shortcut-demo/static$ "]
+[4.658207, "o", "jefdaj@ortholang:~/ortholang-demo/static$ "]
 [5.255131, "o", "e"]
 [5.464883, "o", "x"]
 [5.585137, "o", "i"]

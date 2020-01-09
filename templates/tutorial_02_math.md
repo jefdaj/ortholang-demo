@@ -1,6 +1,6 @@
 ### Math
 
-Math is pretty simple (at least in ShortCut!). It works as you would expect,
+Math is pretty simple (at least in OrthoLang!). It works as you would expect,
 except that everything is left-to-right rather than following order of
 operations.
 
@@ -14,5 +14,5 @@ would find in a typical language. Parentheses also work the regular "mathy" way
 to group things together; you'll see a little further down that function
 application doesn't use them.
 
-Notice that ShortCut might remove your parentheses automatically,
+Notice that OrthoLang might remove your parentheses automatically,
 but only where it doesn't change the meaning.

@@ -10,7 +10,7 @@ wrong ones.
 
 So if you only have one or a few genes to search for the best strategy is to
 look through the results of each iteration on the NCBI site to make sure they
-seem reasonable. Obviously that's not very high-throughput though. ShortCut
+seem reasonable. Obviously that's not very high-throughput though. OrthoLang
 can't assess whether the results make sense, but you can use it to tune the
 search settings to pick up known positive control genes while excluding as many
 others as possible. That's the topic of the next section.
@@ -20,4 +20,4 @@ transporters, you might also try a hybrid strategy:
 
 1. pick a few random ones with the `sample` function
 2. confirm those work on the NCBI site
-3. do them all in ShortCut
+3. do them all in OrthoLang

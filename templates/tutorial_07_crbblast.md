@@ -2,7 +2,7 @@
 
 Reciprocal best hits are the most common method used to find orthologs, but
 they can sometimes be overly conservative, missing true orthologs. For that
-reason, ShortCut also includes CRB-BLAST ([Aubry _et al._ 2014][1]). For each
+reason, OrthoLang also includes CRB-BLAST ([Aubry _et al._ 2014][1]). For each
 pair of genomes, it:
 
 1. Does a standard reciprocal BLAST search

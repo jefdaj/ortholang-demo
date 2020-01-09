@@ -3,7 +3,7 @@
 Making a cut involves choices: which genomes to include, whether to trust their
 gene annotations, which BLAST functions to use, which e-value cutoffs to apply
 at each step... How can you be sure the parameters you picked are reasonable?
-ShortCut implements a novel solution made possible by lazy evaluation and
+OrthoLang implements a novel solution made possible by lazy evaluation and
 caching: duplicate parts of the program, re-run them starting from alternate
 values, and see how the results change.
 

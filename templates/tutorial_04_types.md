@@ -3,10 +3,10 @@
 <!-- TODO bug: brackets misplaced in :type of & -->
 
 Before loading files and running BLAST, we need to detour and learn a couple
-things about how ShortCut evaluates code. If you skip this, things will be
+things about how OrthoLang evaluates code. If you skip this, things will be
 confusing later!
 
-The first important thing to know is that ShortCut is a typed language. Types
+The first important thing to know is that OrthoLang is a typed language. Types
 are the standard technique for preventing a large and very annoying class of
 bugs where the script crashes partway through because you accidentally swapped
 two variables or misread how some function works.  The idea is that your
@@ -14,7 +14,7 @@ program should fail immediately if it's not going to work, because why waste
 time? (Python is famously bad at this)
 
 To catch errors the interpreter tags each thing (variable or expression) with a
-type: "number", "string", "blast hit table", etc. You can ask ShortCut the type
+type: "number", "string", "blast hit table", etc. You can ask OrthoLang the type
 of anything with the `:type` command. For example, `:type "my string"` is `str`
 and `:type var4` (from the example above) is `num`.
 
@@ -42,7 +42,7 @@ var4.num = var3 * 5 - var1
 result.num = var4
 ```
 
-The second important thing to know is that in ShortCut, every piece of code you
+The second important thing to know is that in OrthoLang, every piece of code you
 evaluate gets written to its own temporary file. That's the reason for the
 weird dot notation above: types are equivalent to file extensions.
 After evaluating `var4` you can look in the temporary directory and find a file

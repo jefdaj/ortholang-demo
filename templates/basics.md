@@ -8,16 +8,16 @@
 
 This website is intended primarily as a demo. It's run from a standard desktop
 computer, and is updated and/or restarted frequently during development.
-For anything compute-intensive you probably want to [install ShortCut][1] on your
+For anything compute-intensive you probably want to [install OrthoLang][1] on your
 own hardware instead.
 
 Most searches can be done on a laptop, but it depends what you want to do and how big your genomes are. You can also contact Jeff (use the
 comment box or find my email [here][4]) about collaborating, running your
 search on the [Berkeley high-performance compute cluster][2], or installing
-ShortCut at your institution.
+OrthoLang at your institution.
 
 The terminal on the right is similar to the standard command line interface you
-will get if you install ShortCut on your computer, except:
+will get if you install OrthoLang on your computer, except:
 
 * Long-running scripts might be killed to keep the server responsive
 * Terminal niceties like tab completion and progress bars are missing
@@ -60,14 +60,14 @@ redefine variables, look at depdencies, etc.
 
 # Using the command line program
 
-ShortCut itself is a command-line language interpreter, like Python or R or Bash. It will run anywhere supported by [Nix][5], which currently means Linux or MacOS but not Windows. Paste this in a terminal to install everything:
+OrthoLang itself is a command-line language interpreter, like Python or R or Bash. It will run anywhere supported by [Nix][5], which currently means Linux or MacOS but not Windows. Paste this in a terminal to install everything:
 
 ``` .bash
-curl https://raw.githubusercontent.com/jefdaj/shortcut/master/install.sh | bash
+curl https://raw.githubusercontent.com/jefdaj/ortholang/master/install.sh | bash
 ```
 
 There are also some pre-recorded demos. They tend to be for longer, more
-complicated or compute-intensive things and involve using ShortCut in its
+complicated or compute-intensive things and involve using OrthoLang in its
 native Linux terminal environment rather than on the website.
 
 {{ macros.asciicast('test.cast') }}
@@ -80,7 +80,7 @@ TODO:
 
 -->
 
-[1]: https://github.com/jefdaj/shortcut
+[1]: https://github.com/jefdaj/ortholang
 [2]: https://research-it.berkeley.edu/services/high-performance-computing
 [3]: /user
 [4]: http://niyogilab.berkeley.edu/lab-directory
