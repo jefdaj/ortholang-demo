@@ -13,6 +13,7 @@ Launch the OrthoLang demo server.
 Usage:
   ortholang-demo (-h | --help)
   ortholang-demo -l LOG -e EXAMPLES -c COMMENTS -t TMP -p PORT -a AUTH -u USERS -s SHARED
+  ortholang-demo --prefetch -s SHARED
 
 Options:
   -h, --help   Show this help text
@@ -63,11 +64,25 @@ from uuid                import uuid4
 from werkzeug.security   import generate_password_hash, check_password_hash
 
 
+ARGS = docopt(__doc__)
+
+############
+# prefetch #
+############
+
+# note: this is the only option that doesn't result in running the server
+
+def prefetch(shared_dir):
+    print 'prefetching to %s...' % shared_dir
+
+if '--prefetch' in ARGS:
+    prefetch(ARGS['-s'])
+    raise SystemExit
+
 ##########
 # config # 
 ##########
 
-ARGS = docopt(__doc__)
 CONFIG = {}
 CONFIG['examples_dir'] = realpath(ARGS['-e'])
 CONFIG['log_path'    ] = realpath(ARGS['-l'])

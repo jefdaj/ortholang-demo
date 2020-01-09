@@ -12,6 +12,7 @@ let
 
   ortholang = import ./ortholang;
   myPython = import ./requirements.nix { inherit pkgs; };
+  blastdbget = pkgs.pythonPackages.callPackage ./ortholang/nixpkgs/blastdbget {};
 
   runDepends = [
     myPython.interpreter
@@ -24,6 +25,7 @@ let
     myPython.packages."psutil"
     myPython.packages."pexpect"
     ortholang
+    blastdbget
   ];
 
 in pkgs.stdenv.mkDerivation rec {
