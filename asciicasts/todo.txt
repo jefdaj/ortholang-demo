@@ -1,0 +1,41 @@
+x set up asciinema:
+  x log in to account
+  x upload a couple test screencasts to check dimensions
+  x write down terminal dimensions (165x45 is the winner so far)
+
+x set up tmux:
+  x in tmux config, :set -g status off for no distractions
+  x in screencast.sh, always start in tmux (or tmux + shortcut)
+
+x redo existing screencasts:
+  x nix-build (check for nix-build, clone, install, add to path)
+  x run tests (all, kill and explain, then pattern) (no wrapper at first)
+  x run script (show --help, explain a bit, vim to show it, then run)
+
+start new screencasts and iterate fast:
+  x repl (load empty, :help, explain comments, :load a script, explain :! with ls, :show and eval a couple things, show result changing, change a var and :write updated script)
+  x load and convert sequences
+  x basics: math, lists/sets
+  basics: :type, types have to match, parens
+  basics: load and convert genomes, parens
+  evaluation (big window): tree ~/.shortcut in another pane, and htop, explain laziness + building vars + type extensions, run something, vim the result, mention caching + later coolness
+  blast+: tab complete functions, explain suffixes, run a couple, show regular vs _each with a list
+  crb-blast: explain a little, then run the command in the readme? (but with smaller genomes)
+  skip greencut; demo once it works of course
+  prs: explain a bit, then run the example from the readme (find in poster dir of ~/shortcut), mention coming coolness
+  optimize for your computer(s) (explain wrapper, test with intentional error, fix and re-run, mention SLURM)
+  overall cool gif for readme later?
+
+asciicasts
+  evaluation (and type system?)
+    feels like scripting, but works like make
+    types = file extensions
+    variables map to filenames
+    assign variable = write a build rule
+    evaluate = run that rule and any that it depends on
+    applies to everything, even literals and simple expressions
+    complicated tree of tmpfiles
+    set up tree + htop
+    show some basic fn calls and narrate what they did
+
+try making cuts, of course!

@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+
+# Quick wrapper around asciinema for recording shortcut demos. Optionally
+# plays back the recording and saves it. Handles the issue where asciinema
+# requires UTF-8 locale, but that messes up shortcut --test. Assumes the
+# demo will be done in a tmux session you set up beforehand and detached from
+# with Ctrl-D. All the recordings so far use terminal dimensions of 165x45.
+# Names recordings by timestamp; rearrange the good ones manually.
+
+# Usage: asciicast.sh "tmuxsessionname" "asciicast title here"
+tmuxsession="$1"; title="$2"
+
+export LC_ALL=en_US.UTF-8
+timestamp=$(date '+%Y-%m-%d_%H:%M:%S')
+castfile="${timestamp}.cast"
+cmd="tmux -f tmux.conf attach -t $tmuxsession"
+
+export PS1='$ '
+asciinema rec "$castfile" -t "$title" -i 1 -c "env -u LC_ALL $cmd"
+
+read -p "Play back ${castfile}? " -n 1 -r; echo
+[[ $REPLY =~ ^[Yy]$ ]] && asciinema play "$castfile"
+
+read -p "Keep ${castfile}? " -n 1 -r; echo
+[[ $REPLY =~ ^[Nn]$ ]] && rm "$castfile"
