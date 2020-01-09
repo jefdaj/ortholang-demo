@@ -7,13 +7,12 @@ This is probably the simplest script you could write:
 
 <!-- TODO include example scripts in the main repo? either that or rewrite this: -->
 <!-- idea: :help <varname> should expand to help on its type -->
-If you downloaded ShortCut and ran `shor.ol --script variables01.ol`, it would print
+If you downloaded ShortCut and ran `ortholang --script variables01.ol`, it would print
 `"hello world!"`. You can also `Load` it in the demo terminal and type `result`.
 
-You don't have to run a whole script at once though.
-You'll spend most of your time editing it in the interpreter,
-defining and evaluating individual variables.
-Here is a script with several of them.
+You don't have to run a whole script at once though!
+You can also define and evaluate individual variables.
+Here is a script with several of them to demonstrate.
 
 {{ macros.load_script(user, 'examples/scripts/variables02.ol') }}
 

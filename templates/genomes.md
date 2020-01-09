@@ -29,7 +29,7 @@ Note that anything you upload as `guest` will be available to other guest users.
 	<td><a href="{{g.url}}" target="_blank">{{g.organism}}</a></td>
 	<!-- <td>{{g.source}}</td> -->
 	<td>{{g.commonname}}</td>
-	<td><a href="#" onclick="repl_autorun([' {{g.loadfn | escape}}'], clear_first=false)">{{g.basename}}</a></td>
+	<td><a href="#" onclick="repl_autorun([' {{g.loadfn | escape}}'], clear_first=false)"><pre>{{g.basename}}</pre></a></td>
 	<td>{{g.type}}</td>
 </tr>
 {% endfor %}
