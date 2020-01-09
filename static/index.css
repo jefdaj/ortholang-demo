@@ -251,6 +251,10 @@ code, pre, div .highlight {
 	width: 40%;
 }
 
+table {
+  width: 100%;
+}
+
 .runbuttonform {
 	float:right;
 	padding: 5px;

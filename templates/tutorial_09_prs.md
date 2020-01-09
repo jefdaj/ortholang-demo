@@ -12,7 +12,7 @@ Suppose you have the original program in the box on the left, and want to know,
 
 Using the `repeat_each` function you can recalculate `var6` starting from 3 alternate versions of `var1`:
 
-<img src="{{ url_for('static',filename='prs.png') }}" width="800">
+<img src="{{ url_for('static',filename='prs.png') }}" width="600">
 
 Note that this is all "repeat"; the "permute" and "summarize" steps would be
 separate functions to generate the list of `var1` permutations (during step 2) and aggregate
