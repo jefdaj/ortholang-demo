@@ -61,5 +61,5 @@ if __name__ == '__main__':
 			for j in js:
 				cmd = 'ncbi_%s = %s ' % (j['basename'], j['loadfn'])
 				f.write(cmd + '\n')
-			resline = 'result = [' + ', '.join('ncbi_' + j['basename'] for j in js) + ']'
+			resline = 'result = "nothing so far"'
 			f.write(resline)
