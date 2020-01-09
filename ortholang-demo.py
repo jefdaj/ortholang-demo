@@ -263,6 +263,11 @@ def load_genomes():
         genomes = json.load(f)
     return genomes
 
+def load_blastdbs():
+    with open('templates/blastdbs.json', 'r') as f:
+        blastdbs = json.load(f)
+    return blastdbs
+
 
 ##################
 # authentication #
@@ -352,6 +357,7 @@ def index(user='guest'):
     userscripts = set(k for k in blocks.keys() if k.startswith(user) and not 'examples/' in k)
     sections = load_tutorial_sections()
     genomes = load_genomes()
+    blastdbs = load_blastdbs()
     # userpaths = load_codeblock_userpaths(blocks)
     return render_template('index.html',
                            user=user,
@@ -360,6 +366,7 @@ def index(user='guest'):
                            sections=sections,
                            userscripts=userscripts,
                            genomes=genomes,
+                           blastdbs=blastdbs,
                            codeblock_userpaths=blocks.keys())
 
 # Flask doesn't like sending random files from all over for security reasons,

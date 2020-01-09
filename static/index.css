@@ -260,6 +260,12 @@ table {
   width: 100%;
 	font-size: 8pt;
 }
+#datatable {
+	table-layout: fixed;
+}
+#datatable td {
+	overflow-x: hidden;
+}
 
 .runbuttonform {
 	float:right;
