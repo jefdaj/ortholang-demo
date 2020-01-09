@@ -129,13 +129,13 @@ function filters_match(filters, element_text) {
 // based on: http://jsfiddle.net/reyjose/40u0var6/
 function filter_searchable(box_id, element_selector){
 	var filters = document.getElementById(box_id).value.toLowerCase();
-	console.log(filters);
+	// console.log(filters);
 	if(filters == ""){
 		$(element_selector).show();
 	} else {
 		$(element_selector).each(function(){
 				var text = $(this).text().toLowerCase();
-				console.log(text);
+				// console.log(text);
 				filters_match(filters, text) ? $(this).show() : $(this).hide();
 		});
 	};
@@ -143,7 +143,7 @@ function filter_searchable(box_id, element_selector){
 
 function filter_tutorial()    { filter_searchable('tutorialsearch'  , '#tutorial > .tutorialsection') };
 function filter_genomes()     { filter_searchable('genomesearch'    , '.genomeblock'                ) };
-function filter_modules()     { filter_searchable('modulesearch'    , '#modules > .moduleblock'     ) };
+function filter_modules()     { filter_searchable('modulesearch'    , '.moduleblock'                ) };
 function filter_scripts()     { filter_searchable('scriptsearch'    , '#scripts > .codeblock'       ) };
 function filter_userscripts() { filter_searchable('userscriptsearch', '#userscripts > .codeblock'   ) };
 
