@@ -51,32 +51,15 @@ if __name__ == '__main__':
 
 	js += read_dbs('n', descs)
 	js += read_dbs('p', descs)
-	print js
+	# print js
 
 	with open('templates/blastdbs.json', 'w') as f:
 		f.write(json.dumps(js, indent=2))
-    	# for d in dirs:
-        # fs = glob(d + '/annotation/*.fa')
-        # print d
-        # print fs
-        # if '.' in d or 'global' in d or d == 'early':
-        #     continue
-#         for f in fs:
-#             j = {'organism': find_organism(d), 'path': f, 'type': guess_type(f)}
-#             a = basename(d).split('_')[0]
-#             # print a
-#             try:
-#                 j['commonname'] = names[a]
-#             except KeyError:
-#                 j['commonname'] = ''
-#             if j['organism'] is None:
-#                 continue
-#             j['source'] = 'PhytozomeV12'
-#             j['url'] = guess_url(d)
-#             j['pre-release'] = 'early_release' in j['path']
-#             j['relpath'] = '/'.join(j['path'].split('/')[3:])
-#             j['basename'] = basename(j['relpath'])
-#             j['loadfn'] = load_fn(j['relpath'], j['type'])
-#             # if 'Hannu' in d:
-#               # print j
-#             js.append(j)
+
+		# write load-blastdbs.ol (for prefetching)
+		with open('ortholang/examples/scripts/load-blastdbs.ol', 'w') as f:
+			for j in js:
+				cmd = '%s = %s ' % (j['basename'], j['loadfn'])
+				f.write(cmd + '\n')
+			resline = 'result = [' + ', '.join(j['basename'] for j in js) + ']'
+			f.write(resline)
