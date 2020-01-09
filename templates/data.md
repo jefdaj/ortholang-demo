@@ -6,13 +6,11 @@ This page lists some standard data files pre-downloaded on the demo server:
 * Genomes and proteomes from Phytozome
 
 Clicking a filename below will type the corresponding `load_` function in the interpreter for you.
-
 Type keywords to filter the table: "papaya faa", "refseq", "araport11 protein primary", etc.
+To assign variables, type the variable name in the terminal first.
+For example: "arabidopsis =". Then click the filename to auto-fill the rest of the line.
 
-To assign variables, type the variable name first.
-For example: "arabidopsis =". Then click the `load` button to auto-fill the rest of the line.
-
-Once you get the hang of it you can load your own files too:
+Once you get the hang of it you can load your own files:
 
 1. Use the `Upload files` button to send them to the server
 2. Type the appropriate `load_` function call
@@ -22,12 +20,12 @@ Note that anything you upload as `guest` will be available to other guest users.
 <input id="datasearch" placeholder="Filter demo files" id="box" type="text"/>
 
 <table id="datatable">
-<tr>
+<thead>
   <th width="4%">Type</th>
   <th width="10%%">Source</th>
   <th width="50%">Filename</th>
   <th width="46%">Description</th>
-</tr>
+</thead>
 
 {% for d in blastdbs | sort(attribute='basename') %}
 <tr class="datablock">

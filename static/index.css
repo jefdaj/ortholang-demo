@@ -263,6 +263,12 @@ table {
   width: 100%;
 	font-size: 8pt;
 }
+thead {
+	background: #f1f1f1;
+}
+#datatable thead th {
+	font-size: 8pt;
+}
 #datatable {
 	table-layout: fixed;
 }
