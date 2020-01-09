@@ -59,7 +59,7 @@ if __name__ == '__main__':
 		# write load-blastdbs.ol (for prefetching)
 		with open('ortholang/examples/scripts/load-blastdbs.ol', 'w') as f:
 			for j in js:
-				cmd = '%s = %s ' % (j['basename'], j['loadfn'])
+				cmd = 'ncbi_%s = %s ' % (j['basename'], j['loadfn'])
 				f.write(cmd + '\n')
-			resline = 'result = [' + ', '.join(j['basename'] for j in js) + ']'
+			resline = 'result = [' + ', '.join('ncbi_' + j['basename'] for j in js) + ']'
 			f.write(resline)
