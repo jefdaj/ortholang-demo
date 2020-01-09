@@ -1,0 +1,27 @@
+16SMicrobial	      | Bacterial and Archaeal 16S rRNA sequences from BioProjects 33175 and 33117
+Representative_Genomes| Representative bacterial/archaeal genomes database
+cdd_delta             | Conserved Domain Database sequences for use with stand alone deltablast
+env_nr                | Protein sequences for metagenomes
+env_nt                | Nucleotide sequences for metagenomes
+est                   | This file requires est_human, est_mouse, and est_others files to function. It contains the est.nal alias so that searches against est (-db est) will include est_human, est_mouse and est_others. 
+est_human             | Human subset of the est database from the estdivision of GenBank, EMBL and DDBJ.
+est_mouse             | Mouse subset of the est databasae
+est_others            | Non-human and non-mouse subset of the est database
+gss                   | Sequences from the GSS division of GenBank, EMBL, and DDBJ
+htgs                  | Sequences from the HTG division of GenBank, EMBL,and DDBJ
+human_genomic         | Human RefSeq (NC_######) chromosome records with gap adjusted concatenated NT_ contigs
+nr                    | Non-redundant protein sequences from GenPept, Swissprot, PIR, PDF, PDB, and NCBI RefSeq
+nt                    | Partially non-redundant nucleotide sequences from all traditional divisions of GenBank, EMBL, and DDBJ excluding GSS,STS, PAT, EST, HTG, and WGS.
+other_genomic         | RefSeq chromosome records (NC_######) for non-humanorganisms
+pataa                 | Patent protein sequences
+patnt                 | Patent nucleotide sequences. Both patent databasesare directly from the USPTO, or from the EPO/JPO via EMBL/DDBJ
+pdbaa                 | Sequences for the protein structure from the Protein Data Bank
+pdbnt                 | Sequences for the nucleotide structure from the Protein Data Bank. They are NOT the protein codingsequences for the corresponding pdbaa entries.
+refseq_genomic        | NCBI genomic reference sequences
+refseq_protein        | NCBI protein reference sequences
+refseq_rna            | NCBI Transcript reference sequences
+sts                   | Sequences from the STS division of GenBank, EMBL,and DDBJ
+swissprot             | Swiss-Prot sequence database (last major update)
+taxdb                 | Additional taxonomy information for the databases listed here | providing common and scientific names
+tsa_nt                | Sequences from the TSA division of GenBank, EMBL,and DDBJ
+vector                | Vector sequences from 2010, see Note 2 in section 4.

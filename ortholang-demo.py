@@ -111,7 +111,7 @@ def prefetch(shared_dir, examples_dir):
     prefetch_blastdbget(shared_dir)
     prefetch_examples(shared_dir, examples_dir)
 
-if '--prefetch' in ARGS:
+if '--prefetch' in ARGS and ARGS['--prefetch']:
     prefetch(ARGS['-s'], ARGS['-e'])
     raise SystemExit
 

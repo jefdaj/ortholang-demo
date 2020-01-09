@@ -18,19 +18,29 @@ Note that anything you upload as `guest` will be available to other guest users.
 
 <table id="datatable">
 <tr>
-  <th>Organism</th>
-  <!-- <th>Source</th> -->
-  <th>Common name</th>
-  <th>File</th>
-  <th>Type</th>
+  <th width="50%">Filename</th>
+  <th width="45%">Description</th>
+  <th width="5%">Type</th>
 </tr>
-{% for g in genomes | sort(attribute='organism') %}
+{% for d in genomes | sort(attribute='organism') %}
 <tr class="datablock">
-	<td><a href="{{g.url}}" target="_blank">{{g.organism}}</a></td>
-	<!-- <td>{{g.source}}</td> -->
-	<td>{{g.commonname}}</td>
-	<td><a href="#" onclick="repl_autorun([' {{g.loadfn | escape}}'], clear_first=false)"><pre>{{g.basename}}</pre></a></td>
-	<td>{{g.type}}</td>
+	<td><a href="#" onclick="repl_autorun([' {{d.loadfn | escape}}'], clear_first=false)"><pre>{{d.basename}}</pre></a></td>
+	<td>
+		<a href="{{d.url}}" target="_blank">{{d.organism}}</a>
+		{% if d.commonname is defined and d.commonname|length %}
+			({{d.commonname}})
+		{% endif %}
+	</td>
+	<td>{{d.type}}</td>
+</tr>
+{% endfor %}
+{% for d in blastdbs %}
+<tr class="datablock">
+	<td><a href="#" onclick="repl_autorun([' {{d.loadfn | escape}}'], clear_first=false)"><pre>{{d.basename}}</pre></a></td>
+	<td>{% if d.description is defined and d.description|length %}
+		{{d.description}}
+	{% endif %}</td>
+	<td>{{d.type}}</td>
 </tr>
 {% endfor %}
 </table>
