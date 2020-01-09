@@ -13,7 +13,7 @@ Launch the OrthoLang demo server.
 Usage:
   ortholang-demo (-h | --help)
   ortholang-demo -l LOG -e EXAMPLES -c COMMENTS -t TMP -p PORT -a AUTH -u USERS -s SHARED
-  ortholang-demo --prefetch -s SHARED
+  ortholang-demo --prefetch -s SHARED -e EXAMPLES
 
 Options:
   -h, --help   Show this help text
@@ -84,16 +84,35 @@ def prefetch_blastdbget(shared_dir):
     dbs = [d for d in dbs if not d in too_big]
     print 'dbs to update: %s' % dbs
     for db in dbs:
-        print 'prefetching %s BLAST database from NCBI...' % db
+        print 'downloading %s BLAST database from NCBI...' % db
         proc = spawn('blastdbget', ['-d', db, db_dir], encoding='utf-8', timeout=None)
         proc.logfile_read = sys.stdout
         proc.expect(u'Process complete.', timeout=None)
 
-def prefetch(shared_dir):
+def prefetch_examples(shared_dir, examples_dir):
+    print 'prefetching example script results to %s...' % shared_dir
+    scripts = glob(join(examples_dir, 'scripts', '*.ol'))
+    for script in scripts:
+        print 'running %s...' % script,
+        sys.stdout.flush()
+        args = ['--tmpdir', shared_dir, '--script', script] # , '--debug', '.*']
+        proc = spawn('ortholang', args, encoding='utf-8', timeout=None)
+        proc.logfile_read = sys.stdout
+        while True:
+            sleep(1)
+            if not proc.isalive():
+                if proc.status == 0:
+                    print 'ok'
+                else:
+                    print 'ERROR %s' % proc.status
+                break
+
+def prefetch(shared_dir, examples_dir):
     prefetch_blastdbget(shared_dir)
+    prefetch_examples(shared_dir, examples_dir)
 
 if '--prefetch' in ARGS:
-    prefetch(ARGS['-s'])
+    prefetch(ARGS['-s'], ARGS['-e'])
     raise SystemExit
 
 ##########
