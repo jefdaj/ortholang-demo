@@ -44,7 +44,7 @@ from flask_httpauth      import HTTPBasicAuth
 from glob                import glob
 from jinja2              import ChoiceLoader, FileSystemLoader
 from misaka              import Markdown, HtmlRenderer
-from os                  import setsid, getpgid, killpg, makedirs, symlink, readlink, walk
+from os                  import setsid, getpgid, killpg, makedirs, symlink, readlink
 from os.path             import exists, join, relpath, realpath, dirname, basename, splitext
 from pexpect             import spawn, EOF
 from psutil              import cpu_percent, virtual_memory
@@ -172,18 +172,11 @@ MARKDOWN = Markdown(HighlighterRenderer(), extensions=('highlight', 'fenced-code
 #     #print 'names:', names
 #     return names
 
-def find_cuts(dirpath):
-    for root, dirs, files in walk(dirpath, followlinks=True):
-        # see https://stackoverflow.com/a/19859907
-        dirs[:] = [d for d in dirs if not d.startswith('.') and not basename(d) == 'tmpdir']
-        for file in files:
-            if file.endswith('.cut'):
-                yield(join(root, file))
-
 def load_codeblocks():
     # used to render the code examples
     codeblocks = {}
-    for path in find_cuts(CONFIG['users_dir']):
+    # for path in glob(join(CONFIG['examples_dir'], '*.ol')) + glob(join(CONFIG['users_dir'], '*/*.ol')):
+    for path in glob(join(CONFIG['users_dir'], '*/*.ol')) + glob(join(CONFIG['users_dir'], '*/*/*/*.ol')):
         with open(path, 'r') as f:
             txt = '```\n%s\n```\n' % f.read()
             # name = basename(path)
@@ -197,7 +190,7 @@ def load_codeblocks():
             , 'content': MARKDOWN(txt)
             }
     # print codeblocks
-    LOGGER.info('loaded codeblocks: %s' % codeblocks.keys())
+    # print codeblocks.keys()
     return codeblocks
 
 def load_tutorial_sections():
@@ -271,7 +264,7 @@ def create_user(username, password):
 def list_user_scripts(username):
     # load_code_blocks() # super hacky but reloads code blocks along with templates
     upath = join(CONFIG['users_dir'], username)
-    paths = [relpath(p, upath) for p in find_cuts(upath)]
+    paths = [relpath(p, upath) for p in glob(join(upath, '*.ol')) + glob(join(upath, '*/*/*.ol'))]
     # paths.sort()
     return paths
 
@@ -512,7 +505,7 @@ def handle_reqresult():
 
 def check_ortholang_version():
     LOGGER.info('checking output of "ortholang --version"')
-    version_expected = u'OrthoLang 0.9.2'
+    version_expected = u'OrthoLang 0.9.3'
     proc = spawn('ortholang', ['--version'], encoding='utf-8', timeout=None)
     try:
         proc.expect(version_expected, timeout=10)

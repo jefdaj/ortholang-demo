@@ -77,7 +77,7 @@ code, pre, div .highlight {
 	position: relative;
 }
 #replbackground {
-	background: #ffffff no-repeat url('/static/ortholang-blur20.png') 50% / 98%;
+	background: #fbfbfb no-repeat url('/static/ortholang-blur20.png') 50% / 98%;
 
 	/* Add the blur effect */
 	filter: blur(4px);
