@@ -1,6 +1,6 @@
 <div id="intropitch" style="width:80%;">
 <img src="/static/ortholang.svg" style="width:250px;"></img>
-<h2>OrthoLang: re-usable ortholog search scripts.</h2>
+<h2>OrthoLang: fast, reproducible<br/>ortholog search scripts</h2>
 </div>
 
 <!-- <div id="devwarning">
