@@ -1,6 +1,6 @@
 ### PSI-BLAST
 
-When making a cut you'll often want to do a sensitive search for distant
+When making a.ol you'll often want to do a sensitive search for distant
 homologs, and PSI-BLAST (position-specific iterated blast) is usually the best
 one for that. You do have to be a little careful though, because it's possible
 for the search to be "poisoned": if the first BLASTP iteration picks up

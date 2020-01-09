@@ -10,6 +10,6 @@ Venn diagram:
 The single-character operators `|`, `&`, and `~` each work on two lists.
 `any` and `all` work on lists of lists of any length.
 
-{{ macros.load_cut(user, 'examples/cut-scripts/sets.cut') }}
+{{ macros.load_script(user, 'examples/scripts/sets.ol') }}
 
 _Note: actual Venn diagrams coming soon._

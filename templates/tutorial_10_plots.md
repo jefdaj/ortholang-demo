@@ -1,7 +1,7 @@
 ### Plotting
 
-{{ macros.load_cut(user, 'examples/cut-scripts/histogram.cut') }}
+{{ macros.load_script(user, 'examples/scripts/histogram.ol') }}
 
-{{ macros.load_cut(user, 'examples/cut-scripts/scatterplot.cut') }}
+{{ macros.load_script(user, 'examples/scripts/scatterplot.ol') }}
 
-{{ macros.load_cut(user, 'examples/cut-scripts/linegraph.cut') }}
+{{ macros.load_script(user, 'examples/scripts/linegraph.ol') }}

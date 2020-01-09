@@ -20,7 +20,7 @@ No other info is required, and nothing is stored about users except their passwo
 Hi {{ user }}! This is your page.
 Scripts you save will show up here after a refresh.
 You can `Load` and edit them same as in the tutorial,
-and `include` them inside each other to build up larger cuts.
+and `include` them inside each other to build up larger.ols.
 Your session will persist when you leave,
 and you can sign in from multiple computers for collaborative editing.
 

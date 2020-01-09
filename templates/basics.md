@@ -46,16 +46,16 @@ or make an account to save your own privately.
 ## Example Code
 
 There are two types of interactive code blocks.
-Complete cut scripts with `Load` buttons like this:
+Complete scripts with `Load` buttons like this:
 
-{{ macros.load_cut(user, 'examples/cut-scripts/load03.cut') }}
+{{ macros.load_script(user, 'examples/scripts/load03.ol') }}
 
 ... and examples of other commands you would type in the terminal.
 The `Run` button just types them for you.
 They can include loading scripts, but also anything else you might do live:
 redefine variables, look at depdencies, etc.
 
-{{ macros.run_example([':load examples/cut-scripts/load03.cut', 'sample 10 genes_of_interest', ':type']) }}
+{{ macros.run_example([':load examples/scripts/load03.ol', 'sample 10 genes_of_interest', ':type']) }}
 
 
 # Using the command line program

@@ -6,7 +6,7 @@ operations.
 
 A few examples:
 
-{{ macros.load_cut(user, 'examples/cut-scripts/math01.cut') }}
+{{ macros.load_script(user, 'examples/scripts/math01.ol') }}
 
 You can enter numbers in decimal or scientific notation. There's only one type
 of number instead of the several different ones like doubles and floats you

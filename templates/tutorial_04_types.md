@@ -50,7 +50,7 @@ After evaluating `var4` you can look in the temporary directory and find a file
 you'll get a `.num.list`. You can also make a `.num.list.list` and so on.
 Look at the `:type`s of these:
 
-{{ macros.load_cut(user, 'examples/cut-scripts/types01.cut') }}
+{{ macros.load_script(user, 'examples/scripts/types01.ol') }}
 
 This might seem like overkill at first, but becomes important for large-scale
 bookkeeping. Imagine you have a few hundred thousand cryptically named

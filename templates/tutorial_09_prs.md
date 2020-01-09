@@ -1,6 +1,6 @@
 ### Permute, Repeat, Summarize (PRS)
 
-Making a cut involves choices: which genomes to include, whether to trust their
+Making a.ol involves choices: which genomes to include, whether to trust their
 gene annotations, which BLAST functions to use, which e-value cutoffs to apply
 at each step... How can you be sure the parameters you picked are reasonable?
 OrthoLang implements a novel solution made possible by lazy evaluation and
@@ -20,4 +20,4 @@ the final results in some way, perhaps filtering or plotting them (during step 4
 
 Here is a more practical example that repeats a BLAST search with a list of cutoffs:
 
-{{ macros.load_cut(user, 'examples/cut-scripts/prs02.cut') }}
+{{ macros.load_script(user, 'examples/scripts/prs02.ol') }}
