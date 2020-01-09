@@ -18,12 +18,27 @@ Note that anything you upload as `guest` will be available to other guest users.
 
 <table id="datatable">
 <tr>
+  <th width="4%">Type</th>
+  <th width="10%%">Source</th>
   <th width="50%">Filename</th>
-  <th width="45%">Description</th>
-  <th width="5%">Type</th>
+  <th width="46%">Description</th>
 </tr>
+
+{% for d in blastdbs | sort(attribute='basename') %}
+<tr class="datablock">
+	<td>{{d.type}}</td>
+	<td>NCBI</td>
+	<td><a href="#" onclick="repl_autorun([' {{d.loadfn | escape}}'], clear_first=false)"><pre>{{d.basename}}</pre></a></td>
+	<td>{% if d.description is defined and d.description|length %}
+		{{d.description}}
+	{% endif %}</td>
+</tr>
+{% endfor %}
+
 {% for d in genomes | sort(attribute='organism') %}
 <tr class="datablock">
+	<td>{{d.type}}</td>
+	<td>Phytozome</td>
 	<td><a href="#" onclick="repl_autorun([' {{d.loadfn | escape}}'], clear_first=false)"><pre>{{d.basename}}</pre></a></td>
 	<td>
 		<a href="{{d.url}}" target="_blank">{{d.organism}}</a>
@@ -31,16 +46,7 @@ Note that anything you upload as `guest` will be available to other guest users.
 			({{d.commonname}})
 		{% endif %}
 	</td>
-	<td>{{d.type}}</td>
 </tr>
 {% endfor %}
-{% for d in blastdbs %}
-<tr class="datablock">
-	<td><a href="#" onclick="repl_autorun([' {{d.loadfn | escape}}'], clear_first=false)"><pre>{{d.basename}}</pre></a></td>
-	<td>{% if d.description is defined and d.description|length %}
-		{{d.description}}
-	{% endif %}</td>
-	<td>{{d.type}}</td>
-</tr>
-{% endfor %}
+
 </table>
