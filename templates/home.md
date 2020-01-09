@@ -6,8 +6,6 @@
 <div id="devwarning">
 <b>WARNING: Demo under construction.
 <br/>
-Expect parts of it to be unfinished or broken.
-<br/>
 You may need to zoom out to fix the layout.</b>
 <br/>
 </div>
