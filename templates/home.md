@@ -1,28 +1,19 @@
-<div id="intropitch" style="width:80%;">
-<img src="/static/ortholang.svg" style="width:250px;"></img>
-<h2>OrthoLang: fast, reproducible<br/>ortholog search scripts</h2>
-</div>
+<center>
+<img id="logo" src="/static/ortholang.svg"></img>
+<h3 id="tagline">OrthoLang: fast, reproducible<br/>ortholog search scripts</h3>
+</center>
 
-<!-- <div id="devwarning">
-<b>WARNING: Demo under construction.
-<br/>
-You may need to zoom out to fix the layout.</b>
-<br/>
-</div>
-<br/> -->
+Try the demo on the right,
+or paste this in a terminal to install on Mac or Linux:
 
-OrthoLang is a small scripting language designed to help you search for candidate genes.
-Load some genes and genomes,
-find homologs using a variety of programs,
-and tweak + compare until you're confident in the results.
-Save your final script to reproduce or update with new data later.
+<pre style="font-size: 11pt;">
+curl https://github.com/jefdaj/shortcut/blob/master/install.sh | bash
+</pre>
 
-[Install it from Github][1] or try the demo terminal on the right.
-
-Simplified interfaces to these sequence search programs are included so far:
+Simplified interfaces to these sequence search programs are included:
 
 - [BLAST+][5] with [Psiblast-EXB][12]
-- BLAST+ reciprocal best hits (custom)
+- BLAST+ reciprocal best hits (custom algorithm)
 - [DIAMOND][6]
 - [HMMER][7]
 - [CRB-BLAST][8]
@@ -30,28 +21,12 @@ Simplified interfaces to these sequence search programs are included so far:
 - [SonicParanoid][10]
 - [MMSeqs2][11]
 
-OrthoLang runs them more or less as you would on the command line, but automatically manages everything.
-It caches intermediate files and shares them between programs when possible,
-re-running only the commands that change with each variation of your search.
-It can also plot how the results change given different genes or genomes, positive or negative control lists,
-or search methods.
+You should try it if you want to...
 
-<!-- And if you need to customize the script beyond what OrthoLang can do,
-combine it with other programs or manually inspect the output files.
-_Your collaborators will still be grateful that you partially automated it!_ -->
-
-<!--
-Scripting makes it easier for you to compare search methods now,
-and easier for others to build on your work later.
-If you need to customize the script beyond what `ortholang` can do, combine it with something else:
-call your code from `ortholang`, call `ortholang` from your code, or work with the output files manually.
-
-## Quick Start
-
-The fastest way to start is probably to skip back and forth between the Examples and Tutorial.
-Read the tutorial and look for each new concept in the examples,
-or play with the examples and read the tutorial as needed when they don't do what you expect.
--->
+* Quickly do more than a couple BLAST searches and compare the hits
+* Compare BLAST to newer alternatives like DIAMOND or MMSeqs
+* Re-run your search later on new data, or publish it
+* Find optimal e-value cutoffs, genes and genomes to include/exclude, etc.
 
 [1]: https://github.com/jefdaj/ortholang
 [5]: https://blast.ncbi.nlm.nih.gov/Blast.cgi?CMD=Web&PAGE_TYPE=BlastDocs&DOC_TYPE=Download

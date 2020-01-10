@@ -4,7 +4,7 @@
 }
 
 p, li {
-	font-size: 10pt;
+	font-size: 12pt;
 }
 
 p {
@@ -23,6 +23,7 @@ html, body {
 #content {
 	height: 95%;
 }
+
 #right {
 	padding-left: 10px;
 	float: left;
@@ -308,4 +309,7 @@ thead {
 }
 td pre {
 	background-color: #fff;
+}
+#logo {
+	width: 200px;
 }
