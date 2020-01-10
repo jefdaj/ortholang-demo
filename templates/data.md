@@ -31,7 +31,7 @@ Note that anything you upload as `guest` will be available to other guest users.
 <tr class="datablock">
 	<td>{{d.type}}</td>
 	<td>NCBI</td>
-	<td><a href="#" onclick="repl_autorun([' {{d.loadfn | escape}}'], clear_first=false)"><pre>{{d.basename}}</pre></a></td>
+	<td><a href="#" title='{{d.loadfn | escape}}' onclick="repl_autorun([' {{d.loadfn | escape}}'], clear_first=false)"><pre>{{d.basename[:50]}}</pre></a></td>
 	<td>{% if d.description is defined and d.description|length %}
 		{{d.description}}
 	{% endif %}</td>
@@ -42,7 +42,9 @@ Note that anything you upload as `guest` will be available to other guest users.
 <tr class="datablock">
 	<td>{{d.type}}</td>
 	<td>Phytozome</td>
-	<td><a href="#" onclick="repl_autorun([' {{d.loadfn | escape}}'], clear_first=false)"><pre>{{d.basename}}</pre></a></td>
+	<td>
+		<a href="#" title='{{d.loadfn | escape}}' onclick="repl_autorun([' {{d.loadfn | escape}}'], clear_first=false)"><pre>{% if d.basename|length < 40 %}{{d.basename}}{% else %}{{d.basename[:40] + '...'}}{% endif %}</pre></a>
+	</td>
 	<td>
 		<a href="{{d.url}}" target="_blank">{{d.organism}}</a>
 		{% if d.commonname is defined and d.commonname|length %}
