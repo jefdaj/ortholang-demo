@@ -65,6 +65,12 @@ pre {
 	width: calc(100% - 10px);
 	display: inline-block;
 }
+.codeblock pre {
+	width: calc(100% - 10px);
+}
+.codeblock .runblock pre {
+	width: 90%;
+}
 .examplebar {
 	background-color: #ffffff;
 	border-bottom: 1px solid black;
