@@ -405,6 +405,10 @@ def send_shared(filename):
     LOGGER.info('sending shared file: %s' % filename)
     return send_from_directory(dirname(filename), basename(filename))
 
+@FLASK.route('/install')
+def send_install():
+    return send_from_directory('static', 'install.sh')
+
 ############
 # socketio #
 ############

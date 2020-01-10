@@ -7,7 +7,7 @@ Try the demo on the right,
 or paste this in a terminal to install on Mac or Linux:
 
 <pre style="font-size: 11pt;">
-curl https://github.com/jefdaj/shortcut/blob/master/install.sh | bash
+curl http://shortcut.pmb.berkeley.edu/install | bash
 </pre>
 
 Simplified interfaces to these sequence search programs are included:
