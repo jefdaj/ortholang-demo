@@ -126,10 +126,22 @@
     "loadfn": "blastdbget_nucl \"ref_viroids_rep_genomes\""
   }, 
   {
+    "basename": "nr", 
+    "type": "pdb", 
+    "description": "Non-redundant protein sequences from GenPept, Swissprot, PIR, PDF, PDB, and NCBI RefSeq", 
+    "loadfn": "blastdbget_prot \"nr\""
+  }, 
+  {
     "basename": "swissprot", 
     "type": "pdb", 
     "description": "Swiss-Prot sequence database (last major update)", 
     "loadfn": "blastdbget_prot \"swissprot\""
+  }, 
+  {
+    "basename": "refseq_protein", 
+    "type": "pdb", 
+    "description": "NCBI protein reference sequences", 
+    "loadfn": "blastdbget_prot \"refseq_protein\""
   }, 
   {
     "basename": "landmark", 
