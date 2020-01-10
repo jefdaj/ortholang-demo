@@ -40,7 +40,7 @@ def read_dbs(n_or_p, descs):
 		try:
 			j['description'] = descs[basename(d)]
 		except:
-			pass
+			j['description'] = "NCBI " + basename(d) + " BLAST database"
 		js.append(j)
 	return js
 

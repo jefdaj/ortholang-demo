@@ -14,6 +14,7 @@
   {
     "basename": "ref_prok_rep_genomes", 
     "type": "ndb", 
+    "description": "NCBI ref_prok_rep_genomes BLAST database", 
     "loadfn": "blastdbget_nucl \"ref_prok_rep_genomes\""
   }, 
   {
@@ -23,10 +24,10 @@
     "loadfn": "blastdbget_nucl \"htgs\""
   }, 
   {
-    "basename": "vector", 
+    "basename": "est_human", 
     "type": "ndb", 
-    "description": "Vector sequences from 2010, see Note 2 in section 4.", 
-    "loadfn": "blastdbget_nucl \"vector\""
+    "description": "Human subset of the est database from the estdivision of GenBank, EMBL and DDBJ.", 
+    "loadfn": "blastdbget_nucl \"est_human\""
   }, 
   {
     "basename": "refseq_rna", 
@@ -55,6 +56,7 @@
   {
     "basename": "ref_viruses_rep_genomes", 
     "type": "ndb", 
+    "description": "NCBI ref_viruses_rep_genomes BLAST database", 
     "loadfn": "blastdbget_nucl \"ref_viruses_rep_genomes\""
   }, 
   {
@@ -64,10 +66,10 @@
     "loadfn": "blastdbget_nucl \"gss\""
   }, 
   {
-    "basename": "est_human", 
+    "basename": "tsa_nt", 
     "type": "ndb", 
-    "description": "Human subset of the est database from the estdivision of GenBank, EMBL and DDBJ.", 
-    "loadfn": "blastdbget_nucl \"est_human\""
+    "description": "Sequences from the TSA division of GenBank, EMBL,and DDBJ", 
+    "loadfn": "blastdbget_nucl \"tsa_nt\""
   }, 
   {
     "basename": "est_mouse", 
@@ -78,11 +80,13 @@
   {
     "basename": "refseqgene", 
     "type": "ndb", 
+    "description": "NCBI refseqgene BLAST database", 
     "loadfn": "blastdbget_nucl \"refseqgene\""
   }, 
   {
     "basename": "est_mouse_blob", 
     "type": "ndb", 
+    "description": "NCBI est_mouse_blob BLAST database", 
     "loadfn": "blastdbget_nucl \"est_mouse_blob\""
   }, 
   {
@@ -92,14 +96,9 @@
     "loadfn": "blastdbget_nucl \"other_genomic\""
   }, 
   {
-    "basename": "tsa_nt", 
-    "type": "ndb", 
-    "description": "Sequences from the TSA division of GenBank, EMBL,and DDBJ", 
-    "loadfn": "blastdbget_nucl \"tsa_nt\""
-  }, 
-  {
     "basename": "est_human_blob", 
     "type": "ndb", 
+    "description": "NCBI est_human_blob BLAST database", 
     "loadfn": "blastdbget_nucl \"est_human_blob\""
   }, 
   {
@@ -107,6 +106,12 @@
     "type": "ndb", 
     "description": "Patent nucleotide sequences. Both patent databasesare directly from the USPTO, or from the EPO/JPO via EMBL/DDBJ", 
     "loadfn": "blastdbget_nucl \"patnt\""
+  }, 
+  {
+    "basename": "vector", 
+    "type": "ndb", 
+    "description": "Vector sequences from 2010, see Note 2 in section 4.", 
+    "loadfn": "blastdbget_nucl \"vector\""
   }, 
   {
     "basename": "pdbnt", 
@@ -117,6 +122,7 @@
   {
     "basename": "ref_viroids_rep_genomes", 
     "type": "ndb", 
+    "description": "NCBI ref_viroids_rep_genomes BLAST database", 
     "loadfn": "blastdbget_nucl \"ref_viroids_rep_genomes\""
   }, 
   {
@@ -128,11 +134,13 @@
   {
     "basename": "landmark", 
     "type": "pdb", 
+    "description": "NCBI landmark BLAST database", 
     "loadfn": "blastdbget_prot \"landmark\""
   }, 
   {
     "basename": "tsa_nr", 
     "type": "pdb", 
+    "description": "NCBI tsa_nr BLAST database", 
     "loadfn": "blastdbget_prot \"tsa_nr\""
   }, 
   {
@@ -140,6 +148,12 @@
     "type": "pdb", 
     "description": "Sequences for the protein structure from the Protein Data Bank", 
     "loadfn": "blastdbget_prot \"pdbaa\""
+  }, 
+  {
+    "basename": "env_nr", 
+    "type": "pdb", 
+    "description": "Protein sequences for metagenomes", 
+    "loadfn": "blastdbget_prot \"env_nr\""
   }, 
   {
     "basename": "pataa", 
