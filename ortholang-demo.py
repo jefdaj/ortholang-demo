@@ -80,7 +80,7 @@ def prefetch_blastdbget(shared_dir):
     dbs = [d for d in dbs if len(d) > 0 and not 'INFO' in d and not 'Usage:' in d]
     dbs.sort()
     print 'all dbs: %s' % dbs
-    too_big = ['nt', 'env_nt', 'refseq_genomic']
+    too_big = []
     dbs = [d for d in dbs if not d in too_big]
     print 'dbs to update: %s' % dbs
     for db in dbs:

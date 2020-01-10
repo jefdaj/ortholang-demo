@@ -1,39 +1,15 @@
 [
   {
-    "basename": "sts", 
-    "type": "ndb", 
-    "description": "Sequences from the STS division of GenBank, EMBL,and DDBJ", 
-    "loadfn": "blastdbget_nucl \"sts\""
-  }, 
-  {
     "basename": "16SMicrobial", 
     "type": "ndb", 
     "description": "Bacterial and Archaeal 16S rRNA sequences from BioProjects 33175 and 33117", 
     "loadfn": "blastdbget_nucl \"16SMicrobial\""
   }, 
   {
-    "basename": "ref_prok_rep_genomes", 
+    "basename": "env_nt", 
     "type": "ndb", 
-    "description": "NCBI ref_prok_rep_genomes BLAST database", 
-    "loadfn": "blastdbget_nucl \"ref_prok_rep_genomes\""
-  }, 
-  {
-    "basename": "htgs", 
-    "type": "ndb", 
-    "description": "Sequences from the HTG division of GenBank, EMBL,and DDBJ", 
-    "loadfn": "blastdbget_nucl \"htgs\""
-  }, 
-  {
-    "basename": "est_human", 
-    "type": "ndb", 
-    "description": "Human subset of the est database from the estdivision of GenBank, EMBL and DDBJ.", 
-    "loadfn": "blastdbget_nucl \"est_human\""
-  }, 
-  {
-    "basename": "refseq_rna", 
-    "type": "ndb", 
-    "description": "NCBI Transcript reference sequences", 
-    "loadfn": "blastdbget_nucl \"refseq_rna\""
+    "description": "Nucleotide sequences for metagenomes", 
+    "loadfn": "blastdbget_nucl \"env_nt\""
   }, 
   {
     "basename": "est", 
@@ -42,58 +18,10 @@
     "loadfn": "blastdbget_nucl \"est\""
   }, 
   {
-    "basename": "est_others", 
+    "basename": "est_human", 
     "type": "ndb", 
-    "description": "Non-human and non-mouse subset of the est database", 
-    "loadfn": "blastdbget_nucl \"est_others\""
-  }, 
-  {
-    "basename": "human_genomic", 
-    "type": "ndb", 
-    "description": "Human RefSeq (NC_######) chromosome records with gap adjusted concatenated NT_ contigs", 
-    "loadfn": "blastdbget_nucl \"human_genomic\""
-  }, 
-  {
-    "basename": "ref_viruses_rep_genomes", 
-    "type": "ndb", 
-    "description": "NCBI ref_viruses_rep_genomes BLAST database", 
-    "loadfn": "blastdbget_nucl \"ref_viruses_rep_genomes\""
-  }, 
-  {
-    "basename": "gss", 
-    "type": "ndb", 
-    "description": "Sequences from the GSS division of GenBank, EMBL, and DDBJ", 
-    "loadfn": "blastdbget_nucl \"gss\""
-  }, 
-  {
-    "basename": "tsa_nt", 
-    "type": "ndb", 
-    "description": "Sequences from the TSA division of GenBank, EMBL,and DDBJ", 
-    "loadfn": "blastdbget_nucl \"tsa_nt\""
-  }, 
-  {
-    "basename": "est_mouse", 
-    "type": "ndb", 
-    "description": "Mouse subset of the est databasae", 
-    "loadfn": "blastdbget_nucl \"est_mouse\""
-  }, 
-  {
-    "basename": "refseqgene", 
-    "type": "ndb", 
-    "description": "NCBI refseqgene BLAST database", 
-    "loadfn": "blastdbget_nucl \"refseqgene\""
-  }, 
-  {
-    "basename": "est_mouse_blob", 
-    "type": "ndb", 
-    "description": "NCBI est_mouse_blob BLAST database", 
-    "loadfn": "blastdbget_nucl \"est_mouse_blob\""
-  }, 
-  {
-    "basename": "other_genomic", 
-    "type": "ndb", 
-    "description": "RefSeq chromosome records (NC_######) for non-humanorganisms", 
-    "loadfn": "blastdbget_nucl \"other_genomic\""
+    "description": "Human subset of the est database from the estdivision of GenBank, EMBL and DDBJ.", 
+    "loadfn": "blastdbget_nucl \"est_human\""
   }, 
   {
     "basename": "est_human_blob", 
@@ -102,16 +30,58 @@
     "loadfn": "blastdbget_nucl \"est_human_blob\""
   }, 
   {
+    "basename": "est_mouse", 
+    "type": "ndb", 
+    "description": "Mouse subset of the est databasae", 
+    "loadfn": "blastdbget_nucl \"est_mouse\""
+  }, 
+  {
+    "basename": "est_mouse_blob", 
+    "type": "ndb", 
+    "description": "NCBI est_mouse_blob BLAST database", 
+    "loadfn": "blastdbget_nucl \"est_mouse_blob\""
+  }, 
+  {
+    "basename": "est_others", 
+    "type": "ndb", 
+    "description": "Non-human and non-mouse subset of the est database", 
+    "loadfn": "blastdbget_nucl \"est_others\""
+  }, 
+  {
+    "basename": "gss", 
+    "type": "ndb", 
+    "description": "Sequences from the GSS division of GenBank, EMBL, and DDBJ", 
+    "loadfn": "blastdbget_nucl \"gss\""
+  }, 
+  {
+    "basename": "htgs", 
+    "type": "ndb", 
+    "description": "Sequences from the HTG division of GenBank, EMBL,and DDBJ", 
+    "loadfn": "blastdbget_nucl \"htgs\""
+  }, 
+  {
+    "basename": "human_genomic", 
+    "type": "ndb", 
+    "description": "Human RefSeq (NC_######) chromosome records with gap adjusted concatenated NT_ contigs", 
+    "loadfn": "blastdbget_nucl \"human_genomic\""
+  }, 
+  {
+    "basename": "nt", 
+    "type": "ndb", 
+    "description": "Partially non-redundant nucleotide sequences from all traditional divisions of GenBank, EMBL, and DDBJ excluding GSS,STS, PAT, EST, HTG, and WGS.", 
+    "loadfn": "blastdbget_nucl \"nt\""
+  }, 
+  {
+    "basename": "other_genomic", 
+    "type": "ndb", 
+    "description": "RefSeq chromosome records (NC_######) for non-humanorganisms", 
+    "loadfn": "blastdbget_nucl \"other_genomic\""
+  }, 
+  {
     "basename": "patnt", 
     "type": "ndb", 
     "description": "Patent nucleotide sequences. Both patent databasesare directly from the USPTO, or from the EPO/JPO via EMBL/DDBJ", 
     "loadfn": "blastdbget_nucl \"patnt\""
-  }, 
-  {
-    "basename": "vector", 
-    "type": "ndb", 
-    "description": "Vector sequences from 2010, see Note 2 in section 4.", 
-    "loadfn": "blastdbget_nucl \"vector\""
   }, 
   {
     "basename": "pdbnt", 
@@ -120,46 +90,64 @@
     "loadfn": "blastdbget_nucl \"pdbnt\""
   }, 
   {
+    "basename": "ref_prok_rep_genomes", 
+    "type": "ndb", 
+    "description": "NCBI ref_prok_rep_genomes BLAST database", 
+    "loadfn": "blastdbget_nucl \"ref_prok_rep_genomes\""
+  }, 
+  {
     "basename": "ref_viroids_rep_genomes", 
     "type": "ndb", 
     "description": "NCBI ref_viroids_rep_genomes BLAST database", 
     "loadfn": "blastdbget_nucl \"ref_viroids_rep_genomes\""
   }, 
   {
-    "basename": "nr", 
-    "type": "pdb", 
-    "description": "Non-redundant protein sequences from GenPept, Swissprot, PIR, PDF, PDB, and NCBI RefSeq", 
-    "loadfn": "blastdbget_prot \"nr\""
+    "basename": "ref_viruses_rep_genomes", 
+    "type": "ndb", 
+    "description": "NCBI ref_viruses_rep_genomes BLAST database", 
+    "loadfn": "blastdbget_nucl \"ref_viruses_rep_genomes\""
   }, 
   {
-    "basename": "swissprot", 
-    "type": "pdb", 
-    "description": "Swiss-Prot sequence database (last major update)", 
-    "loadfn": "blastdbget_prot \"swissprot\""
+    "basename": "refseq_genomic", 
+    "type": "ndb", 
+    "description": "NCBI genomic reference sequences", 
+    "loadfn": "blastdbget_nucl \"refseq_genomic\""
   }, 
   {
-    "basename": "refseq_protein", 
-    "type": "pdb", 
-    "description": "NCBI protein reference sequences", 
-    "loadfn": "blastdbget_prot \"refseq_protein\""
+    "basename": "refseq_rna", 
+    "type": "ndb", 
+    "description": "NCBI Transcript reference sequences", 
+    "loadfn": "blastdbget_nucl \"refseq_rna\""
   }, 
   {
-    "basename": "landmark", 
-    "type": "pdb", 
-    "description": "NCBI landmark BLAST database", 
-    "loadfn": "blastdbget_prot \"landmark\""
+    "basename": "refseqgene", 
+    "type": "ndb", 
+    "description": "NCBI refseqgene BLAST database", 
+    "loadfn": "blastdbget_nucl \"refseqgene\""
   }, 
   {
-    "basename": "tsa_nr", 
-    "type": "pdb", 
-    "description": "NCBI tsa_nr BLAST database", 
-    "loadfn": "blastdbget_prot \"tsa_nr\""
+    "basename": "sts", 
+    "type": "ndb", 
+    "description": "Sequences from the STS division of GenBank, EMBL,and DDBJ", 
+    "loadfn": "blastdbget_nucl \"sts\""
   }, 
   {
-    "basename": "pdbaa", 
+    "basename": "tsa_nt", 
+    "type": "ndb", 
+    "description": "Sequences from the TSA division of GenBank, EMBL,and DDBJ", 
+    "loadfn": "blastdbget_nucl \"tsa_nt\""
+  }, 
+  {
+    "basename": "vector", 
+    "type": "ndb", 
+    "description": "Vector sequences from 2010, see Note 2 in section 4.", 
+    "loadfn": "blastdbget_nucl \"vector\""
+  }, 
+  {
+    "basename": "cdd_delta", 
     "type": "pdb", 
-    "description": "Sequences for the protein structure from the Protein Data Bank", 
-    "loadfn": "blastdbget_prot \"pdbaa\""
+    "description": "Conserved Domain Database sequences for use with stand alone deltablast", 
+    "loadfn": "blastdbget_prot \"cdd_delta\""
   }, 
   {
     "basename": "env_nr", 
@@ -168,15 +156,45 @@
     "loadfn": "blastdbget_prot \"env_nr\""
   }, 
   {
+    "basename": "landmark", 
+    "type": "pdb", 
+    "description": "NCBI landmark BLAST database", 
+    "loadfn": "blastdbget_prot \"landmark\""
+  }, 
+  {
+    "basename": "nr", 
+    "type": "pdb", 
+    "description": "Non-redundant protein sequences from GenPept, Swissprot, PIR, PDF, PDB, and NCBI RefSeq", 
+    "loadfn": "blastdbget_prot \"nr\""
+  }, 
+  {
     "basename": "pataa", 
     "type": "pdb", 
     "description": "Patent protein sequences", 
     "loadfn": "blastdbget_prot \"pataa\""
   }, 
   {
-    "basename": "cdd_delta", 
+    "basename": "pdbaa", 
     "type": "pdb", 
-    "description": "Conserved Domain Database sequences for use with stand alone deltablast", 
-    "loadfn": "blastdbget_prot \"cdd_delta\""
+    "description": "Sequences for the protein structure from the Protein Data Bank", 
+    "loadfn": "blastdbget_prot \"pdbaa\""
+  }, 
+  {
+    "basename": "refseq_protein", 
+    "type": "pdb", 
+    "description": "NCBI protein reference sequences", 
+    "loadfn": "blastdbget_prot \"refseq_protein\""
+  }, 
+  {
+    "basename": "swissprot", 
+    "type": "pdb", 
+    "description": "Swiss-Prot sequence database (last major update)", 
+    "loadfn": "blastdbget_prot \"swissprot\""
+  }, 
+  {
+    "basename": "tsa_nr", 
+    "type": "pdb", 
+    "description": "NCBI tsa_nr BLAST database", 
+    "loadfn": "blastdbget_prot \"tsa_nr\""
   }
 ]

@@ -42,15 +42,24 @@ def read_dbs(n_or_p, descs):
 		except:
 			j['description'] = "NCBI " + basename(d) + " BLAST database"
 		js.append(j)
+	js.sort(key=lambda j: j['basename'])
 	return js
 
+def varname(db_json):
+	# prevent invalid varnames
+	dbname = db_json['basename']
+	if dbname == '16SMicrobial':
+		return 'microbial16s'
+	return dbname
+
 if __name__ == '__main__':
-	js = []
+	# js = []
 	descs = read_descs()
 	# print descs
 
-	js += read_dbs('n', descs)
-	js += read_dbs('p', descs)
+	ns = read_dbs('n', descs)
+	ps = read_dbs('p', descs)
+	js = ns + ps
 	# print js
 
 	with open('templates/blastdbs.json', 'w') as f:
@@ -59,7 +68,10 @@ if __name__ == '__main__':
 		# write load-blastdbs.ol (for prefetching)
 		with open('ortholang/examples/scripts/load-blastdbs.ol', 'w') as f:
 			for j in js:
-				cmd = 'ncbi_%s = %s ' % (j['basename'], j['loadfn'])
+				cmd = '%s = %s ' % (varname(j), j['loadfn'])
 				f.write(cmd + '\n')
-			resline = 'result = "nothing so far"'
-			f.write(resline)
+			ns_str = 'ndbs = [' + ', '.join(varname(n) for n in ns) + ']'
+			ps_str = 'pdbs = [' + ', '.join(varname(p) for p in ps) + ']'
+			res_str = 'result = length_each [ndbs, pdbs]'
+			for s in [ns_str, ps_str, res_str]:
+				f.write(s + '\n')
