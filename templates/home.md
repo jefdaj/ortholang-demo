@@ -37,9 +37,18 @@ Simplified interfaces to these sequence search programs are included:
 # Using the website
 
 This site is intended primarily as a demo. It's run from a standard desktop
-computer, and is updated and/or restarted frequently during development. For
-anything compute-intensive you probably want to install OrthoLang on your own
-hardware instead.
+computer, and is restarted frequently during development. For anything
+compute-intensive you probably want to install OrthoLang on your own hardware
+instead.
+The terminal on the right is similar to the standard command line interface you
+will get if you do that, except:
+
+* Terminal niceties like tab completion and progress bars are missing
+* Uploading and downloading files + scripts is a little awkward
+* Long-running scripts might be killed to keep the server responsive
+
+Edit scripts written by other guest users on the `guest` tab,
+or make an account to save your own privately.
 
 <!--
 Most searches can be done on a laptop, but it depends what you want to do and
@@ -49,27 +58,17 @@ the [Berkeley high-performance compute cluster][hpc], or installing OrthoLang
 at your institution.
 -->
 
-The terminal on the right is similar to the standard command line interface you
-will get if you install OrthoLang on your computer, except:
-
-* Long-running scripts might be killed to keep the server responsive
-* Terminal niceties like tab completion and progress bars are missing
-* Uploading and downloading files + scripts is a little awkward
-
-Edit scripts written by other guest users on the `guest` tab,
-or make an account to save your own privately.
-
 ## Example Code
 
 There are two types of interactive code blocks.
 Complete scripts with `Load` buttons like this:
 
-{{ macros.load_script(user, 'examples/scripts/load03.ol') }}
+{{ macros.load_script(user, 'examples/scripts/mmseqs.ol') }}
 
 ... and examples of other commands you would type in the terminal.
 The `Run` button just types them for you.
-They can include loading scripts, but also anything else you might do live
-with the `:` comands: redefine variables, look at depdencies, etc.
+They can include loading scripts, but also anything else you might do live:
+evaluate or redefine variables, list dependencies, get `:help`, etc.
 
 {{ macros.run_example([':load examples/scripts/load03.ol', ':help', ':type sequences_of_interest', ':type gbk_to_faa_each', 'sample 10 genes_of_interest']) }}
 

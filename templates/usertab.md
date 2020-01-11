@@ -11,7 +11,7 @@ If you click "Sign in" and make up a username + password, you'll get:
 * Terminal sessions that persist when you leave the page
 * "Google Docs-style" collaborative editing by logging in from multiple computers
 
-No other info is required, and nothing is stored about users except their password (hash) + scripts.
+No other personal info is required. Nothing is stored about users except their username, encrypted password, and personal scripts + files.
 
 <input id="userscriptsearch" placeholder="Search guest scripts" id="box" type="text"/>
 
