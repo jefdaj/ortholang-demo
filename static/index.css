@@ -66,11 +66,15 @@ pre {
 	width: calc(100% - 10px);
 	display: inline-block;
 }
-.codeblock pre {
+div .highlight {
 	width: calc(100% - 10px);
 }
-.codeblock .runblock pre {
-	width: 90%;
+div .runblock pre {
+	width: calc(100% - 70px);
+}
+#installscript {
+	font-size: 12pt;
+	width: max-content;
 }
 .examplebar {
 	background-color: #ffffff;

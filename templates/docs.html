@@ -2,7 +2,6 @@
 
 <div class="tab">
 	<button id="homebutton"      class="tablinks" onclick="openTab(event, 'Home')">OrthoLang</button>
-	<button id="basicsbutton"      class="tablinks" onclick="openTab(event, 'Basics')">Basics</button>
 	<button id="tutorialbutton"  class="tablinks" onclick="openTab(event, 'Tutorial')">Tutorial</button>
 	<button id="databutton" class="tablinks" onclick="openTab(event, 'Data')">Data</button>
 	<button id="functionsbutton" class="tablinks" onclick="openTab(event, 'Functions')">Functions</button>
@@ -33,7 +32,6 @@
 </div>
 
 <div id="Home"      class="tabcontent">{{ macros.markdown_doc("home.md"     ) }}</div>
-<div id="Basics"      class="tabcontent">{{ macros.markdown_doc("basics.md"     ) }}</div>
 <div id="Tutorial"  class="tabcontent">{{ macros.markdown_doc("tutorial.md" ) }}</div>
 <div id="Scripts"  class="tabcontent">{{ macros.markdown_doc("scripts.md" ) }}</div>
 <div id="Functions" class="tabcontent">{{ macros.markdown_doc("functions.md") }}</div>
