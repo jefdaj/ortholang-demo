@@ -37,14 +37,13 @@ Simplified interfaces to these sequence search programs are included:
 # Using the website
 
 This site is intended primarily as a demo. It's run from a standard desktop
-computer, and is restarted frequently during development. For anything
+computer and restarted frequently during development. For anything
 compute-intensive you probably want to install OrthoLang on your own hardware
-instead.
-The terminal on the right is similar to the standard command line interface you
-will get if you do that, except:
+instead. The terminal on the right is similar to the standard command line
+interface you will get if you do that, except:
 
 * Terminal niceties like tab completion and progress bars are missing
-* Uploading and downloading files + scripts is a little awkward
+* Uploading and downloading files is a little awkward
 * Long-running scripts might be killed to keep the server responsive
 
 Edit scripts written by other guest users on the `guest` tab,

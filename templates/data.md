@@ -43,7 +43,7 @@ Note that anything you upload as `guest` will be available to other guest users.
 	<td>{{d.type}}</td>
 	<td>Phytozome</td>
 	<td>
-		<a href="#" title='{{d.loadfn | escape}}' onclick="repl_autorun([' {{d.loadfn | escape}}'], clear_first=false)"><pre>{% if d.basename|length < 40 %}{{d.basename}}{% else %}{{d.basename[:40] + '...'}}{% endif %}</pre></a>
+		<a href="#" title='{{d.loadfn | escape}}' onclick="repl_autorun([' {{d.loadfn | escape}}'], clear_first=false)"><pre>{{d.basename}}</pre></a>
 	</td>
 	<td>
 		<a href="{{d.url}}" target="_blank">{{d.organism}}</a>

@@ -289,6 +289,10 @@ thead {
 #datatable td {
 	overflow-x: hidden;
 }
+tr.datablock > td > a > pre {
+	/* prevent scrolling */
+	overflow-x: hidden;
+}
 
 .runbuttonform {
 	float:right;
