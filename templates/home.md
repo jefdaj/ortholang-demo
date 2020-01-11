@@ -3,6 +3,13 @@
 <h3 id="tagline">OrthoLang: fast, reproducible<br/>ortholog search scripts</h3>
 </center>
 
+You should try it if you want to...
+
+* Quickly do more than a couple BLAST searches and compare the hits
+* Find optimal e-value cutoffs, genes and genomes to include/exclude, etc.
+* Compare BLAST to newer alternatives like DIAMOND or MMSeqs
+* Start from an existing script, or publish yours for others to start from
+
 Try the demo on the right,
 or paste this in a terminal to install on Mac or Linux:
 
@@ -20,13 +27,6 @@ Simplified interfaces to these sequence search programs are included:
 - [Orthofinder][9]
 - [SonicParanoid][10]
 - [MMSeqs2][11]
-
-You should try it if you want to...
-
-* Quickly do more than a couple BLAST searches and compare the hits
-* Compare BLAST to newer alternatives like DIAMOND or MMSeqs
-* Re-run your search later on new data, or publish it
-* Find optimal e-value cutoffs, genes and genomes to include/exclude, etc.
 
 [1]: https://github.com/jefdaj/ortholang
 [5]: https://blast.ncbi.nlm.nih.gov/Blast.cgi?CMD=Web&PAGE_TYPE=BlastDocs&DOC_TYPE=Download
