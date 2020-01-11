@@ -25,6 +25,8 @@ Anything it depends on ("needs") will also get evaluated.
 You can find what a given variable needs with the `:neededfor` command,
 and what needs it with `:needs`.
 
+{{ macros.run_example([':load examples/scripts/variables02.ol', ':neededfor var3', ':needs var3']) }}
+
 `result` always holds the latest result.
 If you type a plain expression like `4 * 4` without assigning it to a variable,
 that becomes the new `result`.
