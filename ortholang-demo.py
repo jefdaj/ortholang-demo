@@ -407,6 +407,9 @@ def send_shared(filename):
 
 @FLASK.route('/install')
 def send_install():
+    # not working:
+    # url = 'https://raw.githubusercontent.com/jefdaj/shortcut/master/install.sh'
+    # return redirect(url, code=302)
     return send_from_directory('static', 'install.sh')
 
 ############

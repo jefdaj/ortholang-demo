@@ -1,10 +1,10 @@
 {% import "macros.jinja" as macros with context %}
 
-# Using the website
-
 <div style="float: right;">
   <img class="centeredimg" src="/static/server.png" style="width:150px;"></img>
 </div>
+
+# Using the website
 
 This website is intended primarily as a demo. It's run from a standard desktop
 computer, and is updated and/or restarted frequently during development.
@@ -57,20 +57,12 @@ redefine variables, look at depdencies, etc.
 
 {{ macros.run_example([':load examples/scripts/load03.ol', 'sample 10 genes_of_interest', ':type']) }}
 
-
-# Using the command line program
-
-OrthoLang itself is a command-line language interpreter, like Python or R or Bash. It will run anywhere supported by [Nix][5], which currently means Linux or MacOS but not Windows. Paste this in a terminal to install everything:
-
-``` .bash
-curl https://raw.githubusercontent.com/jefdaj/ortholang/master/install.sh | bash
-```
-
-There are also some pre-recorded demos. They tend to be for longer, more
+<!-- There are also some pre-recorded demos. They tend to be for longer, more
 complicated or compute-intensive things and involve using OrthoLang in its
 native Linux terminal environment rather than on the website.
 
 {{ macros.asciicast('test.cast') }}
+-->
 
 <!--
 TODO:
