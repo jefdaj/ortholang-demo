@@ -94,16 +94,10 @@ code, pre, div .highlight {
 	position: relative;
 }
 #replbackground {
-	background: #fff no-repeat url('/static/ortholang-background.svg') 50% / 98%;
-	/* Add the blur effect */
-	filter: blur(25px);
-	-webkit-filter: blur(25px);
-	/* fill container, keeping the blur inside */
-	width:  calc(100% - 25px);
-	height: calc(100% - 25px);
+	background: #fff no-repeat url('/static/ortholang-background.png') 50% / 100%;
+	width: 100%;
+	height: 100%;
 	position: absolute;
-	top:  25px;
-	left: 0px;
 }
 #replstdin, #replstdout, #serverload, #account {
 	font-family: monospace;
