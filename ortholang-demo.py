@@ -415,7 +415,7 @@ def send_install():
 # let's encrypt!
 @FLASK.route('/.well-known/<path:filename>')
 def get_wellknown(filename):
-    filename = join(SRCDIR, 'static', '.well-known', filename)
+    filename = join('/var/lib/acme/acme-challenge/.well-known', filename)
     LOGGER.info("sending let's encrypt file: '%s'" % filename)
     return send_from_directory(dirname(filename), basename(filename))
 
