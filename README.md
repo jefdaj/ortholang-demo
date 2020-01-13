@@ -15,17 +15,17 @@ Just add something like this to your `/etc/nixos/configuration.nix`:
 {
   imports =
     [ ...
-      /home/jefdaj/shortcut-demo/service.nix
+      /home/jefdaj/ortholang-demo/service.nix
     ];
 
   ...
 
-  services.shortcutDemo = {
+  services.ortholangDemo = {
     enable      = true;
     user        = "jefdaj";
-    scratchDir  = "/tmp/shortcut-demo";
-    logPath     = "/tmp/shortcut-demo.log";
-    examplesDir = "/mnt/data/shortcut/examples";
+    scratchDir  = "/tmp/ortholang-demo";
+    logPath     = "/tmp/ortholang-demo.log";
+    examplesDir = "/mnt/data/ortholang/examples";
     commentsDir = "/mnt/data/comments";
     uploadsDir  = "/mnt/data/uploads";
     port        = 45772;
@@ -40,14 +40,14 @@ Install using Nix on another distro
 -----------------------------------
 
 You can also run it on another linux distro, or probably Mac OSX.
-First, nix-build `shortcut` and add it to your `PATH`.
+First, nix-build `ortholang` and add it to your `PATH`.
 Note that you still need Nix for this.
 
 Then run the server the [Nix][2] way:
 
 ```.bash
 nix-shell requirements.nix --command \
-  ./shortcut-demo.py \
+  ./ortholang-demo.py \
     -l /tmp/shortcut-demo.log \
     -e shortcut/examples \
     -c comments \

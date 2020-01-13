@@ -408,7 +408,7 @@ def send_shared(filename):
 @FLASK.route('/install')
 def send_install():
     # not working:
-    # url = 'https://raw.githubusercontent.com/jefdaj/shortcut/master/install.sh'
+    # url = 'https://raw.githubusercontent.com/jefdaj/ortholang/master/install.sh'
     # return redirect(url, code=302)
     return send_from_directory('static', 'install.sh')
 
@@ -484,6 +484,7 @@ def handle_connect():
     if not thread.isAlive():
         thread.start()
 
+# note this only works with non-guest users, because a guest refresh is a whole new session
 @SOCKETIO.on('pagerefreshed')
 def handle_refresh():
     tab = find_session().currenttab
