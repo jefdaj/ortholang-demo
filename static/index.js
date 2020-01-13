@@ -182,7 +182,7 @@ function logout() {
 $(function(){
 
 	// TODO would explicit disconnect help?
-	SOCKET = io.connect('http://' + document.domain + ':' + location.port);
+	SOCKET = io.connect('https://' + document.domain + ':' + location.port);
 
 	// send a line to the repl when you click the button or press enter
 	function run_line(line) {

@@ -16,7 +16,7 @@ Try the demo on the right,
 or paste this in a terminal to install on Mac or Linux:
 
 <pre id="installscript">
-curl http://shortcut.pmb.berkeley.edu/install | bash
+curl https://shortcut.pmb.berkeley.edu/install | bash
 </pre>
 
 Simplified interfaces to these sequence search programs are included:
@@ -109,7 +109,7 @@ TODO:
 [github]: https://github.com/jefdaj/ortholang
 [hpc]: https://research-it.berkeley.edu/services/high-performance-computing
 [user]: /user
-[niyogilab]: http://niyogilab.berkeley.edu/lab-directory
+[niyogilab]: https://niyogilab.berkeley.edu/lab-directory
 [nix]: https://nixos.org/nix
 [blast]: https://blast.ncbi.nlm.nih.gov/Blast.cgi?CMD=Web&PAGE_TYPE=BlastDocs&DOC_TYPE=Download
 [diamond]: https://github.com/bbuchfink/diamond

@@ -412,6 +412,13 @@ def send_install():
     # return redirect(url, code=302)
     return send_from_directory('static', 'install.sh')
 
+# let's encrypt!
+@FLASK.route('/.well-known/<path:filename>')
+def get_wellknown(filename):
+    filename = join(SRCDIR, 'static', '.well-known', filename)
+    LOGGER.info("sending let's encrypt file: '%s'" % filename)
+    return send_from_directory(dirname(filename), basename(filename))
+
 ############
 # socketio #
 ############
