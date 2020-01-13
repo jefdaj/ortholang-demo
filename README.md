@@ -1,5 +1,5 @@
-shortcut-demo
-=============
+ortholang-demo
+==============
 
 An interactive web demo + tutorial for [OrthoLang][1].
 Try the live version at [shortcut.pmb.berkeley.edu](https://shortcut.pmb.berkeley.edu)!
@@ -48,14 +48,14 @@ Then run the server the [Nix][2] way:
 ```.bash
 nix-shell requirements.nix --command \
   ./ortholang-demo.py \
-    -l /tmp/shortcut-demo.log \
-    -e shortcut/examples \
+    -l /tmp/ortholang-demo.log \
+    -e ortholang/examples \
     -c comments \
-    -t /tmp/shortcut-demo \
+    -t /tmp/ortholang-demo \
     -p 5000 \
-    -u /mnt/data/shortcut-users \
-    -a /mnt/data/shortcut-users/passwords.txt \
-    -s /mnt/data/shortcut-shared
+    -u /mnt/data/ortholang-users \
+    -a /mnt/data/ortholang-users/passwords.txt \
+    -s /mnt/data/ortholang-shared
 ```
 
 ... or the regular Debian + Python way:
@@ -66,15 +66,15 @@ sudo apt-get install python-dev
 virtualenv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
-./shortcut-demo.py \
-  -l /tmp/shortcut-demo.log \
-  -e shortcut/examples \
+./ortholang-demo.py \
+  -l /tmp/ortholang-demo.log \
+  -e ortholang/examples \
   -c comments \
-  -t /tmp/shortcut-demo \
+  -t /tmp/ortholang-demo \
   -p 5000 \
-  -u /mnt/data/shortcut-users \
-  -a /mnt/data/shortcut-users/passwords.txt \
-  -s /mnt/data/shortcut-shared
+  -u /mnt/data/ortholang-users \
+  -a /mnt/data/ortholang-users/passwords.txt \
+  -s /mnt/data/ortholang-shared
 ```
 
 Finally, visit `localhost:5000` in your browser.
@@ -107,7 +107,7 @@ a ramdisk if IO becomes an issue. It will also save user comments in `./comments
 Updating the docs
 -----------------
 
-This part is a little awkward. It uses the `shortcut` submodule to generate `templates/reference.md`
+This part is a little awkward. It uses the `ortholang` submodule to generate `templates/reference.md`
 and check the example scripts. Do something like:
 
 ``` .bash
@@ -122,14 +122,14 @@ layout:
 
 - [ ] try highlighting the user tab a different color
 - [ ] expand/fix repl sizing on different screens
-- [ ] fix shortcut terminal width to match screen?
+- [ ] fix ortholang terminal width to match screen?
 - [ ] mobile version that only shows the docs half + a warning about that?
 
 docs:
 
 - [x] update the guest page to be less pushy
 - [x] fix first table in reference.md
-- [ ] update reference.md to match current shortcut
+- [ ] update reference.md to match current ortholang
 - [ ] inputs, outputs -> collapsed into type
 - [ ] add a macro to type :help <fnname>, and use it to make all the functions into links
 - [ ] tutorial index at the top
@@ -149,11 +149,11 @@ repl:
 files:
 
 - [ ] pre-download all the blastdbget databases
-- [ ] pre-run all the example scripts and use a shared shake cache (see shortcut todo)
+- [ ] pre-run all the example scripts and use a shared shake cache (see ortholang todo)
 - [ ] new user login needs dir created with examples symlink (done?)
 - [ ] zip untyped result lists before downloading (make those first)
 
-shortcut:
+ortholang:
 
 - [ ] bug: show when script is empty causes a crash
 - [x] check that no seqid hashes are slipping through to the user-facing output
@@ -167,5 +167,5 @@ shortcut:
 - [ ] readable error when calling a fn with wrong types
 
 
-[1]: https://github.com/jefdaj/shortcut
+[1]: https://github.com/jefdaj/ortholang
 [2]: https://nixos.org/nix

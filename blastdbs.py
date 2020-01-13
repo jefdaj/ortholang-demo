@@ -23,7 +23,7 @@ def read_descs():
 
 def read_dbs(n_or_p, descs):
 	js = []
-	db_dir = '/mnt/data/shortcut-shared/cache/blastdbget'
+	db_dir = '/mnt/data/ortholang-shared/cache/blastdbget'
 	dbs = glob(join(db_dir, '*.' + n_or_p + '*'))
 	dbs = set(d.split('.')[0] for d in dbs)
 	# print dbs
