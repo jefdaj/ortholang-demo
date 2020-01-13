@@ -2,7 +2,7 @@ ortholang-demo
 ==============
 
 An interactive web demo + tutorial for [OrthoLang][1].
-Try the live version at [shortcut.pmb.berkeley.edu](https://shortcut.pmb.berkeley.edu)!
+Try the live version at [ortholang.pmb.berkeley.edu](https://ortholang.pmb.berkeley.edu)!
 
 Install as a NixOS service
 --------------------------
