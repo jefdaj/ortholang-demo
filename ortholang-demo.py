@@ -424,7 +424,8 @@ def get_wellknown(filename):
 ############
 
 # can set logger=LOGGER to add socketio debugging to output
-SOCKETIO = SocketIO(FLASK, manage_session=False, logger=True, engineio_logger=True)
+SOCKETIO = SocketIO(FLASK, manage_session=False, logger=True, engineio_logger=True,
+                    cors_allowed_origins='http://localhost:%d' % CONFIG['port'])
 LOAD.start()
 
 # swap other modules' log handlers for mine
@@ -664,7 +665,7 @@ class OrthoLangThread(Thread):
         finally:
             # print SESSIONS
             if self.username == 'guest':
-                for sid in self.sessionids: # should only ever be one
+                for sid in self.sessionids.copy(): # should only ever be one
                     try:
                         del SESSIONS[sid]
                     except KeyError:
@@ -701,7 +702,7 @@ class OrthoLangThread(Thread):
             text = re.sub(self.tmpdir , '/TMPDIR' , text)
             # print "text after: '%s'" % text
 
-        for sid in self.sessionids:
+        for sid in self.sessionids.copy():
             SOCKETIO.emit('replstdout', text, namespace='/', room=sid)
 
     def readCommand(self, line):
@@ -732,11 +733,11 @@ class OrthoLangThread(Thread):
                 # self.readCommand(':show\n')
 
     def disableInput(self):
-        for sid in self.sessionids:
+        for sid in self.sessionids.copy():
             SOCKETIO.emit('replbusy', namespace='/', room=sid)
 
     def enableInput(self):
-        for sid in self.sessionids:
+        for sid in self.sessionids.copy():
             SOCKETIO.emit('replready', namespace='/', room=sid)
 
     #def emitStdout(self):
