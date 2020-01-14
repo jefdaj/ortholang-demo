@@ -16,7 +16,7 @@ Try the demo on the right,
 or paste this in a terminal to install on Mac or Linux:
 
 <pre id="installscript">
-curl https://shortcut.pmb.berkeley.edu/install | bash
+curl https://ortholang.pmb.berkeley.edu/install | bash
 </pre>
 
 Simplified interfaces to these sequence search programs are included:
