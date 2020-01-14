@@ -425,7 +425,7 @@ def get_wellknown(filename):
 
 # can set logger=LOGGER to add socketio debugging to output
 SOCKETIO = SocketIO(FLASK, manage_session=False, logger=True, engineio_logger=True,
-                    cors_allowed_origins='http://localhost:%d' % CONFIG['port'])
+                    cors_allowed_origins='*') # fixes ssl disconnect bug
 LOAD.start()
 
 # swap other modules' log handlers for mine
