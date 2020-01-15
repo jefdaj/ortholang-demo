@@ -5,6 +5,4 @@
 												{{ codeblocks[path]['relpath'] }}
 												<input type="button" onclick="repl_autorun([':load {{ codeblocks[path]['relpath'] }}'])" name="submit" value="Load" style="float: right;">
 								</div>
-				</form>
-				{{ codeblocks[path]['content'] | safe }}
-</div>
+				</form>{{ codeblocks[path]['content'] | safe }}</div>

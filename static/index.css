@@ -68,9 +68,14 @@ pre {
 }
 div .highlight {
 	width: calc(100% - 10px);
+	margin: 0;
 }
-div .runblock pre {
+div pre {
 	width: calc(100% - 70px);
+	margin: 5px;
+}
+.highlight form {
+	height: 10px;
 }
 #installscript {
 	font-size: 12pt;
@@ -86,7 +91,8 @@ div .runblock pre {
 }
 code, pre, div .highlight {
 	background-color: #fbfbfb;
-	margin: 5px;
+}
+div .highlight {
 }
 #replbox {
 	border-style: solid;
@@ -316,5 +322,8 @@ td pre {
 	width: 200px;
 }
 #tutorial_toc {
-	padding-left: 10;
+	padding-left: 10px;
+}
+pre > code {
+	margin: auto;
 }
