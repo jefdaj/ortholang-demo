@@ -1,4 +1,4 @@
-## Separate the main.ol from testing code
+### Separate the main.ol from testing code
 
 _Note: This makes make more sense explained live in the screencast (coming soon)._
 

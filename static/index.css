@@ -263,9 +263,6 @@ code, pre, div .highlight {
 	display: block;
 	text-align: center
 }
-#tutorialsearch {
-	width: 100px;
-}
 #tutorialsearch, #scriptsearch, #modulesearch, #userscriptsearch {
 	width: 40%;
 }

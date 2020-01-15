@@ -248,7 +248,7 @@ def load_tutorial_sections():
     # used to render the tutorial sections
     sections = {}
     index = 0
-    for path in glob(join(SRCDIR, 'templates', 'tutorial_*.md')):
+    for path in sorted(glob(join(SRCDIR, 'templates', 'tutorial_*.md'))):
         index += 1
         name = basename(path)
         with open(path, 'r') as f:
@@ -262,8 +262,10 @@ def load_tutorial_sections():
             try:
                 title = sections[name]['content'].split('###', 1)[1]
                 title = title.split('<', 1)[0].strip()
-            except:
+            except Exception as e:
                 title = 'No title'
+                print 'exception: %s' % e
+                print sections[name]['content'].split('\n')[0]
             sections[name]['title'] = title
     return sections
 

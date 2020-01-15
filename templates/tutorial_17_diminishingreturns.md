@@ -1,4 +1,4 @@
-## Look for diminishing returns
+### Look for diminishing returns
 
 If you're already using both the tips above (ramping up number of genes or genomes and scoring your results), consider plotting them against each other.
 You might find that it's not worth using more than 5 genomes from a certain group, for example.
