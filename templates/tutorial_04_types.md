@@ -57,4 +57,4 @@ bookkeeping. Imagine you have a few hundred thousand cryptically named
 tempfiles. Your script chews through them for several days and finally returns
 an empty list (`[]`). You want to be confident that there really are no hits,
 instead of going back and poring over every command to make sure two files
-didn't get mixed up somewhere! This happened to me probably 10 or 15 times before I added the type system.
+didn't get mixed up somewhere!
