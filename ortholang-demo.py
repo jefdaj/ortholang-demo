@@ -247,7 +247,9 @@ def load_codeblocks():
 def load_tutorial_sections():
     # used to render the tutorial sections
     sections = {}
+    index = 0
     for path in glob(join(SRCDIR, 'templates', 'tutorial_*.md')):
+        index += 1
         name = basename(path)
         with open(path, 'r') as f:
             txt = '```\n%s\n```\n' % f.read()
@@ -255,6 +257,7 @@ def load_tutorial_sections():
                 { 'name': basename(name)
                 , 'content': MARKDOWN(txt)
                 , 'id': splitext(basename(name))[0]
+                , 'index': str(index).zfill(2)
                 }
             try:
                 title = sections[name]['content'].split('###', 1)[1]

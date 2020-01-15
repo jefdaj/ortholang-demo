@@ -136,7 +136,7 @@ function show_element(element) {
 	$(element).show()
 	var toc = $(element).attr('id') + '_toc'
 	toc = document.getElementById(toc)
-	if (toc !== null) { toc.style.display = "block"; }
+	if (toc !== null) { toc.style.display = "list-item"; }
 }
 
 // hide examples or module reference blocks that don't match the current filter

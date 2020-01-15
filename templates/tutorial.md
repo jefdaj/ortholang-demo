@@ -14,16 +14,16 @@ If the tutorial is confusing, that counts as a bug too.
 
 Tutorial:
 
-<ol id="tutorial_toc">
-{% for path, section in sections.items() | sort() %}
-		<li id="{{section['id']}}_toc" style="display: block";>
-			<a href="#{{section['id']}}">{{ sections[path]['title'] }}</a>
+<ul id="tutorial_toc" style="list-style-type: none;">
+{% for path, section in sections.items() | sort(attribute='1.index') %}
+		<li id="{{section['id']}}_toc" style="display: list-item";>
+			{{sections[path]['index']}}. <a href="#{{section['id']}}"> {{ sections[path]['title'] }}</a>
 		</li>
 {% endfor %}
-</ol>
+</ul>
 
 <div id="tutorial">
-{% for path, section in sections.items() | sort() %}
+{% for path, section in sections.items() | sort(attribute='1.index') %}
 	  {%- include "tutorialsection.md" -%}
 {% endfor %}
 </div>
