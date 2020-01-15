@@ -70,8 +70,10 @@ div .highlight {
 	width: calc(100% - 10px);
 	margin: 0;
 }
-div pre {
+.runblock pre {
 	width: calc(100% - 70px);
+}
+div pre {
 	margin: 5px;
 }
 .highlight form {
