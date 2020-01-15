@@ -125,20 +125,30 @@ function filters_match(filters, element_text) {
 	return true;
 }
 
+function hide_element(element) {
+	$(element).hide()
+	var toc = $(element).attr('id') + '_toc'
+	toc = document.getElementById(toc)
+	if (toc !== null) { toc.style.display = "none"; }
+}
+
+function show_element(element) {
+	$(element).show()
+	var toc = $(element).attr('id') + '_toc'
+	toc = document.getElementById(toc)
+	if (toc !== null) { toc.style.display = "block"; }
+}
+
 // hide examples or module reference blocks that don't match the current filter
 // based on: http://jsfiddle.net/reyjose/40u0var6/
 function filter_searchable(box_id, element_selector){
 	var filters = document.getElementById(box_id).value.toLowerCase();
 	// console.log(filters);
-	if(filters == ""){
-		$(element_selector).show();
-	} else {
-		$(element_selector).each(function(){
-				var text = $(this).text().toLowerCase();
-				// console.log(text);
-				filters_match(filters, text) ? $(this).show() : $(this).hide();
-		});
-	};
+	$(element_selector).each(function(){
+			var text = $(this).text().toLowerCase();
+			// console.log(text);
+			filters_match(filters, text) ? show_element(this): hide_element(this);
+	});
 }
 
 function filter_tutorial()    { filter_searchable('tutorialsearch'  , '#tutorial > .tutorialsection') };

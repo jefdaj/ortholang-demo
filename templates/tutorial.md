@@ -10,10 +10,20 @@ Type a short description of the issue in the box on the lower right,
 like "I did \<something\> and expected \<this\>, but \<something else\> happened instead".
 If the tutorial is confusing, that counts as a bug too.
 
-<input id="tutorialsearch" placeholder="Search the tutorial" id="box" type="text"/>
+<input id="tutorialsearch" placeholder="Filter sections" id="box" type="text"/>
+
+Tutorial:
+
+<ol id="tutorial_toc">
+{% for path, section in sections.items() | sort() %}
+		<li id="{{section['id']}}_toc" style="display: block";>
+			<a href="#{{section['id']}}">{{ sections[path]['title'] }}</a>
+		</li>
+{% endfor %}
+</ol>
 
 <div id="tutorial">
-{% for path in sections | sort() %}
+{% for path, section in sections.items() | sort() %}
 	  {%- include "tutorialsection.md" -%}
 {% endfor %}
 </div>

@@ -254,7 +254,14 @@ def load_tutorial_sections():
             sections[name] = \
                 { 'name': basename(name)
                 , 'content': MARKDOWN(txt)
+                , 'id': splitext(basename(name))[0]
                 }
+            try:
+                title = sections[name]['content'].split('###', 1)[1]
+                title = title.split('<', 1)[0].strip()
+            except:
+                title = 'No title'
+            sections[name]['title'] = title
     return sections
 
 def load_genomes():
@@ -582,7 +589,7 @@ def handle_reqresult():
 
 def check_ortholang_version():
     LOGGER.info('checking output of "ortholang --version"')
-    version_expected = u'OrthoLang 0.9.3'
+    version_expected = u'OrthoLang 0.9.4'
     proc = spawn('ortholang', ['--version'], encoding='utf-8', timeout=None)
     try:
         proc.expect(version_expected, timeout=10)
