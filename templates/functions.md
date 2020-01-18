@@ -1,18 +1,5 @@
-{% import "macros.jinja" as macros with context %}
+this is text
 
-This page is a complete listing of available functions in OrthoLang v0.9.2. The search box only filters by module. So for example if you search for "mmseqs", you'll get the MMSeqs module but also BlastHits and ListLike, because they can use MMSeqs results.
-
-Each module has (or will have soon!) an example script making use of all its functions.
-If you don't find what you're looking for, leave Jeff a comment about it.
-
-<input id="modulesearch" placeholder="Search the module documentation" id="box" type="text"/>
-<br/>
-
-<!-- TODO Why does one extra moduleblock with div + empty line have to go here? -->
-<div class="moduleblock">
-<div></div>
-
-</div>
 <div class="moduleblock">
 <h3>Replace module</h3>
 

@@ -2,9 +2,9 @@ flags: {}
 allow-newer: true
 # we use stack inside of nix instead of the other way around
 nix:
-  enable: false
+  enable: true
   pure: false
-extra-package-dbs: []
+  packages: [ zlib.dev zlib.out pkgconfig ]
 packages:
 - .
 - ortholang

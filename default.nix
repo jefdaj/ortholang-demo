@@ -1,3 +1,4 @@
+# TODO pull nixpkgs from ./ortholang?
 let
   # fetch my pinned nixpkgs for reproducibility
   # (ortholang-linux, dervived from nixpkgs-channels/nixos-19.09)
