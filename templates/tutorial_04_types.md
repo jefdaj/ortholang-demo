@@ -7,7 +7,7 @@ things about how OrthoLang evaluates code. If you skip this, things will be
 confusing later!
 
 The first important thing to know is that OrthoLang is a typed language. Types
-are the standard technique for preventing a large and very annoying class of
+are a standard technique for preventing a large and very annoying class of
 bugs where the script crashes partway through because you accidentally swapped
 two variables or misread how some function works.  The idea is that your
 program should fail immediately if it's not going to work, because why waste

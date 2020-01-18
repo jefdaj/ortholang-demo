@@ -1,6 +1,6 @@
 {% import "macros.jinja" as macros with context %}
 
-This page is a complete listing of available functions in ShortCut v0.9.2. The search box only filters by module. So for example if you search for "mmseqs", you'll get the MMSeqs module but also BlastHits and ListLike, because they can use MMSeqs results.
+This page is a complete listing of available functions in OrthoLang v0.9.2. The search box only filters by module. So for example if you search for "mmseqs", you'll get the MMSeqs module but also BlastHits and ListLike, because they can use MMSeqs results.
 
 Each module has (or will have soon!) an example script making use of all its functions.
 If you don't find what you're looking for, leave Jeff a comment about it.
@@ -510,7 +510,7 @@ Functions:
 
 Random (but reproducable) sampling of list elements.
 
-WARNING: Because of the way ShortCut caches tempfiles, calling these
+WARNING: Because of the way OrthoLang caches tempfiles, calling these
 more than once will give the same sublist each time! For different
 sublists, use in combination with the 'repeat' function.
 

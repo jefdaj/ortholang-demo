@@ -50,12 +50,11 @@ like they're inside a list or on different lines.
 
 The `_glob` versions are similar to the `_each` ones but take a single string with a "glob"
 wildcard pattern describing the files to load.
-These two do the same thing:
+These three do the same thing:
 
 {{ macros.load_script(user, 'examples/scripts/load02.ol') }}
 
-The first one should generally be preferred for clarity though,
-unless you mean to load a list of files that might change.
+The second one is probably best because it avoids duplication, but makes it clear which files are being loaded. Use the third if you mean to load a list of files that might change.
 
 `load_list` loads a list of literal strings,
 so you can input your gene IDs or a list of genomes to search.
