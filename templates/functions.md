@@ -109,10 +109,10 @@ Types:
 
 | Type      | Meaning |
 | :-------- | :------ |
-| `gbk` | genbank |
-| `faa` | FASTA (amino acid) |
-| `fna` | FASTA (nucleic acid) |
-| `fa` | FASTA (nucleic OR amino acid) |
+| <a href="javascript:;" onclick="repl_autorun([':help gbk'])">`gbk`</a> | genbank |
+| <a href="javascript:;" onclick="repl_autorun([':help faa'])">`faa`</a> | FASTA (amino acid) |
+| <a href="javascript:;" onclick="repl_autorun([':help fna'])">`fna`</a> | FASTA (nucleic acid) |
+| <a href="javascript:;" onclick="repl_autorun([':help fa'])">`fa`</a> | FASTA (nucleic OR amino acid) |
 
 Functions:
 
@@ -158,9 +158,9 @@ Types:
 
 | Type      | Meaning |
 | :-------- | :------ |
-| `search` | intermediate table describing biomartr searches |
-| `fna.gz` | gzipped fasta nucleic acid acid (gene list or genome) |
-| `faa.gz` | gzipped fasta amino acid (proteome) |
+| <a href="javascript:;" onclick="repl_autorun([':help search'])">`search`</a> | intermediate table describing biomartr searches |
+| <a href="javascript:;" onclick="repl_autorun([':help fna.gz'])">`fna.gz`</a> | gzipped fasta nucleic acid acid (gene list or genome) |
+| <a href="javascript:;" onclick="repl_autorun([':help faa.gz'])">`faa.gz`</a> | gzipped fasta amino acid (proteome) |
 
 Functions:
 
@@ -182,8 +182,8 @@ Types:
 
 | Type      | Meaning |
 | :-------- | :------ |
-| `ndb` | BLAST nucleotide database |
-| `pdb` | BLAST protein database |
+| <a href="javascript:;" onclick="repl_autorun([':help ndb'])">`ndb`</a> | BLAST nucleotide database |
+| <a href="javascript:;" onclick="repl_autorun([':help pdb'])">`pdb`</a> | BLAST protein database |
 
 Functions:
 
@@ -216,9 +216,9 @@ Types:
 
 | Type      | Meaning |
 | :-------- | :------ |
-| `ndb` | BLAST nucleotide database |
-| `pdb` | BLAST protein database |
-| `bht` | tab-separated table of blast hits (outfmt 6) |
+| <a href="javascript:;" onclick="repl_autorun([':help ndb'])">`ndb`</a> | BLAST nucleotide database |
+| <a href="javascript:;" onclick="repl_autorun([':help pdb'])">`pdb`</a> | BLAST protein database |
+| <a href="javascript:;" onclick="repl_autorun([':help bht'])">`bht`</a> | tab-separated table of blast hits (outfmt 6) |
 
 Functions:
 
@@ -263,9 +263,9 @@ Types:
 
 | Type      | Meaning |
 | :-------- | :------ |
-| `bht` | tab-separated table of blast hits (outfmt 6) |
-| `crb` | tab-separated table of conditional reciprocal blast best hits |
-| `hittable` | BLAST hit table-like |
+| <a href="javascript:;" onclick="repl_autorun([':help bht'])">`bht`</a> | tab-separated table of blast hits (outfmt 6) |
+| <a href="javascript:;" onclick="repl_autorun([':help crb'])">`crb`</a> | tab-separated table of conditional reciprocal blast best hits |
+| <a href="javascript:;" onclick="repl_autorun([':help hittable'])">`hittable`</a> | BLAST hit table-like |
 
 Functions:
 
@@ -296,10 +296,10 @@ Types:
 
 | Type      | Meaning |
 | :-------- | :------ |
-| `bht` | tab-separated table of blast hits (outfmt 6) |
-| `crb` | tab-separated table of conditional reciprocal blast best hits |
-| `mms` | MMSeqs2 sequence database |
-| `listlike` | files that can be treated like lists |
+| <a href="javascript:;" onclick="repl_autorun([':help bht'])">`bht`</a> | tab-separated table of blast hits (outfmt 6) |
+| <a href="javascript:;" onclick="repl_autorun([':help crb'])">`crb`</a> | tab-separated table of conditional reciprocal blast best hits |
+| <a href="javascript:;" onclick="repl_autorun([':help mms'])">`mms`</a> | MMSeqs2 sequence database |
+| <a href="javascript:;" onclick="repl_autorun([':help listlike'])">`listlike`</a> | files that can be treated like lists |
 
 Functions:
 
@@ -357,10 +357,10 @@ Types:
 
 | Type      | Meaning |
 | :-------- | :------ |
-| `faa` | FASTA (amino acid) |
-| `pdb` | BLAST protein database |
-| `bht` | tab-separated table of blast hits (outfmt 6) |
-| `pssm` | PSI-BLAST position-specific substitution matrix as ASCII |
+| <a href="javascript:;" onclick="repl_autorun([':help faa'])">`faa`</a> | FASTA (amino acid) |
+| <a href="javascript:;" onclick="repl_autorun([':help pdb'])">`pdb`</a> | BLAST protein database |
+| <a href="javascript:;" onclick="repl_autorun([':help bht'])">`bht`</a> | tab-separated table of blast hits (outfmt 6) |
+| <a href="javascript:;" onclick="repl_autorun([':help pssm'])">`pssm`</a> | PSI-BLAST position-specific substitution matrix as ASCII |
 
 Functions:
 
@@ -401,10 +401,10 @@ Types:
 
 | Type      | Meaning |
 | :-------- | :------ |
-| `fna` | FASTA (nucleic acid) |
-| `faa` | FASTA (amino acid) |
-| `fa` | FASTA (nucleic OR amino acid) |
-| `crb` | tab-separated table of conditional reciprocal blast best hits |
+| <a href="javascript:;" onclick="repl_autorun([':help fna'])">`fna`</a> | FASTA (nucleic acid) |
+| <a href="javascript:;" onclick="repl_autorun([':help faa'])">`faa`</a> | FASTA (amino acid) |
+| <a href="javascript:;" onclick="repl_autorun([':help fa'])">`fa`</a> | FASTA (nucleic OR amino acid) |
+| <a href="javascript:;" onclick="repl_autorun([':help crb'])">`crb`</a> | tab-separated table of conditional reciprocal blast best hits |
 
 Functions:
 
@@ -425,10 +425,10 @@ Types:
 
 | Type      | Meaning |
 | :-------- | :------ |
-| `faa` | FASTA (amino acid) |
-| `aln` | multiple sequence alignment |
-| `hmm` | hidden markov model |
-| `hht` | HMMER hits table |
+| <a href="javascript:;" onclick="repl_autorun([':help faa'])">`faa`</a> | FASTA (amino acid) |
+| <a href="javascript:;" onclick="repl_autorun([':help aln'])">`aln`</a> | multiple sequence alignment |
+| <a href="javascript:;" onclick="repl_autorun([':help hmm'])">`hmm`</a> | hidden markov model |
+| <a href="javascript:;" onclick="repl_autorun([':help hht'])">`hht`</a> | HMMER hits table |
 
 Functions:
 
@@ -453,10 +453,10 @@ Types:
 
 | Type      | Meaning |
 | :-------- | :------ |
-| `faa` | FASTA (amino acid) |
-| `ndb` | BLAST nucleotide database |
-| `pdb` | BLAST protein database |
-| `bht` | tab-separated table of blast hits (outfmt 6) |
+| <a href="javascript:;" onclick="repl_autorun([':help faa'])">`faa`</a> | FASTA (amino acid) |
+| <a href="javascript:;" onclick="repl_autorun([':help ndb'])">`ndb`</a> | BLAST nucleotide database |
+| <a href="javascript:;" onclick="repl_autorun([':help pdb'])">`pdb`</a> | BLAST protein database |
+| <a href="javascript:;" onclick="repl_autorun([':help bht'])">`bht`</a> | tab-separated table of blast hits (outfmt 6) |
 
 Functions:
 
@@ -493,8 +493,8 @@ Types:
 
 | Type      | Meaning |
 | :-------- | :------ |
-| `faa` | FASTA (amino acid) |
-| `aln` | multiple sequence alignment |
+| <a href="javascript:;" onclick="repl_autorun([':help faa'])">`faa`</a> | FASTA (amino acid) |
+| <a href="javascript:;" onclick="repl_autorun([':help aln'])">`aln`</a> | multiple sequence alignment |
 
 Functions:
 
@@ -576,7 +576,7 @@ Types:
 
 | Type      | Meaning |
 | :-------- | :------ |
-| `png` | plot image |
+| <a href="javascript:;" onclick="repl_autorun([':help png'])">`png`</a> | plot image |
 
 Functions:
 
@@ -599,8 +599,8 @@ Types:
 
 | Type      | Meaning |
 | :-------- | :------ |
-| `faa` | FASTA (amino acid) |
-| `ofr` | OrthoFinder results |
+| <a href="javascript:;" onclick="repl_autorun([':help faa'])">`faa`</a> | FASTA (amino acid) |
+| <a href="javascript:;" onclick="repl_autorun([':help ofr'])">`ofr`</a> | OrthoFinder results |
 
 Functions:
 
@@ -620,9 +620,9 @@ Types:
 
 | Type      | Meaning |
 | :-------- | :------ |
-| `fna` | FASTA (nucleic acid) |
-| `faa` | FASTA (amino acid) |
-| `dmnd` | DIAMOND database |
+| <a href="javascript:;" onclick="repl_autorun([':help fna'])">`fna`</a> | FASTA (nucleic acid) |
+| <a href="javascript:;" onclick="repl_autorun([':help faa'])">`faa`</a> | FASTA (amino acid) |
+| <a href="javascript:;" onclick="repl_autorun([':help dmnd'])">`dmnd`</a> | DIAMOND database |
 
 Functions:
 
@@ -686,10 +686,10 @@ Types:
 
 | Type      | Meaning |
 | :-------- | :------ |
-| `faa` | FASTA (amino acid) |
-| `fna` | FASTA (nucleic acid) |
-| `bht` | tab-separated table of blast hits (outfmt 6) |
-| `mms` | MMSeqs2 sequence database |
+| <a href="javascript:;" onclick="repl_autorun([':help faa'])">`faa`</a> | FASTA (amino acid) |
+| <a href="javascript:;" onclick="repl_autorun([':help fna'])">`fna`</a> | FASTA (nucleic acid) |
+| <a href="javascript:;" onclick="repl_autorun([':help bht'])">`bht`</a> | tab-separated table of blast hits (outfmt 6) |
+| <a href="javascript:;" onclick="repl_autorun([':help mms'])">`mms`</a> | MMSeqs2 sequence database |
 
 Functions:
 
@@ -712,9 +712,9 @@ Types:
 
 | Type      | Meaning |
 | :-------- | :------ |
-| `faa` | FASTA (amino acid) |
-| `fna` | FASTA (nucleic acid) |
-| `spr` | SonicParanoid results |
+| <a href="javascript:;" onclick="repl_autorun([':help faa'])">`faa`</a> | FASTA (amino acid) |
+| <a href="javascript:;" onclick="repl_autorun([':help fna'])">`fna`</a> | FASTA (nucleic acid) |
+| <a href="javascript:;" onclick="repl_autorun([':help spr'])">`spr`</a> | SonicParanoid results |
 
 Functions:
 
@@ -734,10 +734,10 @@ Types:
 
 | Type      | Meaning |
 | :-------- | :------ |
-| `og` | orthogroups (orthofinder, sonicparanoid, or greencut results) |
-| `ofr` | OrthoFinder results |
-| `spr` | SonicParanoid results |
-| `gcr` | GreenCut results |
+| <a href="javascript:;" onclick="repl_autorun([':help og'])">`og`</a> | orthogroups (orthofinder, sonicparanoid, or greencut results) |
+| <a href="javascript:;" onclick="repl_autorun([':help ofr'])">`ofr`</a> | OrthoFinder results |
+| <a href="javascript:;" onclick="repl_autorun([':help spr'])">`spr`</a> | SonicParanoid results |
+| <a href="javascript:;" onclick="repl_autorun([':help gcr'])">`gcr`</a> | GreenCut results |
 
 Functions:
 
@@ -767,10 +767,10 @@ Types:
 
 | Type      | Meaning |
 | :-------- | :------ |
-| `blh` | BUSCO lineage HMMs |
-| `bsr` | BUSCO results |
-| `bst` | BUSCO scores table |
-| `faa` | FASTA (amino acid) |
+| <a href="javascript:;" onclick="repl_autorun([':help blh'])">`blh`</a> | BUSCO lineage HMMs |
+| <a href="javascript:;" onclick="repl_autorun([':help bsr'])">`bsr`</a> | BUSCO results |
+| <a href="javascript:;" onclick="repl_autorun([':help bst'])">`bst`</a> | BUSCO scores table |
+| <a href="javascript:;" onclick="repl_autorun([':help faa'])">`faa`</a> | FASTA (amino acid) |
 
 Functions:
 
@@ -801,7 +801,7 @@ Types:
 
 | Type      | Meaning |
 | :-------- | :------ |
-| `num` | number in scientific notation |
+| <a href="javascript:;" onclick="repl_autorun([':help num'])">`num`</a> | number in scientific notation |
 
 Functions:
 
@@ -825,7 +825,7 @@ Types:
 
 | Type      | Meaning |
 | :-------- | :------ |
-| `tsv` | set membership table (spreadsheet) |
+| <a href="javascript:;" onclick="repl_autorun([':help tsv'])">`tsv`</a> | set membership table (spreadsheet) |
 
 Functions:
 
@@ -845,7 +845,7 @@ Types:
 
 | Type      | Meaning |
 | :-------- | :------ |
-| `ava` | all-vs-all hit table listing |
+| <a href="javascript:;" onclick="repl_autorun([':help ava'])">`ava`</a> | all-vs-all hit table listing |
 
 
 <br/>
@@ -860,7 +860,7 @@ Types:
 
 | Type      | Meaning |
 | :-------- | :------ |
-| `gcr` | GreenCut results |
+| <a href="javascript:;" onclick="repl_autorun([':help gcr'])">`gcr`</a> | GreenCut results |
 
 Functions:
 
