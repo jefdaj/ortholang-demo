@@ -26,7 +26,7 @@ function repl_clear() {
 
 function repl_autorun(lines, clear_first=true) {
 	// clear terminal when loading a new script
-	if (lines[0].startsWith(':l')) {
+	if (clear_first || lines[0].startsWith(':l')) {
 		setTimeout(repl_clear, 1000)
 	}
 	// awkward, but necessary for assigning genome table entries to variables:

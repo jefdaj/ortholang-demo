@@ -41,10 +41,15 @@ typesTable m = if null (mTypes m) then [""] else
   ++ map explainType (mTypes m)
   ++ [""]
 
+addHelpLink :: String -> String
+addHelpLink fname =
+  "<a href=\"javascript:;\" onclick=\"repl_autorun([':help "
+  ++ fname ++ "'])\">`" ++ fname ++ "`</a>"
+
 explainFunction :: OrthoLangFunction -> String
-explainFunction = join " | " . map quoted . elems
+explainFunction = join " | " . cols
   where
-    elems f = splitOn ":" $ fTypeDesc f
+    cols f = [addHelpLink $ fName f, quoted $ last $ splitOn ":" $ fTypeDesc f]
     quoted t  = "`" ++ t ++ "`"
 
 functionsTable :: OrthoLangModule -> [String]
