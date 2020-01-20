@@ -1,5 +1,5 @@
 {% import "macros.jinja" as macros with context %}
-  
+
 This is an auto-generated list of the available functions in OrthoLang v0.9.3.
 
 The search box only filters by module. So for example if you search for
@@ -22,10 +22,10 @@ Replace variables in the script to see how the results change.
 
 Functions:
 
-| Name | Inputs | Output |
-| :--- | :----- | :----- |
-| `replace` | `<outputvar>`, `<vartoreplace>`, `<exprtoreplacewith>` | `<newoutput>` |
-| `replace_each` | `<outputvar>`, `<inputvar>`, `<inputvars>` | `<output>.list` |
+| Name | Type |
+| :--- | :--- |
+| `replace ` | ` <outputvar> <vartoreplace> <exprtoreplacewith> -> <newoutput>` |
+| `replace_each ` | ` <outputvar> <inputvar> <inputvars> -> <output>.list` |
 
 <br/>
 {{ macros.load_script(user, 'examples/scripts/replace.ol') }}
@@ -38,9 +38,9 @@ Repeatdly re-calculate variables using different random salts.
 
 Functions:
 
-| Name | Inputs | Output |
-| :--- | :----- | :----- |
-| `repeat` | `<outputvar>`, `<inputvar>`, `num` | `<output>.list` |
+| Name | Type |
+| :--- | :--- |
+| `repeat ` | ` <outputvar> <inputvar> num -> <output>.list` |
 
 <br/>
 {{ macros.load_script(user, 'examples/scripts/repeat.ol') }}
@@ -53,12 +53,12 @@ Basic math.
 
 Functions:
 
-| Name | Inputs | Output |
-| :--- | :----- | :----- |
-| `+` | `num`, `num` | `num` |
-| `-` | `num`, `num` | `num` |
-| `*` | `num`, `num` | `num` |
-| `/` | `num`, `num` | `num` |
+| Name | Type |
+| :--- | :--- |
+| `+ ` | ` num num -> num` |
+| `- ` | ` num num -> num` |
+| `* ` | ` num num -> num` |
+| `/ ` | ` num num -> num` |
 
 <br/>
 {{ macros.load_script(user, 'examples/scripts/math.ol') }}
@@ -71,10 +71,10 @@ Load generic lists.
 
 Functions:
 
-| Name | Inputs | Output |
-| :--- | :----- | :----- |
-| `load_list` | `str` | `str.list` |
-| `glob_files` | `str` | `str.list` |
+| Name | Type |
+| :--- | :--- |
+| `load_list ` | ` str -> str.list` |
+| `glob_files ` | ` str -> str.list` |
 
 <br/>
 {{ macros.load_script(user, 'examples/scripts/load.ol') }}
@@ -87,15 +87,15 @@ Set operations for use with lists.
 
 Functions:
 
-| Name | Inputs | Output |
-| :--- | :----- | :----- |
-| `some` | `X.list.list` | `X.list` |
-| `|` | `X.list`, `X.list` | `X.list` |
-| `any` | `X.list.list` | `X.list` |
-| `&` | `X.list`, `X.list` | `X.list` |
-| `all` | `X.list.list` | `X.list` |
-| `~` | `X.list`, `X.list` | `X.list` |
-| `diff` | `X.list.list` | `X.list` |
+| Name | Type |
+| :--- | :--- |
+| `some ` | ` X.list.list -> X.list` |
+| `| ` | ` X.list -> X.list -> X.list` |
+| `any ` | ` X.list.list -> X.list` |
+| `& ` | ` X.list -> X.list -> X.list` |
+| `all ` | ` X.list.list -> X.list` |
+| `~ ` | ` X.list -> X.list -> X.list` |
+| `diff ` | ` X.list.list -> X.list` |
 
 <br/>
 {{ macros.load_script(user, 'examples/scripts/sets.ol') }}
@@ -116,35 +116,35 @@ Types:
 
 Functions:
 
-| Name | Inputs | Output |
-| :--- | :----- | :----- |
-| `gbk_to_faa` | `str`, `gbk` | `faa` |
-| `gbk_to_faa_each` | `str`, `gbk.list` | `faa.list` |
-| `gbk_to_fna` | `str`, `gbk` | `fna` |
-| `gbk_to_fna_each` | `str`, `gbk.list` | `fna.list` |
-| `extract_seqs` | `fa`, `str.list` | `fa` |
-| `extract_seqs_each` | `fa.list` | `str.list.list` |
-| `extract_ids` | `fa` | `str.list` |
-| `extract_ids_each` | `fa.list` | `str.list.list` |
-| `translate` | `fna` | `faa` |
-| `translate_each` | `fna.list` | `faa.list` |
-| `concat_fna` | `fna.list` | `fna` |
-| `concat_fna_each` | `fna.list.list` | `fna.list` |
-| `concat_faa` | `faa.list` | `faa` |
-| `concat_faa_each` | `faa.list.list` | `faa.list` |
-| `split_faa` | `faa` | `faa.list` |
-| `split_faa_each` | `faa.list` | `faa.list.list` |
-| `split_fna` | `fna` | `fna.list` |
-| `split_fna_each` | `fna.list` | `fna.list.list` |
-| `load_fna` | `str` | `fna` |
-| `load_fna_each` | `str.list` | `fna.list` |
-| `load_fna_glob` | `str` | `fna.list` |
-| `load_faa` | `str` | `faa` |
-| `load_faa_each` | `str.list` | `faa.list` |
-| `load_faa_glob` | `str` | `faa.list` |
-| `load_gbk` | `str` | `gbk` |
-| `load_gbk_each` | `str.list` | `gbk.list` |
-| `load_gbk_glob` | `str` | `gbk.list` |
+| Name | Type |
+| :--- | :--- |
+| `gbk_to_faa ` | ` str gbk -> faa` |
+| `gbk_to_faa_each ` | ` str gbk.list -> faa.list` |
+| `gbk_to_fna ` | ` str gbk -> fna` |
+| `gbk_to_fna_each ` | ` str gbk.list -> fna.list` |
+| `extract_seqs ` | ` fa str.list -> fa` |
+| `extract_seqs_each ` | ` fa.list -> str.list.list` |
+| `extract_ids ` | ` fa -> str.list` |
+| `extract_ids_each ` | ` fa.list -> str.list.list` |
+| `translate ` | ` fna -> faa` |
+| `translate_each ` | ` fna.list -> faa.list` |
+| `concat_fna ` | ` fna.list -> fna` |
+| `concat_fna_each ` | ` fna.list.list -> fna.list` |
+| `concat_faa ` | ` faa.list -> faa` |
+| `concat_faa_each ` | ` faa.list.list -> faa.list` |
+| `split_faa ` | ` faa -> faa.list` |
+| `split_faa_each ` | ` faa.list -> faa.list.list` |
+| `split_fna ` | ` fna -> fna.list` |
+| `split_fna_each ` | ` fna.list -> fna.list.list` |
+| `load_fna ` | ` str -> fna` |
+| `load_fna_each ` | ` str.list -> fna.list` |
+| `load_fna_glob ` | ` str -> fna.list` |
+| `load_faa ` | ` str -> faa` |
+| `load_faa_each ` | ` str.list -> faa.list` |
+| `load_faa_glob ` | ` str -> faa.list` |
+| `load_gbk ` | ` str -> gbk` |
+| `load_gbk_each ` | ` str.list -> gbk.list` |
+| `load_gbk_glob ` | ` str -> gbk.list` |
 
 <br/>
 {{ macros.load_script(user, 'examples/scripts/seqio.ol') }}
@@ -164,11 +164,11 @@ Types:
 
 Functions:
 
-| Name | Inputs | Output |
-| :--- | :----- | :----- |
-| `parse_searches` | `str.list` | `search` |
-| `get_genomes` | `str.list` | `fna.gz.list` |
-| `get_proteomes` | `str.list` | `faa.gz.list` |
+| Name | Type |
+| :--- | :--- |
+| `parse_searches ` | ` str.list -> search` |
+| `get_genomes ` | ` str.list -> fna.gz.list` |
+| `get_proteomes ` | ` str.list -> faa.gz.list` |
 
 <br/>
 {{ macros.load_script(user, 'examples/scripts/biomartr.ol') }}
@@ -187,22 +187,22 @@ Types:
 
 Functions:
 
-| Name | Inputs | Output |
-| :--- | :----- | :----- |
-| `load_nucl_db` | `str` | `ndb` |
-| `load_prot_db` | `str` | `pdb` |
-| `load_nucl_db_each` | `str.list` | `ndb.list` |
-| `load_prot_db_each` | `str.list` | `pdb.list` |
-| `makeblastdb_nucl_all` | `fa.list` | `ndb` |
-| `makeblastdb_prot_all` | `faa.list` | `pdb` |
-| `makeblastdb_nucl` | `fa` | `ndb` |
-| `makeblastdb_prot` | `faa` | `pdb` |
-| `makeblastdb_nucl_each` | `fa.list` | `ndb.list` |
-| `makeblastdb_prot_each` | `faa.list` | `pdb.list` |
-| `blastdbget_nucl` | `str` | `ndb` |
-| `blastdbget_prot` | `str` | `pdb` |
-| `blastdblist` | `str` | `str.list` |
-| `singletons` | `X.list` | `X.list.list` |
+| Name | Type |
+| :--- | :--- |
+| `load_nucl_db ` | ` str -> ndb` |
+| `load_prot_db ` | ` str -> pdb` |
+| `load_nucl_db_each ` | ` str.list -> ndb.list` |
+| `load_prot_db_each ` | ` str.list -> pdb.list` |
+| `makeblastdb_nucl_all ` | ` fa.list -> ndb` |
+| `makeblastdb_prot_all ` | ` faa.list -> pdb` |
+| `makeblastdb_nucl ` | ` fa -> ndb` |
+| `makeblastdb_prot ` | ` faa -> pdb` |
+| `makeblastdb_nucl_each ` | ` fa.list -> ndb.list` |
+| `makeblastdb_prot_each ` | ` faa.list -> pdb.list` |
+| `blastdbget_nucl ` | ` str -> ndb` |
+| `blastdbget_prot ` | ` str -> pdb` |
+| `blastdblist ` | ` str -> str.list` |
+| `singletons ` | ` X.list -> X.list.list` |
 
 <br/>
 {{ macros.load_script(user, 'examples/scripts/blastdb.ol') }}
@@ -222,34 +222,34 @@ Types:
 
 Functions:
 
-| Name | Inputs | Output |
-| :--- | :----- | :----- |
-| `blastn` | `num`, `fna`, `fna` | `bht` |
-| `megablast` | `num`, `fna`, `fna` | `bht` |
-| `blastp` | `num`, `faa`, `faa` | `bht` |
-| `blastx` | `num`, `fna`, `faa` | `bht` |
-| `tblastn` | `num`, `faa`, `fna` | `bht` |
-| `tblastx` | `num`, `fna`, `fna` | `bht` |
-| `blastn_each` | `num`, `fna`, `fna.list` | `bht.list` |
-| `megablast_each` | `num`, `fna`, `fna.list` | `bht.list` |
-| `blastp_each` | `num`, `faa`, `faa.list` | `bht.list` |
-| `blastx_each` | `num`, `fna`, `faa.list` | `bht.list` |
-| `tblastn_each` | `num`, `faa`, `fna.list` | `bht.list` |
-| `tblastx_each` | `num`, `fna`, `fna.list` | `bht.list` |
-| `blastn_db` | `num`, `fna`, `ndb` | `bht` |
-| `megablast_db` | `num`, `fna`, `ndb` | `bht` |
-| `blastp_db` | `num`, `faa`, `pdb` | `bht` |
-| `blastx_db` | `num`, `fna`, `pdb` | `bht` |
-| `tblastn_db` | `num`, `faa`, `ndb` | `bht` |
-| `tblastx_db` | `num`, `fna`, `ndb` | `bht` |
-| `blastn_db_each` | `num`, `fna`, `ndb.list` | `bht.list` |
-| `megablast_db_each` | `num`, `fna`, `ndb.list` | `bht.list` |
-| `blastp_db_each` | `num`, `faa`, `pdb.list` | `bht.list` |
-| `blastx_db_each` | `num`, `fna`, `pdb.list` | `bht.list` |
-| `tblastn_db_each` | `num`, `faa`, `ndb.list` | `bht.list` |
-| `tblastx_db_each` | `num`, `fna`, `ndb.list` | `bht.list` |
-| `concat_bht` | `bht.list` | `bht` |
-| `concat_bht_each` | `bht.list.list` | `bht.list` |
+| Name | Type |
+| :--- | :--- |
+| `blastn ` | ` num fna fna -> bht` |
+| `megablast ` | ` num fna fna -> bht` |
+| `blastp ` | ` num faa faa -> bht` |
+| `blastx ` | ` num fna faa -> bht` |
+| `tblastn ` | ` num faa fna -> bht` |
+| `tblastx ` | ` num fna fna -> bht` |
+| `blastn_each ` | ` num fna fna.list -> bht.list` |
+| `megablast_each ` | ` num fna fna.list -> bht.list` |
+| `blastp_each ` | ` num faa faa.list -> bht.list` |
+| `blastx_each ` | ` num fna faa.list -> bht.list` |
+| `tblastn_each ` | ` num faa fna.list -> bht.list` |
+| `tblastx_each ` | ` num fna fna.list -> bht.list` |
+| `blastn_db ` | ` num fna ndb -> bht` |
+| `megablast_db ` | ` num fna ndb -> bht` |
+| `blastp_db ` | ` num faa pdb -> bht` |
+| `blastx_db ` | ` num fna pdb -> bht` |
+| `tblastn_db ` | ` num faa ndb -> bht` |
+| `tblastx_db ` | ` num fna ndb -> bht` |
+| `blastn_db_each ` | ` num fna ndb.list -> bht.list` |
+| `megablast_db_each ` | ` num fna ndb.list -> bht.list` |
+| `blastp_db_each ` | ` num faa pdb.list -> bht.list` |
+| `blastx_db_each ` | ` num fna pdb.list -> bht.list` |
+| `tblastn_db_each ` | ` num faa ndb.list -> bht.list` |
+| `tblastx_db_each ` | ` num fna ndb.list -> bht.list` |
+| `concat_bht ` | ` bht.list -> bht` |
+| `concat_bht_each ` | ` bht.list.list -> bht.list` |
 
 <br/>
 {{ macros.load_script(user, 'examples/scripts/blast.ol') }}
@@ -269,20 +269,20 @@ Types:
 
 Functions:
 
-| Name | Inputs | Output |
-| :--- | :----- | :----- |
-| `extract_queries` | `hittable` | `str.list` |
-| `extract_queries_each` | `hittable.list` | `str.list.list` |
-| `extract_targets` | `hittable` | `str.list` |
-| `extract_targets_each` | `hittable.list` | `str.list.list` |
-| `filter_evalue` | `num`, `hittable` | `bht` |
-| `filter_evalue_each` | `num`, `hittable.list` | `bht.list` |
-| `filter_bitscore` | `num`, `hittable` | `bht` |
-| `filter_bitscore_each` | `num`, `hittable.list` | `bht.list` |
-| `filter_pident` | `num`, `hittable` | `bht` |
-| `filter_pident_each` | `num`, `hittable.list` | `bht.list` |
-| `best_hits` | `hittable` | `bht` |
-| `best_hits_each` | `hittable.list` | `bht.list` |
+| Name | Type |
+| :--- | :--- |
+| `extract_queries ` | ` hittable -> str.list` |
+| `extract_queries_each ` | ` hittable.list -> str.list.list` |
+| `extract_targets ` | ` hittable -> str.list` |
+| `extract_targets_each ` | ` hittable.list -> str.list.list` |
+| `filter_evalue ` | ` num hittable -> bht` |
+| `filter_evalue_each ` | ` num hittable.list -> bht.list` |
+| `filter_bitscore ` | ` num hittable -> bht` |
+| `filter_bitscore_each ` | ` num hittable.list -> bht.list` |
+| `filter_pident ` | ` num hittable -> bht` |
+| `filter_pident_each ` | ` num hittable.list -> bht.list` |
+| `best_hits ` | ` hittable -> bht` |
+| `best_hits_each ` | ` hittable.list -> bht.list` |
 
 <br/>
 {{ macros.load_script(user, 'examples/scripts/blasthits.ol') }}
@@ -303,10 +303,10 @@ Types:
 
 Functions:
 
-| Name | Inputs | Output |
-| :--- | :----- | :----- |
-| `length` | `listlike` | `num` |
-| `length_each` | `listlike.list` | `num.list` |
+| Name | Type |
+| :--- | :--- |
+| `length ` | ` listlike -> num` |
+| `length_each ` | ` listlike.list -> num.list` |
 
 <br/>
 {{ macros.load_script(user, 'examples/scripts/listlike.ol') }}
@@ -364,30 +364,30 @@ Types:
 
 Functions:
 
-| Name | Inputs | Output |
-| :--- | :----- | :----- |
-| `psiblast` | `num`, `faa`, `faa` | `bht` |
-| `psiblast_all` | `num`, `faa`, `faa.list` | `bht` |
-| `psiblast_db` | `num`, `faa`, `pdb` | `bht` |
-| `psiblast_db_each` | `num`, `faa`, `pdb.list` | `bht.list` |
-| `psiblast_each` | `num`, `faa`, `faa.list` | `bht.list` |
-| `psiblast_each_pssm` | `num`, `pssm.list`, `faa` | `bht.list` |
-| `psiblast_each_pssm_db` | `num`, `pssm.list`, `pdb` | `bht.list` |
-| `psiblast_pssm` | `num`, `pssm`, `faa` | `bht` |
-| `psiblast_pssm_all` | `num`, `pssm`, `faa.list` | `bht` |
-| `psiblast_pssm_db` | `num`, `pssm`, `pdb` | `bht` |
-| `psiblast_pssm_db_each` | `num`, `pssm`, `pdb.list` | `bht.list` |
-| `psiblast_pssm_each` | `num`, `pssm`, `faa.list` | `bht.list` |
-| `psiblast_pssms` | `num`, `pssm.list`, `faa` | `bht` |
-| `psiblast_pssms_all` | `num`, `pssm.list`, `faa` | `bht` |
-| `psiblast_pssms_db` | `num`, `pssm.list`, `pdb` | `bht` |
-| `psiblast_train` | `num`, `faa`, `faa` | `pssm` |
-| `psiblast_train_all` | `num`, `faa`, `faa.list` | `pssm` |
-| `psiblast_train_db` | `num`, `faa`, `pdb` | `pssm` |
-| `psiblast_train_db_each` | `num`, `faa`, `pdb.list` | `pssm.list` |
-| `psiblast_train_each` | `num`, `faa`, `faa.list` | `pssm.list` |
-| `psiblast_train_pssms` | `num`, `faa.list`, `faa` | `pssm.list` |
-| `psiblast_train_pssms_db` | `num`, `faa.list`, `pdb` | `pssm.list` |
+| Name | Type |
+| :--- | :--- |
+| `psiblast ` | ` num faa faa -> bht` |
+| `psiblast_all ` | ` num faa faa.list -> bht` |
+| `psiblast_db ` | ` num faa pdb -> bht` |
+| `psiblast_db_each ` | ` num faa pdb.list -> bht.list` |
+| `psiblast_each ` | ` num faa faa.list -> bht.list` |
+| `psiblast_each_pssm ` | ` num pssm.list faa -> bht.list` |
+| `psiblast_each_pssm_db ` | ` num pssm.list pdb -> bht.list` |
+| `psiblast_pssm ` | ` num pssm faa -> bht` |
+| `psiblast_pssm_all ` | ` num pssm faa.list -> bht` |
+| `psiblast_pssm_db ` | ` num pssm pdb -> bht` |
+| `psiblast_pssm_db_each ` | ` num pssm pdb.list -> bht.list` |
+| `psiblast_pssm_each ` | ` num pssm faa.list -> bht.list` |
+| `psiblast_pssms ` | ` num pssm.list faa -> bht` |
+| `psiblast_pssms_all ` | ` num pssm.list faa -> bht` |
+| `psiblast_pssms_db ` | ` num pssm.list pdb -> bht` |
+| `psiblast_train ` | ` num faa faa -> pssm` |
+| `psiblast_train_all ` | ` num faa faa.list -> pssm` |
+| `psiblast_train_db ` | ` num faa pdb -> pssm` |
+| `psiblast_train_db_each ` | ` num faa pdb.list -> pssm.list` |
+| `psiblast_train_each ` | ` num faa faa.list -> pssm.list` |
+| `psiblast_train_pssms ` | ` num faa.list faa -> pssm.list` |
+| `psiblast_train_pssms_db ` | ` num faa.list pdb -> pssm.list` |
 
 <br/>
 {{ macros.load_script(user, 'examples/scripts/psiblast.ol') }}
@@ -408,10 +408,10 @@ Types:
 
 Functions:
 
-| Name | Inputs | Output |
-| :--- | :----- | :----- |
-| `crb_blast` | `fna`, `fa` | `crb` |
-| `crb_blast_each` | `fna`, `fa.list` | `crb.list` |
+| Name | Type |
+| :--- | :--- |
+| `crb_blast ` | ` fna fa -> crb` |
+| `crb_blast_each ` | ` fna fa.list -> crb.list` |
 
 <br/>
 {{ macros.load_script(user, 'examples/scripts/crbblast.ol') }}
@@ -432,14 +432,14 @@ Types:
 
 Functions:
 
-| Name | Inputs | Output |
-| :--- | :----- | :----- |
-| `hmmbuild` | `aln` | `hmm` |
-| `hmmbuild_each` | `aln.list` | `hmm.list` |
-| `hmmsearch` | `num`, `hmm`, `faa` | `hht` |
-| `hmmsearch_each` | `num`, `hmm.list`, `faa` | `hht.list` |
-| `extract_hmm_targets` | `hht` | `str.list` |
-| `extract_hmm_targets_each` | `hht.list` | `str.list.list` |
+| Name | Type |
+| :--- | :--- |
+| `hmmbuild ` | ` aln -> hmm` |
+| `hmmbuild_each ` | ` aln.list -> hmm.list` |
+| `hmmsearch ` | ` num hmm faa -> hht` |
+| `hmmsearch_each ` | ` num hmm.list faa -> hht.list` |
+| `extract_hmm_targets ` | ` hht -> str.list` |
+| `extract_hmm_targets_each ` | ` hht.list -> str.list.list` |
 
 <br/>
 {{ macros.load_script(user, 'examples/scripts/hmmer.ol') }}
@@ -460,26 +460,26 @@ Types:
 
 Functions:
 
-| Name | Inputs | Output |
-| :--- | :----- | :----- |
-| `blastn_rev` | `num`, `fna`, `fna` | `bht` |
-| `megablast_rev` | `num`, `fna`, `fna` | `bht` |
-| `blastp_rev` | `num`, `faa`, `faa` | `bht` |
-| `tblastx_rev` | `num`, `fna`, `fna` | `bht` |
-| `blastn_rev_each` | `num`, `fna`, `fna.list` | `bht.list` |
-| `megablast_rev_each` | `num`, `fna`, `fna.list` | `bht.list` |
-| `blastp_rev_each` | `num`, `faa`, `faa.list` | `bht.list` |
-| `tblastx_rev_each` | `num`, `fna`, `fna.list` | `bht.list` |
-| `reciprocal_best` | `bht`, `bht` | `bht` |
-| `reciprocal_best_all` | `bht.list`, `bht.list` | `bht` |
-| `blastn_rbh` | `num`, `fna`, `fna` | `bht` |
-| `megablast_rbh` | `num`, `fna`, `fna` | `bht` |
-| `blastp_rbh` | `num`, `faa`, `faa` | `bht` |
-| `tblastx_rbh` | `num`, `fna`, `fna` | `bht` |
-| `blastn_rbh_each` | `num`, `fna`, `fna.list` | `bht.list` |
-| `megablast_rbh_each` | `num`, `fna`, `fna.list` | `bht.list` |
-| `blastp_rbh_each` | `num`, `faa`, `faa.list` | `bht.list` |
-| `tblastx_rbh_each` | `num`, `fna`, `fna.list` | `bht.list` |
+| Name | Type |
+| :--- | :--- |
+| `blastn_rev ` | ` num fna fna -> bht` |
+| `megablast_rev ` | ` num fna fna -> bht` |
+| `blastp_rev ` | ` num faa faa -> bht` |
+| `tblastx_rev ` | ` num fna fna -> bht` |
+| `blastn_rev_each ` | ` num fna fna.list -> bht.list` |
+| `megablast_rev_each ` | ` num fna fna.list -> bht.list` |
+| `blastp_rev_each ` | ` num faa faa.list -> bht.list` |
+| `tblastx_rev_each ` | ` num fna fna.list -> bht.list` |
+| `reciprocal_best ` | ` bht bht -> bht` |
+| `reciprocal_best_all ` | ` bht.list bht.list -> bht` |
+| `blastn_rbh ` | ` num fna fna -> bht` |
+| `megablast_rbh ` | ` num fna fna -> bht` |
+| `blastp_rbh ` | ` num faa faa -> bht` |
+| `tblastx_rbh ` | ` num fna fna -> bht` |
+| `blastn_rbh_each ` | ` num fna fna.list -> bht.list` |
+| `megablast_rbh_each ` | ` num fna fna.list -> bht.list` |
+| `blastp_rbh_each ` | ` num faa faa.list -> bht.list` |
+| `tblastx_rbh_each ` | ` num fna fna.list -> bht.list` |
 
 <br/>
 {{ macros.load_script(user, 'examples/scripts/blastrbh.ol') }}
@@ -498,10 +498,10 @@ Types:
 
 Functions:
 
-| Name | Inputs | Output |
-| :--- | :----- | :----- |
-| `muscle` | `faa` | `aln` |
-| `muscle_each` | `faa.list` | `aln.list` |
+| Name | Type |
+| :--- | :--- |
+| `muscle ` | ` faa -> aln` |
+| `muscle_each ` | ` faa.list -> aln.list` |
 
 <br/>
 {{ macros.load_script(user, 'examples/scripts/muscle.ol') }}
@@ -518,9 +518,9 @@ sublists, use in combination with the 'repeat' function.
 
 Functions:
 
-| Name | Inputs | Output |
-| :--- | :----- | :----- |
-| `sample` | `num`, `X.list` | `X.list` |
+| Name | Type |
+| :--- | :--- |
+| `sample ` | ` num X.list -> X.list` |
 
 <br/>
 {{ macros.load_script(user, 'examples/scripts/sample.ol') }}
@@ -533,9 +533,9 @@ Generate random permutations of lists.
 
 Functions:
 
-| Name | Inputs | Output |
-| :--- | :----- | :----- |
-| `leave_each_out` | `X.list` | `X.list.list` |
+| Name | Type |
+| :--- | :--- |
+| `leave_each_out ` | ` X.list -> X.list.list` |
 
 <br/>
 {{ macros.load_script(user, 'examples/scripts/permute.ol') }}
@@ -558,11 +558,11 @@ Score repeated variables for plotting.
 
 Functions:
 
-| Name | Inputs | Output |
-| :--- | :----- | :----- |
-| `score_repeats` | `<outputnum>`, `<inputvar>`, `<inputlist>` | `<input>.scores` |
-| `extract_scores` | `X.scores` | `num.list` |
-| `extract_scored` | `X.scores` | `X.list` |
+| Name | Type |
+| :--- | :--- |
+| `score_repeats ` | ` <outputnum> <inputvar> <inputlist> -> <input>.scores` |
+| `extract_scores ` | ` X.scores -> num.list` |
+| `extract_scored ` | ` X.scores -> X.list` |
 
 <br/>
 {{ macros.load_script(user, 'examples/scripts/scores.ol') }}
@@ -580,12 +580,12 @@ Types:
 
 Functions:
 
-| Name | Inputs | Output |
-| :--- | :----- | :----- |
-| `histogram` | `str`, `num.list` | `png` |
-| `linegraph` | `str`, `num.scores` | `png` |
-| `scatterplot` | `str`, `num.scores` | `png` |
-| `venndiagram` | `X.list.list` | `png` |
+| Name | Type |
+| :--- | :--- |
+| `histogram ` | ` str num.list -> png` |
+| `linegraph ` | ` str num.scores -> png` |
+| `scatterplot ` | ` str num.scores -> png` |
+| `venndiagram ` | ` X.list.list -> png` |
 
 <br/>
 {{ macros.load_script(user, 'examples/scripts/plots.ol') }}
@@ -604,9 +604,9 @@ Types:
 
 Functions:
 
-| Name | Inputs | Output |
-| :--- | :----- | :----- |
-| `orthofinder` | `faa.list` | `ofr` |
+| Name | Type |
+| :--- | :--- |
+| `orthofinder ` | ` faa.list -> ofr` |
 
 <br/>
 {{ macros.load_script(user, 'examples/scripts/orthofinder.ol') }}
@@ -626,53 +626,53 @@ Types:
 
 Functions:
 
-| Name | Inputs | Output |
-| :--- | :----- | :----- |
-| `diamond_makedb` | `faa` | `dmnd` |
-| `diamond_makedb_each` | `faa.list` | `dmnd.list` |
-| `diamond_makedb_all` | `faa.list` | `dmnd` |
-| `diamond_blastp` | `num`, `faa`, `faa` | `bht` |
-| `diamond_blastp_sensitive` | `num`, `faa`, `faa` | `bht` |
-| `diamond_blastp_more_sensitive` | `num`, `faa`, `faa` | `bht` |
-| `diamond_blastx` | `num`, `fna`, `faa` | `bht` |
-| `diamond_blastx_sensitive` | `num`, `fna`, `faa` | `bht` |
-| `diamond_blastx_more_sensitive` | `num`, `fna`, `faa` | `bht` |
-| `diamond_blastp_rev` | `num`, `faa`, `faa` | `bht` |
-| `diamond_blastp_sensitive_rev` | `num`, `faa`, `faa` | `bht` |
-| `diamond_blastp_more_sensitive_rev` | `num`, `faa`, `faa` | `bht` |
-| `diamond_blastx_rev` | `num`, `faa`, `fna` | `bht` |
-| `diamond_blastx_sensitive_rev` | `num`, `faa`, `fna` | `bht` |
-| `diamond_blastx_more_sensitive_rev` | `num`, `faa`, `fna` | `bht` |
-| `diamond_blastp_db` | `num`, `faa`, `dmnd` | `bht` |
-| `diamond_blastp_db_sensitive` | `num`, `faa`, `dmnd` | `bht` |
-| `diamond_blastp_db_more_sensitive` | `num`, `faa`, `dmnd` | `bht` |
-| `diamond_blastx_db` | `num`, `fna`, `dmnd` | `bht` |
-| `diamond_blastx_db_sensitive` | `num`, `fna`, `dmnd` | `bht` |
-| `diamond_blastx_db_more_sensitive` | `num`, `fna`, `dmnd` | `bht` |
-| `diamond_blastp_db_rev` | `num`, `dmnd`, `faa` | `bht` |
-| `diamond_blastp_db_sensitive_rev` | `num`, `dmnd`, `faa` | `bht` |
-| `diamond_blastp_db_more_sensitive_rev` | `num`, `dmnd`, `faa` | `bht` |
-| `diamond_blastx_db_rev` | `num`, `dmnd`, `fna` | `bht` |
-| `diamond_blastx_db_sensitive_rev` | `num`, `dmnd`, `fna` | `bht` |
-| `diamond_blastx_db_more_sensitive_rev` | `num`, `dmnd`, `fna` | `bht` |
-| `diamond_blastp_each` | `num`, `faa`, `faa.list` | `bht.list` |
-| `diamond_blastp_sensitive_each` | `num`, `faa`, `faa.list` | `bht.list` |
-| `diamond_blastp_more_sensitive_each` | `num`, `faa`, `faa.list` | `bht.list` |
-| `diamond_blastx_each` | `num`, `fna`, `faa.list` | `bht.list` |
-| `diamond_blastx_sensitive_each` | `num`, `fna`, `faa.list` | `bht.list` |
-| `diamond_blastx_more_sensitive_each` | `num`, `fna`, `faa.list` | `bht.list` |
-| `diamond_blastp_rev_each` | `num`, `faa`, `faa.list` | `bht.list` |
-| `diamond_blastp_sensitive_rev_each` | `num`, `faa`, `faa.list` | `bht.list` |
-| `diamond_blastp_more_sensitive_rev_each` | `num`, `faa`, `faa.list` | `bht.list` |
-| `diamond_blastx_rev_each` | `num`, `faa`, `fna.list` | `bht.list` |
-| `diamond_blastx_sensitive_rev_each` | `num`, `faa`, `fna.list` | `bht.list` |
-| `diamond_blastx_more_sensitive_rev_each` | `num`, `faa`, `fna.list` | `bht.list` |
-| `diamond_blastp_db_each` | `num`, `faa`, `dmnd.list` | `bht.list` |
-| `diamond_blastp_db_sensitive_each` | `num`, `faa`, `dmnd.list` | `bht.list` |
-| `diamond_blastp_db_more_sensitive_each` | `num`, `faa`, `dmnd.list` | `bht.list` |
-| `diamond_blastx_db_each` | `num`, `fna`, `dmnd.list` | `bht.list` |
-| `diamond_blastx_db_sensitive_each` | `num`, `fna`, `dmnd.list` | `bht.list` |
-| `diamond_blastx_db_more_sensitive_each` | `num`, `fna`, `dmnd.list` | `bht.list` |
+| Name | Type |
+| :--- | :--- |
+| `diamond_makedb ` | ` faa -> dmnd` |
+| `diamond_makedb_each ` | ` faa.list -> dmnd.list` |
+| `diamond_makedb_all ` | ` faa.list -> dmnd` |
+| `diamond_blastp ` | ` num faa faa -> bht` |
+| `diamond_blastp_sensitive ` | ` num faa faa -> bht` |
+| `diamond_blastp_more_sensitive ` | ` num faa faa -> bht` |
+| `diamond_blastx ` | ` num fna faa -> bht` |
+| `diamond_blastx_sensitive ` | ` num fna faa -> bht` |
+| `diamond_blastx_more_sensitive ` | ` num fna faa -> bht` |
+| `diamond_blastp_rev ` | ` num faa faa -> bht` |
+| `diamond_blastp_sensitive_rev ` | ` num faa faa -> bht` |
+| `diamond_blastp_more_sensitive_rev ` | ` num faa faa -> bht` |
+| `diamond_blastx_rev ` | ` num faa fna -> bht` |
+| `diamond_blastx_sensitive_rev ` | ` num faa fna -> bht` |
+| `diamond_blastx_more_sensitive_rev ` | ` num faa fna -> bht` |
+| `diamond_blastp_db ` | ` num faa dmnd -> bht` |
+| `diamond_blastp_db_sensitive ` | ` num faa dmnd -> bht` |
+| `diamond_blastp_db_more_sensitive ` | ` num faa dmnd -> bht` |
+| `diamond_blastx_db ` | ` num fna dmnd -> bht` |
+| `diamond_blastx_db_sensitive ` | ` num fna dmnd -> bht` |
+| `diamond_blastx_db_more_sensitive ` | ` num fna dmnd -> bht` |
+| `diamond_blastp_db_rev ` | ` num dmnd faa -> bht` |
+| `diamond_blastp_db_sensitive_rev ` | ` num dmnd faa -> bht` |
+| `diamond_blastp_db_more_sensitive_rev ` | ` num dmnd faa -> bht` |
+| `diamond_blastx_db_rev ` | ` num dmnd fna -> bht` |
+| `diamond_blastx_db_sensitive_rev ` | ` num dmnd fna -> bht` |
+| `diamond_blastx_db_more_sensitive_rev ` | ` num dmnd fna -> bht` |
+| `diamond_blastp_each ` | ` num faa faa.list -> bht.list` |
+| `diamond_blastp_sensitive_each ` | ` num faa faa.list -> bht.list` |
+| `diamond_blastp_more_sensitive_each ` | ` num faa faa.list -> bht.list` |
+| `diamond_blastx_each ` | ` num fna faa.list -> bht.list` |
+| `diamond_blastx_sensitive_each ` | ` num fna faa.list -> bht.list` |
+| `diamond_blastx_more_sensitive_each ` | ` num fna faa.list -> bht.list` |
+| `diamond_blastp_rev_each ` | ` num faa faa.list -> bht.list` |
+| `diamond_blastp_sensitive_rev_each ` | ` num faa faa.list -> bht.list` |
+| `diamond_blastp_more_sensitive_rev_each ` | ` num faa faa.list -> bht.list` |
+| `diamond_blastx_rev_each ` | ` num faa fna.list -> bht.list` |
+| `diamond_blastx_sensitive_rev_each ` | ` num faa fna.list -> bht.list` |
+| `diamond_blastx_more_sensitive_rev_each ` | ` num faa fna.list -> bht.list` |
+| `diamond_blastp_db_each ` | ` num faa dmnd.list -> bht.list` |
+| `diamond_blastp_db_sensitive_each ` | ` num faa dmnd.list -> bht.list` |
+| `diamond_blastp_db_more_sensitive_each ` | ` num faa dmnd.list -> bht.list` |
+| `diamond_blastx_db_each ` | ` num fna dmnd.list -> bht.list` |
+| `diamond_blastx_db_sensitive_each ` | ` num fna dmnd.list -> bht.list` |
+| `diamond_blastx_db_more_sensitive_each ` | ` num fna dmnd.list -> bht.list` |
 
 <br/>
 {{ macros.load_script(user, 'examples/scripts/diamond.ol') }}
@@ -693,12 +693,12 @@ Types:
 
 Functions:
 
-| Name | Inputs | Output |
-| :--- | :----- | :----- |
-| `mmseqs_createdb_all` | `fa.list` | `mms` |
-| `mmseqs_createdb` | `fa` | `mms` |
-| `mmseqs_search_db` | `num`, `fa`, `mms` | `bht` |
-| `mmseqs_search` | `num`, `fa`, `fa` | `bht` |
+| Name | Type |
+| :--- | :--- |
+| `mmseqs_createdb_all ` | ` fa.list -> mms` |
+| `mmseqs_createdb ` | ` fa -> mms` |
+| `mmseqs_search_db ` | ` num fa mms -> bht` |
+| `mmseqs_search ` | ` num fa fa -> bht` |
 
 <br/>
 {{ macros.load_script(user, 'examples/scripts/mmseqs.ol') }}
@@ -718,9 +718,9 @@ Types:
 
 Functions:
 
-| Name | Inputs | Output |
-| :--- | :----- | :----- |
-| `sonicparanoid` | `faa.list` | `spr` |
+| Name | Type |
+| :--- | :--- |
+| `sonicparanoid ` | ` faa.list -> spr` |
 
 <br/>
 {{ macros.load_script(user, 'examples/scripts/sonicparanoid.ol') }}
@@ -741,19 +741,19 @@ Types:
 
 Functions:
 
-| Name | Inputs | Output |
-| :--- | :----- | :----- |
-| `orthogroups` | `og` | `str.list.list` |
-| `orthogroup_containing` | `og`, `str` | `str.list` |
-| `orthogroups_containing` | `og`, `str.list` | `str.list.list` |
-| `ortholog_in_any` | `og`, `faa.list` | `str.list.list` |
-| `ortholog_in_all` | `og`, `faa.list` | `str.list.list` |
-| `ortholog_in_min` | `num`, `og`, `faa.list` | `str.list.list` |
-| `ortholog_in_max` | `num`, `og`, `faa.list` | `str.list.list` |
-| `ortholog_in_any_str` | `str.list.list`, `str.list.list` | `str.list.list` |
-| `ortholog_in_all_str` | `str.list.list`, `str.list.list` | `str.list.list` |
-| `ortholog_in_min_str` | `num`, `str.list.list`, `str.list.list` | `str.list.list` |
-| `ortholog_in_max_str` | `num`, `str.list.list`, `str.list.list` | `str.list.list` |
+| Name | Type |
+| :--- | :--- |
+| `orthogroups ` | ` og -> str.list.list` |
+| `orthogroup_containing ` | ` og str -> str.list` |
+| `orthogroups_containing ` | ` og str.list -> str.list.list` |
+| `ortholog_in_any ` | ` og faa.list -> str.list.list` |
+| `ortholog_in_all ` | ` og faa.list -> str.list.list` |
+| `ortholog_in_min ` | ` num og faa.list -> str.list.list` |
+| `ortholog_in_max ` | ` num og faa.list -> str.list.list` |
+| `ortholog_in_any_str ` | ` str.list.list str.list.list -> str.list.list` |
+| `ortholog_in_all_str ` | ` str.list.list str.list.list -> str.list.list` |
+| `ortholog_in_min_str ` | ` num str.list.list str.list.list -> str.list.list` |
+| `ortholog_in_max_str ` | ` num str.list.list str.list.list -> str.list.list` |
 
 <br/>
 {{ macros.load_script(user, 'examples/scripts/orthogroups.ol') }}
@@ -774,20 +774,20 @@ Types:
 
 Functions:
 
-| Name | Inputs | Output |
-| :--- | :----- | :----- |
-| `load_lineage` | `str` | `blh` |
-| `busco_list_lineages` | `str` | `str.list` |
-| `busco_fetch_lineage` | `str` | `blh` |
-| `busco_proteins` | `blh`, `faa` | `bsr` |
-| `busco_proteins_each` | `blh`, `faa.list` | `bsr.list` |
-| `busco_transcriptome` | `blh`, `fna` | `bsr` |
-| `busco_transcriptome_each` | `blh`, `fna.list` | `bsr.list` |
-| `busco_percent_complete` | `bsr` | `num` |
-| `busco_percent_complete_each` | `bsr.list` | `num.list` |
-| `busco_scores_table` | `bsr.list` | `bst` |
-| `busco_filter_completeness` | `num`, `bst`, `faa.list` | `faa.list` |
-| `concat_bst` | `bst.list` | `bst` |
+| Name | Type |
+| :--- | :--- |
+| `load_lineage ` | ` str -> blh` |
+| `busco_list_lineages ` | ` str -> str.list` |
+| `busco_fetch_lineage ` | ` str -> blh` |
+| `busco_proteins ` | ` blh faa -> bsr` |
+| `busco_proteins_each ` | ` blh faa.list -> bsr.list` |
+| `busco_transcriptome ` | ` blh fna -> bsr` |
+| `busco_transcriptome_each ` | ` blh fna.list -> bsr.list` |
+| `busco_percent_complete ` | ` bsr -> num` |
+| `busco_percent_complete_each ` | ` bsr.list -> num.list` |
+| `busco_scores_table ` | ` bsr.list -> bst` |
+| `busco_filter_completeness ` | ` num bst faa.list -> faa.list` |
+| `concat_bst ` | ` bst.list -> bst` |
 
 <br/>
 {{ macros.load_script(user, 'examples/scripts/busco.ol') }}
@@ -805,13 +805,13 @@ Types:
 
 Functions:
 
-| Name | Inputs | Output |
-| :--- | :----- | :----- |
-| `range_add` | `num`, `num`, `num` | `num.list` |
-| `range_exponent` | `num`, `num`, `num`, `num` | `num.list` |
-| `range_integers` | `num`, `num` | `num.list` |
-| `range_length` | `num`, `num`, `num` | `num.list` |
-| `range_multiply` | `num`, `num`, `num` | `num.list` |
+| Name | Type |
+| :--- | :--- |
+| `range_add ` | ` num num num -> num.list` |
+| `range_exponent ` | ` num num num num -> num.list` |
+| `range_integers ` | ` num num -> num.list` |
+| `range_length ` | ` num num num -> num.list` |
+| `range_multiply ` | ` num num num -> num.list` |
 
 <br/>
 {{ macros.load_script(user, 'examples/scripts/range.ol') }}
@@ -829,9 +829,9 @@ Types:
 
 Functions:
 
-| Name | Inputs | Output |
-| :--- | :----- | :----- |
-| `sets_table` | `lit.list.list` | `tsv` |
+| Name | Type |
+| :--- | :--- |
+| `sets_table ` | ` lit.list.list -> tsv` |
 
 <br/>
 {{ macros.load_script(user, 'examples/scripts/setstable.ol') }}
@@ -864,9 +864,9 @@ Types:
 
 Functions:
 
-| Name | Inputs | Output |
-| :--- | :----- | :----- |
-| `greencut2_families` | `bht`, `bht` | `gcr` |
+| Name | Type |
+| :--- | :--- |
+| `greencut2_families ` | ` bht bht -> gcr` |
 
 <br/>
 {{ macros.load_script(user, 'examples/scripts/greencut.ol') }}

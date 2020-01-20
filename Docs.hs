@@ -38,24 +38,21 @@ typesTable m = if null (mTypes m) then [""] else
   , "| Type      | Meaning |"
   , "| :-------- | :------ |"
   ]
-  -- ++ map (\f -> "| " ++ fName f ++ " | " ++ (fromMaybe "" $ fDesc f) ++ " |") (mFunctions m)
-  -- ++ map (\f -> "| " ++ fName f ++ " | " ++ "" ++ " |") (mFunctions m)
   ++ map explainType (mTypes m)
   ++ [""]
 
 explainFunction :: OrthoLangFunction -> String
-explainFunction = join " | " . barred . map quoted . elems
+explainFunction = join " | " . map quoted . elems
   where
-    elems  f  = filter (not . (`elem` [":", "->"])) $ splitOn " " $ fTypeDesc f
-    barred es = [head es, join ", " $ init $ tail es, last es]
+    elems f = splitOn ":" $ fTypeDesc f
     quoted t  = "`" ++ t ++ "`"
 
 functionsTable :: OrthoLangModule -> [String]
 functionsTable m = if null (mFunctions m) then [""] else
   [ "Functions:"
   , ""
-  , "| Name | Inputs | Output |"
-  , "| :--- | :----- | :----- |"
+  , "| Name | Type |"
+  , "| :--- | :--- |"
   ]
   ++ map (\f -> "| " ++ explainFunction f ++ " |") (mFunctions m)
   ++ [""]
