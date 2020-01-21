@@ -54,7 +54,7 @@ mdEscape (c:cs) = escaped ++ mdEscape cs
 explainFunction :: OrthoLangFunction -> String
 explainFunction = join " | " . cols
   where
-    cols f = [addHelpLink $ fName f, quoted $ last $ splitOn ":" $ fTypeDesc f]
+    cols f = [addHelpLink $ head $ fNames f, quoted $ last $ splitOn ":" $ fTypeDesc f]
     quoted t  = "`" ++ t ++ "`"
 
 functionsTable :: OrthoLangModule -> [String]
@@ -103,10 +103,10 @@ writeDocPlaceholders mods = do
   docs <- getDataFileName "docs"
   mapM_ (writePlaceholder docs) names
   where
-    names  = nub $ mNames ++ fNames ++ tNames
+    names  = nub $ mNames ++ fnames ++ tNames
     mNames = map (\m -> "modules"   </> mName m) mods
     -- for now, i just create the infix operator docs manually
-    fNames = map (\f -> "functions" </> fName f) $ filter (\f -> fFixity f == Prefix) $ concat $ map mFunctions mods
+    fnames = map (\f -> "functions" </> (head $ fNames f)) $ filter (\f -> fFixity f == Prefix) $ concat $ map mFunctions mods
     tNames = map (\t -> "types"     </> extOf t) $ concat $ map mTypes mods
 
 writePlaceholder :: FilePath -> FilePath -> IO ()

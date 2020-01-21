@@ -57,20 +57,6 @@ the [Berkeley high-performance compute cluster][hpc], or installing OrthoLang
 at your institution.
 -->
 
-## Example Code
-
-There are two types of interactive code blocks.
-Complete scripts with `Load` buttons like this:
-
-{{ macros.load_script(user, 'examples/scripts/mmseqs.ol') }}
-
-... and examples of other commands you would type in the terminal.
-The `Run` button just types them for you.
-They can include loading scripts, but also anything else you might do live:
-evaluate or redefine variables, list dependencies, get `:help`, etc.
-
-{{ macros.run_example([':load examples/scripts/load03.ol', ':help', ':type sequences_of_interest', ':type gbk_to_faa_each', 'sample 10 genes_of_interest']) }}
-
 ## Terminal Controls
 
 <img src="{{ url_for('static', filename='controls.png') }}" style="width: 80%;"></img>
@@ -88,8 +74,19 @@ evaluate or redefine variables, list dependencies, get `:help`, etc.
 4. Comment box. Tell Jeff if there's something broken, something you want to see or are confused about,
    or anything else.
 
-That's about it! Either start the tutorial and skip to the examples if you get bored,
-or start there and refer to the tutorial if you get confused.
+## Example Code
+
+There are two types of interactive code blocks.
+Complete scripts with `Load` buttons like this:
+
+{{ macros.load_script(user, 'examples/scripts/mmseqs.ol') }}
+
+... and examples of other commands you would type in the terminal.
+The `Run` button just types them for you.
+They can include loading scripts, but also anything else you might do live:
+evaluate or redefine variables, list dependencies, get `:help`, etc.
+
+{{ macros.run_example([':load examples/scripts/load03.ol', ':help', ':type sequences_of_interest', ':type gbk_to_faa_each', 'sample 10 genes_of_interest']) }}
 
 <!-- There are also some pre-recorded demos. They tend to be for longer, more
 complicated or compute-intensive things and involve using OrthoLang in its
