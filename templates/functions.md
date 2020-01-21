@@ -1,12 +1,11 @@
 {% import "macros.jinja" as macros with context %}
 
-This is an auto-generated list of the available functions in {{ version }}.
+This is an auto-generated list of types and functions in {{ version }}.
+Click on a name to display `:help` and relevant example scripts.
 
-The search box only filters by module. So for example if you search for
+The search box filters by module. So for example if you search for
 "mmseqs", you'll get the MMSeqs module but also BlastHits and ListLike, because
 they can use MMSeqs results.
-
-Click on the name of a type or function to display `:help` and example scripts.
 
 <input id="modulesearch" placeholder="Search the module documentation" id="box" type="text"/>
 <br/>

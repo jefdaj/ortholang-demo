@@ -17,12 +17,9 @@ import OrthoLang.Modules (modules)
 import Data.Char        (toLower, isAlphaNum)
 import Data.List (nub)
 import System.FilePath ((</>), (<.>))
-import Paths_OrthoLang             (getDataFileName, version)
+import Paths_OrthoLang             (getDataFileName)
 import Control.Monad (when)
 import System.Directory (doesFileExist)
-import NeatInterpolation
-import Data.Text (Text, pack, unpack)
-import Data.Version (showVersion)
 
 explainType :: OrthoLangType -> String
 explainType Empty = error "explain empty type"
@@ -70,27 +67,6 @@ functionsTable m = if null (mFunctions m) then [""] else
   ++ map (\f -> "| " ++ explainFunction f ++ " |") (mFunctions m)
   ++ [""]
 
-functionsHeader :: Text -> String
-functionsHeader v = unpack [text|
-{% import "macros.jinja" as macros with context %}
-
-This is an auto-generated list of the available functions in OrthoLang v$v.
-
-The search box only filters by module. So for example if you search for
-"mmseqs", you'll get the MMSeqs module but also BlastHits and ListLike, because
-they can use MMSeqs results.
-
-Click on the name of a type or function to display `:help` and example scripts.
-
-<input id="modulesearch" placeholder="Search the module documentation" id="box" type="text"/>
-<br/>
-
-<!-- TODO Why does one extra moduleblock with div + empty line have to go here? -->
-<div class="moduleblock">
-<div></div>
-
-</div>|]
-
 loadExample :: OrthoLangModule -> [String]
 loadExample m = ["{{ macros.load_script(user, 'examples/scripts/" ++ name ++ ".ol') }}"]
   where
@@ -100,8 +76,7 @@ loadExample m = ["{{ macros.load_script(user, 'examples/scripts/" ++ name ++ ".o
 -- TODO or move that stuff to the tutorial maybe?
 moduleReference :: OrthoLangModule -> [String]
 moduleReference m =
-  [ "<div class=\"moduleblock\">"
-  , "<h3>" ++ mName m ++ " module</h3>"
+  [ "### " ++ mName m
   , ""
   , mDesc m ++ "."
   , ""
@@ -110,12 +85,16 @@ moduleReference m =
   ++ functionsTable m
   ++ ["<br/>"]
   ++ loadExample m
-  ++ ["</div>"]
 
--- TODO pick module order to print the reference nicely
+writeModuleReference :: OrthoLangModule -> IO ()
+writeModuleReference m = writeFile path $ unlines $ moduleReference m
+  where
+    path = "templates/functions_" ++ mName m ++ ".md"
+
 writeFunctionsTab :: IO ()
-writeFunctionsTab = writeFile "templates/functions.md" $
-  functionsHeader (pack $ showVersion version) ++ unlines (concatMap moduleReference modules)
+-- writeFunctionsTab = writeFile "templates/functions.md" $
+--   functionsHeader (pack $ showVersion version) ++ unlines (concatMap moduleReference modules)
+writeFunctionsTab = mapM_ writeModuleReference modules
 
 -- this is just for calling manually during development
 -- TODO move to Reference.hs?
