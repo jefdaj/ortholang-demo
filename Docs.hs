@@ -28,7 +28,7 @@ explainType :: OrthoLangType -> String
 explainType Empty = error "explain empty type"
 explainType (ListOf   t) = explainType t -- TODO add the list part?
 explainType (ScoresOf t) = explainType t -- TODO add the scores part?
-explainType t = "| " ++ addHelpLink (extOf t) ++ " | " ++ descOf t ++ " |"
+explainType t = "| " ++ addHelpLink (extOf t) ++ " | " ++ mdEscape (descOf t) ++ " |"
 
 -- TODO these aren't functions!
 typesTable :: OrthoLangModule -> [String]
@@ -43,8 +43,16 @@ typesTable m = if null (mTypes m) then [""] else
 
 addHelpLink :: String -> String
 addHelpLink name =
-  "<a href=\"javascript:;\" onclick=\"repl_autorun([':help "
-  ++ name ++ "'])\">`" ++ name ++ "`</a>"
+  "<a href=\"javascript:;\" onclick=\"help_and_scripts('" ++ n ++ "')\">`" ++ name ++ "`</a>"
+  where
+    n = mdEscape name
+
+mdEscape :: String -> String
+mdEscape [] = []
+mdEscape (c:cs) = escaped ++ mdEscape cs
+  where
+    escaped = if c `elem` special then ['\\', c] else [c]
+    special = "|"
 
 explainFunction :: OrthoLangFunction -> String
 explainFunction = join " | " . cols

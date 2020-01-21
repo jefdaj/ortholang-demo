@@ -51,6 +51,10 @@ function repl_autorun(lines, clear_first=true) {
 
 function repl_autoload(script) { repl_autorun([':load ' + script]); }
 
+function help_and_scripts(name) {
+  repl_autorun([':help ' + name]);
+}
+
 function repl_enable() {
 	document.getElementById('replstdin').disabled = false;
 	document.getElementById('replstdin').focus();
