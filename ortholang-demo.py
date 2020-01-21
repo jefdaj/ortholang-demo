@@ -260,7 +260,7 @@ def load_markdown_pages(templates_glob):
                 , 'id': splitext(basename(name))[0]
                 , 'index': str(index).zfill(2)
                 }
-            print sections[name]
+            # print sections[name]
             try:
                 title = sections[name]['content'].split('###', 1)[1]
                 title = title.split('<', 1)[0].strip()

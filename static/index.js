@@ -142,32 +142,40 @@ function hide_element(element) {
 	var toc = $(element).attr('id') + '_toc'
 	toc = document.getElementById(toc)
 	if (toc !== null) { toc.style.display = "none"; }
+	// new Hilitor(element).remove();
 }
 
-function show_element(element) {
+function show_element(element, hilite_terms) {
 	$(element).show()
 	var toc = $(element).attr('id') + '_toc'
 	toc = document.getElementById(toc)
 	if (toc !== null) { toc.style.display = "list-item"; }
+	// console.log('hiliting element: ' + $(element).attr('id'));
+	// new Hilitor($(element).attr('id')).apply(hilite_terms);
 }
 
 // hide examples or module reference blocks that don't match the current filter
 // based on: http://jsfiddle.net/reyjose/40u0var6/
-function filter_searchable(box_id, element_selector){
+function filter_searchable(box_id, hl, element_selector){
 	var filters = document.getElementById(box_id).value.toLowerCase();
 	// console.log(filters);
 	$(element_selector).each(function(){
 			var text = $(this).text().toLowerCase();
 			// console.log(text);
-			filters_match(filters, text) ? show_element(this): hide_element(this);
+			filters_match(filters, text) ? show_element(this, filters): hide_element(this);
 	});
+	// one or two-letter hilites take too long
+	if (filters.length > 2) {
+		hl.setMatchType("open");
+		hl.apply(filters);
+	};
 }
 
-function filter_tutorial()    { filter_searchable('tutorialsearch'  , '#tutorial > .tutorialsection') };
-function filter_data()        { filter_searchable('datasearch'      , '.datablock'                  ) };
-function filter_modules()     { filter_searchable('modulesearch'    , '.moduleblock'                ) };
-function filter_scripts()     { filter_searchable('scriptsearch'    , '#scripts > .codeblock'       ) };
-function filter_userscripts() { filter_searchable('userscriptsearch', '#userscripts > .codeblock'   ) };
+function filter_tutorial()    { filter_searchable('tutorialsearch'  , new Hilitor('tutorial')   , '#tutorial > .tutorialsection') };
+function filter_data()        { filter_searchable('datasearch'      , new Hilitor('datatable')  , '#datatable > tbody > .datablock'          ) };
+function filter_modules()     { filter_searchable('modulesearch'    , new Hilitor('modules')    , '#modules > .moduleblock'     ) };
+function filter_scripts()     { filter_searchable('scriptsearch'    , new Hilitor('scripts')    , '#scripts > .codeblock'       ) };
+function filter_userscripts() { filter_searchable('userscriptsearch', new Hilitor('userscripts'), '#userscripts > .codeblock'   ) };
 
 function login() {
 	window.location.href = '/user';

@@ -1,8 +1,8 @@
 <!-- TODO rename load_script? -->
-<div class="highlight codeblock">
-				<form id="{{ codeblocks[path]['id'] }}">
-								<div class="examplebar">
-												{{ codeblocks[path]['relpath'] }}
-												<input type="button" onclick="repl_autorun([':load {{ codeblocks[path]['relpath'] }}'])" name="submit" value="Load" style="float: right;">
-								</div>
-				</form>{{ codeblocks[path]['content'] | safe }}</div>
+<div id="{{ codeblocks[path]['id'] }}" class="highlight codeblock">
+	<form>
+		<div class="examplebar">
+			{{ codeblocks[path]['relpath'] }}
+			<input type="button" onclick="repl_autorun([':load {{ codeblocks[path]['relpath'] }}'])" name="submit" value="Load" style="float: right;">
+		</div>
+	</form>{{ codeblocks[path]['content'] | safe }}</div>
