@@ -267,7 +267,7 @@ def load_markdown_pages(templates_glob):
             except Exception as e:
                 title = 'No title'
                 print 'exception: %s' % e
-                print sections[name]['content'].split('\n')[0]
+                # print sections[name]['content'].split('\n')[0]
             sections[name]['title'] = title
     return sections
 

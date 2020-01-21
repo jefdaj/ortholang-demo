@@ -9,7 +9,7 @@ function Hilitor(id, tag)
   var targetNode = document.getElementById(id) || document.body;
   var hiliteTag = tag || "MARK";
   var skipTags = new RegExp("^(?:" + hiliteTag + "|SCRIPT)$");
-  var colors = ["#a0ffff", "#9f9", "#f6f", "#ff6", "#f99"];
+  var colors = ["#9f9", "#a0ffff", "#f6f", "#ff6", "#f99"];
   var wordColor = [];
   var colorIdx = 0;
   var matchRegExp = "";
