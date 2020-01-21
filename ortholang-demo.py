@@ -636,7 +636,7 @@ class OrthoLangThread(Thread):
         super(OrthoLangThread, self).__init__()
 
     def run(self):
-        options = [ARROW, u'Bye for now!'] # , '.*']
+        options = [ARROW, u'Bye for now!'] #, u'.*']
         while not self._done.is_set():
             try:
                 self.spawnRepl()
@@ -652,7 +652,11 @@ class OrthoLangThread(Thread):
                         break # quit repl
                         # SOCKETIO.emit('replclear')
             except Exception as e:
-                LOGGER.warning('Exception in %s (%s): %s' % (self, self.sessionids, e))
+                msg = 'Exception in %s (%s): %s' % (self, self.sessionids, e)
+                LOGGER.warning(msg)
+                self.emitText(msg)
+                self._done.set()
+                sleep(5)
                 continue
 
 
