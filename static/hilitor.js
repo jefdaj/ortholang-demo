@@ -1,5 +1,6 @@
 // Original JavaScript code by Chirp Internet: www.chirp.com.au
 // Please acknowledge use of this code by including this header.
+// Some minor tweaks by jefdaj too.
 
 function Hilitor(id, tag)
 {
@@ -7,8 +8,8 @@ function Hilitor(id, tag)
   // private variables
   var targetNode = document.getElementById(id) || document.body;
   var hiliteTag = tag || "MARK";
-  var skipTags = new RegExp("^(?:" + hiliteTag + "|SCRIPT|FORM|SPAN)$");
-  var colors = ["#ff6", "#a0ffff", "#9f9", "#f99", "#f6f"];
+  var skipTags = new RegExp("^(?:" + hiliteTag + "|SCRIPT)$");
+  var colors = ["#a0ffff", "#9f9", "#f6f", "#ff6", "#f99"];
   var wordColor = [];
   var colorIdx = 0;
   var matchRegExp = "";
@@ -50,7 +51,7 @@ function Hilitor(id, tag)
         break;
 
       default:
-        this.openLeft = this.openRight = false;
+        this.openLeft = this.openRight = true;
 
     }
   };
