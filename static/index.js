@@ -53,6 +53,14 @@ function repl_autoload(script) { repl_autorun([':load ' + script]); }
 
 function help_and_scripts(name) {
   repl_autorun([':help ' + name]);
+	setTimeout(function() {
+		document.getElementById('scriptsbutton').click();
+		document.getElementById('Scripts').scrollTop = 0;
+		setTimeout(function() {
+			document.getElementById('scriptsearch').value = name;
+			filter_scripts();
+		}, 500);
+	}, 2000);
 }
 
 function repl_enable() {
