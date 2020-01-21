@@ -3,7 +3,7 @@
 Read sections 1-5 in order, then skip around the rest as needed if you get bored.
 If something is broken or confusing, leave a comment or ask Jeff about it! (find my email [here][niyogilab])
 
-<input id="tutorialsearch" placeholder="Search tutorial sections" id="box" type="text"/>
+<input id="tutorialsearch" placeholder="Search the tutorial" id="box" type="text"/>
 
 <ul id="tutorial_toc" style="list-style-type: none;">
 {% for path, section in sections.items() | sort(attribute='1.index') %}

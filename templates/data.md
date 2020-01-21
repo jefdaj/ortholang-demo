@@ -17,7 +17,7 @@ Once you get the hang of it you can load your own files:
 
 Note that anything you upload as `guest` will be available to other guest users.
 
-<input id="datasearch" placeholder="Filter demo files" id="box" type="text"/>
+<input id="datasearch" placeholder="Search demo files" id="box" type="text"/>
 
 <table id="datatable">
 <thead>
