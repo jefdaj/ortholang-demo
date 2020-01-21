@@ -326,6 +326,9 @@ td pre {
 #tutorial_toc {
 	padding-left: 10px;
 }
+#modules_toc li {
+	padding-left: 0;
+}
 pre > code {
 	margin: auto;
 }

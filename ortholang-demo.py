@@ -128,6 +128,7 @@ CONFIG['auth_path'   ] = realpath(ARGS['-a'])
 CONFIG['users_dir'   ] = realpath(ARGS['-u'])
 CONFIG['shared_dir'  ] = realpath(ARGS['-s'])
 CONFIG['port'        ] = int(ARGS['-p'])
+CONFIG['version'     ] = u'OrthoLang 0.9.4'
 
 # repl sessions, indexed by sid and also username if logged in
 SESSIONS = {}
@@ -244,11 +245,11 @@ def load_codeblocks():
     # print codeblocks.keys()
     return codeblocks
 
-def load_tutorial_sections():
+def load_markdown_pages(templates_glob):
     # used to render the tutorial sections
     sections = {}
     index = 0
-    for path in sorted(glob(join(SRCDIR, 'templates', 'tutorial_*.md'))):
+    for path in sorted(glob(join(SRCDIR, 'templates', templates_glob))):
         index += 1
         name = basename(path)
         with open(path, 'r') as f:
@@ -259,6 +260,7 @@ def load_tutorial_sections():
                 , 'id': splitext(basename(name))[0]
                 , 'index': str(index).zfill(2)
                 }
+            print sections[name]
             try:
                 title = sections[name]['content'].split('###', 1)[1]
                 title = title.split('<', 1)[0].strip()
@@ -367,7 +369,8 @@ def index(user='guest'):
     blocks = load_codeblocks()
     examples    = set(k for k in blocks.keys() if user + '/examples/' in k)
     userscripts = set(k for k in blocks.keys() if k.startswith(user) and not 'examples/' in k)
-    sections = load_tutorial_sections()
+    sections = load_markdown_pages('tutorial_*.md')
+    modules  = load_markdown_pages('functions_*.md')
     genomes = load_genomes()
     blastdbs = load_blastdbs()
     # userpaths = load_codeblock_userpaths(blocks)
@@ -376,9 +379,11 @@ def index(user='guest'):
                            codeblocks=blocks,
                            examples=examples,
                            sections=sections,
+                           modules=modules,
                            userscripts=userscripts,
                            genomes=genomes,
                            blastdbs=blastdbs,
+                           version=str(CONFIG['version']),
                            codeblock_userpaths=blocks.keys())
 
 # Flask doesn't like sending random files from all over for security reasons,
@@ -594,10 +599,9 @@ def handle_reqresult():
 
 def check_ortholang_version():
     LOGGER.info('checking output of "ortholang --version"')
-    version_expected = u'OrthoLang 0.9.4'
     proc = spawn('ortholang', ['--version'], encoding='utf-8', timeout=None)
     try:
-        proc.expect(version_expected, timeout=10)
+        proc.expect(CONFIG['version'], timeout=10)
     except:
         msg = '"ortholang --version" failed. Check your PATH and version.'
         msg += ' It should be: ' + str(version_expected)
