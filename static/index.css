@@ -325,9 +325,10 @@ td pre {
 }
 #tutorial_toc {
 	padding-left: 10px;
+	column-count: 2;
 }
-#modules_toc li {
-	padding-left: 0;
+#modules_toc {
+	column-count: 3;
 }
 pre > code {
 	margin: auto;
