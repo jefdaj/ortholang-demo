@@ -41,7 +41,7 @@ TODO individual help descriptions for each fn.
 
 Types:
 
-| Type      | Meaning |
+| Name      | Meaning |
 | :-------- | :------ |
 | <a href="javascript:;" onclick="help_and_scripts('faa')">`faa`</a> | FASTA (amino acid) |
 | <a href="javascript:;" onclick="help_and_scripts('pdb')">`pdb`</a> | BLAST protein database |

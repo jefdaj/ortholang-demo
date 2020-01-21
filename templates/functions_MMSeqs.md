@@ -4,7 +4,7 @@ Many-against-many sequence searching: ultra fast and sensitive search and cluste
 
 Types:
 
-| Type      | Meaning |
+| Name      | Meaning |
 | :-------- | :------ |
 | <a href="javascript:;" onclick="help_and_scripts('faa')">`faa`</a> | FASTA (amino acid) |
 | <a href="javascript:;" onclick="help_and_scripts('fna')">`fna`</a> | FASTA (nucleic acid) |

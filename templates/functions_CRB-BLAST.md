@@ -4,7 +4,7 @@ Conditional reciprocal BLAST best hits (Aubry et al. 2014).
 
 Types:
 
-| Type      | Meaning |
+| Name      | Meaning |
 | :-------- | :------ |
 | <a href="javascript:;" onclick="help_and_scripts('fna')">`fna`</a> | FASTA (nucleic acid) |
 | <a href="javascript:;" onclick="help_and_scripts('faa')">`faa`</a> | FASTA (amino acid) |

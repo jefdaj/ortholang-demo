@@ -4,7 +4,7 @@ Benchmarking Universal Single-Copy Orthologs.
 
 Types:
 
-| Type      | Meaning |
+| Name      | Meaning |
 | :-------- | :------ |
 | <a href="javascript:;" onclick="help_and_scripts('blh')">`blh`</a> | BUSCO lineage HMMs |
 | <a href="javascript:;" onclick="help_and_scripts('bsr')">`bsr`</a> | BUSCO results |

@@ -4,7 +4,7 @@ Sequence file manipulations using BioPython's SeqIO.
 
 Types:
 
-| Type      | Meaning |
+| Name      | Meaning |
 | :-------- | :------ |
 | <a href="javascript:;" onclick="help_and_scripts('gbk')">`gbk`</a> | genbank |
 | <a href="javascript:;" onclick="help_and_scripts('faa')">`faa`</a> | FASTA (amino acid) |

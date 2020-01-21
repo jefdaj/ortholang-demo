@@ -4,7 +4,7 @@ Work with BLAST hit tables.
 
 Types:
 
-| Type      | Meaning |
+| Name      | Meaning |
 | :-------- | :------ |
 | <a href="javascript:;" onclick="help_and_scripts('bht')">`bht`</a> | tab-separated table of blast hits (outfmt 6) |
 | <a href="javascript:;" onclick="help_and_scripts('crb')">`crb`</a> | tab-separated table of conditional reciprocal blast best hits |

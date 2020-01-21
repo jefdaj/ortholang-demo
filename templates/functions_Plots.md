@@ -4,7 +4,7 @@ Generate half-decent plots.
 
 Types:
 
-| Type      | Meaning |
+| Name      | Meaning |
 | :-------- | :------ |
 | <a href="javascript:;" onclick="help_and_scripts('png')">`png`</a> | plot image |
 

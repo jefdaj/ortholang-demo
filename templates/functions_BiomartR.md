@@ -4,7 +4,7 @@ Search + download genomes and proteomes from Biomart.
 
 Types:
 
-| Type      | Meaning |
+| Name      | Meaning |
 | :-------- | :------ |
 | <a href="javascript:;" onclick="help_and_scripts('search')">`search`</a> | intermediate table describing biomartr searches |
 | <a href="javascript:;" onclick="help_and_scripts('fna.gz')">`fna.gz`</a> | gzipped fasta nucleic acid acid (gene list or genome) |

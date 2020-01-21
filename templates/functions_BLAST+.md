@@ -4,7 +4,7 @@ Standard NCBI BLAST+ functions.
 
 Types:
 
-| Type      | Meaning |
+| Name      | Meaning |
 | :-------- | :------ |
 | <a href="javascript:;" onclick="help_and_scripts('ndb')">`ndb`</a> | BLAST nucleotide database |
 | <a href="javascript:;" onclick="help_and_scripts('pdb')">`pdb`</a> | BLAST protein database |

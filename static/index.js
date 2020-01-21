@@ -168,6 +168,8 @@ function filter_searchable(box_id, hl, element_selector){
 	if (filters.length > 2) {
 		hl.setMatchType("open");
 		hl.apply(filters);
+	} else {;
+		hl.remove();
 	};
 }
 

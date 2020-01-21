@@ -4,7 +4,7 @@ A re-implementation of the original GreenCut(2) ortholog-finding algorithm.
 
 Types:
 
-| Type      | Meaning |
+| Name      | Meaning |
 | :-------- | :------ |
 | <a href="javascript:;" onclick="help_and_scripts('gcr')">`gcr`</a> | GreenCut results |
 

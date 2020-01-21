@@ -4,7 +4,7 @@ Generate set membership tables (spreadsheets) for easier list comparison.
 
 Types:
 
-| Type      | Meaning |
+| Name      | Meaning |
 | :-------- | :------ |
 | <a href="javascript:;" onclick="help_and_scripts('tsv')">`tsv`</a> | set membership table (spreadsheet) |
 

@@ -4,7 +4,7 @@ Search sequences with hidden Markov models.
 
 Types:
 
-| Type      | Meaning |
+| Name      | Meaning |
 | :-------- | :------ |
 | <a href="javascript:;" onclick="help_and_scripts('faa')">`faa`</a> | FASTA (amino acid) |
 | <a href="javascript:;" onclick="help_and_scripts('aln')">`aln`</a> | multiple sequence alignment |

@@ -4,7 +4,7 @@ Generate ranges of numbers.
 
 Types:
 
-| Type      | Meaning |
+| Name      | Meaning |
 | :-------- | :------ |
 | <a href="javascript:;" onclick="help_and_scripts('num')">`num`</a> | number in scientific notation |
 

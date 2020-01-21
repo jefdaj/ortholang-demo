@@ -4,7 +4,7 @@ Inference of orthologs, orthogroups, the rooted species, gene trees and gene dup
 
 Types:
 
-| Type      | Meaning |
+| Name      | Meaning |
 | :-------- | :------ |
 | <a href="javascript:;" onclick="help_and_scripts('faa')">`faa`</a> | FASTA (amino acid) |
 | <a href="javascript:;" onclick="help_and_scripts('ofr')">`ofr`</a> | OrthoFinder results |

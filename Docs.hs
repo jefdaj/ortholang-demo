@@ -32,7 +32,7 @@ typesTable :: OrthoLangModule -> [String]
 typesTable m = if null (mTypes m) then [""] else
   [ "Types:"
   , ""
-  , "| Type      | Meaning |"
+  , "| Name      | Meaning |"
   , "| :-------- | :------ |"
   ]
   ++ map explainType (mTypes m)

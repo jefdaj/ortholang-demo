@@ -4,7 +4,7 @@ Common interface for working with the results of OrthoFinder, SonicParanoid, etc
 
 Types:
 
-| Type      | Meaning |
+| Name      | Meaning |
 | :-------- | :------ |
 | <a href="javascript:;" onclick="help_and_scripts('og')">`og`</a> | orthogroups (orthofinder, sonicparanoid, or greencut results) |
 | <a href="javascript:;" onclick="help_and_scripts('ofr')">`ofr`</a> | OrthoFinder results |
