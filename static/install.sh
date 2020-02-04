@@ -20,8 +20,8 @@ onsuccess() {
 }
 
 (
-  set -e
-  set -o pipefail
+  set -E
+  export VERSION='0.9.4'
 
   echo -n "Installing the Nix package manager..."
   which nix-env &> /dev/null
@@ -45,11 +45,14 @@ onsuccess() {
   echo " OK"
 
   echo "Installing OrthoLang..."
-  archive='https://ortholang.pmb.berkeley.edu/static/ortholang-v0.9.4.tar.gz'
+  # TODO how to work around the git-annex dylib priority bug?
+  archive="https://ortholang.pmb.berkeley.edu/static/ortholang-v${VERSION}.tar.gz"
   nix-env -i -f $archive 2>&1 | tee -a $LOG
 
   echo "Testing that everything works..."
+  version="$(ortholang --version)"
+  [[ "$version" =~ "$VERSION" ]] || exit 1
   ortholang --test version
-  ortholang --version
   echo
-) && onsuccess || onfailure
+)
+[[ $? == 0 ]] && onsuccess || onfailure
