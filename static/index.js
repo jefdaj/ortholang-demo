@@ -216,7 +216,7 @@ $(function(){
 
 	// send a line to the repl when you click the button or press enter
 	function run_line(line) {
-		SOCKET.emit('replstdin', $('#replstdin').val());
+		SOCKET.emit('replstdinrun', $('#replstdin').val());
 		$('#replstdin').val('');
 		//repl_disable();
 	}
@@ -227,6 +227,14 @@ $(function(){
 		} else {
 			run_line($('#replstdin').val())
 		}
+	})
+	// sync stdin between users of the same session
+	$('#replstdin').on('keyup', function(e) {
+		// TODO have to disable this too when repl disabled?
+		if(e.which != 13) {
+			// enter key means run the line, and is handled next
+			SOCKET.emit('replstdinsync', $('#replstdin').val());
+		};
 	});
 	on_enter('#replstdin', function() {
 		run_line($('#replstdin').val());
@@ -271,6 +279,11 @@ $(function(){
 			$('#replstdout').scrollTop(100000);
 		}
 	};
+
+	// handles other users on the same session typing a command
+	SOCKET.on('replstdin', function(msg) {
+	  $('#replstdin').val(msg);
+	});
 
 	// display a chunk of output sent from the repl
 	SOCKET.on('replstdout', function(msg) {

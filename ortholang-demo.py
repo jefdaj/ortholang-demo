@@ -538,9 +538,13 @@ def diconnect(sid, uname):
     else:
         SESSIONS[uname].sessionids.remove(sid)
 
-@SOCKETIO.on('replstdin')
-def handle_replstdin(line):
+@SOCKETIO.on('replstdinrun')
+def handle_replstdinrun(line):
     find_session().readCommand(line)
+
+@SOCKETIO.on('replstdinsync')
+def handle_replstdinsync(line):
+    find_session().emitStdin(line, request.sid)
 
 @SOCKETIO.on('replkill')
 def handle_replkill():
@@ -644,9 +648,9 @@ class OrthoLangThread(Thread):
                     index = self.process.expect(options)
                     out = self.process.before + self.process.after
                     out = interpret_clear_code(self.sessionids, out) # catches ortholang's "clear screen" command
-                    self.emitText(out)
-                    # self.emitText(self.process.before.lstrip())
-                    # self.emitText(self.process.after)
+                    self.emitStdout(out)
+                    # self.emitStdout(self.process.before.lstrip())
+                    # self.emitStdout(self.process.after)
                     self.enableInput()
                     if index == 1:
                         break # quit repl
@@ -654,7 +658,7 @@ class OrthoLangThread(Thread):
             except Exception as e:
                 msg = 'Exception in %s (%s): %s' % (self, self.sessionids, e)
                 LOGGER.warning(msg)
-                self.emitText(msg)
+                self.emitStdout(msg)
                 self._done.set()
                 sleep(5)
                 continue
@@ -664,7 +668,7 @@ class OrthoLangThread(Thread):
     def stopEval(self):
         # LOGGER.info('session %s stopping %s evaluation' % (self.sessionid, self.process.pid))
         LOGGER.info('session %s stopping evaluation' % self.sessionids)
-        # self.emitText(u'Resetting demo...\n')
+        # self.emitStdout(u'Resetting demo...\n')
         # sleep(1)
         self.killRepl()
         self.spawnRepl()
@@ -705,9 +709,17 @@ class OrthoLangThread(Thread):
         LOGGER.info('session %s spawned interpreter' % self.sessionids)
 
 
-    # TODO emitText -> emitText? readCommand -> readCommand
+    # TODO emitStdout -> emitStdout? readCommand -> readCommand
 
-    def emitText(self, text):
+    def emitStdin(self, text, ignore_sid=None):
+        # syncs stdin between all users of a session
+        # TODO exclude the sending user, and prevent conflicts if needed
+        for sid in self.sessionids.copy():
+            if ignore_sid is not None and sid == ignore_sid:
+                continue
+            SOCKETIO.emit('replstdin', text, namespace='/', room=sid)
+
+    def emitStdout(self, text):
         # hack to show images in the repl
         # TODO show with list brackets?
         old = u'\[?plot image \'(.*?)\''
@@ -732,10 +744,10 @@ class OrthoLangThread(Thread):
             self.process.sendline(line)
 
             # TODO emit script name here too like the repl? or remove in favor of repl itself?
-            # self.emitText(ARROW + line + '\n') # TODO no need to emit the arrow if repl does already
+            # self.emitStdout(ARROW + line + '\n') # TODO no need to emit the arrow if repl does already
             # TODO ideally, would print the last line queued up from the repl but not carriage return yet
             #      for that, do i need some kind of extra flush command?
-            self.emitText(line + '\n') # TODO no need to emit the arrow if repl does already
+            self.emitStdout(line + '\n') # TODO no need to emit the arrow if repl does already
 
             if '=' in line or line.startswith(':') or line.startswith('#') or len(line) == 0:
                 # repl commands are generally instant, but don't print a newline
@@ -751,6 +763,8 @@ class OrthoLangThread(Thread):
                 # sleep(2)
                 # self.readCommand(line)
                 # self.readCommand(':show\n')
+        finally:
+            self.emitStdin(''); # clear other users' stdin
 
     def disableInput(self):
         for sid in self.sessionids.copy():
