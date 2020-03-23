@@ -500,7 +500,11 @@ def handle_connect():
             thread = SESSIONS[uname]
     # print 'thread alive? %s' % thread.isAlive()
     if not thread.isAlive():
-        thread.start()
+        try:
+            thread.start()
+        except RuntimeError:
+            del SESSIONS[sid]
+            handle_connect()
 
 # note this only works with non-guest users, because a guest refresh is a whole new session
 @SOCKETIO.on('pagerefreshed')
