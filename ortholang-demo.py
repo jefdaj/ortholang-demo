@@ -128,7 +128,7 @@ CONFIG['auth_path'   ] = realpath(ARGS['-a'])
 CONFIG['users_dir'   ] = realpath(ARGS['-u'])
 CONFIG['shared_dir'  ] = realpath(ARGS['-s'])
 CONFIG['port'        ] = int(ARGS['-p'])
-CONFIG['version'     ] = u'OrthoLang 0.9.4'
+CONFIG['version'     ] = u'OrthoLang 0.9.5'
 
 # repl sessions, indexed by sid and also username if logged in
 SESSIONS = {}
