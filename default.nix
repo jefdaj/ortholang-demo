@@ -9,9 +9,10 @@ let
   #   sha256 = "1vv5ydpckhsck5bm45hvlvbvn2nlxv2mpnqb82943p7vkwk87shy";
   # }) {};
   # use this instead to try to build it with your system's current nixpkgs:
-  pkgs = import <nixpkgs> {};
+  sources = import ./nix/sources.nix {};
+  pkgs    = import sources.nixpkgs {};
 
-  ortholang = import ./ortholang;
+  ortholang = import sources.ortholang;
   myPython = import ./requirements.nix { inherit pkgs; };
   blastdbget = pkgs.pythonPackages.callPackage ./ortholang/nixpkgs/blastdbget {};
 
