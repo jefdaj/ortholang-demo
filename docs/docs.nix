@@ -33,7 +33,7 @@ let
     broken = false;
     jailbreak = true;
   });
-  haskellPkg = myGHC.callPackage ./docs-generated.nix {
+  haskellPkg = myGHC.callCabal2nix "Docs" ./docs-generated.nix {
     inherit logging progress-meter OrthoLang;
   };
   docs = haskell.lib.overrideCabal haskellPkg (drv: {
