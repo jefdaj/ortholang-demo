@@ -6,7 +6,7 @@ from glob import glob
 from os.path import basename, splitext, join
 
 def read_descs():
-	with open('templates/blastdb-descriptions.txt', 'r') as f:
+	with open('blastdbs.txt', 'r') as f:
 		lines = [l + ' ' for l in f.read().split('\n')]
 	descs = {}
 	for line in lines:
