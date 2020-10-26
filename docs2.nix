@@ -29,9 +29,9 @@ let
       # TODO final wrapper with +RTS -N -RTS?
       # TODO get back the enable{Library,Executable}Profiling options?
       # ortholang = hpNew.callPackage sources.docopt {};
-      # OrthoLang = import sources.ortholang {};
+      OrthoLang = hpNew.callPackage sources.ortholang {};
       # OrthoLang = hpNew.callPackage ../ortholang {};
-      OrthoLang = hpNew.callPackage (builtins.fetchGit { url = ../ortholang; }) {};
+      # OrthoLang = hpNew.callPackage (builtins.fetchGit { url = ../ortholang; }) {};
 
       # OrthoLangDocsTmp = hpNew.callPackage (hpNew.callCabal2nix "Docs" ./docs {}) {}; # {
       # OrthoLangDocsTmp = hpNew.callPackage (hpNew.callCabal2nix "Docs" ./docs {}) {}; # {
@@ -75,7 +75,7 @@ let
 in {
 # 
 #   # This is the main build target for default.nix
-#   project = myHs.OrthoLangDocs;
+  project = myHs.OrthoLang;
 # 
   # And this is the development environment for shell.nix
   # Most of the shell stuff is here, but shellHook above is also important

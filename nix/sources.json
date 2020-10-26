@@ -1,16 +1,4 @@
 {
-    "ortholang": {
-        "branch": "feature-nix-tooling",
-        "description": "Short, reproducible phylogenomic cuts",
-        "homepage": null,
-        "owner": "jefdaj",
-        "repo": "ortholang",
-        "rev": "b8487928d96453fef028a08bb187fcf7b0bdc871",
-        "sha256": "17lax955ziy7yysdnmlqmz1w0r6qa72q13l9w1gnxq3vh0cr0mza",
-        "type": "tarball",
-        "url": "https://github.com/jefdaj/ortholang/archive/b8487928d96453fef028a08bb187fcf7b0bdc871.tar.gz",
-        "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
-    },
     "docopt": {
         "branch": "master",
         "description": "A command-line interface description language and parser that will make you smile",
@@ -45,6 +33,18 @@
         "sha256": "06j78xs55xar7a1fr27paag788j9r7kgbwahz21wcd663g0r5afd",
         "type": "tarball",
         "url": "https://github.com/nixos/nixpkgs/archive/43e8ec412fdf428ef32c8d56939c99dd48254c49.tar.gz",
+        "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
+    },
+    "ortholang": {
+        "branch": "feature-nix-tooling",
+        "description": "Short, reproducible phylogenomic cuts",
+        "homepage": null,
+        "owner": "jefdaj",
+        "repo": "ortholang",
+        "rev": "172c86186c5e3bd62443fd50a303d0e857f7032f",
+        "sha256": "0czv5xq5rx3bwp2ssvl38v7i1gs74qhhy8hjzmplch21zkryp0yi",
+        "type": "tarball",
+        "url": "https://github.com/jefdaj/ortholang/archive/172c86186c5e3bd62443fd50a303d0e857f7032f.tar.gz",
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     }
 }
