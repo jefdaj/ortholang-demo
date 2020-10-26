@@ -78,5 +78,5 @@ executable docs
                     transformers,
                     unbounded-delays,
                     unix,
-                    utility-ht,
-                    zlib
+                    utility-ht
+                    -- zlib
