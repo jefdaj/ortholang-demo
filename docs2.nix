@@ -22,14 +22,14 @@ let
       });
 
       # Packages that had to be forked
-      # logging = hpNew.callPackage sources.logging {};
+      logging = hpNew.callPackage sources.logging {};
       docopt  = hpNew.callPackage sources.docopt {};
 
       # The ortholang package, which includes the main binary
       # TODO final wrapper with +RTS -N -RTS?
       # TODO get back the enable{Library,Executable}Profiling options?
       # ortholang = hpNew.callPackage sources.docopt {};
-      OrthoLang = hpNew.callPackage sources.ortholang {};
+      OrthoLang = hpNew.callPackage sources.ortholang { inherit (pkgs) zlib; };
       # OrthoLang = hpNew.callPackage ../ortholang {};
       # OrthoLang = hpNew.callPackage (builtins.fetchGit { url = ../ortholang; }) {};
 
