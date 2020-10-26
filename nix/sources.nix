@@ -113,14 +113,14 @@ let
       name: spec:
         if builtins.hasAttr "outPath" spec
         then abort
-          "The values in niv-sources.json should not have an 'outPath' attribute"
+          "The values in sources.json should not have an 'outPath' attribute"
         else
           spec // { outPath = fetch config.pkgs name spec; }
     ) config.sources;
 
   # The "config" used by the fetchers
   mkConfig =
-    { sourcesFile ? ./niv-sources.json
+    { sourcesFile ? ./sources.json
     , sources ? builtins.fromJSON (builtins.readFile sourcesFile)
     , pkgs ? mkPkgs sources
     }: rec {

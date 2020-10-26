@@ -2,49 +2,12 @@
 
 # TODO AHA! TRY GHCWITHPACKAGES INSTEAD OF THIS STUFF
 
+# TODO ok, troubleshooting clues...
+# shell works with no packages or docopt, but try OrthoLang -> attempt to call a set
+
 let
   sources   = import ./nix/sources.nix {};
   pkgs      = import sources.nixpkgs {};
-
-   # working:
-  # progress-meter = haskell.lib.doJailbreak
-  #   (haskell.lib.overrideCabal haskellPackages.progress-meter (drv: {
-  #     broken = false;
-  #   })); 
-
-  # working:
-  # OrthoLang = haskellPackages.callPackage ./ortholang/ortholang.nix {
-  #   inherit progress-meter;
-  # };
-
-  # working:
-  # OrthoLang = import ./ortholang;
-
-  # not working:
-  # docs2 = haskellPackages.callPackage ./docs2.nix { inherit progress-meter OrthoLang; };
-  # docs = haskell.lib.addBuildDepends docs2
-  #   (with haskellPackages; [
-  #     zlib
-  #     zlib.dev
-  #     zlib.out
-  #     pkgconfig
-  #   ]);
-  # noBigDotfiles = path: type: baseNameOf path != ".stack-work"
-  #                          && baseNameOf path != ".git";
-
-  # myGHC = pkgs.haskell.packages.ghc884;
-  # logging = myGHC.callPackage (import ./ortholang/logging) {};
-  # progress-meter = haskell.lib.overrideCabal pkgs.haskellPackages.progress-meter (_: {
-  #   broken = false;
-  #   jailbreak = true;
-  # });
-
-  # docopt    = myGHC.callPackage sources.docopt {};
-  # OrthoLang = myGHC.callPackage sources.ortholang {};
-
-# in haskellPkg
-# in OrthoLang
-
   inherit (pkgs.haskell.lib) overrideCabal dontCheck;
   myGHC = "ghc884";
   myHs = pkgs.haskell.packages.${myGHC}.override {
@@ -66,22 +29,21 @@ let
       # TODO final wrapper with +RTS -N -RTS?
       # TODO get back the enable{Library,Executable}Profiling options?
       # ortholang = hpNew.callPackage sources.docopt {};
-      OrthoLang = hpNew.callPackage
-                    # (hpNew.callCabal2nix "OrthoLang" sources.OrthoLang {})
-                    sources.OrthoLang
-                    {};
+      # OrthoLang = import sources.ortholang {};
+      # OrthoLang = hpNew.callPackage ../ortholang {};
+      OrthoLang = hpNew.callPackage (builtins.fetchGit { url = ../ortholang; }) {};
 
       # OrthoLangDocsTmp = hpNew.callPackage (hpNew.callCabal2nix "Docs" ./docs {}) {}; # {
       # OrthoLangDocsTmp = hpNew.callPackage (hpNew.callCabal2nix "Docs" ./docs {}) {}; # {
         # inherit OrthoLang;
         # inherit logging progress-meter OrthoLang;
       # };
-      OrthoLangDocs = pkgs.haskell.lib.overrideCabal (hpNew.callCabal2nix "Docs" ./docs {}) (drv: {
-        # src = builtins.filterSource noBigDotfiles ./.;
-        buildDepends = (drv.buildDepends or [])  ++ [
-          pkgs.zlib.dev pkgs.zlib.out pkgs.pkgconfig
-        ];
-      });
+#       OrthoLangDocs = pkgs.haskell.lib.overrideCabal (hpNew.callCabal2nix "Docs" ./docs {}) (drv: {
+#         # src = builtins.filterSource noBigDotfiles ./.;
+#         buildDepends = (drv.buildDepends or [])  ++ [
+#           pkgs.zlib.dev pkgs.zlib.out pkgs.pkgconfig
+#         ];
+#       });
 
 
 #       OrthoLangDocs = overrideCabal (hpNew.callCabal2nix "Docs" ./docs {}) (drv: {
@@ -106,26 +68,34 @@ let
     };
   };
 
+# in pkgs.stdenv.mkDerivation {
+#   name = "test";
+#   buildInputs = [ myHs.ghcWithPackages (ps: [ ps.ortholang ] ) ];
+# }
 in {
-
-  # This is the main build target for default.nix
-  project = myHs.OrthoLangDocs;
-
+# 
+#   # This is the main build target for default.nix
+#   project = myHs.OrthoLangDocs;
+# 
   # And this is the development environment for shell.nix
   # Most of the shell stuff is here, but shellHook above is also important
   shell = myHs.shellFor {
 
     # TODO would there be any reason to add other packages here?
-    packages = p: with p; [ myHs.OrthoLangDocs ];
+    packages = p: with p; [
+      # docopt
+      OrthoLang
+      # fails: OrthoLangDocs
+    ];
 
     # Put any packages you want during development here.
     # You can optionally go "full reproducible" by adding your text editor
     # and using `nix-shell --pure`, but you'll also have to add some common
     # unix tools as you go.
     buildInputs = with myHs; [
-      # ghcid
-      # hlint
-      # stack
+      ghcid
+      hlint
+      stack
     ];
 
     # Run a local Hoogle instance like this:

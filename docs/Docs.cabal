@@ -7,14 +7,16 @@ version:            0.1
 -- license:            AGPL-3
 license-file:       LICENSE
 build-type:         Simple
-data-files:         ortholang/examples/scripts/*.ol,
-                    ortholang/examples/gene-lists/*.txt,
-                    ortholang/examples/genome-lists/*.txt,
-                    ortholang/examples/sequences/*.fa,
-                    ortholang/examples/sequences/*.faa,
-                    ortholang/examples/sequences/*.fna,
-                    ortholang/examples/sequences/*.gbff,
-                    ortholang/examples/sequences/*.gbk
+
+-- TODO remove these and get from ortholang package instead
+-- data-files:         ortholang/examples/scripts/*.ol,
+--                     ortholang/examples/gene-lists/*.txt,
+--                     ortholang/examples/genome-lists/*.txt,
+--                     ortholang/examples/sequences/*.fa,
+--                     ortholang/examples/sequences/*.faa,
+--                     ortholang/examples/sequences/*.fna,
+--                     ortholang/examples/sequences/*.gbff,
+--                     ortholang/examples/sequences/*.gbk
 
 executable docs
   main-is:          Docs.hs
@@ -35,7 +37,7 @@ executable docs
                     data-default-class,
                     directory,
                     dlist,
-                    docopt,
+                    -- docopt,
                     download,
                     filelock,
                     filepath,

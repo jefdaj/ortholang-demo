@@ -1,4 +1,28 @@
 {
+    "ortholang": {
+        "branch": "feature-nix-tooling",
+        "description": "Short, reproducible phylogenomic cuts",
+        "homepage": null,
+        "owner": "jefdaj",
+        "repo": "ortholang",
+        "rev": "b8487928d96453fef028a08bb187fcf7b0bdc871",
+        "sha256": "17lax955ziy7yysdnmlqmz1w0r6qa72q13l9w1gnxq3vh0cr0mza",
+        "type": "tarball",
+        "url": "https://github.com/jefdaj/ortholang/archive/b8487928d96453fef028a08bb187fcf7b0bdc871.tar.gz",
+        "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
+    },
+    "docopt": {
+        "branch": "master",
+        "description": "A command-line interface description language and parser that will make you smile",
+        "homepage": "http://docopt.org/",
+        "owner": "jefdaj",
+        "repo": "docopt.hs",
+        "rev": "080c3ba6badd736f1b4a3f1f13dbd4c107614136",
+        "sha256": "0yjax4kdc26znip2r4wfkj3s9ahwzd3mkf0v5hk56fajx5g9phci",
+        "type": "tarball",
+        "url": "https://github.com/jefdaj/docopt.hs/archive/080c3ba6badd736f1b4a3f1f13dbd4c107614136.tar.gz",
+        "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
+    },
     "niv": {
         "branch": "master",
         "description": "Easy dependency management for Nix projects",
@@ -21,18 +45,6 @@
         "sha256": "06j78xs55xar7a1fr27paag788j9r7kgbwahz21wcd663g0r5afd",
         "type": "tarball",
         "url": "https://github.com/nixos/nixpkgs/archive/43e8ec412fdf428ef32c8d56939c99dd48254c49.tar.gz",
-        "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
-    },
-    "ortholang": {
-        "branch": "feature-nix-tooling",
-        "description": "Short, reproducible phylogenomic cuts",
-        "homepage": null,
-        "owner": "jefdaj",
-        "repo": "ortholang",
-        "rev": "772bc9c03795078cb639a1aeab5df5b28dc95020",
-        "sha256": "0mbi5mvp0yqcn94fxj8hfkpspxbrpdy7xaix0fhbg96digvdaaa4",
-        "type": "tarball",
-        "url": "https://github.com/jefdaj/ortholang/archive/772bc9c03795078cb639a1aeab5df5b28dc95020.tar.gz",
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     }
 }
