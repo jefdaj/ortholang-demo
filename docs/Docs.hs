@@ -10,6 +10,7 @@ module Main where
  -}
 
 import OrthoLang.Types
+import OrthoLang.Interpreter.Repl.Help
 
 import Data.List.Split  (splitOn)
 import Data.List.Utils  (join)
@@ -25,7 +26,7 @@ explainType :: Type -> String
 explainType Empty = error "explain empty type"
 explainType (ListOf   t) = explainType t -- TODO add the list part?
 explainType (ScoresOf t) = explainType t -- TODO add the scores part?
-explainType t = "| " ++ addHelpLink (ext t) ++ " | " ++ mdEscape (descOf t) ++ " |"
+explainType t = "| " ++ addHelpLink (ext t) ++ " | " ++ mdEscape (desc t) ++ " |"
 
 -- TODO these aren't functions!
 typesTable :: Module -> [String]
@@ -51,12 +52,14 @@ mdEscape (c:cs) = escaped ++ mdEscape cs
     escaped = if c `elem` special then ['\\', c] else [c]
     special = "|"
 
+-- TODO rewrite to use Repl.Help instead
 explainFunction :: Function -> String
 explainFunction = join " | " . cols
   where
-    cols f = [addHelpLink $ fName f, quoted $ last $ splitOn ":" $ fTypeDesc f]
+    cols f = [addHelpLink $ fName f, quoted $ last $ splitOn ":" $ renderSig f]
     quoted t  = "`" ++ t ++ "`"
 
+-- TODO rewrite to use Repl.Help instead?
 functionsTable :: Module -> [String]
 functionsTable m = if null (mFunctions m) then [""] else
   [ "Functions:"
@@ -107,7 +110,7 @@ writeDocPlaceholders mods = do
     mNames = map (\m -> "modules"   </> mName m) mods
     -- for now, i just create the infix operator docs manually
     -- fnames = map (\f -> "functions" </> (head $ fNames f)) $ filter (\f -> fFixity f == Prefix) $ concat $ map mFunctions mods
-    fnames = map (\f -> "functions" </> (fName f)) $ concat $ map mFunctions mods
+    fnames = map (\f -> "functions" </> fName f) $ concat $ map mFunctions mods
     tNames = map (\t -> "types"     </> ext t) $ concat $ map mTypes mods
 
 writePlaceholder :: FilePath -> FilePath -> IO ()

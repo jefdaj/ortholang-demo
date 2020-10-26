@@ -5,7 +5,7 @@ author:             Jeffrey David Johnson
 maintainer:         jefdaj@berkeley.edu
 version:            0.1
 -- license:            AGPL-3
-license-file:       LICENSE
+-- license-file:       LICENSE
 build-type:         Simple
 
 -- TODO remove these and get from ortholang package instead
