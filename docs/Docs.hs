@@ -9,7 +9,7 @@ module Main where
  -   templates/reference.md
  -}
 
-import OrthoLang.Core.Types
+import OrthoLang.Types
 
 import Data.List.Split  (splitOn)
 import Data.List.Utils  (join)
@@ -21,14 +21,14 @@ import Paths_OrthoLang             (getDataFileName)
 import Control.Monad (when)
 import System.Directory (doesFileExist)
 
-explainType :: OrthoLangType -> String
+explainType :: Type -> String
 explainType Empty = error "explain empty type"
 explainType (ListOf   t) = explainType t -- TODO add the list part?
 explainType (ScoresOf t) = explainType t -- TODO add the scores part?
-explainType t = "| " ++ addHelpLink (extOf t) ++ " | " ++ mdEscape (descOf t) ++ " |"
+explainType t = "| " ++ addHelpLink (ext t) ++ " | " ++ mdEscape (descOf t) ++ " |"
 
 -- TODO these aren't functions!
-typesTable :: OrthoLangModule -> [String]
+typesTable :: Module -> [String]
 typesTable m = if null (mTypes m) then [""] else
   [ "Types:"
   , ""
@@ -51,13 +51,13 @@ mdEscape (c:cs) = escaped ++ mdEscape cs
     escaped = if c `elem` special then ['\\', c] else [c]
     special = "|"
 
-explainFunction :: OrthoLangFunction -> String
+explainFunction :: Function -> String
 explainFunction = join " | " . cols
   where
-    cols f = [addHelpLink $ head $ fNames f, quoted $ last $ splitOn ":" $ fTypeDesc f]
+    cols f = [addHelpLink $ fName f, quoted $ last $ splitOn ":" $ fTypeDesc f]
     quoted t  = "`" ++ t ++ "`"
 
-functionsTable :: OrthoLangModule -> [String]
+functionsTable :: Module -> [String]
 functionsTable m = if null (mFunctions m) then [""] else
   [ "Functions:"
   , ""
@@ -67,14 +67,14 @@ functionsTable m = if null (mFunctions m) then [""] else
   ++ map (\f -> "| " ++ explainFunction f ++ " |") (mFunctions m)
   ++ [""]
 
-loadExample :: OrthoLangModule -> [String]
+loadExample :: Module -> [String]
 loadExample m = ["{{ macros.load_script(user, 'examples/scripts/" ++ name ++ ".ol') }}"]
   where
     name = filter isAlphaNum $ map toLower $ mName m
 
 -- TODO only use this as default if there's no custom markdown description written?
 -- TODO or move that stuff to the tutorial maybe?
-moduleReference :: OrthoLangModule -> [String]
+moduleReference :: Module -> [String]
 moduleReference m =
   [ "### " ++ mName m
   , ""
@@ -86,7 +86,7 @@ moduleReference m =
   ++ ["<br/>"]
   ++ loadExample m
 
-writeModuleReference :: OrthoLangModule -> IO ()
+writeModuleReference :: Module -> IO ()
 writeModuleReference m = writeFile path $ unlines $ moduleReference m
   where
     path = "templates/functions_" ++ mName m ++ ".md"
@@ -98,7 +98,7 @@ writeFunctionsTab = mapM_ writeModuleReference modules
 
 -- this is just for calling manually during development
 -- TODO move to Reference.hs?
-writeDocPlaceholders :: [OrthoLangModule] -> IO ()
+writeDocPlaceholders :: [Module] -> IO ()
 writeDocPlaceholders mods = do
   docs <- getDataFileName "docs"
   mapM_ (writePlaceholder docs) names
@@ -106,8 +106,9 @@ writeDocPlaceholders mods = do
     names  = nub $ mNames ++ fnames ++ tNames
     mNames = map (\m -> "modules"   </> mName m) mods
     -- for now, i just create the infix operator docs manually
-    fnames = map (\f -> "functions" </> (head $ fNames f)) $ filter (\f -> fFixity f == Prefix) $ concat $ map mFunctions mods
-    tNames = map (\t -> "types"     </> extOf t) $ concat $ map mTypes mods
+    -- fnames = map (\f -> "functions" </> (head $ fNames f)) $ filter (\f -> fFixity f == Prefix) $ concat $ map mFunctions mods
+    fnames = map (\f -> "functions" </> (fName f)) $ concat $ map mFunctions mods
+    tNames = map (\t -> "types"     </> ext t) $ concat $ map mTypes mods
 
 writePlaceholder :: FilePath -> FilePath -> IO ()
 writePlaceholder docsDir name = do
@@ -120,5 +121,5 @@ writePlaceholder docsDir name = do
 -- TODO take one argument like: ortholang-docs ~/ortholang-demo/templates/reference.md
 main :: IO ()
 main = do
-  writeDocPlaceholders modules
+  -- writeDocPlaceholders modules
   writeFunctionsTab
