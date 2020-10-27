@@ -132,6 +132,6 @@ writePlaceholder docsDir name = do
 -- TODO take one argument like: ortholang-docs ~/ortholang-demo/templates/reference.md
 main :: IO ()
 main = do
-  (docDir:templatesDir:[]) <- getArgs -- TODO any reason to bother with checks?
-  writeDocPlaceholders modules docDir
+  (templatesDir:[]) <- getArgs -- TODO any reason to bother with checks?
+  -- writeDocPlaceholders modules docDir
   writeFunctionsTab templatesDir
