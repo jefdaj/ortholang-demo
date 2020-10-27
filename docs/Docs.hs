@@ -22,7 +22,8 @@ import Data.List (nub)
 import System.FilePath ((</>), (<.>))
 import Paths_OrthoLang             (getDataFileName)
 import Control.Monad (when)
-import System.Directory (doesFileExist)
+import System.Directory (doesFileExist, createDirectoryIfMissing)
+import System.Environment (getArgs)
 
 explainType :: Type -> String
 explainType Empty = error "explain empty type"
@@ -91,23 +92,27 @@ moduleReference m =
   ++ ["<br/>"]
   ++ loadExample m
 
-writeModuleReference :: Module -> IO ()
-writeModuleReference m = writeFile path $ unlines $ moduleReference m
+writeModuleReference :: FilePath -> Module -> IO ()
+writeModuleReference dir m = do
+  createDirectoryIfMissing True dir'
+  writeFile path $ unlines $ moduleReference m
   where
-    path = "templates/functions_" ++ mName m ++ ".md"
+    dir' = dir </> "templates"
+    path = dir' </> "functions_" ++ mName m ++ ".md"
 
-writeFunctionsTab :: IO ()
+writeFunctionsTab :: FilePath -> IO ()
 -- writeFunctionsTab = writeFile "templates/functions.md" $
 --   functionsHeader (pack $ showVersion version) ++ unlines (concatMap moduleReference modules)
-writeFunctionsTab = mapM_ writeModuleReference modules
+writeFunctionsTab dir = do
+  createDirectoryIfMissing True dir
+  mapM_ (writeModuleReference dir) modules
 
 -- this is just for calling manually during development
 -- TODO move to Reference.hs?
-writeDocPlaceholders :: [Module] -> IO ()
-writeDocPlaceholders mods = do
-  -- docs <- getDataFileName "docs"
-  let docs = "docs"
-  mapM_ (writePlaceholder docs) names
+writeDocPlaceholders :: [Module] -> FilePath -> IO ()
+writeDocPlaceholders mods docsDir = do
+  mapM_ (\n -> createDirectoryIfMissing True $ docsDir </> n) ["modules", "functions", "types"]
+  mapM_ (writePlaceholder docsDir) names
   where
     names  = nub $ mNames ++ fnames ++ tNames
     mNames = map (\m -> "modules"   </> mName m) mods
@@ -127,5 +132,6 @@ writePlaceholder docsDir name = do
 -- TODO take one argument like: ortholang-docs ~/ortholang-demo/templates/reference.md
 main :: IO ()
 main = do
-  writeDocPlaceholders modules
-  writeFunctionsTab
+  (docDir:templatesDir:[]) <- getArgs -- TODO any reason to bother with checks?
+  writeDocPlaceholders modules docDir
+  writeFunctionsTab templatesDir
