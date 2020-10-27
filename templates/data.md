@@ -38,7 +38,7 @@ Note that anything you upload as `guest` will be available to other guest users.
 </tr>
 {% endfor %}
 
-{% for d in genomes | sort(attribute='organism') %}
+{% for d in fastas | sort(attribute='organism') %}
 <tr class="datablock">
 	<td>{{d.type}}</td>
 	<td>Phytozome</td>

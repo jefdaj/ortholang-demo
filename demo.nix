@@ -30,7 +30,7 @@ in pkgs.stdenv.mkDerivation rec {
     #!/usr/bin/env bash
     source ${pkgs.stdenv}/setup
     mkdir -p $out/src
-    cp -R $src/templates $src/static $out/src
+    cp -R $src/templates $src/static $src/data $out/src
     mkdir -p $out/bin
     dest="$out/bin/ortholang-demo"
     install -m755 $src/ortholang-demo.py $dest

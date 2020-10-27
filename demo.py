@@ -72,23 +72,6 @@ ARGS = docopt(__doc__)
 
 # note: this is the only option that doesn't result in running the server
 
-def prefetch_blastdbget(shared_dir):
-    db_dir = join(shared_dir, 'cache/blastdbget')
-    print 'prefetching BLAST DBs to %s...' % db_dir
-    output = str(spawn('blastdbget', [db_dir], encoding='utf-8', timeout=None).read())
-    dbs = [l for l in output.split('\r\n')]
-    dbs = [d for d in dbs if len(d) > 0 and not 'INFO' in d and not 'Usage:' in d]
-    dbs.sort()
-    print 'all dbs: %s' % dbs
-    too_big = []
-    dbs = [d for d in dbs if not d in too_big]
-    print 'dbs to update: %s' % dbs
-    for db in dbs:
-        print 'downloading %s BLAST database from NCBI...' % db
-        proc = spawn('blastdbget', ['-d', db, db_dir], encoding='utf-8', timeout=None)
-        proc.logfile_read = sys.stdout
-        proc.expect(u'Process complete.', timeout=None)
-
 def prefetch_examples(shared_dir, examples_dir):
     print 'prefetching example script results to %s...' % shared_dir
     scripts = glob(join(examples_dir, 'scripts', '*.ol'))
@@ -107,12 +90,8 @@ def prefetch_examples(shared_dir, examples_dir):
                     print 'ERROR %s' % proc.status
                 break
 
-def prefetch(shared_dir, examples_dir):
-    prefetch_blastdbget(shared_dir)
-    prefetch_examples(shared_dir, examples_dir)
-
 if '--prefetch' in ARGS and ARGS['--prefetch']:
-    prefetch(ARGS['-s'], ARGS['-e'])
+    prefetch_examples(ARGS['-s'], ARGS['-e'])
     raise SystemExit
 
 ##########
@@ -271,14 +250,14 @@ def load_markdown_pages(templates_glob):
             sections[name]['title'] = title
     return sections
 
-def load_genomes():
-    # used to render the pre-loaded example genomes
-    with open('templates/genomes.json', 'r') as f:
-        genomes = json.load(f)
-    return genomes
+def load_fastas():
+    # used to render the pre-loaded example fastas
+    with open(join(SRCDIR, 'data/fastas.json'), 'r') as f:
+        fastas = json.load(f)
+    return fastas
 
 def load_blastdbs():
-    with open('templates/blastdbs.json', 'r') as f:
+    with open(join(SRCDIR, 'data/blastdbs.json'), 'r') as f:
         blastdbs = json.load(f)
     return blastdbs
 
@@ -371,7 +350,7 @@ def index(user='guest'):
     userscripts = set(k for k in blocks.keys() if k.startswith(user) and not 'examples/' in k)
     sections = load_markdown_pages('tutorial_*.md')
     modules  = load_markdown_pages('functions_*.md')
-    genomes = load_genomes()
+    fastas = load_fastas()
     blastdbs = load_blastdbs()
     # userpaths = load_codeblock_userpaths(blocks)
     return render_template('index.html',
@@ -381,7 +360,7 @@ def index(user='guest'):
                            sections=sections,
                            modules=modules,
                            userscripts=userscripts,
-                           genomes=genomes,
+                           fastas=fastas,
                            blastdbs=blastdbs,
                            version=str(CONFIG['version']),
                            codeblock_userpaths=blocks.keys())
