@@ -6,10 +6,18 @@
 
 import json
 
-def print_varnames(varname, varnames):
-  print varname + ' =\n [ ' + '\n , '.join(varnames) + '\n ]'
+def print_list(varname, elems):
+  print varname + ' =\n [ ' + '\n , '.join(elems) + '\n ]'
 
 if __name__ == '__main__':
+
+  print '# This is a special script included in the examples to force caching'
+  print '# all the example data on the server. It will take a while to run and'
+  print '# cache a large amount of data (several hundred GB)'
+  print
+
+  lists = []
+
   with open('data/blastdbs.json', 'r') as f:
     dbs = json.load(f)
   
@@ -23,7 +31,8 @@ if __name__ == '__main__':
         print '%s = %s' % (db['basename'], db['loadfn'])
         varnames.append(db['basename'])
   print
-  print_varnames('pdbs', varnames)
+  print_list('pdbs', varnames)
+  lists.append('length pdbs')
   
   print
   print '# NCBI BLAST nucleotide databases'
@@ -34,7 +43,8 @@ if __name__ == '__main__':
         print '%s = %s' % (db['basename'], db['loadfn'])
         varnames.append(db['basename'])
   print
-  print_varnames('ndbs', varnames)
+  print_list('ndbs', varnames)
+  lists.append('length ndbs')
   
   with open('data/fastas.json', 'r') as f:
     fas = json.load(f)
@@ -52,7 +62,8 @@ if __name__ == '__main__':
       varnames.append(varname)
       print '%s = %s' % (varname, fa['loadfn'])
   print
-  print_varnames('fnas', varnames)
+  print_list('fnas', varnames)
+  lists.append('length fnas')
   
   print
   print '# Phytozome V12 fasta amino acid files'
@@ -65,7 +76,9 @@ if __name__ == '__main__':
       varnames.append(varname)
       print '%s = %s' % (varname, fa['loadfn'])
   print
-  print_varnames('faas', varnames)
+  print_list('faas', varnames)
+  lists.append('length faas')
+
   print
   print '# force evaluation of all the lists'
-  print_varnames('result', ['length pdbs', 'length ndbs', 'length fnas', 'length faas'])
+  print_list('result', lists)
