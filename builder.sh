@@ -18,4 +18,4 @@ cd $src
 python ${src}/scripts/prefetch.py > $out/src/data/prefetch.ol
 
 # generate functions reference tab
-${docs}/bin/docs $out/src
+${demoDocs}/bin/docs $out/src
