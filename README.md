@@ -47,7 +47,7 @@ Then run the server the [Nix][2] way:
 
 ```.bash
 nix-shell requirements.nix --command \
-  ./ortholang-demo.py \
+  ./demo.py \
     -l /tmp/ortholang-demo.log \
     -e ortholang/examples \
     -c comments \
@@ -66,7 +66,7 @@ sudo apt-get install python-dev
 virtualenv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
-./ortholang-demo.py \
+./demo.py \
   -l /tmp/ortholang-demo.log \
   -e ortholang/examples \
   -c comments \

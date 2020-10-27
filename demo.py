@@ -74,7 +74,7 @@ ARGS = docopt(__doc__)
 
 def prefetch_examples(shared_dir, examples_dir):
     print 'prefetching example script results to %s...' % shared_dir
-    scripts = glob(join(examples_dir, 'scripts', '*.ol'))
+    scripts = [join(SRCDIR, 'data/prefetch.ol')] + glob(join(examples_dir, 'scripts', '*.ol'))
     for script in scripts:
         print 'running %s...' % script,
         sys.stdout.flush()

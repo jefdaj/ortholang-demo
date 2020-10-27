@@ -20,27 +20,17 @@ let
     myPython.packages."psutil"
     myPython.packages."pexpect"
     # ortholang
-    docs
+  #   docs
     # blastdbget
   ];
+  binPath = pkgs.lib.makeBinPath runDepends;
 
 in pkgs.stdenv.mkDerivation rec {
   src = ./.;
-  version = "0.1";
+  version = "0.2";
   name = "ortholang-demo-${version}";
-  inherit runDepends;
+  inherit binPath;
+  inherit (pkgs) stdenv;
   buildInputs = [ pkgs.makeWrapper ] ++ runDepends;
-  builder = pkgs.writeScript "builder.sh" ''
-    #!/usr/bin/env bash
-    source ${pkgs.stdenv}/setup
-    mkdir -p $out/src
-    cp -R $src/templates $src/static $src/data $out/src
-    mkdir -p $out/bin
-    dest="$out/bin/ortholang-demo"
-    install -m755 $src/ortholang-demo.py $dest
-    wrapProgram $dest --prefix PATH : "${pkgs.lib.makeBinPath runDepends}"
-    cd $src
-    python scripts/prefetch.py > $out/data/prefetch.ol
-    ${docs}/bin/docs /tmp/rmthis $out/templates
-  '';
+  builder = ./builder.sh;
 }
