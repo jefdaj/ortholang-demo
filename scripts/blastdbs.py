@@ -1,5 +1,7 @@
 #!/usr/bin/env python
 
+# TODO where does n vs p come from?
+
 import json
 import re
 from glob import glob
