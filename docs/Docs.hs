@@ -1,5 +1,7 @@
 {-# LANGUAGE QuasiQuotes #-}
 
+-- TODO take an argument for the output dir, and use that in the python build
+
 module Main where
 
 {- This isn't meant for end users. It's just an easy way to keep
@@ -103,7 +105,8 @@ writeFunctionsTab = mapM_ writeModuleReference modules
 -- TODO move to Reference.hs?
 writeDocPlaceholders :: [Module] -> IO ()
 writeDocPlaceholders mods = do
-  docs <- getDataFileName "docs"
+  -- docs <- getDataFileName "docs"
+  let docs = "docs"
   mapM_ (writePlaceholder docs) names
   where
     names  = nub $ mNames ++ fnames ++ tNames
@@ -124,5 +127,5 @@ writePlaceholder docsDir name = do
 -- TODO take one argument like: ortholang-docs ~/ortholang-demo/templates/reference.md
 main :: IO ()
 main = do
-  -- writeDocPlaceholders modules
+  writeDocPlaceholders modules
   writeFunctionsTab
