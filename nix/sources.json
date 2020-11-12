@@ -47,6 +47,18 @@
         "url": "https://github.com/nixos/nixpkgs/archive/43e8ec412fdf428ef32c8d56939c99dd48254c49.tar.gz",
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     },
+    "nixpkgsOld": {
+        "branch": "89520e692736b1e7fc3926bbd52c4e1faaa16eb9",
+        "description": "Nix Packages collection",
+        "homepage": null,
+        "owner": "jefdaj",
+        "repo": "nixpkgs",
+        "rev": "89520e692736b1e7fc3926bbd52c4e1faaa16eb9",
+        "sha256": "1vv5ydpckhsck5bm45hvlvbvn2nlxv2mpnqb82943p7vkwk87shy",
+        "type": "tarball",
+        "url": "https://github.com/jefdaj/nixpkgs/archive/89520e692736b1e7fc3926bbd52c4e1faaa16eb9.tar.gz",
+        "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
+    },
     "ortholang": {
         "branch": "feature-nix-tooling",
         "description": "Short, reproducible phylogenomic cuts",

@@ -3,7 +3,12 @@ let
   pkgs      = import sources.nixpkgs {};
   myHs      = import "${sources.ortholang}/haskell.nix";
   demoDocs  = myHs.callCabal2nix "Docs" ./docs { inherit (pkgs) zlib; };
-  myPython  = import ./nix/requirements.nix { inherit pkgs; };
+
+  # nixpkgs is deprecating python2, so to keep the website working i pin a
+  # separate old version of nixpkgs and use old interpreter + pypi2nix to
+  # update individual python packages.
+  pkgsOld   = import sources.nixpkgsOld {};
+  myPython  = import ./nix/requirements.nix { pkgs=pkgsOld; };
 
   runDepends = [
     myPython.interpreter
