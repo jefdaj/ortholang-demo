@@ -1,3 +1,3 @@
 [submodule "ortholang"]
 	path = ortholang
-	url = git@github.com:jefdaj/ortholang.git
+	url = ../ortholang
